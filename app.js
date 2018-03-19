@@ -2,6 +2,7 @@ const express = require('express');
 
 const config = require('./config');
 const routes = require('./app/routes');
+const connectDB = require('./app/db/connection');
 
 const PORT = config.get('port');
 const IP = config.get('ip');
@@ -17,6 +18,7 @@ app.use(
 
 app.use(express.static(__dirname + '/public'));
 
+connectDB();
 routes.forEach(appendRouter => appendRouter(app));
 
 app.listen(PORT, IP, () => {

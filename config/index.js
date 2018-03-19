@@ -24,6 +24,32 @@ const config = convict({
     default: 8000,
     arg: 'port',
     env: 'PORT'
+  },
+  db: {
+    username: {
+      format: '*',
+      default: null,
+      arg: 'dbUsername',
+      env: 'DB_USERNAME'
+    },
+    password: {
+      format: '*',
+      default: null,
+      arg: 'dbPassword',
+      env: 'DB_PASSWORD'
+    },
+    host: {
+      format: String,
+      default: 'localhost:27017',
+      arg: 'dbHost',
+      env: 'DB_HOST'
+    },
+    name: {
+      format: String,
+      default: 'test',
+      arg: 'dbName',
+      env: 'DB_NAME'
+    }
   }
 });
 
