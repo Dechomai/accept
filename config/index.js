@@ -25,6 +25,13 @@ const config = convict({
     arg: 'port',
     env: 'PORT'
   },
+  cookieSecret: {
+    doc: 'Secret used to sign cookies',
+    format: String,
+    default: 'super-secret',
+    arg: 'cookieSecret',
+    env: 'COOKIE_SECRET'
+  },
   db: {
     username: {
       format: '*',
@@ -34,6 +41,7 @@ const config = convict({
     },
     password: {
       format: '*',
+      sensitive: true,
       default: null,
       arg: 'dbPassword',
       env: 'DB_PASSWORD'
@@ -49,6 +57,44 @@ const config = convict({
       default: 'test',
       arg: 'dbName',
       env: 'DB_NAME'
+    }
+  },
+  cognito: {
+    clientId: {
+      doc: 'AWS Cognito "App client id"',
+      format: String,
+      default: null,
+      arg: 'cognitoClientId',
+      env: 'COGNITO_CLIENT_ID'
+    },
+    clientSecret: {
+      doc: 'AWS Cognito "App client secret"',
+      format: String,
+      sensitive: true,
+      default: null,
+      arg: 'cognitoClientSecret',
+      env: 'COGNITO_CLIENT_SECRET'
+    },
+    domain: {
+      doc: 'AWS Cognito "Domain name"',
+      format: String,
+      default: null,
+      arg: 'cognitoDomain',
+      env: 'COGNITO_DOMAIN'
+    },
+    region: {
+      doc: 'AWS Cognito Region',
+      format: String,
+      default: null,
+      arg: 'cognitoRegion',
+      env: 'COGNITO_REGION'
+    },
+    userPoolId: {
+      doc: 'AWS Cognito User Pool ID',
+      format: String,
+      default: null,
+      arg: 'cognitoUserPoolId',
+      env: 'COGNITO_USER_POOL_ID'
     }
   }
 });

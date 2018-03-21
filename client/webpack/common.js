@@ -54,12 +54,12 @@ const plugins = {
   html: {
     development: new HtmlWebpackPlugin({
       template: path.join(paths.src, 'index.html'),
-      // favicon: path.join(paths.src, 'assets/favicon.ico'),
+      favicon: path.join(paths.src, 'assets/favicon.ico'),
       ENV: 'development'
     }),
     production: new HtmlWebpackPlugin({
       template: path.join(paths.src, 'index.html'),
-      // favicon: path.join(paths.src, 'assets/favicon.ico'),
+      favicon: path.join(paths.src, 'assets/favicon.ico'),
       ENV: 'production'
     })
   }

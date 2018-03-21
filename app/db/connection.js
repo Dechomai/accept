@@ -13,4 +13,11 @@ const connectionString = () => {
   return (uri += `${DB_HOST}/${DB_NAME}`);
 };
 
-module.exports = () => mongoose.connect(connectionString());
+module.exports = () => {
+  mongoose.connect(connectionString());
+  const db = mongoose.connection;
+  db.on('error', (...errs) => console.error('Mongoose connection error: ', ...errs));
+  db.once('open', function() {
+    console.log('Mongoose connection established');
+  });
+};

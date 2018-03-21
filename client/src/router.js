@@ -14,6 +14,7 @@ const Router = () => (
           <nav>
             <Link to="/">Home</Link>
             <Link to="/profile">Profile</Link>
+            <a href="/login">Login</a>
           </nav>
           <div>{children}</div>
         </div>
