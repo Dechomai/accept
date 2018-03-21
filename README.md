@@ -12,11 +12,9 @@
     *   stage
     *   prod
 
-## Prerequisites _(for local development)_
+## Contributing guidelines and instructions
 
-*   Install `node` and `yarn`
-*   Run `yarn` to install dependencies
-*   Install `docker`
+Defined in [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Configuration
 
@@ -73,21 +71,6 @@ In the following order of precendence:
             env: 'SOME_VARIABLE'
         },
         // ...
-    ```
-
-## Local development
-
-1.  Start MongoDB
-
-    ```
-    docker-compose -f ./docker-compose.dev.yml up
-    ```
-
-    Or, if you're using locally installed version, just start your `mongod`
-
-2.  Start server
-    ```
-    yarn start
     ```
 
 ## CI Build
