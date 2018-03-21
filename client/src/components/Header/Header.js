@@ -23,6 +23,9 @@ class Header extends React.Component {
   render() {
     return (
       <header className="header">
+        <div className="header__logo">
+          <img src="/assets/logo.svg" alt="Accept" />
+        </div>
         <nav className="header__nav">
           <Link
             to="/"

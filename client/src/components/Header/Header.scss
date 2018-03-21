@@ -2,12 +2,24 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 1rem;
-  background: #fafafa;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #000;
+  color: #fff;
+
+  &__logo {
+    user-select: none;
+    img {
+      vertical-align: top;
+      height: 39px;
+      margin-bottom: 1px; // just so that it's 40px high
+    }
+  }
 
   &__nav {
     &-item {
       margin: 0 1rem;
+      color: #fff;
 
       &--active {
         color: lightblue;
