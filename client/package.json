@@ -9,7 +9,8 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development",
     "build": "npm-run-all clean build:*",
     "build:code": "cross-env NODE_ENV=production webpack --mode=production",
-    "serve": "http-server ./build -p 8082 -o"
+    "build:assets": "cp -r ./src/assets ./build",
+    "serve": "http-server ./build -p 7002 -o"
   },
   "dependencies": {
     "classnames": "^2.2.5",

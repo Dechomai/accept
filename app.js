@@ -1,5 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
+const helmet = require('helmet');
 const config = require('./config');
 const routes = require('./app/routes');
 const connectDB = require('./app/db/connection');
@@ -17,6 +19,8 @@ app.use(
   })
 );
 app.use(cookieParser(config.get('cookieSecret')));
+app.use(compression());
+app.use(helmet());
 app.use(express.static(__dirname + '/public'));
 
 connectDB();
