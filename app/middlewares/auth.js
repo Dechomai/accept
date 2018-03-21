@@ -11,6 +11,7 @@ const sendUnauthorizedError = res =>
 const authMiddleware = (req, res, next) => {
   const accessToken = getTokenCookie(req);
   if (!accessToken) {
+    console.log('[token from cookie]: no token');
     sendUnauthorizedError(res);
     return;
   }

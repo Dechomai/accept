@@ -10,7 +10,7 @@ userRouter
   .get((req, res) => {
     const {userId} = req;
     userController.getUserInfo(userId).then(user => {
-      res.status(200).send({user});
+      res.status(200).send(user);
     });
   })
   .post((req, res) => {

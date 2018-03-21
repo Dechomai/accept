@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #fafafa;
+
+  &__nav {
+    &-item {
+      margin: 0 1rem;
+
+      &--active {
+        color: lightblue;
+      }
+    }
+  }
+  &__user-info {
+    font-family: monospace;
+  }
+}

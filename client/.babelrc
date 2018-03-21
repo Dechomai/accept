@@ -1,6 +1,6 @@
 {
   presets: [["env", {modules: false}], "react"],
-  plugins: [],
+  plugins: ["transform-object-rest-spread"],
   env: {
     test: {}
   }

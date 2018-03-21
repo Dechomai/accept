@@ -16,10 +16,7 @@ module.exports = {
     ENV: false
   },
   rules: {
-    indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
-    'no-console': 1
+    'no-console': 1,
+    'react/prop-types': [1, {ignore: ['children']}]
   }
 };

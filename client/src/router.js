@@ -1,25 +1,11 @@
 import React from 'react';
-import {Router as ReactRouter, IndexRoute, Route, Link, browserHistory} from 'react-router';
+import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-router';
+
+import App from './layout/App';
 
 const Router = () => (
   <ReactRouter history={browserHistory}>
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/profile">Profile</Link>
-    </nav>
-    <Route
-      path="/"
-      component={({children}) => (
-        <div>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/profile">Profile</Link>
-            <a href="/login">Login</a>
-          </nav>
-          <div>{children}</div>
-        </div>
-      )}
-    >
+    <Route path="/" component={App}>
       <IndexRoute component={() => <h1>Home</h1>} />
       <Route path="profile" component={() => <h1>Profile</h1>} />
     </Route>

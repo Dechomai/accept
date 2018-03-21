@@ -1,3 +1,5 @@
+import user from './user';
+
 export default {
-  sample: (state = 0) => state
+  user
 };
