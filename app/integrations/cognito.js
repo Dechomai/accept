@@ -16,7 +16,7 @@ const cognitoExpress = new CognitoExpress({
   tokenUse: 'access'
 });
 
-const REDIRECT_URI = 'http://localhost:8000/auth/logincb';
+const REDIRECT_URI = 'http://localhost:7000/auth/logincb';
 const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 const SIGNOUT_URI = ''; // TODO: construct signout URI
 

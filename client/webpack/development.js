@@ -16,11 +16,16 @@ module.exports = merge(config, {
   devtool: 'cheap-module-source-map',
   devServer: {
     hot: true,
-    port: 8001,
+    port: 7001,
     host: '0.0.0.0',
     historyApiFallback: true,
     contentBase: paths.src, // static files,
     disableHostCheck: true,
-    proxy: {}
+    proxy: [
+      {
+        context: ['/api', '/login'],
+        target: 'http://localhost:7000'
+      }
+    ]
   }
 });
