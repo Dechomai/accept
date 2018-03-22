@@ -1,7 +1,9 @@
 const morgan = require('morgan');
 const config = require('../../config');
 
-const morganFormat = config.get('env') === 'development' ? 'dev' : 'combined';
+morgan.format('development', (...args) => `${new Date().toISOString()} - ${morgan.dev(...args)}`);
+
+const morganFormat = config.get('env') === 'development' ? 'development' : 'combined';
 
 const outLoggerMiddleware = morgan(morganFormat, {
   skip: (req, res) => res.statusCode < 400,
