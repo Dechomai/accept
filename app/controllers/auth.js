@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const tokenStorage = require('../services/tokenStorage');
 const authService = require('../services/auth');
+const logger = require('../logger');
 
 const authController = {
   getLoginUri() {
@@ -14,12 +15,13 @@ const authController = {
     return authService
       .getTokenByCode(code)
       .then(tokens => {
-        console.log('Tokens in ctrl: ', tokens);
+        logger.verbose('Got tokens from AuthService');
+        logger.silly('Got tokens from AuthService', tokens);
         const {sub: userId, email} = jwt.decode(tokens.id_token);
         return Promise.all([
           User.findOneOrCreate(userId, email).then(
             user => {
-              console.log('user info: ', user);
+              logger.debug('User info found/created: ', user);
             },
             err => {
               // TODO: handle error
@@ -28,7 +30,8 @@ const authController = {
           ),
           tokenStorage.updateUserToken(userId, tokens.refresh_token).then(
             token => {
-              console.log('token saved: ', token);
+              logger.debug('Refresh token saved');
+              logger.silly('Refresh token saved', token);
             },
             err => {
               // TODO: handle error

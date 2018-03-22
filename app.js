@@ -6,6 +6,7 @@ const config = require('./config');
 const routes = require('./app/routes');
 const connectDB = require('./app/db/connection');
 const {outLoggerMiddleware, errLoggerMiddleware} = require('./app/middlewares/logger');
+const logger = require('./app/logger');
 
 const PORT = config.get('port');
 const IP = config.get('ip');
@@ -33,10 +34,10 @@ routes.forEach(appendRouter => appendRouter(app));
 // TODO: add separate error handlers for XHR
 // eslint-disable-next-line
 app.use((err, req, res, next) => {
-  console.log(err);
+  logger.error(err);
   res.status(err.status || 500).send({error: 'Application Error 💩'});
 });
 
 app.listen(PORT, IP, () => {
-  console.log(`Server started @ ${IP}:${PORT}`);
+  logger.info(`Server started @ ${IP}:${PORT}`);
 });

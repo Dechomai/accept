@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
 const config = require('../../config');
+const logger = require('../logger');
 
 const DB_USERNAME = config.get('db.username');
 const DB_PASSWORD = config.get('db.password');
@@ -16,8 +16,12 @@ const connectionString = () => {
 module.exports = () => {
   mongoose.connect(connectionString());
   const db = mongoose.connection;
-  db.on('error', (...errs) => console.error('Mongoose connection error: ', ...errs));
+  db.on('error', (...errs) => logger.error('Mongoose connection error: ', ...errs));
   db.once('open', function() {
-    console.log('Mongoose connection established');
+    logger.info(
+      `Mongoose connection established @ mongodb://${
+        DB_USERNAME && DB_PASSWORD ? '**@' : ''
+      }${DB_HOST}/${DB_NAME}`
+    );
   });
 };
