@@ -18,6 +18,9 @@
       "git add"
     ]
   },
+  "nodemonConfig": {
+    "ignore": ["client/*", "public/*"]
+  },
   "dependencies": {
     "cognito-express": "^2.0.9",
     "compression": "^1.7.2",
