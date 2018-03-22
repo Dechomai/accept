@@ -32,6 +32,12 @@ const config = convict({
     arg: 'cookieSecret',
     env: 'COOKIE_SECRET'
   },
+  logLevel: {
+    format: ['error', 'warn', 'info', 'verbose', 'debug', 'silly'],
+    default: 'debug',
+    arg: 'logLevel',
+    env: 'LOG_LEVEL'
+  },
   db: {
     username: {
       format: '*',
@@ -95,6 +101,13 @@ const config = convict({
       default: null,
       arg: 'cognitoUserPoolId',
       env: 'COGNITO_USER_POOL_ID'
+    },
+    redirectUri: {
+      doc: 'AWS Cognito App Client redirect_uri',
+      format: 'url',
+      default: null,
+      arg: 'cognitoRedirectUri',
+      env: 'COGNITO_REDIRECT_URI'
     }
   }
 });

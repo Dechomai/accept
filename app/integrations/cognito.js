@@ -8,6 +8,7 @@ const COGNITO_APP_CLIENT_SECRET = config.get('cognito.clientSecret');
 const COGNITO_DOMAIN = config.get('cognito.domain');
 const COGNITO_USER_POOL_ID = config.get('cognito.userPoolId');
 const COGNITO_REGION = config.get('cognito.region');
+const COGNITO_REDIRECT_URI = config.get('cognito.redirectUri');
 
 // helper to verify token signature
 const cognitoExpress = new CognitoExpress({
@@ -16,14 +17,11 @@ const cognitoExpress = new CognitoExpress({
   tokenUse: 'access'
 });
 
-const REDIRECT_URI = 'http://localhost:7000/auth/logincb';
-const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&COGNITO_REDIRECT_URI=${COGNITO_REDIRECT_URI}`;
 const SIGNOUT_URI = ''; // TODO: construct signout URI
 
 const getLoginUri = () => LOGIN_URI;
 const getSignoutUri = () => SIGNOUT_URI;
-// TODO
-// Verify token signature !!!!!!!!!!!!
 
 const getTokensByCode = code => {
   return fetch(`https://${COGNITO_DOMAIN}/oauth2/token`, {
@@ -32,8 +30,8 @@ const getTokensByCode = code => {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Basic ${atob(`${COGNITO_APP_CLIENT_ID}:${COGNITO_APP_CLIENT_SECRET}`)}`
     },
-    body: `grant_type=authorization_code&client_id=${COGNITO_APP_CLIENT_ID}&code=${code}&redirect_uri=${encodeURIComponent(
-      REDIRECT_URI
+    body: `grant_type=authorization_code&client_id=${COGNITO_APP_CLIENT_ID}&code=${code}&COGNITO_REDIRECT_URI=${encodeURIComponent(
+      COGNITO_REDIRECT_URI
     )}`
   })
     .then(res => res.json())
