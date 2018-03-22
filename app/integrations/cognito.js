@@ -17,7 +17,7 @@ const cognitoExpress = new CognitoExpress({
   tokenUse: 'access'
 });
 
-const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&COGNITO_REDIRECT_URI=${COGNITO_REDIRECT_URI}`;
+const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&redirect_uri=${COGNITO_REDIRECT_URI}`;
 const SIGNOUT_URI = ''; // TODO: construct signout URI
 
 const getLoginUri = () => LOGIN_URI;
@@ -30,7 +30,7 @@ const getTokensByCode = code => {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Basic ${atob(`${COGNITO_APP_CLIENT_ID}:${COGNITO_APP_CLIENT_SECRET}`)}`
     },
-    body: `grant_type=authorization_code&client_id=${COGNITO_APP_CLIENT_ID}&code=${code}&COGNITO_REDIRECT_URI=${encodeURIComponent(
+    body: `grant_type=authorization_code&client_id=${COGNITO_APP_CLIENT_ID}&code=${code}&redirect_uri=${encodeURIComponent(
       COGNITO_REDIRECT_URI
     )}`
   })

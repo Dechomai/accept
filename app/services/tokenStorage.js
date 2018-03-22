@@ -23,7 +23,7 @@ const tokenStorage = {
   getUserToken(userId) {
     return Token.findById(userId)
       .select('_id rt')
-      .exec();
+      .then(doc => doc.rt);
   },
   updateUserToken(userId, token) {
     return Token.findByIdAndUpdate(

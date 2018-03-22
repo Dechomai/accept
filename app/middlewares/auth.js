@@ -25,21 +25,22 @@ const authMiddleware = (req, res, next) => {
       next();
     },
     err => {
-      logger.debug('[AuthMiddleware] token invalid');
+      logger.debug('[AuthMiddleware] token validation failed');
       const token = jwt.decode(accessToken);
       if (!token || !token.sub) {
-        logger.error('[AuthMiddleware] token corrupted', accessToken);
+        logger.error('[AuthMiddleware] can not decode token', accessToken);
         clearTokenCookie(res);
         sendUnauthorizedError(res);
         return;
       }
       const {sub: userId} = token;
-      logger.debug('[AuthMiddleware] userId: ', userId);
+      logger.debug('[AuthMiddleware] got userId from token: ', userId);
       if (err.name === 'TokenExpiredError') {
+        // if token expired try to update using refresh token
+        // if refresh token expired - delete it
         logger.debug('[AuthMiddleware] token expired');
         tokenStorage
           .getUserToken(userId)
-          .then(token => token.rt)
           .then(token => authService.updateToken(token))
           .then(tokens => tokens.access_token)
           .then(token => {
@@ -51,10 +52,24 @@ const authMiddleware = (req, res, next) => {
             next();
           })
           .catch(err => {
-            logger.error('[AuthMiddleware] token refresh failed', err);
-            sendUnauthorizedError(res);
+            logger.debug('[AuthMiddleware] token refresh failed', err);
+            if (err.error === 'invalid_grant') {
+              logger.debug('[AuthMiddleware] refresh token revoked/expired', err);
+              tokenStorage.removeUserToken(userId).then(() => {
+                clearTokenCookie(res);
+                sendUnauthorizedError(res);
+              });
+            } else {
+              logger.error('[AuthMiddleware] token refresh failed', err);
+              clearTokenCookie(res);
+              sendUnauthorizedError(res);
+            }
           });
       } else {
+        // handle other errors
+        // Validation errors:
+        // "TokenNotFound", "InvalidTokenUse", "InvalidUserPool"
+        logger.debug('[AuthMiddleware] token invalid - reason', err);
         clearTokenCookie(res);
         sendUnauthorizedError(res);
       }
