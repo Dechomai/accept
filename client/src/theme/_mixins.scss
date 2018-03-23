@@ -1,0 +1,7 @@
+@import './vars';
+
+@mixin text($type) {
+  $def: map-get($typography, $type);
+  font-size: nth($def, 1);
+  line-height: nth($def, 2);
+}

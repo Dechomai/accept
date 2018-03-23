@@ -1,4 +1,4 @@
-@import './theme/main';
+@import './theme/index';
 
 html,
 body {
@@ -16,5 +16,7 @@ body,
 
 body {
   background: #fff;
-  font-family: 'Raleway', Helvetica, Arial, sans-serif;
+  font-family: $fontFamily;
+
+  @include text('small');
 }
