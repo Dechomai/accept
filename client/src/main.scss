@@ -2,7 +2,7 @@
 
 html,
 body {
-  font-size: 16px;
+  font-size: 16px; // to be used as global 1rem
 }
 
 html,
@@ -17,6 +17,4 @@ body,
 body {
   background: #fff;
   font-family: $fontFamily;
-
-  @include text('small');
 }

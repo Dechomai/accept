@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
+import UserInfo from '../UserInfo/UserInfo';
+
 class Header extends React.Component {
   componentDidMount() {
     if (!this.props.user && !this.props.status.loading && !this.props.status.error) {
@@ -11,12 +13,22 @@ class Header extends React.Component {
     }
   }
 
+  getSignInButton() {
+    return (
+      <div className="header__signin">
+        <a className="header__signin__link" href="/login">
+          Signin
+        </a>
+      </div>
+    );
+  }
+
   getUserInfo() {
     const {user, status} = this.props;
     const {loading, error} = status;
-    if (loading) return 'spinner';
-    if (error) return <a href="/login">Login</a>;
-    if (user) return user.email;
+    if (loading) return null; // show spinner or smth
+    if (error) return this.getSignInButton();
+    if (user) return <UserInfo user={user} />;
     return null;
   }
 

@@ -1,0 +1,25 @@
+@import '../../theme/index';
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__avatar {
+    $size: 38px;
+    width: $size;
+    height: $size;
+    background: $color-secondary-1;
+    text-align: center;
+    border-radius: $size;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &__label {
+      display: inline-block;
+      vertical-align: middle;
+      @include text('body');
+      line-height: $size;
+    }
+  }
+}
