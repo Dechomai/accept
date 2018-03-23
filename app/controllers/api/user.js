@@ -6,7 +6,7 @@ const userController = {
     return User.findById(userId, User.projection)
       .then(user => (user ? user : Promise.reject(user)))
       .then(
-        user => User.project(user.toJSON()),
+        user => user.toJSON(),
         err => {
           if (!err) {
             logger.error('getUserInfo: no such user');

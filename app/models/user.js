@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const BaseSchema = require('./utils/base');
 
-const userSchema = mongoose.Schema(
+const userSchema = new BaseSchema(
   {
     _id: String,
     email: String
@@ -11,11 +12,8 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.statics.projection = {
-  _id: true,
-  email: true
+  email: 1
 };
-
-userSchema.statics.project = ({_id, email}) => ({id: _id, email});
 
 userSchema.statics.findOneOrCreate = function(id, email) {
   return new Promise((resolve, reject) => {
