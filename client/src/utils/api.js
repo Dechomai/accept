@@ -20,10 +20,8 @@ const api = {
       ...getBody(method, body),
       ...props
     })
-      .then(res => {
-        if (res.status !== STATUS_SUCCESSFULL) return Promise.reject(res);
-        return res.json();
-      })
+      .then(res => res.json())
+      .then(res => (res.status !== STATUS_SUCCESSFULL ? Promise.reject(res) : res))
       .catch(res => this.handleError(res));
   },
   handleError(err) {
