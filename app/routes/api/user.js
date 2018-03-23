@@ -9,9 +9,16 @@ userRouter
   .route('/')
   .get((req, res) => {
     const {userId} = req;
-    userController.getUserInfo(userId).then(user => {
-      res.status(200).send(user);
-    });
+    userController.getUserInfo(userId).then(
+      user => {
+        res.status(200).send(user);
+      },
+      () => {
+        res.status(404).send({
+          message: 'User not found'
+        });
+      }
+    );
   })
   .post((req, res) => {
     // userController.updateUser(req.userId);

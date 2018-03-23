@@ -21,7 +21,7 @@ const authController = {
         return Promise.all([
           User.findOneOrCreate(userId, email).then(
             user => {
-              logger.debug('User info found/created: ', user);
+              logger.debug('User info found/created: ', user.toObject());
             },
             err => {
               // TODO: handle error

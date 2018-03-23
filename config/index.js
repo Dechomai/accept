@@ -60,7 +60,7 @@ const config = convict({
     },
     name: {
       format: String,
-      default: 'test',
+      default: 'accept-dev-local',
       arg: 'dbName',
       env: 'DB_NAME'
     }
