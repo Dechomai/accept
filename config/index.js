@@ -11,12 +11,12 @@ const config = convict({
     arg: 'nodeEnv',
     env: 'NODE_ENV'
   },
-  ip: {
+  host: {
     doc: 'The IP address to bind.',
     format: 'ipaddress',
-    default: '127.0.0.1',
+    default: '0.0.0.0',
     arg: 'ipAdress',
-    env: 'IP_ADDRESS'
+    env: 'HOST'
   },
   port: {
     doc: 'The PORT to bind.',

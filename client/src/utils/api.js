@@ -20,14 +20,13 @@ const api = {
       ...getBody(method, body),
       ...props
     })
-      .then(res => res.json())
-      .then(res => (res.status !== STATUS_SUCCESSFULL ? Promise.reject(res) : res))
+      .then(res => (res.status === STATUS_SUCCESSFULL ? res : Promise.reject(res)))
       .catch(res => this.handleError(res));
   },
   handleError(err) {
     // TODO: handle error
     // especially 401 (but optionally)
-    return Promise.reject(err);
+    return err.json().then(err => Promise.reject(err));
   },
 
   get(...args) {

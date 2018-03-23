@@ -9,7 +9,7 @@ const {outLoggerMiddleware, errLoggerMiddleware} = require('./app/middlewares/lo
 const logger = require('./app/logger');
 
 const PORT = config.get('port');
-const IP = config.get('ip');
+const HOST = config.get('host');
 
 const app = express();
 
@@ -38,6 +38,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send({error: 'Application Error 💩'});
 });
 
-app.listen(PORT, IP, () => {
-  logger.info(`Server started @ ${IP}:${PORT}`);
+app.listen(PORT, HOST, () => {
+  logger.info(`Server started @ ${HOST}:${PORT}`);
 });
