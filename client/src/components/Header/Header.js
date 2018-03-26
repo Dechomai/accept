@@ -36,7 +36,9 @@ class Header extends React.Component {
     return (
       <header className="header">
         <div className="header__logo">
-          <img src="/assets/logo.svg" alt="Accept" />
+          <Link to="/" className="header__logo__link">
+            <img className="header__logo__img" src="/assets/logo.svg" alt="Accept" />
+          </Link>
         </div>
         <nav className="header__nav">
           <Link

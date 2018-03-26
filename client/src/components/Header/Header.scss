@@ -11,7 +11,12 @@
 
   &__logo {
     user-select: none;
-    img {
+
+    &__link {
+      display: inline-block;
+    }
+
+    &__img {
       vertical-align: top;
       height: 39px;
       margin-bottom: 1px; // just so that it's 40px high
