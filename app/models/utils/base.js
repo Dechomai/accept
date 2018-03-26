@@ -18,6 +18,5 @@ module.exports = class BaseSchema extends mongoose.Schema {
         options
       )
     );
-    console.log(this.constructor);
   }
 };
