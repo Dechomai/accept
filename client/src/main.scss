@@ -18,3 +18,8 @@ body {
   background: #fff;
   font-family: $fontFamily;
 }
+
+// TODO: add reset
+* {
+  box-sizing: border-box;
+}

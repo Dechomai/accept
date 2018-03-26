@@ -18,7 +18,7 @@ $typography: (
 );
 
 $fontWeight-regular: 400;
-$fontWeight-medim: 500;
+$fontWeight-medium: 500;
 $fontWeight-semibold: 600;
 
 /*
@@ -41,7 +41,7 @@ $color-black-2: #858585;
 $color-black-3: #a5a5a5;
 $color-black-4: #cacaca;
 $color-black-5: #f3f3f3;
-
+$color-white: #fff;
 $color-overlay: rgba(0, 0, 0, 0.4);
 
 $color-accent-error: #f12545;
@@ -49,3 +49,9 @@ $color-accent-pending: #fad778;
 $color-accent-rejected: #e0610e;
 $color-accent-active: #5ccb97;
 $color-accent-progress: #528bff;
+
+/*
+  ---------- OTHERS ----------
+*/
+
+$borderRadius: 4px;

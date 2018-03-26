@@ -1,0 +1,64 @@
+@import '../../theme/index';
+
+.button {
+  display: inline-block;
+  border: none;
+  font-family: inherit;
+  border-radius: $borderRadius;
+  margin: 0 0.5rem 0.5rem 0;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color ease-out 150ms, border-color ease-out 150ms, color ease-out 150ms;
+
+  $s: &;
+
+  $default-padding-y: 9px;
+  $default-padding-x: 30px;
+  $small-padding-y: 6px;
+  $small-padding-x: 16px;
+
+  &--primary {
+    background: $color-primary-1;
+    color: $color-white;
+    font-weight: $fontWeight-semibold;
+
+    &:hover {
+      background: $color-primary-3;
+    }
+
+    &:active {
+      background-color: #2417b1; // not in styleguide ¯\_(ツ)_/¯
+    }
+  }
+
+  &--secondary {
+    font-weight: $fontWeight-medium;
+    border: solid 1px $color-black-3;
+
+    &:hover {
+      border-color: $color-black-4;
+      color: $color-black-4;
+    }
+
+    &:active {
+      border-color: $color-black-2;
+      color: $color-black-2;
+    }
+  }
+
+  &--default {
+    @include text('subheading');
+    padding: $default-padding-y $default-padding-x;
+  }
+
+  &--small {
+    @include text('body');
+    font-weight: $fontWeight-medium;
+    padding: $small-padding-y $small-padding-x;
+  }
+
+  &--default#{$s}--secondary {
+    padding: $default-padding-y - 1px $default-padding-x - 1px; // compensate border width
+  }
+}
