@@ -10,7 +10,7 @@
 
 2.  Set up your development environment:
 
-    *   Install `node` and `yarn`
+    *   Install `node 8.10` and `yarn`
     *   Run `yarn` to install dependencies
     *   Install `docker`
 
@@ -20,18 +20,31 @@
     *   Check `/.env.sample` file for required variables
     *   Ping _Yuriy Husnay_ if you need additional information, values, etc.
 
-4.  Start MongoDB
+4.  Start the app
+
+    4.1 Working on client-side only
 
     ```
-    docker-compose -f ./docker-compose.dev.yml up
+    docker-compose -f ./docker-compose.all.yml up
     ```
 
-    Or, if you're using locally installed version, just start your `mongod`
+    4.2 Working on both
 
-5.  Start the app:
-    ```sh
-    yarn start
-    ```
+    1.  Start all app dependencies in a containers
+
+        ```
+        docker-compose -f ./docker-compose.dev.yml up
+        ```
+
+    2.  Start app
+
+        ```sh
+        yarn start
+        ```
+
+5.  Client-side development
+
+    Check [client/README.md](client/README.md) for instructions
 
 ## Branching strategy
 
