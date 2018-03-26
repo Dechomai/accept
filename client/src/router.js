@@ -2,6 +2,7 @@ import React from 'react';
 import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-router';
 
 import App from './layout/App';
+import Demo from './layout/Demo';
 
 /*
 
@@ -73,6 +74,8 @@ class Router extends React.Component {
           <Route path="profile" component={() => <h1>Profile</h1>}>
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
+          {/* Temp route to showcase UI kit */}
+          <Route path="demo" component={Demo} />
         </Route>
       </ReactRouter>
     );

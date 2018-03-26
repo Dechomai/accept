@@ -55,6 +55,13 @@ class Header extends React.Component {
             onlyActiveOnIndex>
             Profile
           </Link>
+          <Link
+            to="/demo"
+            className="header__nav-item"
+            activeClassName="header__nav-item--active"
+            onlyActiveOnIndex>
+            Demo (Temp)
+          </Link>
         </nav>
         <div className="header__user-info">{this.getUserInfo()}</div>
       </header>
