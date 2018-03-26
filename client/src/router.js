@@ -34,21 +34,49 @@ import App from './layout/App';
   /users/:userId - user profile (current user can not access his page)
 
   TODO:
-  add exchanges, notifications, etc.
+  add exchanges|offers, notifications, etc.
 
 */
 
-const Router = () => (
-  <ReactRouter history={browserHistory}>
-    <Route path="/" component={App}>
-      {}
+// perform derirects on router changes
+export const redirect = (prevState, nextState, replace, cb) => {
+  // eg.
+  // const {location} = nextState;
+  // const {pathname} = location;
 
-      <IndexRoute component={() => <h1>Home</h1>} />
-      <Route path="profile" component={() => <h1>Profile</h1>}>
-        <Route path="edit" component={() => <h1>Edit Profile</h1>} />
-      </Route>
-    </Route>
-  </ReactRouter>
-);
+  // if (someCondition && pathname !== '/whatever') {
+  //   replace('/whatever');
+  //   cb();
+  //   return;
+  // }
+
+  cb();
+};
+
+class Router extends React.Component {
+  onRootRouteEnter(nextState, replace, cb) {
+    redirect(null, nextState, replace, cb);
+  }
+
+  onRootRouteChange(prevState, nextState, replace, cb) {
+    redirect(prevState, nextState, replace, cb);
+  }
+  render() {
+    return (
+      <ReactRouter history={browserHistory}>
+        <Route
+          path="/"
+          component={App}
+          onEnter={this.onRootRouteEnter}
+          onChange={this.onRootRouteChange}>
+          <IndexRoute component={() => <h1>Home</h1>} />
+          <Route path="profile" component={() => <h1>Profile</h1>}>
+            <Route path="edit" component={() => <h1>Edit Profile</h1>} />
+          </Route>
+        </Route>
+      </ReactRouter>
+    );
+  }
+}
 
 export default Router;
