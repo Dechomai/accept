@@ -1,0 +1,12 @@
+/*
+Supports only *-customizable class names
+
+For full list of css class names refer to:
+https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-ui-customization.html
+
+eg.
+.label-customizable {
+  color: red;
+  padding: 20px;
+}
+*/

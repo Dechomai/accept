@@ -79,3 +79,11 @@ In the following order of precendence:
 yarn
 yarn lint
 ```
+
+### Uploading Cognito Custom CSS
+
+Prerequisites: AWS CLI is installed and configured with proper IAM user
+
+```
+aws --region COGNITO_REGION cognito-idp set-ui-customization --user-pool-id COGNITO_USER_POOL_ID --css "$(cat client/src/theme/cognito.css)"
+```
