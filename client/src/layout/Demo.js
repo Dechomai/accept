@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 import Button from '../components/Button/Button';
 
@@ -12,6 +13,11 @@ const Demo = () => {
       <Button type="secondary" size="small">
         Small Secondary Button
       </Button>
+      <div>
+        <Link to="/" className="base-link">
+          Link example
+        </Link>
+      </div>
     </div>
   );
 };

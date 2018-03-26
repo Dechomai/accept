@@ -23,3 +23,7 @@ body {
 * {
   box-sizing: border-box;
 }
+
+a:-webkit-any-link {
+  text-decoration: none;
+}
