@@ -9,7 +9,7 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development",
     "build": "npm-run-all clean build:*",
     "build:code": "cross-env NODE_ENV=production webpack --mode=production",
-    "build:assets": "cp -r ./src/assets ./build",
+    "build:assets": "ncp src/assets build/assets",
     "serve": "http-server ./build -p 7002 -o"
   },
   "dependencies": {
