@@ -71,6 +71,7 @@ class Router extends React.Component {
           onEnter={this.onRootRouteEnter}
           onChange={this.onRootRouteChange}>
           <IndexRoute component={() => <h1>Home</h1>} />
+          <Route path="signup" component={() => <h1>Sign Up</h1>} />
           <Route path="profile" component={() => <h1>Profile</h1>}>
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
