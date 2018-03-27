@@ -1,5 +1,4 @@
-@import './theme/reset';
-@import './theme/index';
+@import './theme/all';
 
 html,
 body {
@@ -15,7 +14,7 @@ body,
   padding: 0;
 }
 
-body, input {
+body {
   background: #fff;
   font-family: $fontFamily;
 }

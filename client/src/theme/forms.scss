@@ -18,6 +18,7 @@
     border: solid 1px $color-black-3;
     @include text('small');
     color: $color-black-3;
+    font-family: $fontFamily;
     font-weight: $fontWeight-medium;
     padding: 12px 16px 14px;
     &::-webkit-input-placeholder {
@@ -102,7 +103,7 @@
     border: 1px solid $color-black-4;
     border-radius: 50%;
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       display: none;
       top: 5px;
