@@ -6,9 +6,10 @@
     @include text('label');
     display: block;
     color: $color-black-0;
-    font-weight: 600;
+    font-weight: $fontWeight-bold;
     text-transform: uppercase;
     margin-bottom: 8px;
+    letter-spacing: 1px;
   }
   &__input {
     width: 100%;
@@ -49,6 +50,27 @@
 }
 
 .checkbox-field {
+  &__checkmark {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid $color-black-4;
+    &:after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 1px;
+      width: 4px;
+      height: 11px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
   &__label {
     display: block;
     position: relative;
@@ -56,27 +78,6 @@
     margin-bottom: 12px;
     cursor: pointer;
     @include text('checkboxLabel');
-    .checkbox-field__checkmark {
-      position: absolute;
-      top: -4px;
-      left: 0;
-      height: 20px;
-      width: 20px;
-      border: 1px solid $color-black-4;
-      &:after {
-        content: '';
-        position: absolute;
-        left: 6px;
-        top: 1px;
-        width: 4px;
-        height: 11px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-      }
-    }
     .field-checkbox__input {
       position: absolute;
       opacity: 0;
@@ -85,6 +86,46 @@
         & ~ .checkbox-field__checkmark {
           border-color: $color-black-0;
           background-color: $color-black-0;
+        }
+      }
+    }
+  }
+}
+
+.radio-field {
+  &__checkmark {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    border: 1px solid $color-black-4;
+    border-radius: 50%;
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      top: 5px;
+      left: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: $color-black-0;
+    }
+  }
+  &__label {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    @include text('checkboxLabel');
+    .radio-field__input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      &:checked {
+        & ~ .radio-field__checkmark {
           &:after {
             display: block;
           }
