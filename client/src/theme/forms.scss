@@ -58,7 +58,7 @@
     width: 20px;
     border: 1px solid $color-black-4;
     &:after {
-      content: '';
+      content: ' ';
       position: absolute;
       left: 6px;
       top: 1px;
