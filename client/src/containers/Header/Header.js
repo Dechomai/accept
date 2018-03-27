@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
   status: selectUserStatus(state),
   user: selectUserData(state)
 });
+
 const mapDispatchToProps = dispatch => ({
   fetchUser() {
     return dispatch(fetchUser());

@@ -1,0 +1,8 @@
+.base-link {
+  @include text('small');
+  color: $color-primary-1;
+  font-weight: $fontWeight-semibold;
+  &:hover {
+    text-decoration: underline;
+  }
+}
