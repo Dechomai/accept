@@ -1,5 +1,4 @@
 .text-field {
-  width: 320px;
   margin-top: 22px;
   margin-bottom: 14px;
   &__label {
@@ -61,7 +60,7 @@
     &:after {
       content: ' ';
       position: absolute;
-      left: 6px;
+      left: -5px;
       top: 1px;
       width: 6px;
       height: 13px;
@@ -70,6 +69,8 @@
       -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
+      margin-left: 12px;
+      vertical-align: middle;
     }
   }
   &__label {
