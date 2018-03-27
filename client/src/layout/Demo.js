@@ -37,6 +37,35 @@ const Demo = () => {
             />
             <p className="text-field__error">Please enter correct email address</p>
           </div>
+          <br />
+          <div>
+            <div className="checkbox-field">
+              <label className="checkbox-field__label">
+                Label
+                <input
+                  className="field-checkbox__input"
+                  name="example"
+                  type="checkbox"
+                  defaultChecked
+                />
+                <span className="checkbox-field__checkmark" />
+              </label>
+            </div>
+            <div className="checkbox-field">
+              <label className="checkbox-field__label">
+                Label
+                <input className="field-checkbox__input" name="example" type="checkbox" />
+                <span className="checkbox-field__checkmark" />
+              </label>
+            </div>
+            <div className="checkbox-field">
+              <label className="checkbox-field__label">
+                Label
+                <input className="field-checkbox__input" name="example" type="checkbox" />
+                <span className="checkbox-field__checkmark" />
+              </label>
+            </div>
+          </div>
         </form>
       </div>
     </div>
