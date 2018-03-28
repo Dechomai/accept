@@ -7,6 +7,8 @@ import {Provider} from 'react-redux';
 import createStore from './store';
 import Router from './router';
 
+import {fetchUser} from './actions/user';
+
 const start = performance.now();
 
 // fetch initial data dependencies and render
@@ -21,17 +23,16 @@ Promise.all([
   })
   .then(store =>
     Promise.all([
-      store
-      // dispatch initial actions on store
-      // store.dispatch( some action )
+      store,
+      // fetch user data before rendering app
+      store.dispatch(fetchUser())
     ])
   )
   .then(([store]) => {
     const rootEl = document.querySelector('#root');
-
     return render(
       <Provider store={store}>
-        <Router />
+        <Router store={store} />
       </Provider>,
       rootEl
     );

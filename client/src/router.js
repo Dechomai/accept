@@ -1,8 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-router';
+import autobind from 'autobindr';
+import {pathOr} from 'ramda';
 
 import App from './layout/App';
 import Demo from './layout/Demo';
+import {selectUserData} from './selectors';
 
 /*
 
@@ -40,27 +44,40 @@ import Demo from './layout/Demo';
 */
 
 // perform derirects on router changes
-export const redirect = (prevState, nextState, replace, cb) => {
-  // eg.
-  // const {location} = nextState;
-  // const {pathname} = location;
+export const redirect = (prevState, nextState, store, replace, cb) => {
+  const {location} = nextState;
+  const {pathname} = location;
+  const state = store.getState();
+  const user = selectUserData(state);
 
-  // if (someCondition && pathname !== '/whatever') {
-  //   replace('/whatever');
-  //   cb();
-  //   return;
-  // }
+  // if user status is 'newreg' redirect to /signup
+  if (pathname !== '/signup' && user && user.status === 'newreg') {
+    replace('/signup');
+    return cb();
+  }
+
+  // if user status is other that 'newreg' disable /signup
+  if (pathname === '/signup' && (!user || (user && user.status !== 'newreg'))) {
+    const prev = pathOr('/', ['location', 'pathname'], prevState);
+    replace(prev);
+    return cb();
+  }
 
   cb();
 };
 
 class Router extends React.Component {
+  constructor() {
+    super();
+    autobind(this);
+  }
+
   onRootRouteEnter(nextState, replace, cb) {
-    redirect(null, nextState, replace, cb);
+    redirect(null, nextState, this.props.store, replace, cb);
   }
 
   onRootRouteChange(prevState, nextState, replace, cb) {
-    redirect(prevState, nextState, replace, cb);
+    redirect(prevState, nextState, this.props.store, replace, cb);
   }
   render() {
     return (
@@ -82,5 +99,9 @@ class Router extends React.Component {
     );
   }
 }
+
+Router.propTypes = {
+  store: PropTypes.any
+};
 
 export default Router;
