@@ -1,10 +1,34 @@
 const mongoose = require('mongoose');
 const BaseSchema = require('./utils/base');
 
+/*
+  Cognito user statuses:
+  UNCONFIRMED - User has been created but not confirmed.
+  CONFIRMED - User has been confirmed.
+  ARCHIVED - User is no longer active.
+  COMPROMISED - User is disabled due to a potential security threat.
+  UNKNOWN - User status is not known.
+
+  */
 const userSchema = new BaseSchema(
   {
+    status: {
+      type: String,
+      enum: [
+        'newreg', // registered in Cognito
+        'active' // registered in app
+      ],
+      default: 'newreg'
+    },
+    // TODO: add validations
     _id: String,
-    email: String
+    email: String,
+    name: String,
+    address: String,
+    username: String,
+    photoUrl: String,
+    description: String,
+    bcPublicKey: String
   },
   {
     timestamps: true
@@ -12,7 +36,8 @@ const userSchema = new BaseSchema(
 );
 
 userSchema.statics.projection = {
-  email: 1
+  email: 1,
+  status: 1
 };
 
 userSchema.statics.findOneOrCreate = function(id, email) {
