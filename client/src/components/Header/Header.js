@@ -16,7 +16,7 @@ class Header extends React.Component {
   getSignInButton() {
     return (
       <div className="header__signin">
-        <a className="header__signin__link" href="/login">
+        <a className="btn btn-link" href="/login">
           Signin
         </a>
       </div>

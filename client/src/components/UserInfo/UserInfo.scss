@@ -5,7 +5,8 @@
   &__avatar {
     &.show {
       .user-info__toggle.dropdown-toggle {
-        &:focus, &:active {
+        &:focus,
+        &:active {
           border: none;
           background: none;
           box-shadow: none;
@@ -22,27 +23,28 @@
     border: none;
     background: none;
     box-shadow: none;
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       background: none;
       box-shadow: none;
       border: none;
     }
     &:after {
-      border-top: .25em solid;
+      border-top: 0.25em solid;
       border-right: 0.25em solid transparent;
-      border-left: .25em solid transparent;
+      border-left: 0.25em solid transparent;
     }
   }
   &__label {
     display: inline-block;
     vertical-align: middle;
-    @include text('body');
     $size: 38px;
     width: $size;
     height: $size;
     line-height: $size;
     border-radius: $size;
-    background-color: $color-secondary-1;
+    background-color: $orange;
   }
   .user-info__dropdown {
     left: 20px;

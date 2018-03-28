@@ -1,41 +1,41 @@
 import React from 'react';
 import {Link} from 'react-router';
-
-import Button from '../components/Button/Button';
+import {Button} from 'reactstrap';
 
 const Demo = () => {
   return (
-    <div>
+    <div className="container">
       <div>
-        <Button>Primary Button</Button>
-        <Button type="secondary">Secondary Button</Button>
+        <Button color="primary">Primary Button</Button>
+        <Button>Secondary Button</Button>
 
-        <Button size="small">Small Primary Button</Button>
-        <Button type="secondary" size="small">
+        <Button color="primary" size="sm">
+          Small Primary Button
+        </Button>
+        <Button color="secondary" size="sm">
           Small Secondary Button
         </Button>
       </div>
       <br />
       <div>
-        <Link to="/" className="base-link">
+        <Link to="/" className="btn btn-link">
           Link example
         </Link>
       </div>
       <br />
       <div>
         <form>
-          <div className="text-field">
-            <label className="text-field__label">Email</label>
-            <input className="text-field__input" type="text" placeholder="Enter your email" />
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1">Email address</label>
+            <input type="email" className="form-control" placeholder="Enter email" />
+            <small className="form-text text-muted">
+              Well never share your email with anyone else.
+            </small>
           </div>
-          <div className="text-field">
-            <label className="text-field__label">Email</label>
-            <input
-              className="text-field__input text-field__input--error"
-              type="text"
-              placeholder="Enter your email"
-            />
-            <p className="text-field__error">Please enter correct email address</p>
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1">Email address</label>
+            <input type="email" className="form-control is-invalid" placeholder="Enter email" />
+            <div className="invalid-feedback">Please choose a username.</div>
           </div>
           <br />
           <div>

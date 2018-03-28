@@ -12,7 +12,8 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "eslint --fix", "git add"]
+    "*.js": ["prettier --write", "eslint --fix", "git add"],
+    "*.scss": ["prettier --write", "git add"]
   },
   "nodemonConfig": {
     "ignore": ["client/*", "public/*"]
