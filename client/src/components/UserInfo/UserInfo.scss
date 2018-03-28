@@ -1,11 +1,12 @@
-@import '../../theme/bootstap-vars-override';
+@import '../../theme/index';
 
 .user-info {
   margin-right: 20px;
   &__avatar {
     &.show {
       .user-info__toggle.dropdown-toggle {
-        &:focus, &:active {
+        &:focus,
+        &:active {
           border: none;
           background: none;
           box-shadow: none;
@@ -22,15 +23,17 @@
     border: none;
     background: none;
     box-shadow: none;
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       background: none;
       box-shadow: none;
       border: none;
     }
     &:after {
-      border-top: .25em solid;
+      border-top: 0.25em solid;
       border-right: 0.25em solid transparent;
-      border-left: .25em solid transparent;
+      border-left: 0.25em solid transparent;
     }
   }
   &__label {

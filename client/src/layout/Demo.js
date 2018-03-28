@@ -1,17 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router';
-
-import Button from '../components/Button/Button';
+import {Button} from 'reactstrap';
 
 const Demo = () => {
   return (
-    <div>
+    <div className="container">
       <div>
-        <Button>Primary Button</Button>
-        <Button type="secondary">Secondary Button</Button>
+        <Button color="primary">Primary Button</Button>
+        <Button>Secondary Button</Button>
 
-        <Button size="sm">Small Primary Button</Button>
-        <Button type="secondary" size="sm">
+        <Button color="primary" size="sm">
+          Small Primary Button
+        </Button>
+        <Button color="secondary" size="sm">
           Small Secondary Button
         </Button>
       </div>
