@@ -62,6 +62,3 @@ typings/
 
 # next.js build output
 .next
-
-#Custom Cognito UI CSS file
-client/cognito-ui/custom-css.css
