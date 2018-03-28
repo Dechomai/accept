@@ -14,12 +14,15 @@ $typography: (
   subheading: (16px, 32px),
   body: (15px, 28px),
   caption: (14px, 24px),
-  small: (13px, 20px)
+  small: (13px, 20px),
+  label: (12px, 1.33),
+  checkboxLabel: (14px, 1.14)
 );
 
 $fontWeight-regular: 400;
 $fontWeight-medium: 500;
 $fontWeight-semibold: 600;
+$fontWeight-bold: 700;
 
 /*
   ---------- COLORS ----------
@@ -36,6 +39,7 @@ $color-secondary-3: #ffa468;
 $color-secondary-4: #ffb98b;
 $color-secondary-5: #ffdbc4;
 
+$color-black-0: #000000;
 $color-black-1: #0f0f0f;
 $color-black-2: #858585;
 $color-black-3: #a5a5a5;

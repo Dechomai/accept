@@ -1,4 +1,4 @@
-@import './theme/index';
+@import './theme/all';
 
 html,
 body {
@@ -19,7 +19,10 @@ body {
   font-family: $fontFamily;
 }
 
-// TODO: add reset
 * {
   box-sizing: border-box;
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
 }
