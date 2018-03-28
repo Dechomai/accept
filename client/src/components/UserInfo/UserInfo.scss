@@ -1,4 +1,4 @@
-@import '../../theme/index';
+@import '../../theme/bootstap-vars-override';
 
 .user-info {
   margin-right: 20px;
@@ -36,13 +36,12 @@
   &__label {
     display: inline-block;
     vertical-align: middle;
-    @include text('body');
     $size: 38px;
     width: $size;
     height: $size;
     line-height: $size;
     border-radius: $size;
-    background-color: $color-secondary-1;
+    background-color: $orange;
   }
   .user-info__dropdown {
     left: 20px;

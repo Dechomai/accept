@@ -5,21 +5,16 @@ import classNames from 'classnames';
 
 // TODO: handle icons
 const Button = ({type, size, children}) => {
-  return (
-    <button className={classNames('button', `button--${type}`, `button--${size}`)}>
-      {children}
-    </button>
-  );
+  return <button className={classNames('btn', `btn-${type}`, `btn-${size}`)}>{children}</button>;
 };
 
 Button.propTypes = {
   type: PropTypes.oneOf(['primary', 'secondary']),
-  size: PropTypes.oneOf(['default', 'small'])
+  size: PropTypes.oneOf(['sm', 'lg'])
 };
 
 Button.defaultProps = {
-  type: 'primary',
-  size: 'default'
+  type: 'primary'
 };
 
 export default Button;

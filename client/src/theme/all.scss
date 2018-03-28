@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,500,600,700');
 
-// import bootstrap variable overrides
+@import "bootstap-vars-override";
 @import '~bootstrap/scss/bootstrap';
 
 @import 'index';

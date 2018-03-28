@@ -1,4 +1,4 @@
-@import '../../theme/index';
+@import '../../theme/bootstap-vars-override';
 
 .header {
   display: flex;
@@ -12,7 +12,7 @@
   // white header for signup page
   &__plain {
     background: #fff;
-    border-bottom: solid 1px $color-black-4;
+    border-bottom: solid 1px $gray-400;
   }
 
   &__logo {
@@ -37,18 +37,6 @@
       &--active {
         color: lightblue;
       }
-    }
-  }
-
-  &__signin {
-    &__link {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 100px;
-      padding: 0.25rem 1.25rem;
-      text-decoration: none;
-      color: inherit;
-      @include text('body');
     }
   }
 }
