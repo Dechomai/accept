@@ -82,8 +82,14 @@ yarn lint
 
 ### Uploading Cognito Custom CSS
 
-Prerequisites: AWS CLI is installed and configured with proper IAM user
+Prerequisites:
+
+*   AWS CLI is installed and configured with proper IAM user
+
+    **OR**
+
+*   Add `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` in `.env` file
 
 ```
-aws --region COGNITO_REGION cognito-idp set-ui-customization --user-pool-id COGNITO_USER_POOL_ID --css "$(cat client/src/theme/cognito.css)"
+source .env && aws --region $COGNITO_REGION cognito-idp set-ui-customization --user-pool-id $COGNITO_USER_POOL_ID --css "$(cat client/src/theme/cognito.css)"
 ```
