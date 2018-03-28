@@ -10,7 +10,10 @@
     "build": "npm-run-all clean build:*",
     "build:code": "cross-env NODE_ENV=production webpack --mode=production",
     "build:assets": "ncp src/assets build/assets",
-    "serve": "http-server ./build -p 7002 -o"
+    "serve": "http-server ./build -p 7002 -o",
+    "cognito-ui": "npm-run-all cognito-ui:*",
+    "cognito-ui:build": "ncp ./src/theme/cognito.css ./cognito-ui/custom-css.css",
+    "cognito-ui:serve": "http-server ./cognito-ui -p 7003 -o"
   },
   "dependencies": {
     "autobindr": "^1.0.6",
