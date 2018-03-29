@@ -6,6 +6,7 @@ import {pathOr} from 'ramda';
 
 import App from './layout/App';
 import Demo from './layout/Demo';
+import SignUp from './containers/SignUp/SignUp';
 import {selectUserData} from './selectors';
 
 /*
@@ -88,7 +89,7 @@ class Router extends React.Component {
           onEnter={this.onRootRouteEnter}
           onChange={this.onRootRouteChange}>
           <IndexRoute component={() => <h1>Home</h1>} />
-          <Route path="signup" component={() => <h1>Sign Up</h1>} />
+          <Route path="signup" component={SignUp} />
           <Route path="profile" component={() => <h1>Profile</h1>}>
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>

@@ -18,6 +18,7 @@
     "autobindr": "^1.0.6",
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
+    "formik": "^0.11.11",
     "prop-types": "^15.6.1",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
