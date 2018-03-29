@@ -22,10 +22,24 @@ const userSchema = new BaseSchema(
     },
     // TODO: add validations
     _id: String,
-    email: String,
-    name: String,
+    email: {
+      type: String,
+      required: true
+    },
+    firstName: {
+      type: String,
+      required: true
+    },
+    lastName: {
+      type: String,
+      required: true
+    },
     address: String,
-    username: String,
+    phone: String,
+    username: {
+      type: String,
+      required: true
+    },
     photoUrl: String,
     description: String,
     bcPublicKey: String
@@ -36,8 +50,15 @@ const userSchema = new BaseSchema(
 );
 
 userSchema.statics.projection = {
+  status: 1,
   email: 1,
-  status: 1
+  firstName: 1,
+  lastName: 1,
+  address: 1,
+  phone: 1,
+  username: 1,
+  photoUrl: 1,
+  description: 1
 };
 
 userSchema.statics.findOneOrCreate = function(id, email) {
@@ -45,10 +66,15 @@ userSchema.statics.findOneOrCreate = function(id, email) {
     this.findById(id, (err, user) => {
       if (err) return reject(err);
       if (user) return resolve(user);
-      new User({_id: id, email}).save((err, user) => {
-        if (err) return reject(err);
-        resolve(user);
-      });
+      new User({_id: id, email}).save(
+        {
+          validateBeforeSave: false
+        },
+        (err, user) => {
+          if (err) return reject(err);
+          resolve(user);
+        }
+      );
     });
   });
 };
