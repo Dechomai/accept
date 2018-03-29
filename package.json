@@ -9,12 +9,13 @@
     "test": "echo \"No tests\" && exit 0",
     "start": "nodemon app.js",
     "start:debug": "cross-env DEBUG=express:* nodemon app.js",
-    "build:client": "rimraf ./public/* && cd ./client && yarn build && ncp ./build ../public",
+    "build:client":
+      "rimraf ./public/* && cd ./client && yarn && yarn build && ncp ./build ../public",
     "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.js": ["prettier --write", "eslint --fix", "git add"],
-    "*.scss": ["prettier --write", "git add"]
+    "*.{scss,json}": ["prettier --write", "git add"]
   },
   "nodemonConfig": {
     "ignore": ["client/*", "public/*"]
@@ -26,11 +27,13 @@
     "cookie-parser": "^1.4.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "express-validator": "^5.0.3",
     "helmet": "^3.12.0",
     "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.11",
     "morgan": "^1.9.0",
     "node-fetch": "^2.1.1",
+    "ramda": "^0.25.0",
     "winston": "^2.4.1"
   },
   "devDependencies": {
