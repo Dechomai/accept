@@ -75,9 +75,17 @@ In the following order of precendence:
 
 ## CI Build
 
+`Nodejs 8.10`, `npm`, `yarn`
+
 ```
-yarn
-yarn lint
+- yarn
+- yarn lint
+- yarn test
+- cd client
+- yarn
+- yarn test
+- cd ..
+- yarn build:client
 ```
 
 ### Uploading Cognito Custom CSS

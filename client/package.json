@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf ./build/*",
+    "test": "echo \"No tests\" && exit 0",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development",
     "build": "npm-run-all clean build:*",
     "build:code": "cross-env NODE_ENV=production webpack --mode=production",
