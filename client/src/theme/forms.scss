@@ -1,11 +1,22 @@
 @import '../theme/bootstap-vars-override';
 
 .form-group {
+  padding-bottom: 20px;
+  position: relative;
   label {
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
+  }
+  .form-text {
+    margin-bottom: 10px;
+  }
+  .invalid-feedback {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 }
 

@@ -30,7 +30,10 @@ authRouter.get('/logincb', (req, res) => {
     },
     err => {
       logger.error('Unable to login', err);
-      res.status(401).send({message: 'Unable to login'});
+      res.status(401).send({
+        status: 'error',
+        message: 'Unable to login'
+      });
     }
   );
 });

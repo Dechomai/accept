@@ -9,7 +9,11 @@ module.exports = (...middlewares) => [
   (req, res, next) => {
     const errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
-      return res.status(422).json({errors: errors.mapped()});
+      return res.status(422).json({
+        status: 'error',
+        message: 'Validation error',
+        errors: errors.mapped()
+      });
     }
     next();
   }

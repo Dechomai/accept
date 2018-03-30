@@ -38,7 +38,8 @@ const userSchema = new BaseSchema(
     phone: String,
     username: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     photoUrl: String,
     description: String,

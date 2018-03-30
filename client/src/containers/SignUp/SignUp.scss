@@ -1,0 +1,18 @@
+@import '../../theme/index';
+
+.sign-up {
+  background-color: $gray-100;
+  position: fixed;
+  top: 65px;
+  left: 0;
+  right: 0;
+  bottom: 83px;
+  overflow: auto;
+  &__page {
+    padding: 2.688rem 0 1.5rem;
+    text-align: center;
+  }
+  &__subheader {
+    margin-top: 1.5rem;
+  }
+}

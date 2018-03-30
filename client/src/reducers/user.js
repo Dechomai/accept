@@ -1,8 +1,15 @@
-import {FETCH_USER_REQUEST, FETCH_USER_SUCCESS, FETCH_USER_FAILURE} from '../actions/user';
+import {
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILURE,
+  CREATE_PROFILE_REQUEST,
+  CREATE_PROFILE_SUCCESS,
+  CREATE_PROFILE_FAILURE
+} from '../actions/user';
 
 const getInitialState = () => ({
   loading: false,
-  user: null,
+  data: null,
   error: null
 });
 
@@ -26,7 +33,29 @@ const places = (state = getInitialState(), action) => {
       return {
         ...state,
         loading: false,
-        user: null,
+        data: null,
+        error: action.payload.error
+      };
+    }
+    case CREATE_PROFILE_REQUEST: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case CREATE_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        data: action.payload.user,
+        error: null
+      };
+    }
+    case CREATE_PROFILE_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        data: null,
         error: action.payload.error
       };
     }
