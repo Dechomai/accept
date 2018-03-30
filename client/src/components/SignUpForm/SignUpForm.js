@@ -5,6 +5,7 @@ import {filter, isEmpty, pick} from 'ramda';
 import {withFormik} from 'formik';
 import {validateField} from '../../services/validationService';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const InnerForm = ({
   values,
@@ -167,3 +168,9 @@ const SignUpForm = withFormik({
 })(InnerForm);
 
 export default SignUpForm;
+
+SignUpForm.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.any,
+  onSubmit: PropTypes.func.isRequired
+};
