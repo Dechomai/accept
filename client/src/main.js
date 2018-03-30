@@ -25,7 +25,8 @@ Promise.all([
     Promise.all([
       store,
       // fetch user data before rendering app
-      store.dispatch(fetchUser())
+      // catch error if user is unauthorized(we don't care here)
+      store.dispatch(fetchUser()).catch(() => {})
     ])
   )
   .then(([store]) => {
