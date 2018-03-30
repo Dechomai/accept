@@ -1,7 +1,7 @@
 import './SingUpFrom.scss';
 
 import React from 'react';
-import {filter} from 'ramda';
+import {filter, merge} from 'ramda';
 import {withFormik} from 'formik';
 import {validateField} from '../../services/validationService';
 
@@ -126,10 +126,10 @@ const SignUpForm = withFormik({
     return filter(n => n, errors);
   },
   handleSubmit: (values, {props, setSubmitting}) => {
-    const {createProfile} = props;
-    createProfile(values).then(() => {
-      console.log('Profile created');
+    const {createProfile, user, router} = props;
+    createProfile(merge(user, values)).then(() => {
       setSubmitting(false);
+      router.push('/demo');
     });
   }
 })(InnerForm);

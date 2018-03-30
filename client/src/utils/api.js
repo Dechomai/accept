@@ -11,9 +11,9 @@ const api = {
     return fetch(`${options.API}${url}`, {
       method,
       headers: {
-        // Accept: 'application/json',
-        // 'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
         ...headers
       },
       credentials: 'same-origin',

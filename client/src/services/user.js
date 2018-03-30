@@ -4,8 +4,10 @@ const userService = {
   getUser() {
     return api.get('/user');
   },
-  createProfile() {
-    return api.post('/');
+  createProfile(profile) {
+    return api.post('/user', {
+      body: profile
+    });
   }
 };
 

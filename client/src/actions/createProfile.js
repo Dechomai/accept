@@ -5,12 +5,12 @@ export const CREATE_PROFILE_SUCCESS = 'CREATE_PROFILE_SUCCESS';
 export const CREATE_PROFILE_FAILURE = 'CREATE_PROFILE_FAILURE';
 
 export const createProfileRequest = () => ({
-  type: CREATE_PROFILE_SUCCESS,
+  type: CREATE_PROFILE_REQUEST,
   payload: {}
 });
 
 export const createProfileSuccess = user => ({
-  type: CREATE_PROFILE_REQUEST,
+  type: CREATE_PROFILE_SUCCESS,
   payload: {
     user
   }
@@ -28,7 +28,7 @@ export const createProfile = profile => dispatch => {
   return userService
     .createProfile(profile)
     .then(
-      user => dispatch(createProfileSuccess(user)),
+      data => dispatch(createProfileSuccess(data.user)),
       error => dispatch(createProfileFailure(error))
     );
 };
