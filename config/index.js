@@ -109,6 +109,29 @@ const config = convict({
       arg: 'cognitoRedirectUri',
       env: 'COGNITO_REDIRECT_URI'
     }
+  },
+  cloudinary: {
+    name: {
+      doc: 'Cloudinary Clound name',
+      format: String,
+      default: null,
+      arg: 'cloudinaryName',
+      env: 'CLOUDINARY_CLOUD_NAME'
+    },
+    apiKey: {
+      doc: 'Cloudinary API Key',
+      format: String,
+      default: null,
+      arg: 'cloudinaryApiKey',
+      env: 'CLOUDINARY_API_KEY'
+    },
+    apiSecret: {
+      doc: 'Cloudinary API Secret',
+      format: String,
+      default: null,
+      arg: 'cloudinaryApiSecret',
+      env: 'CLOUDINARY_API_SECRET'
+    }
   }
 });
 
