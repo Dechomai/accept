@@ -90,16 +90,8 @@ In the following order of precendence:
 
 ### Uploading Cognito Custom CSS
 
-If AWS CLI is installed and configured with proper IAM user
+Add `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` in `.env` file **OR** specify those in your environment variables
 
 ```
-aws --region $COGNITO_REGION cognito-idp set-ui-customization --user-pool-id $COGNITO_USER_POOL_ID --css "$(cat client/cognito-ui/custom-css.css)"
-```
-
-**OR**
-
-Add `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` in `.env` file
-
-```
-export $(cat .env |  grep -v ^# | xargs) && aws --region $COGNITO_REGION cognito-idp set-ui-customization --user-pool-id $COGNITO_USER_POOL_ID --css "$(cat client/cognito-ui/custom-css.css)"
+yarn cognito:upload:customization
 ```
