@@ -1,13 +1,22 @@
 @import '../../theme/index';
+@import '../../theme/mixins';
 
 .sign-up {
   &__form {
     position: relative;
     margin: 6.5rem 11.5rem 0;
-    padding: 115px 115px 37px;
+    padding: 7.188rem 7.188px 2.313rem;
     background-color: $white;
     text-align: left;
     font-weight: $btn-font-weight;
+    @include tablet {
+      margin: 6.5rem 3rem 0;
+      padding: 7.188rem 2.5rem 2.313rem;
+    }
+    @include mobile {
+      margin: 6.5rem 0.5rem 0;
+      padding: 7.188rem 0.625rem 2.313rem;
+    }
     &__title {
       margin-top: 2rem;
     }
