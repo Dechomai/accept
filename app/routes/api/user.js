@@ -14,10 +14,14 @@ userRouter
     const {userId} = req;
     userController.getUserInfo(userId).then(
       user => {
-        res.status(200).send(user);
+        res.status(200).send({
+          status: 'success',
+          user
+        });
       },
       () => {
         res.status(404).send({
+          status: 'error',
           message: 'User not found'
         });
       }
@@ -51,10 +55,15 @@ userRouter
       const {userId} = req;
       const data = pick(['firstName', 'lastName', 'address', 'phone', 'username'], req.body);
       userController.createUser(userId, data).then(
-        user => res.status(200).send({user}),
+        user =>
+          res.status(200).send({
+            status: 'success',
+            user
+          }),
         (/* err */) => {
           // TODO: handle error
           res.status(400).send({
+            status: 'error',
             message: 'Unable to create user'
           });
         }

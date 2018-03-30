@@ -8,7 +8,7 @@ import {
 
 const getInitialState = () => ({
   loading: false,
-  user: null,
+  data: null,
   error: null
 });
 
@@ -32,7 +32,7 @@ const places = (state = getInitialState(), action) => {
       return {
         ...state,
         loading: false,
-        user: null,
+        data: null,
         error: action.payload.error
       };
     }
@@ -54,7 +54,7 @@ const places = (state = getInitialState(), action) => {
       return {
         ...state,
         loading: false,
-        user: null,
+        data: null,
         error: action.payload.error
       };
     }

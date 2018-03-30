@@ -27,5 +27,5 @@ export const fetchUser = () => dispatch => {
   dispatch(fetchUserRequest());
   return userService
     .getUser()
-    .then(user => dispatch(fetchUserSuccess(user)), err => dispatch(fetchUserFailure(err)));
+    .then(res => dispatch(fetchUserSuccess(res.user)), err => dispatch(fetchUserFailure(err)));
 };

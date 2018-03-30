@@ -8,6 +8,7 @@ const logger = createLoggerWith('[MDLWR:Auth]');
 
 const sendUnauthorizedError = res =>
   res.status(401).send({
+    status: 'error',
     message: 'Unauthorized'
   });
 
