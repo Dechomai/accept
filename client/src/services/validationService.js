@@ -14,15 +14,15 @@ export const validateField = (value, type) => {
     error = BASE_MESSAGES.required;
   }
 
-  if (helpers.minLength(value, minLength.value)) {
+  if (minLength && helpers.minLength(value, minLength.value)) {
     error = minLength.message;
   }
 
-  if (helpers.maxLength(value, maxLength.value)) {
+  if (maxLength && helpers.maxLength(value, maxLength.value)) {
     error = maxLength.message;
   }
 
-  if (helpers.allowedSymbols(value, allowedSymbols.regex)) {
+  if (allowedSymbols && helpers.allowedSymbols(value, allowedSymbols.regex)) {
     error = allowedSymbols.message;
   }
 

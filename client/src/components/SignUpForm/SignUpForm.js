@@ -126,8 +126,11 @@ const SignUpForm = withFormik({
     return filter(n => n, errors);
   },
   handleSubmit: (values, {props, setSubmitting}) => {
-    console.log(values, props, 'signedUp ');
-    setSubmitting(false);
+    const {createProfile} = props;
+    createProfile(values).then(() => {
+      console.log('Profile created');
+      setSubmitting(false);
+    });
   }
 })(InnerForm);
 

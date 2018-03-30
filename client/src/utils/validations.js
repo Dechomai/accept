@@ -8,7 +8,7 @@ const REGEXES = {
   digitsOnly: /^[0-9_.-]*$/
 };
 
-const MIN_LENGTH_NAME = 3,
+const MIN_LENGTH_NAME = 2,
   MAX_LENGTH_NAME = 50,
   MIN_LENGTH_PHONE = 3,
   MAX_LENGTH_PHONE = 20,
@@ -21,11 +21,11 @@ export const validations = {
   name: {
     minLength: {
       value: MIN_LENGTH_NAME,
-      message: `Minimal length ${MIN_LENGTH_NAME}`
+      message: `Please, use minimum ${MIN_LENGTH_NAME} characters`
     },
     maxLength: {
       value: MAX_LENGTH_NAME,
-      message: `Max length ${MAX_LENGTH_NAME}`
+      message: `Please, use up to ${MAX_LENGTH_NAME} characters.`
     },
     allowedSymbols: {
       regex: REGEXES.lettersAndDigits,
@@ -35,11 +35,11 @@ export const validations = {
   phoneNumber: {
     minLength: {
       value: MIN_LENGTH_PHONE,
-      message: `Minimal length ${MIN_LENGTH_PHONE}`
+      message: `Please, use minimum ${MIN_LENGTH_PHONE} characters`
     },
     maxLength: {
       value: MAX_LENGTH_PHONE,
-      message: `Max length ${MAX_LENGTH_PHONE}`
+      message: `Please, use up to ${MAX_LENGTH_PHONE} characters.`
     },
     allowedSymbols: {
       regex: REGEXES.digitsOnly,
@@ -49,11 +49,11 @@ export const validations = {
   address: {
     minLength: {
       value: MIN_LENGTH_ADDRESS,
-      message: `Minimal length ${MIN_LENGTH_PHONE}`
+      message: `Please, use minimum ${MIN_LENGTH_ADDRESS} characters`
     },
     maxLength: {
       value: MAX_LENGTH_ADDRESS,
-      message: `Max length ${MAX_LENGTH_PHONE}`
+      message: `Please, use up to ${MAX_LENGTH_ADDRESS} characters.`
     },
     allowedSymbols: {
       regex: REGEXES.lettersDigitsAndSpaces,
@@ -63,11 +63,11 @@ export const validations = {
   username: {
     minLength: {
       value: MIN_LENGTH_USERNAME,
-      message: `Minimal length ${MIN_LENGTH_PHONE}`
+      message: `Please, use minimum ${MIN_LENGTH_USERNAME} characters`
     },
     maxLength: {
       value: MAX_LENGTH_USERNAME,
-      message: `Max length ${MAX_LENGTH_PHONE}`
+      message: `Please, use up to ${MAX_LENGTH_USERNAME} characters.`
     },
     allowedSymbols: {
       regex: REGEXES.lettersAndDigits,
