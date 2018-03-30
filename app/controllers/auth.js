@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const tokenStorage = require('../services/tokenStorage');
 const authService = require('../services/auth');
-const logger = require('../logger');
+const {createLoggerWith} = require('../logger');
+
+const logger = createLoggerWith('[CTRL:Auth]');
 
 const authController = {
   getLoginUri() {

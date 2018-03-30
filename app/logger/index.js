@@ -1,4 +1,5 @@
 const winston = require('winston');
+const {assoc} = require('ramda');
 const config = require('../../config');
 
 const LOG_LEVEL = config.get('logLevel');
@@ -17,6 +18,20 @@ const consoleLogger = new winston.transports.Console({
 const logger = new winston.Logger({
   transports: [consoleLogger]
 });
+
+logger.createLoggerWith = (...prefixes) => {
+  return [...Object.keys(logger.levels), 'log'].reduce(
+    (acc, level) =>
+      assoc(
+        level,
+        (...args) => {
+          logger[level](...prefixes, ...args);
+        },
+        acc
+      ),
+    {}
+  );
+};
 
 /*
 
