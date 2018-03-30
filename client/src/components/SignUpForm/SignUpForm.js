@@ -1,7 +1,7 @@
 import './SingUpFrom.scss';
 
 import React from 'react';
-import {filter, pick} from 'ramda';
+import {filter, isEmpty, pick} from 'ramda';
 import {withFormik} from 'formik';
 import {validateField} from '../../services/validationService';
 import classNames from 'classnames';
@@ -18,8 +18,17 @@ const InnerForm = ({
   error,
   loading
 }) => (
-  <form onSubmit={handleSubmit} className="sign-up__form">
-    {console.log(loading, error) && null}
+  <form
+    onSubmit={handleSubmit}
+    className={classNames('sign-up__form', {
+      'sing-up__form--disabled': loading
+    })}>
+    {error &&
+      isEmpty(touched) && (
+        <div className="alert alert-danger" role="alert">
+          Form is invalid
+        </div>
+      )}
     <div className="upload-photo" />
     <h5 className="sign-up__form__title">Personal info</h5>
     <p className="sign-up__form__description">
@@ -145,9 +154,15 @@ const SignUpForm = withFormik({
 
     return filter(n => n, errors);
   },
-  handleSubmit: (values, {props, setSubmitting}) => {
+  handleSubmit: (values, {props, setSubmitting, setTouched}) => {
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
-    props.onSubmit(profile).then(() => setSubmitting(false), () => setSubmitting(false));
+    props.onSubmit(profile).then(
+      () => setSubmitting(false),
+      () => {
+        setSubmitting(false);
+        setTouched({});
+      }
+    );
   }
 })(InnerForm);
 

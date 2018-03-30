@@ -17,6 +17,10 @@
       margin: 6.5rem 0.5rem 0;
       padding: 7.188rem 0.625rem 2.313rem;
     }
+    &--disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
     &__title {
       margin-top: 2rem;
     }
