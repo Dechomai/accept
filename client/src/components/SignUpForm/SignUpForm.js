@@ -1,11 +1,12 @@
 import './SingUpFrom.scss';
 
 import React from 'react';
-import {filter, isEmpty, pick} from 'ramda';
+import {isEmpty, pick} from 'ramda';
 import {withFormik} from 'formik';
-import {validateField} from '../../services/validationService';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+
+import createValidator, {rules} from '../../utils/validation';
 
 const InnerForm = ({
   values,
@@ -143,18 +144,13 @@ const SignUpForm = withFormik({
     address: '',
     username: ''
   }),
-  validate: values => {
-    const errors = {};
-    const {firstName, lastName, phone, address, username} = values;
-
-    errors.firstName = validateField(firstName, 'name');
-    errors.lastName = validateField(lastName, 'name');
-    errors.phone = validateField(phone, 'phoneNumber');
-    errors.address = validateField(address, 'address');
-    errors.username = validateField(username, 'username');
-
-    return filter(n => n, errors);
-  },
+  validate: createValidator({
+    firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+    lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+    phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
+    address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
+    username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
+  }),
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
     props.onSubmit(profile).then(
@@ -167,10 +163,10 @@ const SignUpForm = withFormik({
   }
 })(InnerForm);
 
-export default SignUpForm;
-
 SignUpForm.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.any,
   onSubmit: PropTypes.func.isRequired
 };
+
+export default SignUpForm;
