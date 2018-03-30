@@ -3,7 +3,7 @@ import './SignUp.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
-import {createProfile} from '../../actions/createProfile';
+import {createProfile} from '../../actions/user';
 import {selectUserData, selectUserStatus} from '../../selectors';
 
 const SignUp = props => {

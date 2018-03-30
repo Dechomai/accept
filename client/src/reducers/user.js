@@ -1,10 +1,11 @@
-import {FETCH_USER_REQUEST, FETCH_USER_SUCCESS, FETCH_USER_FAILURE} from '../actions/user';
-
 import {
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILURE,
   CREATE_PROFILE_REQUEST,
   CREATE_PROFILE_SUCCESS,
   CREATE_PROFILE_FAILURE
-} from '../actions/createProfile';
+} from '../actions/user';
 
 const getInitialState = () => ({
   loading: false,
