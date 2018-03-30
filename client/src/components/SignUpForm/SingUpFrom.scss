@@ -25,12 +25,7 @@
       font-size: 13px;
     }
     &__name {
-      display: flex;
-      justify-content: space-between;
       margin-top: 1.5rem;
-      .form-group {
-        width: 48%;
-      }
     }
   }
   &__footer {

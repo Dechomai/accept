@@ -22,38 +22,44 @@ const InnerForm = ({
       This information is private and will not be visible to other users
     </p>
     <div className="sign-up__form__name">
-      <div className="form-group">
-        <label>First name</label>
-        <input
-          className="form-control"
-          type="text"
-          name="firstName"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.firstName}
-        />
-        {touched.firstName &&
-          errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
-      </div>
-      <div className="form-group">
-        <label>Last name</label>
-        <input
-          className="form-control"
-          type="text"
-          name="lastName"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.lastName}
-        />
-        {touched.lastName &&
-          errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+      <div className="row">
+        <div className="col-md">
+          <div className="form-group">
+            <label>First name</label>
+            <input
+              className={`form-control ${touched.firstName && errors.firstName && 'is-invalid'}`}
+              type="text"
+              name="firstName"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.firstName}
+            />
+            {touched.firstName &&
+              errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
+          </div>
+        </div>
+        <div className="col-md">
+          <div className="form-group">
+            <label>Last name</label>
+            <input
+              className={`form-control ${touched.lastName && errors.lastName && 'is-invalid'}`}
+              type="text"
+              name="lastName"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.lastName}
+            />
+            {touched.lastName &&
+              errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+          </div>
+        </div>
       </div>
     </div>
     <div className="form-group">
       <label>Phone number</label>
       <small className="form-text text-muted">Enter your number</small>
       <input
-        className="form-control"
+        className={`form-control ${touched.phone && errors.phone && 'is-invalid'}`}
         type="text"
         name="phone"
         onChange={handleChange}
@@ -69,7 +75,7 @@ const InnerForm = ({
         users
       </small>
       <input
-        className="form-control"
+        className={`form-control ${touched.address && errors.address && 'is-invalid'}`}
         type="text"
         name="address"
         onChange={handleChange}
@@ -87,7 +93,7 @@ const InnerForm = ({
     <div className="form-group">
       <label>Username</label>
       <input
-        className="form-control"
+        className={`form-control ${touched.username && errors.username && 'is-invalid'}`}
         type="text"
         name="username"
         onChange={handleChange}
