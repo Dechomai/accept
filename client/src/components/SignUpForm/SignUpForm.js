@@ -1,7 +1,7 @@
 import './SingUpFrom.scss';
 
 import React from 'react';
-import {filter, merge} from 'ramda';
+import {filter, pick} from 'ramda';
 import {withFormik} from 'formik';
 import {validateField} from '../../services/validationService';
 import classNames from 'classnames';
@@ -14,9 +14,12 @@ const InnerForm = ({
   handleChange,
   handleBlur,
   handleSubmit,
-  isSubmitting
+  isSubmitting,
+  error,
+  loading
 }) => (
   <form onSubmit={handleSubmit} className="sign-up__form">
+    {console.log(loading, error) && null}
     <div className="upload-photo" />
     <h5 className="sign-up__form__title">Personal info</h5>
     <p className="sign-up__form__description">
@@ -143,11 +146,8 @@ const SignUpForm = withFormik({
     return filter(n => n, errors);
   },
   handleSubmit: (values, {props, setSubmitting}) => {
-    const {createProfile, user, router} = props;
-    createProfile(merge(user, values)).then(() => {
-      setSubmitting(false);
-      router.push('/demo');
-    });
+    const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
+    props.onSubmit(profile).then(() => setSubmitting(false), () => setSubmitting(false));
   }
 })(InnerForm);
 
