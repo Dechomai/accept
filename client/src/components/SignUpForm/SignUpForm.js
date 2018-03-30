@@ -4,6 +4,7 @@ import React from 'react';
 import {filter, merge} from 'ramda';
 import {withFormik} from 'formik';
 import {validateField} from '../../services/validationService';
+import classNames from 'classnames';
 
 const InnerForm = ({
   values,
@@ -27,7 +28,9 @@ const InnerForm = ({
           <div className="form-group">
             <label>First name</label>
             <input
-              className={`form-control ${touched.firstName && errors.firstName && 'is-invalid'}`}
+              className={classNames('form-control', {
+                'is-invalid': touched.firstName && errors.firstName
+              })}
               type="text"
               name="firstName"
               onChange={handleChange}
@@ -42,7 +45,9 @@ const InnerForm = ({
           <div className="form-group">
             <label>Last name</label>
             <input
-              className={`form-control ${touched.lastName && errors.lastName && 'is-invalid'}`}
+              className={classNames('form-control', {
+                'is-invalid': touched.lastName && errors.lastName
+              })}
               type="text"
               name="lastName"
               onChange={handleChange}
@@ -59,7 +64,9 @@ const InnerForm = ({
       <label>Phone number</label>
       <small className="form-text text-muted">Enter your number</small>
       <input
-        className={`form-control ${touched.phone && errors.phone && 'is-invalid'}`}
+        className={classNames('form-control', {
+          'is-invalid': touched.phone && errors.phone
+        })}
         type="text"
         name="phone"
         onChange={handleChange}
@@ -75,7 +82,9 @@ const InnerForm = ({
         users
       </small>
       <input
-        className={`form-control ${touched.address && errors.address && 'is-invalid'}`}
+        className={classNames('form-control', {
+          'is-invalid': touched.address && errors.address
+        })}
         type="text"
         name="address"
         onChange={handleChange}
@@ -93,7 +102,9 @@ const InnerForm = ({
     <div className="form-group">
       <label>Username</label>
       <input
-        className={`form-control ${touched.username && errors.username && 'is-invalid'}`}
+        className={classNames('form-control', {
+          'is-invalid': touched.username && errors.username
+        })}
         type="text"
         name="username"
         onChange={handleChange}
