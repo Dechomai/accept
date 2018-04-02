@@ -1,5 +1,18 @@
 .btn {
+  $s: &;
   &-link {
     font-weight: 500;
+  }
+
+  &-round {
+    border-radius: $input-btn-line-height + $input-btn-padding-y * 2;
+  }
+
+  &-sm#{$s}-round {
+    border-radius: $input-btn-line-height-sm + $input-btn-padding-y-sm * 2;
+  }
+
+  &-lg#{$s}-round {
+    border-radius: $input-btn-line-height-lg + $input-btn-padding-y-lg * 2;
   }
 }

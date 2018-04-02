@@ -23,7 +23,7 @@ module.exports = merge(config, {
     disableHostCheck: true,
     proxy: [
       {
-        context: ['/api', '/login'],
+        context: ['/api', '/login', '/signout'],
         target: 'http://localhost:7000'
       }
     ]

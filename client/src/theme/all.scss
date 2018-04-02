@@ -4,5 +4,19 @@
 
 @import '~bootstrap/scss/bootstrap';
 
+// Customize MDI
+//
+// $mdi-filename:         "materialdesignicons";
+// $mdi-font-name:        "Material Design Icons";
+// $mdi-font-family:      "materialdesignicons";
+// $mdi-font-weight:      "regular";
+$mdi-font-path: '/assets/mdi';
+// $mdi-font-size-base:   24px;
+// $mdi-css-prefix:       mdi !default;
+// $mdi-version:          "1.9.32" !default;
+
+@import '~mdi/scss/materialdesignicons';
+
 @import 'links';
 @import 'forms';
+@import 'icons';

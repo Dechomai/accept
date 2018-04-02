@@ -16,8 +16,8 @@ class Header extends React.Component {
   getSignInButton() {
     return (
       <div className="header__signin">
-        <a className="btn btn-link" href="/login">
-          Signin
+        <a className="btn btn-sm btn-round" href="/login">
+          Sign in
         </a>
       </div>
     );
@@ -40,30 +40,28 @@ class Header extends React.Component {
             <img className="header__logo__img" src="/assets/logo.svg" alt="Accept" />
           </Link>
         </div>
-        <nav className="header__nav">
-          <Link
-            to="/"
-            className="header__nav-item"
-            activeClassName="header__nav-item--active"
-            onlyActiveOnIndex>
-            Home
-          </Link>
-          <Link
-            to="/profile"
-            className="header__nav-item"
-            activeClassName="header__nav-item--active"
-            onlyActiveOnIndex>
-            Profile
-          </Link>
-          <Link
-            to="/demo"
-            className="header__nav-item"
-            activeClassName="header__nav-item--active"
-            onlyActiveOnIndex>
-            Demo (Temp)
-          </Link>
-        </nav>
-        <div className="header__user-info">{this.getUserInfo()}</div>
+        <div className="header__content">
+          {this.props.user && (
+            <nav className="header__nav">
+              <Link
+                to="/products/add"
+                className="header__nav__item"
+                activeClassName="header__nav__item--active"
+                onlyActiveOnIndex>
+                Sell
+              </Link>
+              <span className="header__nav__separator">or</span>
+              <Link
+                to="/services/add"
+                className="header__nav__item"
+                activeClassName="header__nav__item--active"
+                onlyActiveOnIndex>
+                Offer
+              </Link>
+            </nav>
+          )}
+          <div className="header__user-info">{this.getUserInfo()}</div>
+        </div>
       </header>
     );
   }
