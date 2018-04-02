@@ -1,4 +1,4 @@
-@import '../../theme/index';
+@import '../theme/index';
 
 .profile {
   &__nav {
@@ -22,6 +22,5 @@
   }
 
   &__content {
-    background-color: white;
   }
 }

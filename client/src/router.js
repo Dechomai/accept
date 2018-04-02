@@ -4,11 +4,12 @@ import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-ro
 import autobind from 'autobindr';
 import {pathOr} from 'ramda';
 
+import {selectUserData} from './selectors';
+
 import App from './layout/App';
 import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
-import {selectUserData} from './selectors';
-import Profile from './components/Profile/Profile';
+import Profile from './layout/UserProfile';
 import AboutMe from './components/Profile/AboutMe/AboutMe';
 
 /*
@@ -65,6 +66,8 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
     replace(prev);
     return cb();
   }
+
+  // TODO: disable profile* routes for not registered users
 
   cb();
 };

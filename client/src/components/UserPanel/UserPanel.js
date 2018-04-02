@@ -4,45 +4,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from '../common/Icon/Icon';
+import UserAvatar from '../UserAvatar/UserAvatar';
 
-class UserPanel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {isOwn} = this.props;
-
-    return (
-      <div className="user-panel">
-        <div className="user-panel__details">
-          <img
-            className="user-panel__photo"
-            src="https://ui-avatars.com/api/?name=George+Smith&background=e0610e&color=fff&size=132"
-          />
-          <span className="user-panel__name">@example</span>
-          <div className="user-panel__location">
-            <Icon name="map-marker" size="20" />
-            <span>Lviv, UA</span>
-          </div>
-        </div>
-        <div className="user-panel__actions">
-          {isOwn ? (
-            <button className="user-panel__edit">
-              <Icon name="pencil" size="20" />
-              <span>Edit personal info</span>
-            </button>
-          ) : (
-            <button className="user-panel__contact">Contact</button>
-          )}
-        </div>
+const UserPanel = ({user, isCurrentUser}) => (
+  <div className="user-panel">
+    <div className="user-panel__details">
+      <UserAvatar user={user} size="lg" />
+      <span className="user-panel__name">@{user.username}</span>
+      {/*
+      Do not show user location
+      <div className="user-panel__location">
+        <Icon name="map-marker" size="20" />
+        <span>Lviv, UA</span>
       </div>
-    );
-  }
-}
+      */}
+    </div>
+    <div className="user-panel__actions">
+      {isCurrentUser ? (
+        <button className="user-panel__edit">
+          <Icon name="pencil" size="20" />
+          <span>Edit personal info</span>
+        </button>
+      ) : (
+        <button className="user-panel__contact">Contact</button>
+      )}
+    </div>
+  </div>
+);
 
 UserPanel.propTypes = {
-  isOwn: PropTypes.bool.isRequired
+  isCurrentUser: PropTypes.bool.isRequired,
+  user: PropTypes.object,
+  status: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.any
+  }).isRequired
 };
 
 export default UserPanel;

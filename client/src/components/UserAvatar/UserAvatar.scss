@@ -1,0 +1,30 @@
+@import '../../theme/index';
+
+.user-avatar {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  background: $orange;
+  overflow: hidden;
+
+  @mixin circle($size) {
+    width: $size;
+    height: $size;
+    border-radius: $size;
+    line-height: $size;
+  }
+
+  &--sm {
+    @include circle(38px);
+    font-size: 1rem;
+  }
+
+  &--lg {
+    @include circle(132px);
+    font-size: 2.5rem;
+  }
+
+  &__initials {
+    color: $white;
+  }
+}
