@@ -49,11 +49,17 @@ userRouter
         .exists()
         .isLength({min: 1, max: 100})
         .isAlphanumeric()
+        .trim(),
+      body('photoUrl')
+        .optional()
         .trim()
     ),
     (req, res) => {
       const {userId} = req;
-      const data = pick(['firstName', 'lastName', 'address', 'phone', 'username'], req.body);
+      const data = pick(
+        ['firstName', 'lastName', 'address', 'phone', 'username', 'photoUrl'],
+        req.body
+      );
       userController.createUser(userId, data).then(
         user =>
           res.status(200).send({

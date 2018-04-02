@@ -13,7 +13,6 @@ const api = {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin': '*',
         ...headers
       },
       credentials: 'same-origin',
@@ -43,6 +42,24 @@ const api = {
 
   delete(...args) {
     return this.fetch('DELETE', ...args);
+  },
+
+  uploadFiles(url, files) {
+    let formData = new FormData();
+
+    Object.entries(files).forEach(([name, file]) => {
+      formData.append(name, file);
+    });
+
+    const options = getOptions();
+    return fetch(`${options.API}/media/upload${url}`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json'
+      },
+      body: formData
+    }).then(response => response.json());
   }
 };
 
