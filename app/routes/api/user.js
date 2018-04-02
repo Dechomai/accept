@@ -77,18 +77,15 @@ userRouter
     }
   );
 
-userRouter
-  .route(
-    '/unique-username',
-    validationMiddleware(
-      body('username')
-        .exists()
-        .isLength({min: 1, max: 100})
-        .isAlphanumeric()
-        .trim()
-    )
-  )
-  .post((req, res) => {
+userRouter.route('/unique-username').post(
+  validationMiddleware(
+    body('username')
+      .exists()
+      .isLength({min: 1, max: 100})
+      .isAlphanumeric()
+      .trim()
+  ),
+  (req, res) => {
     const {username} = req.body;
     userController.isUsernameUnique(username).then(
       user => {
@@ -99,13 +96,14 @@ userRouter
         });
       },
       () => {
-        res.status(404).send({
+        res.status(500).send({
           status: 'error',
           message: 'Unable to check username'
         });
       }
     );
-  });
+  }
+);
 
 module.exports = app => {
   app.use(PATH, userRouter);

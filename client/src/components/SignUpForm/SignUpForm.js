@@ -171,13 +171,10 @@ const SignUpForm = withFormik({
         setErrors({username: 'Username is not unique'});
         setSubmitting(false);
       } else {
-        props.onSubmit(profile).then(
-          () => setSubmitting(false),
-          () => {
-            setSubmitting(false);
-            setTouched({});
-          }
-        );
+        props.onSubmit(profile).catch(() => {
+          setSubmitting(false);
+          setTouched({});
+        });
       }
     });
   }

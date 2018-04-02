@@ -37,7 +37,7 @@ const userController = {
       });
   },
   isUsernameUnique(username) {
-    return User.findOne({username: username}).catch(err => {
+    return User.findOne({username}).catch(err => {
       logger.error(':isUsernameUnique', 'error', err);
       return Promise.reject(err);
     });
