@@ -60,8 +60,16 @@ export const createProfileFailure = error => ({
 
 export const createProfile = profile => dispatch => {
   dispatch(createProfileRequest());
-  return userService
-    .createProfile(profile)
+  const avatarUpload = profile.avatar
+    ? userService.uploadAvatar(profile.avatar)
+    : Promise.resolve({});
+
+  return avatarUpload
+    .then(({imageUri}) => {
+      delete profile['avatar'];
+      if (imageUri) profile['photoUrl'] = imageUri;
+      return userService.createProfile(profile);
+    })
     .then(
       data => dispatch(createProfileSuccess(data.user)),
       err => Promise.reject(dispatch(createProfileFailure(err)))

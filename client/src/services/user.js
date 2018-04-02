@@ -15,6 +15,9 @@ const userService = {
         username
       }
     });
+  },
+  uploadAvatar(avatar) {
+    return api.uploadFiles('/user', {avatar});
   }
 };
 
