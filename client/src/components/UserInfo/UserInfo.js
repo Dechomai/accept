@@ -1,8 +1,13 @@
 import './UserInfo.scss';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import {Link} from 'react-router';
+
+import Icon from '../common/Icon/Icon';
+
+const getInitials = user => `${user.firstName[0]}${user.lastName[0]}`;
 
 class UserInfo extends React.Component {
   constructor(props) {
@@ -28,14 +33,20 @@ class UserInfo extends React.Component {
           isOpen={this.state.dropdownOpen}
           toggle={this.toggle}>
           <DropdownToggle caret className="user-info__toggle">
-            <span className="user-info__label">JC</span>
+            <span className="user-info__label">{getInitials(this.props.user)}</span>
           </DropdownToggle>
           <DropdownMenu right={true} className="user-info__dropdown">
-            <DropdownItem header>Header</DropdownItem>
-            <DropdownItem disabled>Action</DropdownItem>
-            <DropdownItem>Another Action</DropdownItem>
+            <DropdownItem>
+              <Link to="/profile" className="user-info__dropdown__link">
+                <Icon name="account" size="20" />
+                <small className="text-muted">Profile</small>
+              </Link>
+            </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>Another Action</DropdownItem>
+            <DropdownItem href="/signout" className="user-info__dropdown__link">
+              <Icon name="logout" size="20" />
+              <small className="text-muted">Logout</small>
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>

@@ -46,7 +46,18 @@
     border-radius: $size;
     background-color: $orange;
   }
-  .user-info__dropdown {
+  &__dropdown {
     left: 20px;
+
+    &__link {
+      .icon,
+      small {
+        display: inline-block;
+        vertical-align: bottom;
+      }
+      small {
+        margin-left: 0.5rem;
+      }
+    }
   }
 }

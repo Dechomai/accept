@@ -89,10 +89,21 @@ class Router extends React.Component {
           onEnter={this.onRootRouteEnter}
           onChange={this.onRootRouteChange}>
           <IndexRoute component={() => <h1>Home</h1>} />
+
           <Route path="signup" component={SignUp} />
+
           <Route path="profile" component={() => <h1>Profile</h1>}>
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
+
+          <Route path="products">
+            <Route path="add" component={() => <h1>Add Product</h1>} />
+          </Route>
+
+          <Route path="services">
+            <Route path="add" component={() => <h1>Add Service</h1>} />
+          </Route>
+
           {/* Temp route to showcase UI kit */}
           <Route path="demo" component={Demo} />
         </Route>

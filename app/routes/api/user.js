@@ -77,24 +77,35 @@ userRouter
     }
   );
 
-userRouter.route('/unique-username').post((req, res) => {
-  const {username} = req.body;
-  userController.isUsernameUnique(username).then(
-    user => {
-      res.status(200).send({
-        status: 'success',
-        unique: !user,
-        message: user ? 'Username is not unique' : 'Username is available'
-      });
-    },
-    () => {
-      res.status(404).send({
-        status: 'error',
-        message: 'Unable to check username'
-      });
-    }
-  );
-});
+userRouter
+  .route(
+    '/unique-username',
+    validationMiddleware(
+      body('username')
+        .exists()
+        .isLength({min: 1, max: 100})
+        .isAlphanumeric()
+        .trim()
+    )
+  )
+  .post((req, res) => {
+    const {username} = req.body;
+    userController.isUsernameUnique(username).then(
+      user => {
+        res.status(200).send({
+          status: 'success',
+          unique: !user,
+          message: user ? 'Username is unavailable' : 'Username is available'
+        });
+      },
+      () => {
+        res.status(404).send({
+          status: 'error',
+          message: 'Unable to check username'
+        });
+      }
+    );
+  });
 
 module.exports = app => {
   app.use(PATH, userRouter);

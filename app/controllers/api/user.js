@@ -37,12 +37,10 @@ const userController = {
       });
   },
   isUsernameUnique(username) {
-    return User.findOne({username: username})
-      .then(user => user)
-      .catch(err => {
-        logger.error(':isUsernameUnique', 'error', err);
-        return Promise.reject(err);
-      });
+    return User.findOne({username: username}).catch(err => {
+      logger.error(':isUsernameUnique', 'error', err);
+      return Promise.reject(err);
+    });
   }
 };
 
