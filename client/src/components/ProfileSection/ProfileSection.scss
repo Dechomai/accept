@@ -1,0 +1,33 @@
+@import '../../theme/index';
+
+.profile-section {
+  margin-bottom: 10px;
+  padding: 50px 0;
+  background-color: white;
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__placeholder {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 16px 0 20px;
+    color: #7f7f7f;
+  }
+
+  &__button {
+    position: relative;
+    font-size: 16px;
+    font-weight: 500;
+    width: 200px;
+    padding: 19px 0 17px;
+    color: black;
+    background-color: transparent;
+    border-radius: 4px;
+    border: solid 1px $gray-500;
+  }
+}

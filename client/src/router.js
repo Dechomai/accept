@@ -8,6 +8,7 @@ import App from './layout/App';
 import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
 import {selectUserData} from './selectors';
+import Profile from './components/Profile/Profile';
 
 /*
 
@@ -92,7 +93,7 @@ class Router extends React.Component {
 
           <Route path="signup" component={SignUp} />
 
-          <Route path="profile" component={() => <h1>Profile</h1>}>
+          <Route path="profile" component={Profile}>
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
 

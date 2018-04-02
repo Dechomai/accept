@@ -19,6 +19,17 @@ body {
   font-family: $font-family-sans-serif;
 }
 
+button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
