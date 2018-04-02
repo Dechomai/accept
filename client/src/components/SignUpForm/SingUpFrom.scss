@@ -41,7 +41,6 @@
       overflow: hidden;
       text-align: center;
       color: $white;
-      fill: $white;
       background-color: $gray-700;
 
       &__caption {
@@ -53,11 +52,6 @@
         justify-content: center;
         font-size: $font-size-sm;
         background-color: $orange;
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
       }
     }
   }
