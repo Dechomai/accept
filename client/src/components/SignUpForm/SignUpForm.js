@@ -145,39 +145,30 @@ const SignUpForm = withFormik({
     address: '',
     username: ''
   }),
-  validate: values => {
-    let errors = createValidator(
-      {
-        firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
-        lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
-        phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
-        address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
-        username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
-      },
-      values
-    );
-
-    if (values.username) {
-      return userService.isUsernameUnique(values.username).then(data => {
-        if (data.user) errors.username = 'Username is not unique';
-
-        if (Object.keys(errors).length) {
-          throw errors;
-        }
-      });
-    } else {
-      return errors;
-    }
-  },
-  handleSubmit: (values, {props, setSubmitting, setTouched}) => {
+  validate: createValidator({
+    firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+    lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+    phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
+    address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
+    username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
+  }),
+  handleSubmit: (values, {props, setSubmitting, setTouched, setErrors}) => {
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
-    props.onSubmit(profile).then(
-      () => setSubmitting(false),
-      () => {
+
+    userService.isUsernameUnique(values.username).then(data => {
+      if (data.user) {
+        setErrors({username: 'Username is not unique'});
         setSubmitting(false);
-        setTouched({});
+      } else {
+        props.onSubmit(profile).then(
+          () => setSubmitting(false),
+          () => {
+            setSubmitting(false);
+            setTouched({});
+          }
+        );
       }
-    );
+    });
   }
 })(InnerForm);
 
