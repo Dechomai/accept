@@ -8,6 +8,9 @@ const userService = {
     return api.post('/user', {
       body: profile
     });
+  },
+  uploadAvatar(avatar) {
+    return api.uploadFiles('/user', {avatar});
   }
 };
 

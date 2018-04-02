@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose} from 'ramda';
+import {compose, assoc} from 'ramda';
 import autobind from 'autobindr';
 
 import {createProfile} from '../../actions/user';
@@ -14,11 +14,22 @@ import SignUpForm from '../../components/SignUpForm/SignUpForm';
 class SignUp extends React.Component {
   constructor() {
     super();
+    this.state = {
+      avatar: null
+    };
     autobind(this);
   }
 
+  handleAvatarSelect(avatar) {
+    this.setState({avatar});
+  }
+
   handleFormSubmit(profile) {
-    return this.props.createProfile(profile).then(() => {
+    let data = profile;
+    if (this.state.avatar) {
+      data = assoc('avatar', this.state.avatar, profile);
+    }
+    return this.props.createProfile(data).then(() => {
       this.props.router.push('/profile');
     });
   }
@@ -34,6 +45,7 @@ class SignUp extends React.Component {
               loading={this.props.status.loading}
               error={this.props.status.error}
               onSubmit={this.handleFormSubmit}
+              onPhotoSelect={this.handleAvatarSelect}
             />
           </div>
         </div>
