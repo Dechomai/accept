@@ -71,6 +71,24 @@ userRouter
     }
   );
 
+userRouter.route('/unique-username').post((req, res) => {
+  const {username} = req.body;
+  userController.isUsernameUnique(username).then(
+    user => {
+      res.status(200).send({
+        status: 'success',
+        user
+      });
+    },
+    () => {
+      res.status(404).send({
+        status: 'error',
+        message: 'User is not unique'
+      });
+    }
+  );
+});
+
 module.exports = app => {
   app.use(PATH, userRouter);
 };

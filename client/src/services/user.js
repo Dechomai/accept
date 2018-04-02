@@ -8,6 +8,13 @@ const userService = {
     return api.post('/user', {
       body: profile
     });
+  },
+  isUsernameUnique(username) {
+    return api.post('/user/unique-username', {
+      body: {
+        username
+      }
+    });
   }
 };
 

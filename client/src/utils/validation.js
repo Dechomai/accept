@@ -41,7 +41,7 @@ export const getMessage = (fieldRules, value, values) => {
   return null;
 };
 
-const createValidator = rulesMap => values =>
+const createValidator = (rulesMap, values) =>
   Object.entries(rulesMap).reduce((acc, [name, fieldRules]) => {
     const msg = getMessage(fieldRules, values[name], values);
     if (msg) acc[name] = msg;

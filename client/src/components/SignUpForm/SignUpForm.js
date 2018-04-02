@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import createValidator, {rules} from '../../utils/validation';
+import userService from '../../services/user';
 
 const InnerForm = ({
   values,
@@ -144,13 +145,30 @@ const SignUpForm = withFormik({
     address: '',
     username: ''
   }),
-  validate: createValidator({
-    firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
-    lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
-    phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
-    address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
-    username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
-  }),
+  validate: values => {
+    let errors = createValidator(
+      {
+        firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+        lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+        phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
+        address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
+        username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
+      },
+      values
+    );
+
+    if (values.username) {
+      return userService.isUsernameUnique(values.username).then(data => {
+        if (data.user) errors.username = 'Username is not unique';
+
+        if (Object.keys(errors).length) {
+          throw errors;
+        }
+      });
+    } else {
+      return errors;
+    }
+  },
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
     props.onSubmit(profile).then(
@@ -162,6 +180,19 @@ const SignUpForm = withFormik({
     );
   }
 })(InnerForm);
+
+InnerForm.propTypes = {
+  values: PropTypes.any,
+  errors: PropTypes.any,
+  touched: PropTypes.object,
+  isValid: PropTypes.bool,
+  handleChange: PropTypes.func,
+  handleBlur: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  error: PropTypes.any,
+  loading: PropTypes.bool
+};
 
 SignUpForm.propTypes = {
   loading: PropTypes.bool,
