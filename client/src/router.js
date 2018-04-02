@@ -9,6 +9,7 @@ import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
 import {selectUserData} from './selectors';
 import Profile from './components/Profile/Profile';
+import AboutMe from './components/Profile/AboutMe/AboutMe';
 
 /*
 
@@ -94,6 +95,9 @@ class Router extends React.Component {
           <Route path="signup" component={SignUp} />
 
           <Route path="profile" component={Profile}>
+            <IndexRoute component={AboutMe} />
+            <Route path="products" component={() => <h1>Profile Products</h1>} />
+            <Route path="services" component={() => <h1>Profile Services</h1>} />
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
 
