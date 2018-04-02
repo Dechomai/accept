@@ -29,13 +29,48 @@
     }
   }
 
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__user-info {
+    margin-left: 1.5rem;
+  }
+
+  &__signin {
+    .btn {
+      background: rgba(255, 255, 255, 0.4);
+      color: $white;
+      font-weight: 400;
+    }
+  }
+
   &__nav {
-    &-item {
-      margin: 0 1rem;
-      color: #fff;
+    &__separator {
+      margin: 0 0.75rem;
+      opacity: 0.5;
+    }
+
+    &__item {
+      color: $white;
+      font-weight: 500;
+      font-size: $font-size-base;
+      text-decoration: none;
+
+      &:hover,
+      &:active,
+      &:visited {
+        color: $white;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
 
       &--active {
-        color: lightblue;
+        opacity: 0.8;
       }
     }
   }

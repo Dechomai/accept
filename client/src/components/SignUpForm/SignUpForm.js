@@ -166,13 +166,10 @@ const SignUpForm = withFormik({
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
-    props.onSubmit(profile).then(
-      () => setSubmitting(false),
-      () => {
-        setSubmitting(false);
-        setTouched({});
-      }
-    );
+    props.onSubmit(profile).catch(() => {
+      setSubmitting(false);
+      setTouched({});
+    });
   }
 })(InnerForm);
 
