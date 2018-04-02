@@ -83,13 +83,14 @@ userRouter.route('/unique-username').post((req, res) => {
     user => {
       res.status(200).send({
         status: 'success',
-        user
+        unique: !user,
+        message: user ? 'Username is not unique' : 'Username is available'
       });
     },
     () => {
       res.status(404).send({
         status: 'error',
-        message: 'User is not unique'
+        message: 'Unable to check username'
       });
     }
   );

@@ -169,7 +169,7 @@ const SignUpForm = withFormik({
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
 
     userService.isUsernameUnique(values.username).then(data => {
-      if (data.user) {
+      if (!data.unique) {
         setErrors({username: 'Username is not unique'});
         setSubmitting(false);
       } else {
