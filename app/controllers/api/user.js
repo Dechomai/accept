@@ -35,6 +35,12 @@ const userController = {
         logger.error(':createUser', 'error', err);
         return Promise.reject(err);
       });
+  },
+  isUsernameUnique(username) {
+    return User.findOne({username}).catch(err => {
+      logger.error(':isUsernameUnique', 'error', err);
+      return Promise.reject(err);
+    });
   }
 };
 

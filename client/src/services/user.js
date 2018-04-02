@@ -9,6 +9,13 @@ const userService = {
       body: profile
     });
   },
+  isUsernameUnique(username) {
+    return api.post('/user/unique-username', {
+      body: {
+        username
+      }
+    });
+  },
   uploadAvatar(avatar) {
     return api.uploadFiles('/user', {avatar});
   }

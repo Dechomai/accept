@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import FileUpload from '../FileUpload/FileUpload';
 import Icon from '../common/Icon/Icon';
 import createValidator, {rules} from '../../utils/validation';
+import userService from '../../services/user';
 
 const InnerForm = ({
   values,
@@ -163,14 +164,34 @@ const SignUpForm = withFormik({
     address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
     username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
   }),
-  handleSubmit: (values, {props, setSubmitting, setTouched}) => {
+  handleSubmit: (values, {props, setSubmitting, setTouched, setErrors}) => {
     const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
-    props.onSubmit(profile).catch(() => {
-      setSubmitting(false);
-      setTouched({});
+    userService.isUsernameUnique(values.username).then(data => {
+      if (!data.unique) {
+        setErrors({username: 'Username is not unique'});
+        setSubmitting(false);
+      } else {
+        props.onSubmit(profile).catch(() => {
+          setSubmitting(false);
+          setTouched({});
+        });
+      }
     });
   }
 })(InnerForm);
+
+InnerForm.propTypes = {
+  values: PropTypes.any,
+  errors: PropTypes.any,
+  touched: PropTypes.object,
+  isValid: PropTypes.bool,
+  handleChange: PropTypes.func,
+  handleBlur: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  error: PropTypes.any,
+  loading: PropTypes.bool
+};
 
 SignUpForm.propTypes = {
   loading: PropTypes.bool,
