@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "clean": "rimraf ./build/*",
-    "test": "echo \"No tests\" && exit 0",
+    "test": "jest -c jest.config.js --verbose",
+    "test:watch": "yarn test --watchAll",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development",
     "build": "npm-run-all clean build:*",
     "build:code": "cross-env NODE_ENV=production webpack --mode=production",
@@ -35,6 +36,7 @@
     "reselect": "^3.0.1"
   },
   "devDependencies": {
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -43,6 +45,9 @@
     "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.0.6",
     "http-server": "^0.11.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.4.3",
+    "jest-fetch-mock": "^1.5.0",
     "mini-css-extract-plugin": "^0.2.0",
     "ncp": "^2.0.0",
     "node-sass": "^4.7.2",
