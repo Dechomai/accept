@@ -10,8 +10,8 @@ class ProfileSection extends React.Component {
   }
 
   render() {
-    const {className, imageUrl, placeholder, buttonContent} = this.props;
-    const isEmpty = true;
+    const {className, imageUrl, placeholder, buttonContent, children} = this.props;
+    const isEmpty = !(children && children.length);
     return (
       <div className={classNames('profile-section', className)}>
         {isEmpty ? (
@@ -21,7 +21,7 @@ class ProfileSection extends React.Component {
             <button className="profile-section__button">{buttonContent}</button>
           </div>
         ) : (
-          <div className="profile-section__content">Some content</div>
+          <div className="profile-section__content">{children}</div>
         )}
       </div>
     );
