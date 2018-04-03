@@ -22,6 +22,9 @@
 
 .form-control {
   font-size: 13px;
+  &__sm {
+    width: 115px;
+  }
 }
 
 .checkbox-field {
@@ -71,6 +74,10 @@
 }
 
 .radio-field {
+  margin-bottom: 1.2rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
   &__checkmark {
     position: absolute;
     top: -4px;
@@ -111,5 +118,38 @@
         }
       }
     }
+  }
+}
+
+.create-form {
+  .form-group {
+    margin-bottom: 0;
+  }
+  &__label {
+    font-size: 0.875rem;
+    padding-top: 2rem;
+    &__name {
+      font-weight: $font-weight-bold;
+    }
+    &__required {
+      color: $gray-500;
+    }
+    &__description {
+      color: $gray-500;
+      margin-top: 0.625rem;
+    }
+  }
+  &__content {
+    padding: 2rem 2.5rem 1.5rem;
+    margin-bottom: 2px;
+    background-color: $white;
+    .radio-field {
+      margin-top: 8px;
+    }
+  }
+  &__footer {
+    margin-top: 7rem;
+    background-color: $white;
+    padding: 1rem 0;
   }
 }

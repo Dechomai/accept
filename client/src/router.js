@@ -7,6 +7,7 @@ import {pathOr} from 'ramda';
 import App from './layout/App';
 import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
+import AddProduct from './layout/AddProduct';
 import {selectUserData} from './selectors';
 
 /*
@@ -97,7 +98,7 @@ class Router extends React.Component {
           </Route>
 
           <Route path="products">
-            <Route path="add" component={() => <h1>Add Product</h1>} />
+            <Route path="add" component={AddProduct} />
           </Route>
 
           <Route path="services">

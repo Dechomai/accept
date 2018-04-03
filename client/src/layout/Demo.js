@@ -26,7 +26,7 @@ const Demo = () => {
       <div>
         <form>
           <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email address</label>
+            <label>Email address</label>
             <input type="email" className="form-control" placeholder="Enter email" />
             <small className="form-text text-muted">
               Well never share your email with anyone else.
