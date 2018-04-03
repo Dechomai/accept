@@ -1,5 +1,3 @@
-import './SignUp.scss';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
@@ -36,20 +34,12 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <div className="sign-up">
-        <div className="container">
-          <div className="sign-up__page">
-            <h4 className="sign-up__header">Complete your registration, create personal profile</h4>
-            <h6 className="sign-up__subheader">Please fill in all the required fields</h6>
-            <SignUpForm
-              loading={this.props.status.loading}
-              error={this.props.status.error}
-              onSubmit={this.handleFormSubmit}
-              onPhotoSelect={this.handleAvatarSelect}
-            />
-          </div>
-        </div>
-      </div>
+      <SignUpForm
+        loading={this.props.status.loading}
+        error={this.props.status.error}
+        onSubmit={this.handleFormSubmit}
+        onPhotoSelect={this.handleAvatarSelect}
+      />
     );
   }
 }
