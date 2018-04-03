@@ -3,7 +3,7 @@
   display: inline-block;
   vertical-align: middle;
 
-  @each $size in (12, 16, 20, 24, 32, 36) {
+  @each $size in (12, 16, 20, 24, 32, 36, 64) {
     $px: #{$size}px;
 
     &-#{$px} {

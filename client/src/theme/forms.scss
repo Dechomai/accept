@@ -152,4 +152,21 @@
     background-color: $white;
     padding: 1rem 0;
   }
+  &__upload-photos {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__photo {
+    width: 165px;
+    height: 165px;
+    border: 1px solid $gray-400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1.25rem;
+    margin-bottom: 1.25rem;
+    .icon {
+      color: $gray-400;
+    }
+  }
 }

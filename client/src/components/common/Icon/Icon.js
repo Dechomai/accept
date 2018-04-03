@@ -6,7 +6,7 @@ const Icon = ({name, size, className}) => (
   <i className={classNames('icon', 'mdi', `mdi-${name}`, `mdi-${size}px`, className)} />
 );
 
-export const iconSizes = ['12', '16', '20', '24', '32', '36'];
+export const iconSizes = ['12', '16', '20', '24', '32', '64'];
 
 Icon.propTypes = {
   className: PropTypes.string,
