@@ -4,13 +4,14 @@ services:
     build: .
     container_name: node-app
     ports:
-      - '7000:7000'
+      - '7007:7000'
     depends_on:
       - mongo
     links:
       - mongo
     environment:
       - DB_HOST=mongo
+      - COGNITO_REDIRECT_URI=https://accept.ngrok.io/auth/logincb
   mongo:
     container_name: mongo
     image: mongo:3.6
