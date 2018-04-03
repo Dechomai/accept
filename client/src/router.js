@@ -6,7 +6,7 @@ import {pathOr} from 'ramda';
 
 import App from './layout/App';
 import Demo from './layout/Demo';
-import SignUp from './containers/SignUp/SignUp';
+import SignUp from './layout/SignUp';
 import {selectUserData} from './selectors';
 
 /*
