@@ -29,7 +29,6 @@ const InnerForm = ({
       <div className="row justify-content-center">
         <div className="col-12 col-sm-11 col-md-10 col-lg-10 col-xl-8">
           <form
-            onSubmit={handleSubmit}
             className={classNames('sign-up__form', {
               'sing-up__form--disabled': loading
             })}>
@@ -155,7 +154,10 @@ const InnerForm = ({
       </div>
     </div>
     <div className="sign-up__footer">
-      <button type="submit" className="btn btn-primary" disabled={isSubmitting || !isValid}>
+      <button
+        onClick={handleSubmit}
+        className="btn btn-primary"
+        disabled={isSubmitting || !isValid}>
         Create profile
       </button>
     </div>
