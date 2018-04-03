@@ -7,30 +7,31 @@
     margin-bottom: 1.5rem;
     padding-top: 8rem;
     padding-bottom: 2rem;
-    padding-left: 0.625rem;
-    padding-right: 0.625rem;
     background-color: $white;
     text-align: left;
     font-weight: $btn-font-weight;
 
+    // local mixin
+    @mixin pads($size) {
+      padding-left: $size;
+      padding-right: $size;
+    }
+
     @include media-breakpoint-up(xs) {
       //default styles
+      @include pads(1rem);
     }
     @include media-breakpoint-up(sm) {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      @include pads(2rem);
     }
     @include media-breakpoint-up(md) {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      @include pads(3rem);
     }
     @include media-breakpoint-up(lg) {
-      padding-left: 2rem;
-      padding-right: 2rem;
+      @include pads(5rem);
     }
     @include media-breakpoint-up(xl) {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
+      @include pads(7rem);
     }
 
     &--disabled {
