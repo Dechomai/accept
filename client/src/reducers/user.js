@@ -16,7 +16,7 @@ const getInitialState = () => ({
   error: null
 });
 
-const places = (state = getInitialState(), action) => {
+const user = (state = getInitialState(), action) => {
   switch (action.type) {
     case FETCH_USER_REQUEST: {
       return {
@@ -89,4 +89,4 @@ const places = (state = getInitialState(), action) => {
   }
 };
 
-export default places;
+export default user;

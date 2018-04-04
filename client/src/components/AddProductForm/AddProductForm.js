@@ -1,5 +1,5 @@
 import React from 'react';
-import {range, without} from 'ramda';
+import {range, without, pick} from 'ramda';
 import classNames from 'classnames';
 import Icon from '../common/Icon/Icon';
 import {withFormik} from 'formik/dist/formik';
@@ -41,9 +41,9 @@ class InnerForm extends React.Component {
   renderPhotos() {
     return this.state.photos.map(photo => (
       <div
-        key={photo.preview}
+        key={photo.uri}
         className="create-form__placeholder create-form__placeholder--with-photo">
-        <img className="file-upload__preview" src={photo.preview} alt="" />
+        <img className="file-upload__preview" src={photo.uri} alt="" />
         <div
           className="create-form__placeholder__close"
           onClick={() => this.removeAddedPhoto(photo)}>
@@ -55,7 +55,12 @@ class InnerForm extends React.Component {
 
   handleUploadPhoto(photo) {
     this.setState({
-      photos: this.state.photos.concat([photo])
+      photos: this.state.photos.concat([
+        {
+          uri: photo.preview,
+          primary: false
+        }
+      ])
     });
   }
 
@@ -150,19 +155,17 @@ class InnerForm extends React.Component {
                   <label>Upload Video with Youtube</label>
                   <input
                     className={classNames('form-control', {
-                      'is-invalid': touched.uploadVideo && errors.uploadVideo
+                      'is-invalid': touched.video && errors.video
                     })}
                     type="text"
                     placeholder="YouTube video URL"
-                    name="uploadVideo"
+                    name="video"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.uploadVideo}
+                    value={values.video}
                   />
-                  {touched.uploadVideo &&
-                    errors.uploadVideo && (
-                      <div className="invalid-feedback">{errors.uploadVideo}</div>
-                    )}
+                  {touched.video &&
+                    errors.video && <div className="invalid-feedback">{errors.video}</div>}
                 </div>
               </div>
             </div>
@@ -298,18 +301,20 @@ class InnerForm extends React.Component {
 const AddProductFrom = withFormik({
   mapPropsToValues: () => ({
     title: '',
-    uploadVideo: '',
+    video: '',
     description: '',
     condition: 'new',
     price: ''
   }),
   validate: createValidator({
     title: ['required', rules.minLength(3), rules.maxLength(400), 'lettersDigitsAndSpaces'],
-    uploadVideo: ['required', 'youtubeUrl'],
+    video: ['required', 'youtubeUrl'],
     description: ['required', rules.minLength(10), rules.maxLength(800), 'lettersDigitsAndSpaces'],
     price: ['required', 'price']
   }),
   handleSubmit: (values, {setSubmitting}) => {
+    const product = pick(['title', 'video', 'photos', 'description', 'condition', 'price'], values);
+    console.log(product);
     setSubmitting(false);
   }
 })(InnerForm);
