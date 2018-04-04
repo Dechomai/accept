@@ -3,8 +3,9 @@ const authMiddleware = require('../../middlewares/auth');
 
 const userRouter = require('./user');
 const mediaRouter = require('./media');
+const productsRouter = require('./products');
 
-const routers = [userRouter, mediaRouter];
+const routers = [userRouter, mediaRouter, productsRouter];
 
 const PATH = '/api';
 const apiRouter = express.Router();

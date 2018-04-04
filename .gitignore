@@ -1,5 +1,8 @@
-/.idea
 /public
+
+#Editors and IDEs
+/.idea
+/.vscode
 
 # Logs
 logs

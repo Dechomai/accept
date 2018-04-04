@@ -7,32 +7,37 @@ const logger = createLoggerWith('[CTRL:User]');
 const userController = {
   getUserInfo(userId) {
     return User.findById(userId, User.projection)
-      .then(user => (user ? user : Promise.reject(user)))
-      .then(
-        user => user.toJSON(),
-        err => {
-          if (!err) {
-            logger.error(':getUserInfo', 'no such user');
-          } else {
-            // TODO: handle error
-            logger.error(':getUserInfo', 'error', err);
-          }
-          return Promise.reject(err);
+      .then(user => (user ? user.toJSON() : Promise.reject(null)))
+      .then(user => {
+        logger.info(':getUserInfo', `user ${userId} found`);
+        return user;
+      })
+      .catch(err => {
+        if (err === null) {
+          logger.error(':getUserInfo', `user ${userId} not found`);
+        } else {
+          logger.error(':getUserInfo', 'error', err);
         }
-      );
+        return Promise.reject(err);
+      });
   },
+
   createUser(id, userData) {
     return User.findByIdAndUpdate(id, assoc('status', 'active', userData), {
       new: true,
       select: User.projection
     })
+      .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
-        if (!user) return Promise.reject({message: `User id: ${id}, not found`});
-        logger.info(':createUser', 'user created', user.toObject());
+        logger.info(':createUser', 'user created', user);
         return user.toJSON();
       })
       .catch(err => {
-        logger.error(':createUser', 'error', err);
+        if (err === null) {
+          logger.error(':createUser', `user ${id} not found`);
+        } else {
+          logger.error(':createUser', 'error', err);
+        }
         return Promise.reject(err);
       });
   },
@@ -41,16 +46,21 @@ const userController = {
       new: true,
       select: User.projection
     })
+      .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
-        if (!user) return Promise.reject({message: `User id: ${id}, not found`});
-        logger.info(':updateUser', 'user updated', user.toObject());
+        logger.info(':updateUser', 'user updated', user);
         return user.toJSON();
       })
       .catch(err => {
-        logger.error(':updateUser', 'error', err);
+        if (err === null) {
+          logger.error(':updateUser', `user ${id} not found`);
+        } else {
+          logger.error(':updateUser', 'error', err);
+        }
         return Promise.reject(err);
       });
   },
+
   isUsernameUnique(username) {
     return User.findOne({username}).catch(err => {
       logger.error(':isUsernameUnique', 'error', err);

@@ -62,6 +62,14 @@ userSchema.statics.projection = {
   description: 1
 };
 
+userSchema.statics.publicProjection = {
+  firstName: 1,
+  lastName: 1,
+  username: 1,
+  photoUrl: 1,
+  description: 1
+};
+
 userSchema.statics.findOneOrCreate = function(id, email) {
   return new Promise((resolve, reject) => {
     this.findById(id, (err, user) => {
