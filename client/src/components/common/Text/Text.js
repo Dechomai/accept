@@ -5,63 +5,34 @@ class Text extends React.Component {
   constructor(props) {
     super(props);
 
-    this.adjustTextSize = this.adjustTextSize.bind(this);
     this.state = {
-      displayText: props.children
+      displayText: this.truncateText(props.children, props.maxCharacters)
     };
   }
 
-  componentDidUpdate() {
-    this.adjustTextSize();
+  componentWillReceiveProps(nextProps) {
+    const newText = this.truncateText(nextProps.children, nextProps.maxCharacters);
+
+    if (newText !== this.state.displayText) {
+      this.setState({displayText: newText});
+    }
   }
 
-  adjustTextSize(container) {
-    container = container || this.container;
-
-    if (!container) {
-      return;
-    }
-
-    this.container = container;
-
-    const {rows, children: text} = this.props;
-
-    if (rows) {
-      const containerStyle = window.getComputedStyle(container);
-      const height = parseInt(containerStyle.height);
-      const lineHeight = parseInt(containerStyle.lineHeight);
-      const currentRows = height / lineHeight;
-
-      const extraRows = currentRows - rows;
-      const charsPerRow = text.length / currentRows;
-
-      if (extraRows > 0) {
-        const displayText = text.slice(0, charsPerRow * rows - 3).trim() + '...';
-
-        this.setState({displayText});
-      }
-    } else {
-      if (text !== this.state.displayText) {
-        this.setState({displayText: text});
-      }
-    }
+  truncateText(text, maxCharacters) {
+    return maxCharacters ? text.slice(0, maxCharacters).trim() + '...' : text;
   }
 
   render() {
     const {className} = this.props;
     const {displayText} = this.state;
 
-    return (
-      <div ref={this.adjustTextSize} className={className || ''}>
-        {displayText}
-      </div>
-    );
+    return <div className={className || ''}>{displayText}</div>;
   }
 }
 
 Text.propTypes = {
   className: PropTypes.string,
-  rows: PropTypes.number,
+  maxCharacters: PropTypes.number,
   children: PropTypes.string.isRequired
 };
 

@@ -90,7 +90,9 @@ class AboutMe extends React.Component {
     if (description) {
       return (
         <div className="about__description">
-          <Text className="about__description__content" rows={isFullDescriptionShown ? null : 3}>
+          <Text
+            className="about__description__content"
+            maxCharacters={isFullDescriptionShown ? null : 200}>
             {description}
           </Text>
           <div className="d-flex justify-content-between">
