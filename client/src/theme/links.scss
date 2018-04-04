@@ -19,15 +19,9 @@
   &-with-icon {
     display: flex;
     align-items: center;
-    color: $blue;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 0;
-    > *:first-child {
-      margin-right: 3px;
-    }
-    &:focus {
-      outline: none;
+
+    .icon {
+      margin: 0 3px;
     }
   }
 }
