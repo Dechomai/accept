@@ -1,0 +1,47 @@
+@import '../../theme/index';
+
+.user-panel {
+  display: flex;
+  flex-direction: column;
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0 1.5rem;
+    margin-bottom: 2px;
+    background-color: $white;
+  }
+
+  &__name {
+    font-weight: 600;
+    margin: 0.75rem 0;
+  }
+
+  // &__location {
+  //   display: flex;
+  //   align-items: center;
+  //   color: $gray-400;
+  //   font-size: $font-size-sm;
+  //   font-weight: 600;
+
+  //   img {
+  //     margin-right: 7px;
+  //   }
+  // }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+
+  &__edit {
+    margin: 0.5rem 0;
+  }
+
+  &__contact {
+    margin: 13px 0 14px;
+  }
+}

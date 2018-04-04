@@ -2,6 +2,7 @@ const express = require('express');
 const authController = require('../controllers/auth');
 const {appendTokenCookie} = require('../helpers/auth');
 const {createLoggerWith} = require('../logger');
+const {sendError} = require('../helpers/response');
 
 const logger = createLoggerWith('[RTR]:Auth');
 
@@ -30,10 +31,7 @@ authRouter.get('/logincb', (req, res) => {
     },
     err => {
       logger.error('Unable to login', err);
-      res.status(401).send({
-        status: 'error',
-        message: 'Unable to login'
-      });
+      sendError({message: 'Unable to login'}, {status: 401});
     }
   );
 });

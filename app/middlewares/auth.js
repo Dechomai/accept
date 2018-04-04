@@ -3,14 +3,11 @@ const authService = require('../services/auth');
 const tokenStorage = require('../services/tokenStorage');
 const {getTokenCookie, appendTokenCookie, clearTokenCookie} = require('../helpers/auth');
 const {createLoggerWith} = require('../logger');
+const {sendError} = require('../helpers/response');
 
 const logger = createLoggerWith('[MDLWR:Auth]');
 
-const sendUnauthorizedError = res =>
-  res.status(401).send({
-    status: 'error',
-    message: 'Unauthorized'
-  });
+const sendUnauthorizedError = res => sendError(res, {message: 'Unauthorized'}, {status: 401});
 
 const authMiddleware = (req, res, next) => {
   const accessToken = getTokenCookie(req);

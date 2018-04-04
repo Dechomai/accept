@@ -4,11 +4,14 @@ import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-ro
 import autobind from 'autobindr';
 import {pathOr} from 'ramda';
 
+import {selectUserData} from './selectors';
+
 import App from './layout/App';
 import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
 import AddProduct from './layout/AddProduct';
-import {selectUserData} from './selectors';
+import Profile from './layout/UserProfile';
+import AboutMe from './containers/AboutMe/AboutMe';
 
 /*
 
@@ -65,6 +68,8 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
     return cb();
   }
 
+  // TODO: disable profile* routes for not registered users
+
   cb();
 };
 
@@ -93,7 +98,10 @@ class Router extends React.Component {
 
           <Route path="signup" component={SignUp} />
 
-          <Route path="profile" component={() => <h1>Profile</h1>}>
+          <Route path="profile" component={Profile}>
+            <IndexRoute component={AboutMe} />
+            <Route path="products" component={() => <h1>Profile Products</h1>} />
+            <Route path="services" component={() => <h1>Profile Services</h1>} />
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
 

@@ -3,6 +3,7 @@ const {body} = require('express-validator/check');
 const {pick} = require('ramda');
 const userController = require('../../controllers/api/user');
 const validationMiddleware = require('../../middlewares/validation');
+const {sendSuccess, sendError} = require('../../helpers/response');
 
 const PATH = '/user';
 
@@ -13,17 +14,10 @@ userRouter
   .get((req, res) => {
     const {userId} = req;
     userController.getUserInfo(userId).then(
-      user => {
-        res.status(200).send({
-          status: 'success',
-          user
-        });
-      },
-      () => {
-        res.status(404).send({
-          status: 'error',
-          message: 'User not found'
-        });
+      user => sendSuccess(res, {user}),
+      err => {
+        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+        sendError(res, {message: 'Error getting user'});
       }
     );
   })
@@ -61,21 +55,33 @@ userRouter
         req.body
       );
       userController.createUser(userId, data).then(
-        user =>
-          res.status(200).send({
-            status: 'success',
-            user
-          }),
-        (/* err */) => {
-          // TODO: handle error
-          res.status(400).send({
-            status: 'error',
-            message: 'Unable to create user'
-          });
+        user => sendSuccess(res, {user}),
+        err => {
+          if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+          sendError(res, {message: 'Error creating user'});
         }
       );
     }
-  );
+  )
+  .put((req, res) => {
+    const data = pick(['description'], req.body);
+
+    userController.updateUser(req.userId, data).then(
+      user => {
+        res.status(200).send({
+          status: 'success',
+          user
+        });
+      },
+      (/* err */) => {
+        // TODO: handle error
+        res.status(400).send({
+          status: 'error',
+          message: 'Unable to update user'
+        });
+      }
+    );
+  });
 
 userRouter.route('/unique-username').post(
   validationMiddleware(
@@ -88,19 +94,15 @@ userRouter.route('/unique-username').post(
   (req, res) => {
     const {username} = req.body;
     userController.isUsernameUnique(username).then(
-      user => {
-        res.status(200).send({
-          status: 'success',
+      user =>
+        sendSuccess(res, {
           unique: !user,
           message: user ? 'Username is unavailable' : 'Username is available'
-        });
-      },
-      () => {
-        res.status(500).send({
-          status: 'error',
+        }),
+      () =>
+        sendError(res, {
           message: 'Unable to check username'
-        });
-      }
+        })
     );
   }
 );
