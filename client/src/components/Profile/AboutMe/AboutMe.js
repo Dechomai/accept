@@ -93,7 +93,7 @@ class AboutMe extends React.Component {
           <Text className="about__description__content" rows={isFullDescriptionShown ? null : 3}>
             {description}
           </Text>
-          <div className="row">
+          <div className="d-flex justify-content-between">
             <Button
               size="sm"
               color="link"
@@ -104,7 +104,7 @@ class AboutMe extends React.Component {
             </Button>
             <Button
               size="sm"
-              color="light"
+              color="link"
               className="btn-with-icon about__description__edit"
               onClick={this.handleEditDescriptionClick}>
               <Icon name="pencil" size="12" />
