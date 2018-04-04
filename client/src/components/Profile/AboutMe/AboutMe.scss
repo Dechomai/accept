@@ -16,6 +16,9 @@
       letter-spacing: 0.5px;
       resize: none;
     }
+    &--invalid {
+      border: 2px solid $red;
+    }
 
     &__actions {
       display: flex;
@@ -31,6 +34,10 @@
     }
     &__edit {
       align-self: flex-end;
+    }
+    &__error {
+      font-size: 12px;
+      color: $red;
     }
   }
 }

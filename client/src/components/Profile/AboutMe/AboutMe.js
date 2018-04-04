@@ -4,8 +4,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import {Button} from 'reactstrap';
+import classNames from 'classnames';
 
 import Icon from '../../common/Icon/Icon';
+import Text from '../../common/Text/Text';
 import ProfileSection from '../ProfileSection/ProfileSection';
 
 class AboutMe extends React.Component {
@@ -30,8 +32,16 @@ class AboutMe extends React.Component {
     const {description} = this.state;
     const {updateProfile} = this.props;
 
-    updateProfile({description});
-    this.handleCancelEditDescriptionClick();
+    updateProfile({description}).then(
+      () => this.setState({isEditMode: false}),
+      reason => {
+        const {errors} = reason.payload.error;
+
+        if (errors && errors.description) {
+          this.setState({isDescriptionInvalid: true});
+        }
+      }
+    );
   }
 
   handleToggleFullDescription() {
@@ -46,19 +56,25 @@ class AboutMe extends React.Component {
 
   getDescription() {
     const {isEditMode, isFullDescriptionShown} = this.state;
-    const {description} = this.state;
+    const {description, isDescriptionInvalid} = this.state;
 
     if (isEditMode) {
       return (
         <div className="about__description--edit">
           <textarea
-            ref={element => (this.descriptionInput = element)}
-            className="about__description--editing"
+            className={classNames('about__description--editing', {
+              'about__description--invalid': isDescriptionInvalid
+            })}
             placeholder="Tell people a little about yourself"
             value={description || ''}
             onChange={this.handleDescriptionChange}
             rows="10"
           />
+          {isDescriptionInvalid ? (
+            <span className="about__description__error">
+              The description cannot have more then 800 characters.
+            </span>
+          ) : null}
           <div className="about__description__actions">
             <Button color="light" size="sm" onClick={this.handleCancelEditDescriptionClick}>
               Cancel
@@ -74,7 +90,9 @@ class AboutMe extends React.Component {
     if (description) {
       return (
         <div className="about__description">
-          <div className="about__description__content">{description}</div>
+          <Text className="about__description__content" rows={isFullDescriptionShown ? null : 3}>
+            {description}
+          </Text>
           <div className="row">
             <Button
               size="sm"

@@ -63,25 +63,33 @@ userRouter
       );
     }
   )
-  .put((req, res) => {
-    const data = pick(['description'], req.body);
+  .put(
+    validationMiddleware(
+      body('description')
+        .optional()
+        .isLength({min: 0, max: 800})
+        .trim()
+    ),
+    (req, res) => {
+      const data = pick(['description'], req.body);
 
-    userController.updateUser(req.userId, data).then(
-      user => {
-        res.status(200).send({
-          status: 'success',
-          user
-        });
-      },
-      (/* err */) => {
-        // TODO: handle error
-        res.status(400).send({
-          status: 'error',
-          message: 'Unable to update user'
-        });
-      }
-    );
-  });
+      userController.updateUser(req.userId, data).then(
+        user => {
+          res.status(200).send({
+            status: 'success',
+            user
+          });
+        },
+        (/* err */) => {
+          // TODO: handle error
+          res.status(400).send({
+            status: 'error',
+            message: 'Unable to update user'
+          });
+        }
+      );
+    }
+  );
 
 userRouter.route('/unique-username').post(
   validationMiddleware(
