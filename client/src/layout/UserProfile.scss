@@ -1,6 +1,19 @@
 @import '../theme/all';
 
-.profile {
+.user-profile {
+  &__header {
+    padding: 1rem 0;
+    border-bottom: solid 1px $gray-400;
+
+    h4 {
+      margin: 0;
+    }
+  }
+
+  &__content {
+    margin-top: 1.5rem;
+  }
+
   &__nav {
     display: flex;
     background-color: white;
@@ -12,40 +25,18 @@
       font-size: 20px;
       font-weight: 500;
       padding-bottom: 5px;
-      color: darken(white, 50%);
-      border-bottom: 1px solid darken(white, 40%);
-      &--active {
-        color: black;
-        border-bottom: 2px solid black;
+      color: $gray-500;
+      border-bottom: 1px solid $gray-500;
+
+      &:hover {
+        text-decoration: none;
+        color: $gray-900;
       }
-    }
-  }
 
-  &__description {
-    display: flex;
-    flex-direction: column;
-
-    &--editing {
-      padding: 8px 12px;
-      width: 100%;
-      outline: none;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-    &__actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 15px;
-    }
-    &__content {
-      align-self: flex-start;
-    }
-    &__more {
-      align-self: flex-start;
-    }
-    &__edit {
-      align-self: flex-end;
+      &--active {
+        color: $gray-900;
+        border-bottom: 2px solid $gray-900;
+      }
     }
   }
 }

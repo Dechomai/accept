@@ -1,22 +1,12 @@
+import './AboutMe.scss';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
+import {Button} from 'reactstrap';
 
 import Icon from '../../common/Icon/Icon';
 import ProfileSection from '../ProfileSection/ProfileSection';
-
-const LabelWithPlusSign = text => (
-  <React.Fragment>
-    <Icon
-      name="plus"
-      style={{
-        position: 'absolute',
-        left: '18px'
-      }}
-    />
-    <span>{text}</span>
-  </React.Fragment>
-);
 
 class AboutMe extends React.Component {
   constructor(props) {
@@ -28,23 +18,23 @@ class AboutMe extends React.Component {
     autobind(this);
   }
 
-  editDescription() {
+  handleEditDescriptionClick() {
     this.setState({isEditMode: true});
   }
 
-  cancelDescriptionEditing() {
+  handleCancelEditDescriptionClick() {
     this.setState({isEditMode: false});
   }
 
-  saveDescription() {
+  handleSaveDescriptionClick() {
     const {description} = this.state;
     const {updateProfile} = this.props;
 
     updateProfile({description});
-    this.cancelDescriptionEditing();
+    this.handleCancelEditDescriptionClick();
   }
 
-  toggleFullDescription() {
+  handleToggleFullDescription() {
     const {isFullDescriptionShown} = this.state;
 
     this.setState({isFullDescriptionShown: !isFullDescriptionShown});
@@ -60,43 +50,49 @@ class AboutMe extends React.Component {
 
     if (isEditMode) {
       return (
-        <React.Fragment>
+        <div className="about__description--edit">
           <textarea
             ref={element => (this.descriptionInput = element)}
-            className="profile__description--editing"
+            className="about__description--editing"
             placeholder="Tell people a little about yourself"
             value={description || ''}
             onChange={this.handleDescriptionChange}
             rows="10"
           />
-          <div className="profile__description__actions">
-            <button className="btn btn-light" onClick={this.cancelDescriptionEditing}>
+          <div className="about__description__actions">
+            <Button color="light" size="sm" onClick={this.handleCancelEditDescriptionClick}>
               Cancel
-            </button>
-            <button className="btn btn-primary" onClick={this.saveDescription}>
+            </Button>
+            <Button color="primary" size="sm" onClick={this.handleSaveDescriptionClick}>
               Save
-            </button>
+            </Button>
           </div>
-        </React.Fragment>
+        </div>
       );
     }
 
     if (description) {
       return (
-        <div className="profile__description">
-          <div className="profile__description__content">{description}</div>
-          <button
-            className="btn-with-icon profile__description__more"
-            onClick={this.toggleFullDescription}>
-            <span>More</span>
-            <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="20" />
-          </button>
-          <button
-            className="btn-with-icon profile__description__edit"
-            onClick={this.editDescription}>
-            <Icon name="pencil" size="20" />
-            <span>Edit</span>
-          </button>
+        <div className="about__description">
+          <div className="about__description__content">{description}</div>
+          <div className="row">
+            <Button
+              size="sm"
+              color="link"
+              className="btn-with-icon about__description__more"
+              onClick={this.handleToggleFullDescription}>
+              <span>{isFullDescriptionShown ? 'Less' : 'More'}</span>
+              <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="12" />
+            </Button>
+            <Button
+              size="sm"
+              color="light"
+              className="btn-with-icon about__description__edit"
+              onClick={this.handleEditDescriptionClick}>
+              <Icon name="pencil" size="12" />
+              <span>Edit</span>
+            </Button>
+          </div>
         </div>
       );
     }
@@ -106,30 +102,32 @@ class AboutMe extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div className="about">
         <ProfileSection
-          className="profile__description"
+          className="about__description"
           imageUrl="/assets/img/about.png"
           placeholder="Write something about yourself..."
-          buttonContent="Add description"
-          onClick={this.editDescription.bind(this)}>
+          btnText="Add description"
+          onClick={this.handleEditDescriptionClick}>
           {this.getDescription()}
         </ProfileSection>
         <ProfileSection
-          className="profile__listings"
+          className="about__listings"
           imageUrl="/assets/img/product.png"
           placeholder="Here will be displayed your created listings"
-          buttonContent={LabelWithPlusSign('Create listing')}
+          btnText="Create listing"
+          btnIcon="plus"
           onClick={() => {}}
         />
         <ProfileSection
-          className="profile__services"
+          className="about__services"
           imageUrl="/assets/img/service.png"
           placeholder="Here will be displayed your services"
-          buttonContent={LabelWithPlusSign('Offer service')}
+          btnText="Offer service"
+          btnIcon="plus"
           onClick={() => {}}
         />
-      </React.Fragment>
+      </div>
     );
   }
 }

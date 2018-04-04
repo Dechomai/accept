@@ -1,7 +1,12 @@
 .btn {
   $s: &;
+
   &-link {
     font-weight: 500;
+  }
+
+  & + & {
+    margin-left: 0.5rem;
   }
 
   &-round {

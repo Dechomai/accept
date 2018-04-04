@@ -13,21 +13,12 @@
   }
 
   &__placeholder {
-    font-size: 13px;
-    font-weight: 500;
-    margin: 16px 0 20px;
-    color: darken(white, 50%);
+    margin: 1rem 0;
   }
 
   &__button {
-    position: relative;
-    font-size: 16px;
-    font-weight: 500;
-    width: 200px;
-    padding: 19px 0 17px;
-    color: black;
-    background-color: transparent;
-    border-radius: 4px;
-    border: solid 1px $gray-500;
+    .icon {
+      margin-right: 0.5rem;
+    }
   }
 }
