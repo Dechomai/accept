@@ -80,8 +80,8 @@ userRouter
             user
           });
         },
-        (/* err */) => {
-          // TODO: handle error
+        err => {
+          if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
           res.status(400).send({
             status: 'error',
             message: 'Unable to update user'
