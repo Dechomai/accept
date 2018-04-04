@@ -1,4 +1,4 @@
-@import '../theme/index';
+@import '../theme/all';
 
 .profile {
   &__nav {
@@ -21,6 +21,31 @@
     }
   }
 
-  &__content {
+  &__description {
+    display: flex;
+    flex-direction: column;
+
+    &--editing {
+      padding: 8px 12px;
+      width: 100%;
+      outline: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+    }
+    &__content {
+      align-self: flex-start;
+    }
+    &__more {
+      align-self: flex-start;
+    }
+    &__edit {
+      align-self: flex-end;
+    }
   }
 }

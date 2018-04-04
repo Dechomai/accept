@@ -10,7 +10,7 @@ import App from './layout/App';
 import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
 import Profile from './layout/UserProfile';
-import AboutMe from './components/Profile/AboutMe/AboutMe';
+import AboutMe from './containers/AboutMe/AboutMe';
 
 /*
 

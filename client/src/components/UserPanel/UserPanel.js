@@ -21,12 +21,12 @@ const UserPanel = ({user, isCurrentUser}) => (
     </div>
     <div className="user-panel__actions">
       {isCurrentUser ? (
-        <button className="user-panel__edit">
+        <button className="btn-with-icon user-panel__edit">
           <Icon name="pencil" size="20" />
           <span>Edit personal info</span>
         </button>
       ) : (
-        <button className="user-panel__contact">Contact</button>
+        <button className="btn btn-primary user-panel__contact">Contact</button>
       )}
     </div>
   </div>

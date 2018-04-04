@@ -8,6 +8,10 @@ export const CREATE_PROFILE_REQUEST = 'CREATE_PROFILE_REQUEST';
 export const CREATE_PROFILE_SUCCESS = 'CREATE_PROFILE_SUCCESS';
 export const CREATE_PROFILE_FAILURE = 'CREATE_PROFILE_FAILURE';
 
+export const UPDATE_PROFILE_REQUEST = 'UPDATE_PROFILE_REQUEST';
+export const UPDATE_PROFILE_SUCCESS = 'UPDATE_PROFILE_SUCCESS';
+export const UPDATE_PROFILE_FAILURE = 'UPDATE_PROFILE_FAILURE';
+
 // FETCH USER
 export const fetchUserRequest = () => ({
   type: FETCH_USER_REQUEST,
@@ -73,5 +77,36 @@ export const createProfile = profile => dispatch => {
     .then(
       data => dispatch(createProfileSuccess(data.user)),
       err => Promise.reject(dispatch(createProfileFailure(err)))
+    );
+};
+
+// UPDATE USER
+export const updateProfileRequest = () => ({
+  type: UPDATE_PROFILE_REQUEST,
+  payload: {}
+});
+
+export const updateProfileSuccess = user => ({
+  type: UPDATE_PROFILE_SUCCESS,
+  payload: {
+    user
+  }
+});
+
+export const updateProfileFailure = error => ({
+  type: UPDATE_PROFILE_FAILURE,
+  payload: {
+    error
+  }
+});
+
+export const updateProfile = profile => dispatch => {
+  dispatch(createProfileRequest());
+
+  return userService
+    .updateProfile(profile)
+    .then(
+      data => dispatch(updateProfileSuccess(data.user)),
+      err => Promise.reject(dispatch(updateProfileFailure(err)))
     );
 };

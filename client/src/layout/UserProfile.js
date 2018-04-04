@@ -34,7 +34,7 @@ const UserProfile = ({children}) => {
               Services
             </Link>
           </nav>
-          <div className="profile__content">{children}</div>
+          {children}
         </div>
       </div>
     </div>

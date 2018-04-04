@@ -9,6 +9,11 @@ const userService = {
       body: profile
     });
   },
+  updateProfile(profile) {
+    return api.put('/user', {
+      body: profile
+    });
+  },
   isUsernameUnique(username) {
     return api.post('/user/unique-username', {
       body: {
