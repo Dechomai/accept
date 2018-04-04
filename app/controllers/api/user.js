@@ -30,7 +30,7 @@ const userController = {
       .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
         logger.info(':createUser', 'user created', user);
-        return user.toJSON();
+        return user;
       })
       .catch(err => {
         if (err === null) {
@@ -49,7 +49,7 @@ const userController = {
       .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
         logger.info(':updateUser', 'user updated', user);
-        return user.toJSON();
+        return user;
       })
       .catch(err => {
         if (err === null) {
