@@ -1,7 +1,12 @@
 .btn {
   $s: &;
+
   &-link {
     font-weight: 500;
+  }
+
+  & + & {
+    margin-left: 0.5rem;
   }
 
   &-round {
@@ -14,5 +19,14 @@
 
   &-lg#{$s}-round {
     border-radius: $input-btn-line-height-lg + $input-btn-padding-y-lg * 2;
+  }
+
+  &-with-icon {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      margin: 0 3px;
+    }
   }
 }

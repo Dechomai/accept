@@ -36,6 +36,21 @@ const userController = {
         return Promise.reject(err);
       });
   },
+  updateUser(id, userData) {
+    return User.findByIdAndUpdate(id, userData, {
+      new: true,
+      select: User.projection
+    })
+      .then(user => {
+        if (!user) return Promise.reject({message: `User id: ${id}, not found`});
+        logger.info(':updateUser', 'user updated', user.toObject());
+        return user.toJSON();
+      })
+      .catch(err => {
+        logger.error(':updateUser', 'error', err);
+        return Promise.reject(err);
+      });
+  },
   isUsernameUnique(username) {
     return User.findOne({username}).catch(err => {
       logger.error(':isUsernameUnique', 'error', err);

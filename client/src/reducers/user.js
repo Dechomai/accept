@@ -4,7 +4,10 @@ import {
   FETCH_USER_FAILURE,
   CREATE_PROFILE_REQUEST,
   CREATE_PROFILE_SUCCESS,
-  CREATE_PROFILE_FAILURE
+  CREATE_PROFILE_FAILURE,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE
 } from '../actions/user';
 
 const getInitialState = () => ({
@@ -56,6 +59,27 @@ const places = (state = getInitialState(), action) => {
         ...state,
         loading: false,
         data: null,
+        error: action.payload.error
+      };
+    }
+    case UPDATE_PROFILE_REQUEST: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case UPDATE_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        data: {...state.data, ...action.payload.user},
+        error: null
+      };
+    }
+    case UPDATE_PROFILE_FAILURE: {
+      return {
+        ...state,
+        loading: false,
         error: action.payload.error
       };
     }

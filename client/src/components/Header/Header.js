@@ -3,14 +3,31 @@ import './Header.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
+import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
-import UserInfo from '../UserInfo/UserInfo';
+import Icon from '../common/Icon/Icon';
+import UserAvatar from '../UserAvatar/UserAvatar';
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
   componentDidMount() {
     if (!this.props.user && !this.props.status.loading && !this.props.status.error) {
       this.props.fetchUser();
     }
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
   }
 
   getSignInButton() {
@@ -28,7 +45,30 @@ class Header extends React.Component {
     const {loading, error} = status;
     if (loading) return null; // show spinner or smth
     if (error) return this.getSignInButton();
-    if (user) return <UserInfo user={user} />;
+    if (user)
+      return (
+        <Dropdown
+          className="header__user-info__avatar"
+          isOpen={this.state.dropdownOpen}
+          toggle={this.toggle}>
+          <DropdownToggle caret className="header__user-info__toggle">
+            <UserAvatar user={this.props.user} />
+          </DropdownToggle>
+          <DropdownMenu right={true} className="header__user-info__dropdown">
+            <DropdownItem>
+              <Link to="/profile" className="header__user-info__dropdown__link">
+                <Icon name="account" size="20" />
+                <small className="text-muted">Profile</small>
+              </Link>
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem href="/signout" className="header__user-info__dropdown__link">
+              <Icon name="logout" size="20" />
+              <small className="text-muted">Logout</small>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      );
     return null;
   }
 

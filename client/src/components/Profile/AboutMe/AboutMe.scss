@@ -1,0 +1,36 @@
+@import '../../../theme/index';
+.about {
+  &__description {
+    display: flex;
+    flex-direction: column;
+
+    &--edit {
+    }
+
+    &--editing {
+      padding: 0.5rem 0.75rem;
+      width: 100%;
+      outline: none;
+      font-size: $small-font-size;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      resize: none;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+    }
+
+    &__content {
+      align-self: flex-start;
+    }
+    &__more {
+      align-self: flex-start;
+    }
+    &__edit {
+      align-self: flex-end;
+    }
+  }
+}
