@@ -3,10 +3,10 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose} from 'ramda';
 
-import AddProductFrom from '../../components/AddProductForm/AddProductForm';
+import AddProductForm from '../../components/AddProductForm/AddProductForm';
 
 const AddProduct = () => {
-  return <AddProductFrom />;
+  return <AddProductForm />;
 };
 
 const mapStateToProps = () => ({});

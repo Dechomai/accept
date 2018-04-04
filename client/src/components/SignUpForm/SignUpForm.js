@@ -1,4 +1,4 @@
-import './SingUpFrom.scss';
+import './SingUpForm.scss';
 
 import React from 'react';
 import {isEmpty, pick} from 'ramda';
