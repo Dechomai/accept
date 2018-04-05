@@ -19,7 +19,9 @@ class Text extends React.Component {
   }
 
   truncateText(text, maxCharacters) {
-    return maxCharacters ? text.slice(0, maxCharacters).trim() + '...' : text;
+    return maxCharacters && text.length > maxCharacters
+      ? text.slice(0, maxCharacters).trim() + '...'
+      : text;
   }
 
   render() {

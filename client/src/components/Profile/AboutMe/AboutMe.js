@@ -10,6 +10,8 @@ import Icon from '../../common/Icon/Icon';
 import Text from '../../common/Text/Text';
 import ProfileSection from '../ProfileSection/ProfileSection';
 
+const MAX_SHORT_DESCRIPTION_LENGTH = 200;
+
 class AboutMe extends React.Component {
   constructor(props) {
     super(props);
@@ -88,31 +90,32 @@ class AboutMe extends React.Component {
     }
 
     if (description) {
+      const isDescriptionLong = description.length > MAX_SHORT_DESCRIPTION_LENGTH;
       return (
         <div className="about__description">
           <Text
             className="about__description__content"
-            maxCharacters={isFullDescriptionShown ? null : 200}>
+            maxCharacters={isFullDescriptionShown ? null : MAX_SHORT_DESCRIPTION_LENGTH}>
             {description}
           </Text>
-          <div className="d-flex justify-content-between">
+          {isDescriptionLong ? (
             <Button
               size="sm"
               color="link"
               className="btn-with-icon about__description__more"
               onClick={this.handleToggleFullDescription}>
               <span>{isFullDescriptionShown ? 'Less' : 'More'}</span>
-              <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="12" />
+              <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="20" />
             </Button>
-            <Button
-              size="sm"
-              color="link"
-              className="btn-with-icon about__description__edit"
-              onClick={this.handleEditDescriptionClick}>
-              <Icon name="pencil" size="12" />
-              <span>Edit</span>
-            </Button>
-          </div>
+          ) : null}
+          <Button
+            size="sm"
+            color="link"
+            className="btn-with-icon about__description__edit"
+            onClick={this.handleEditDescriptionClick}>
+            <Icon name="pencil" size="20" />
+            <span>Edit</span>
+          </Button>
         </div>
       );
     }
