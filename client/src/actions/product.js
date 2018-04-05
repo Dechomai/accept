@@ -29,7 +29,7 @@ export const createProduct = product => dispatch => {
   return productService
     .createProduct(product)
     .then(
-      data => dispatch(createProductSuccess(data.user)),
+      data => dispatch(createProductSuccess(data.product)),
       err => Promise.reject(dispatch(createProductFailure(err)))
     );
 };

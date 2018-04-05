@@ -2,7 +2,7 @@ import api from '../utils/api';
 
 const productService = {
   createProduct(product) {
-    return api.post('/user', {
+    return api.post('/products', {
       body: product
     });
   }

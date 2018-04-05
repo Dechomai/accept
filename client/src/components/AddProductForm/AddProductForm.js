@@ -54,14 +54,19 @@ class InnerForm extends React.Component {
   }
 
   handleUploadPhoto(photo) {
-    this.setState({
-      photos: this.state.photos.concat([
-        {
-          uri: photo.preview,
-          primary: false
-        }
-      ])
-    });
+    this.setState(
+      {
+        photos: this.state.photos.concat([
+          {
+            uri: photo.preview,
+            primary: false
+          }
+        ])
+      },
+      () => {
+        this.props.onPhotoAdded(this.state.photos);
+      }
+    );
   }
 
   render() {
@@ -75,7 +80,6 @@ class InnerForm extends React.Component {
       handleSubmit,
       isSubmitting
     } = this.props;
-
     return (
       <form className="create-form">
         <div className="container">
@@ -312,14 +316,18 @@ const AddProductFrom = withFormik({
     description: ['required', rules.minLength(10), rules.maxLength(800), 'lettersDigitsAndSpaces'],
     price: ['required', 'price']
   }),
-  handleSubmit: (values, {setSubmitting}) => {
+  handleSubmit: (values, {props, setSubmitting, setTouched}) => {
     const product = pick(['title', 'video', 'photos', 'description', 'condition', 'price'], values);
-    console.log(product);
+    props.onSubmit(product).catch(() => {
+      setSubmitting(false);
+      setTouched({});
+    });
     setSubmitting(false);
   }
 })(InnerForm);
 
 InnerForm.propTypes = {
+  photos: PropTypes.string,
   values: PropTypes.any,
   errors: PropTypes.any,
   touched: PropTypes.object,
