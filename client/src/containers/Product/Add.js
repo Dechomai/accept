@@ -1,13 +1,15 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, without} from 'ramda';
+import {compose, without, assoc} from 'ramda';
 import autobind from 'autobindr';
+import uuidv4 from 'uuid/v4';
 
 import AddProductForm from '../../components/Product/AddForm';
 import {selectUserStatus} from '../../selectors';
 import PropTypes from 'prop-types';
 import {createProduct} from '../../actions/product';
+import productService from '../../services/product';
 
 class Add extends React.Component {
   constructor() {
@@ -17,10 +19,16 @@ class Add extends React.Component {
   }
 
   handleFormSubmit(product) {
-    let data = product;
+    const photosFolder = uuidv4();
+    let data = assoc('photosFolder', photosFolder, product);
 
-    return this.props.createProduct(data).then(() => {
-      this.props.router.push('/');
+    return productService.uploadPhotos(this.state.photos, photosFolder).then(() => {
+      return this.props
+        .createProduct(data)
+        .then(() => {
+          this.props.router.push('/');
+        })
+        .catch(err => Promise.reject(err));
     });
   }
 

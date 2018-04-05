@@ -44,12 +44,11 @@ const api = {
     return this.fetch('DELETE', ...args);
   },
 
-  uploadFiles(url, files) {
+  uploadFiles(url, files, photosFolder) {
     let formData = new FormData();
 
-    Object.entries(files).forEach(([name, file]) => {
-      formData.append(name, file);
-    });
+    formData.append('photos', files);
+    formData.append('photosFolder', photosFolder);
 
     const options = getOptions();
     return fetch(`${options.API}/media/upload${url}`, {
@@ -59,7 +58,7 @@ const api = {
         Accept: 'application/json'
       },
       body: formData
-    }).then(response => response.json());
+    });
   }
 };
 

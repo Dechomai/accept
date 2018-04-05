@@ -21,14 +21,7 @@ class InnerForm extends React.Component {
   }
 
   handleUploadPhoto(files) {
-    const photos = this.props.photos
-      .concat(
-        files.map(file => ({
-          uri: file.preview,
-          primary: false
-        }))
-      )
-      .slice(0, 8);
+    const photos = this.props.photos.concat(files).slice(0, 8);
     this.props.onPhotosAdded(photos);
   }
 
@@ -44,9 +37,9 @@ class InnerForm extends React.Component {
 
   renderPhotos() {
     return this.props.photos.map(photo => (
-      <Tile key={photo.uri} sizes="col-3">
+      <Tile key={photo.preview} sizes="col-3">
         <div
-          style={{backgroundImage: `url(${photo.uri})`}}
+          style={{backgroundImage: `url(${photo.preview})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
           <div
             className="create-form__placeholder__close"
@@ -321,7 +314,6 @@ const AddProductFrom = withFormik({
 })(InnerForm);
 
 InnerForm.propTypes = {
-  photos: PropTypes.string,
   values: PropTypes.any,
   errors: PropTypes.any,
   touched: PropTypes.object,

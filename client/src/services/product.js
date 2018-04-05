@@ -5,6 +5,9 @@ const productService = {
     return api.post('/products', {
       body: product
     });
+  },
+  uploadPhotos(files, photosFolder) {
+    return api.uploadFiles('/product', files, photosFolder);
   }
 };
 
