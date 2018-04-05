@@ -55,12 +55,12 @@ class Header extends React.Component {
             <UserAvatar user={this.props.user} />
           </DropdownToggle>
           <DropdownMenu right={true} className="header__user-info__dropdown">
-            <DropdownItem>
-              <Link to="/profile" className="header__user-info__dropdown__link">
+            <Link to="/profile" className="header__user-info__dropdown__link">
+              <DropdownItem>
                 <Icon name="account" size="20" />
                 <small className="text-muted">Profile</small>
-              </Link>
-            </DropdownItem>
+              </DropdownItem>
+            </Link>
             <DropdownItem divider />
             <DropdownItem href="/signout" className="header__user-info__dropdown__link">
               <Icon name="logout" size="20" />
