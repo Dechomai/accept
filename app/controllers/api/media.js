@@ -5,8 +5,16 @@ const mediaController = {
   uploadUserAvatar(userId, image) {
     return cloudinary.uploadImage(image, {
       name: userId,
-      folder: 'user'
+      folder: 'users'
     });
+  },
+  uploadProductImages(folder, images) {
+    return Promise.all(
+      images.reduce(
+        (acc, image) => acc.concat([cloudinary.uploadImage(image, {folder: `products/${folder}`})]),
+        []
+      )
+    );
   }
 };
 
