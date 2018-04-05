@@ -13,6 +13,7 @@ const productSchema = new BaseSchema(
       required: true,
       index: true
     },
+    photosFolder: String,
     photos: [
       {
         uri: String,
