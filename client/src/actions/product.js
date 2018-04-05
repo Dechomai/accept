@@ -23,11 +23,11 @@ export const createProductFailure = error => ({
   }
 });
 
-export const createProduct = product => dispatch => {
+export const createProduct = (product, files) => dispatch => {
   dispatch(createProductRequest());
 
   return productService
-    .createProduct(product)
+    .createProduct(product, files)
     .then(
       data => dispatch(createProductSuccess(data.product)),
       err => Promise.reject(dispatch(createProductFailure(err)))

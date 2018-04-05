@@ -9,7 +9,6 @@ import AddProductForm from '../../components/Product/AddForm';
 import {selectUserStatus} from '../../selectors';
 import PropTypes from 'prop-types';
 import {createProduct} from '../../actions/product';
-import productService from '../../services/product';
 
 class Add extends React.Component {
   constructor() {
@@ -22,13 +21,8 @@ class Add extends React.Component {
     const photosFolder = uuidv4();
     let data = assoc('photosFolder', photosFolder, product);
 
-    return productService.uploadPhotos({photos: this.state.photos}, {photosFolder}).then(() => {
-      return this.props
-        .createProduct(data)
-        .then(() => {
-          this.props.router.push('/');
-        })
-        .catch(err => Promise.reject(err));
+    return this.props.createProduct(data, this.state.photos).then(() => {
+      this.props.router.push('/');
     });
   }
 
@@ -74,8 +68,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createProduct(product) {
-    return dispatch(createProduct(product));
+  createProduct(product, files) {
+    return dispatch(createProduct(product, files));
   }
 });
 
