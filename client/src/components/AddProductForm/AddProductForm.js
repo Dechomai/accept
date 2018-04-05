@@ -10,6 +10,7 @@ import autobind from 'autobindr';
 import FileUpload from '../FileUpload/FileUpload';
 import {rules} from '../../utils/validation';
 import createValidator from '../../utils/validation';
+import Tile from '../common/Tile/Tile';
 
 const MAX_PHOTOS = 8;
 
@@ -31,42 +32,42 @@ class InnerForm extends React.Component {
   }
 
   renderEmptyPhotoPlaceholders() {
-    return range(0, MAX_PHOTOS - this.state.photos.length).map(item => (
-      <div key={item} className="create-form__placeholder">
-        <Icon name="image" size="64" />
-      </div>
+    return range(0, MAX_PHOTOS - this.state.photos.length - 1).map(item => (
+      <Tile sizes="col-3" key={item}>
+        <div className="create-form__placeholder">
+          <Icon name="image" size="64" />
+        </div>
+      </Tile>
     ));
   }
 
   renderPhotos() {
     return this.state.photos.map(photo => (
-      <div
-        key={photo.uri}
-        className="create-form__placeholder create-form__placeholder--with-photo">
-        <img className="file-upload__preview" src={photo.uri} alt="" />
+      <Tile key={photo.uri} sizes="col-3">
         <div
-          className="create-form__placeholder__close"
-          onClick={() => this.removeAddedPhoto(photo)}>
-          <Icon name="close" size="20" />
+          style={{backgroundImage: `url(${photo.uri})`}}
+          className="create-form__placeholder create-form__placeholder--with-photo">
+          <div
+            className="create-form__placeholder__close"
+            onClick={() => this.removeAddedPhoto(photo)}>
+            <Icon name="close" size="20" />
+          </div>
         </div>
-      </div>
+      </Tile>
     ));
   }
 
-  handleUploadPhoto(photo) {
-    this.setState(
-      {
-        photos: this.state.photos.concat([
-          {
-            uri: photo.preview,
-            primary: false
-          }
-        ])
-      },
-      () => {
-        this.props.onPhotoAdded(this.state.photos);
-      }
-    );
+  handleUploadPhoto(files) {
+    const photos = this.state.photos
+      .concat(
+        files.map(file => ({
+          uri: file.preview,
+          primary: false
+        }))
+      )
+      .slice(0, 8);
+    this.setState({photos});
+    this.props.onPhotosAdded(photos);
   }
 
   render() {
@@ -124,24 +125,31 @@ class InnerForm extends React.Component {
             </div>
             <div className="col-md-9 col-sm-12">
               <div className="create-form__content">
-                <div className="create-form__upload-photos">
-                  {this.renderPhotos()}
-                  {this.state.photos.length < MAX_PHOTOS && (
-                    <FileUpload
-                      className="create-form__placeholder"
-                      accept="image/jpeg,image/png,image/gif"
-                      showPreview={false}
-                      maxSize={2.5 * 1024 * 1024} // ~2.5Mb
-                      onSelect={this.handleUploadPhoto}>
-                      <div className="create-form__placeholder__caption">
-                        <Icon name="upload" size="20" />
-                        <small className="create-form__placeholder__upload-label">
-                          Upload photo
-                        </small>
-                      </div>
-                    </FileUpload>
-                  )}
-                  {this.renderEmptyPhotoPlaceholders()}
+                <div className="container-fluid create-form__upload-photos">
+                  <div className="row">
+                    {this.renderPhotos()}
+                    {this.state.photos.length < MAX_PHOTOS && (
+                      <Tile sizes="col-3">
+                        <FileUpload
+                          className="create-form__placeholder"
+                          accept="image/jpeg,image/png,image/gif"
+                          multiple={true}
+                          showPreview={false}
+                          maxSize={2.5 * 1024 * 1024}
+                          onSelect={
+                            this.handleUploadPhoto // ~2.5Mb
+                          }>
+                          <div className="create-form__placeholder__caption">
+                            <Icon name="upload" size="20" />
+                            <small className="create-form__placeholder__upload-label">
+                              Upload photo
+                            </small>
+                          </div>
+                        </FileUpload>
+                      </Tile>
+                    )}
+                    {this.renderEmptyPhotoPlaceholders()}
+                  </div>
                 </div>
               </div>
             </div>
