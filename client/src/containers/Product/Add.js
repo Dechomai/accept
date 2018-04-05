@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {compose, without} from 'ramda';
 import autobind from 'autobindr';
 
-import AddProductForm from '../../components/AddProductForm/AddProductForm';
+import AddProductForm from '../../components/Product/AddForm';
 import {selectUserStatus} from '../../selectors';
 import PropTypes from 'prop-types';
 import {createProduct} from '../../actions/product';
 
-class AddProduct extends React.Component {
+class Add extends React.Component {
   constructor() {
     super();
     autobind(this);
@@ -52,7 +52,7 @@ class AddProduct extends React.Component {
   }
 }
 
-AddProduct.propTypes = {
+Add.propTypes = {
   router: PropTypes.any,
   status: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
@@ -71,4 +71,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(AddProduct);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Add);
