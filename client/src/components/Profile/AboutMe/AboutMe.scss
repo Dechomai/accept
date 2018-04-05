@@ -1,9 +1,6 @@
 @import '../../../theme/index';
 .about {
   &__description {
-    display: flex;
-    flex-direction: column;
-
     &--edit {
     }
 
@@ -21,17 +18,13 @@
     }
 
     &__actions {
-      display: flex;
-      justify-content: flex-end;
       margin-top: 15px;
     }
 
     &__content {
-      align-self: flex-start;
       word-break: break-word;
     }
     &__more {
-      align-self: flex-start;
     }
     &__edit {
       position: absolute;
