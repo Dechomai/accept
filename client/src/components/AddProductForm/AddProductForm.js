@@ -340,4 +340,10 @@ InnerForm.propTypes = {
   loading: PropTypes.bool
 };
 
+AddProductFrom.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.any,
+  onSubmit: PropTypes.func.isRequired
+};
+
 export default AddProductFrom;

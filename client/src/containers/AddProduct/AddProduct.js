@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, assoc} from 'ramda';
+import {compose} from 'ramda';
 import autobind from 'autobindr';
 
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
@@ -18,11 +18,7 @@ class AddProduct extends React.Component {
 
   handleFormSubmit(product) {
     let data = product;
-    if (this.photos.length) {
-      data = assoc('photos', this.photos, product);
-    }
 
-    console.log('data', data);
     return this.props.createProduct(data).then(() => {
       this.props.router.push('/');
     });

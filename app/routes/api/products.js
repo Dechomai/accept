@@ -77,7 +77,7 @@ productsRouter
       productsController
         .addProduct(data, userId)
         .then(
-          product => sendSuccess({product}),
+          product => sendSuccess(res, {product}),
           () => sendError(res, {message: 'Error creating product'})
         );
     }
