@@ -22,7 +22,7 @@ class Add extends React.Component {
     const photosFolder = uuidv4();
     let data = assoc('photosFolder', photosFolder, product);
 
-    return productService.uploadPhotos(this.state.photos, photosFolder).then(() => {
+    return productService.uploadPhotos({photos: this.state.photos}, {photosFolder}).then(() => {
       return this.props
         .createProduct(data)
         .then(() => {

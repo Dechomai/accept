@@ -44,11 +44,21 @@ const api = {
     return this.fetch('DELETE', ...args);
   },
 
-  uploadFiles(url, files, photosFolder) {
+  uploadFiles(url, files, others) {
     let formData = new FormData();
 
-    formData.append('photos', files);
-    formData.append('photosFolder', photosFolder);
+    Object.entries(files).forEach(([name, file]) => {
+      if (Array.isArray(file)) {
+        file.forEach(f => {
+          formData.append('photos', f);
+        });
+      } else {
+        formData.append(name, file);
+      }
+    });
+    Object.entries(others).forEach(([name, file]) => {
+      formData.append(name, file);
+    });
 
     const options = getOptions();
     return fetch(`${options.API}/media/upload${url}`, {
