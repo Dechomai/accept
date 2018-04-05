@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose} from 'ramda';
+import {compose, without} from 'ramda';
 import autobind from 'autobindr';
 
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
@@ -13,7 +13,7 @@ class AddProduct extends React.Component {
   constructor() {
     super();
     autobind(this);
-    this.photos = [];
+    this.state = {photos: []};
   }
 
   handleFormSubmit(product) {
@@ -24,17 +24,29 @@ class AddProduct extends React.Component {
     });
   }
 
-  handlePhotosAdding(photos) {
-    this.photos = photos;
+  handlePhotosAdded(photos) {
+    this.setState({photos});
   }
 
+  handlePhotoDelete(photo) {
+    this.setState({
+      photos: without([photo], this.state.photos)
+    });
+  }
+
+  handleCancelClick() {
+    this.props.router.goBack();
+  }
   render() {
     return (
       <AddProductForm
         loading={this.props.status.loading}
         error={this.props.status.error}
         onSubmit={this.handleFormSubmit}
-        onPhotoAdded={this.handlePhotosAdding}
+        photos={this.state.photos}
+        onPhotosAdded={this.handlePhotosAdded}
+        onPhotoDelete={this.handlePhotoDelete}
+        onCancelClick={this.handleCancelClick}
       />
     );
   }

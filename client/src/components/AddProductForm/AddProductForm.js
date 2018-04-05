@@ -1,12 +1,12 @@
 import React from 'react';
-import {range, without, pick} from 'ramda';
+import {range, pick} from 'ramda';
 import classNames from 'classnames';
-import Icon from '../common/Icon/Icon';
-import {withFormik} from 'formik/dist/formik';
+import {withFormik} from 'formik';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router';
 import autobind from 'autobindr';
+import {Button} from 'reactstrap';
 
+import Icon from '../common/Icon/Icon';
 import FileUpload from '../FileUpload/FileUpload';
 import {rules} from '../../utils/validation';
 import createValidator from '../../utils/validation';
@@ -17,22 +17,23 @@ const MAX_PHOTOS = 8;
 class InnerForm extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      photos: []
-    };
-
     autobind(this);
   }
 
-  removeAddedPhoto(photo) {
-    this.setState({
-      photos: without([photo], this.state.photos)
-    });
+  handleUploadPhoto(files) {
+    const photos = this.props.photos
+      .concat(
+        files.map(file => ({
+          uri: file.preview,
+          primary: false
+        }))
+      )
+      .slice(0, 8);
+    this.props.onPhotosAdded(photos);
   }
 
   renderEmptyPhotoPlaceholders() {
-    return range(0, MAX_PHOTOS - this.state.photos.length - 1).map(item => (
+    return range(0, MAX_PHOTOS - this.props.photos.length - 1).map(item => (
       <Tile sizes="col-3" key={item}>
         <div className="create-form__placeholder">
           <Icon name="image" size="64" />
@@ -42,32 +43,19 @@ class InnerForm extends React.Component {
   }
 
   renderPhotos() {
-    return this.state.photos.map(photo => (
+    return this.props.photos.map(photo => (
       <Tile key={photo.uri} sizes="col-3">
         <div
           style={{backgroundImage: `url(${photo.uri})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
           <div
             className="create-form__placeholder__close"
-            onClick={() => this.removeAddedPhoto(photo)}>
+            onClick={() => this.props.onPhotoDelete(photo)}>
             <Icon name="close" size="20" />
           </div>
         </div>
       </Tile>
     ));
-  }
-
-  handleUploadPhoto(files) {
-    const photos = this.state.photos
-      .concat(
-        files.map(file => ({
-          uri: file.preview,
-          primary: false
-        }))
-      )
-      .slice(0, 8);
-    this.setState({photos});
-    this.props.onPhotosAdded(photos);
   }
 
   render() {
@@ -79,7 +67,8 @@ class InnerForm extends React.Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      isSubmitting
+      isSubmitting,
+      onCancelClick
     } = this.props;
     return (
       <form className="create-form">
@@ -128,7 +117,7 @@ class InnerForm extends React.Component {
                 <div className="container-fluid create-form__upload-photos">
                   <div className="row">
                     {this.renderPhotos()}
-                    {this.state.photos.length < MAX_PHOTOS && (
+                    {this.props.photos.length < MAX_PHOTOS && (
                       <Tile sizes="col-3">
                         <FileUpload
                           className="create-form__placeholder"
@@ -293,15 +282,12 @@ class InnerForm extends React.Component {
         <div className="create-form__footer">
           <div className="container">
             <div className="text-right">
-              <Link to="/" className="btn btn-link btn-cancel">
+              <Button color="link" onClick={onCancelClick}>
                 Cancel
-              </Link>
-              <button
-                className="btn btn-primary"
-                onClick={handleSubmit}
-                disabled={isSubmitting || !isValid}>
+              </Button>
+              <Button color="primary" onClick={handleSubmit} disabled={isSubmitting || !isValid}>
                 Publish
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -320,7 +306,7 @@ const AddProductFrom = withFormik({
   }),
   validate: createValidator({
     title: ['required', rules.minLength(3), rules.maxLength(400), 'lettersDigitsAndSpaces'],
-    video: ['required', 'youtubeUrl'],
+    video: ['youtubeUrl'],
     description: ['required', rules.minLength(10), rules.maxLength(800), 'lettersDigitsAndSpaces'],
     price: ['required', 'price']
   }),
