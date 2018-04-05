@@ -28,12 +28,15 @@
 
     &__content {
       align-self: flex-start;
+      word-break: break-word;
     }
     &__more {
       align-self: flex-start;
     }
     &__edit {
-      align-self: flex-end;
+      position: absolute;
+      right: 30px;
+      bottom: 15px;
     }
     &__error {
       font-size: 12px;
