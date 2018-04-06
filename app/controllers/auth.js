@@ -10,8 +10,8 @@ const authController = {
   getLoginUri() {
     return authService.getLoginUri();
   },
-  getSignoutUri() {
-    return authService.getSignoutUri();
+  getLogoutUri() {
+    return authService.getLogoutUri();
   },
   userLoggedIn(code) {
     return authService
@@ -52,6 +52,21 @@ const authController = {
         // 2. determine flow for other errors
         return Promise.reject(err);
       });
+  },
+  userLogOut(userId) {
+    return tokenStorage.removeUserToken(userId).then(
+      () => {
+        logger.info(`Refresh token removed for ${userId}`);
+      },
+      err => {
+        logger.error(`Error removing refresh token for ${userId}`, err);
+        return Promise.reject(err);
+      }
+    );
+  },
+  userLoggedOutConfirmed() {
+    logger.info('User logout confirmend by Cognito');
+    return Promise.resolve();
   }
 };
 

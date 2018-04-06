@@ -102,12 +102,19 @@ const config = convict({
       arg: 'cognitoUserPoolId',
       env: 'COGNITO_USER_POOL_ID'
     },
-    redirectUri: {
-      doc: 'AWS Cognito App Client redirect_uri',
+    loginRedirectUri: {
+      doc: 'AWS Cognito App Client LOGIN redirect_uri',
       format: 'url',
       default: null,
-      arg: 'cognitoRedirectUri',
-      env: 'COGNITO_REDIRECT_URI'
+      arg: 'cognitoLoginRedirectUri',
+      env: 'COGNITO_LOGIN_REDIRECT_URI'
+    },
+    logoutRedirectUri: {
+      doc: 'AWS Cognito App Client LOGOUT redirect_uri',
+      format: 'url',
+      default: null,
+      arg: 'cognitoLogoutRedirectUri',
+      env: 'COGNITO_LOGOUT_REDIRECT_URI'
     }
   },
   cloudinary: {

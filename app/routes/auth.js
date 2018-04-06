@@ -3,6 +3,8 @@ const authController = require('../controllers/auth');
 const {appendTokenCookie} = require('../helpers/auth');
 const {createLoggerWith} = require('../logger');
 const {sendError} = require('../helpers/response');
+const authMiddleware = require('../middlewares/auth');
+const {clearTokenCookie} = require('../helpers/auth');
 
 const logger = createLoggerWith('[RTR]:Auth');
 
@@ -16,9 +18,18 @@ rootRouter.get('/login', (req, res) => {
   res.redirect(LOGIN_URI);
 });
 
-rootRouter.get('/signout', (req, res) => {
-  const SIGNOUT_URI = authController.getSignoutUri();
-  res.redirect(SIGNOUT_URI);
+rootRouter.get('/signout', authMiddleware, (req, res) => {
+  const {userId} = req;
+  authController
+    .userLogOut(userId)
+    .then(() => {
+      clearTokenCookie(res);
+      res.redirect(authController.getLogoutUri());
+    })
+    .catch(err => {
+      console.log(err);
+      sendError(res, {message: 'Error logging out'});
+    });
 });
 
 // Cognito login callback
@@ -37,11 +48,10 @@ authRouter.get('/logincb', (req, res) => {
 });
 
 // Cognito signout callback
-authRouter.get('/signoutcb', (req, res) => {
-  // TODO
-  // everything
-  authController.userSignedOut();
-  res.redirect('/');
+authRouter.get('/logoutcb', (req, res) => {
+  authController.userLoggedOutConfirmed().then(() => {
+    res.redirect('/');
+  });
 });
 
 module.exports = app => {

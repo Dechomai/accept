@@ -8,7 +8,8 @@ const COGNITO_APP_CLIENT_SECRET = config.get('cognito.clientSecret');
 const COGNITO_DOMAIN = config.get('cognito.domain');
 const COGNITO_USER_POOL_ID = config.get('cognito.userPoolId');
 const COGNITO_REGION = config.get('cognito.region');
-const COGNITO_REDIRECT_URI = config.get('cognito.redirectUri');
+const COGNITO_LOGIN_REDIRECT_URI = config.get('cognito.loginRedirectUri');
+const COGNITO_LOGOUT_REDIRECT_URI = config.get('cognito.logoutRedirectUri');
 
 // helper to verify token signature
 const cognitoExpress = new CognitoExpress({
@@ -17,11 +18,11 @@ const cognitoExpress = new CognitoExpress({
   tokenUse: 'access'
 });
 
-const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&redirect_uri=${COGNITO_REDIRECT_URI}`;
-const SIGNOUT_URI = ''; // TODO: construct signout URI
+const LOGIN_URI = `https://${COGNITO_DOMAIN}/login?response_type=code&client_id=${COGNITO_APP_CLIENT_ID}&redirect_uri=${COGNITO_LOGIN_REDIRECT_URI}`;
+const LOGOUT_URI = `https://${COGNITO_DOMAIN}/logout?client_id=${COGNITO_APP_CLIENT_ID}&logout_uri=${COGNITO_LOGOUT_REDIRECT_URI}`;
 
 const getLoginUri = () => LOGIN_URI;
-const getSignoutUri = () => SIGNOUT_URI;
+const getLogoutUri = () => LOGOUT_URI;
 
 const getTokensByCode = code => {
   return fetch(`https://${COGNITO_DOMAIN}/oauth2/token`, {
@@ -31,7 +32,7 @@ const getTokensByCode = code => {
       Authorization: `Basic ${atob(`${COGNITO_APP_CLIENT_ID}:${COGNITO_APP_CLIENT_SECRET}`)}`
     },
     body: `grant_type=authorization_code&client_id=${COGNITO_APP_CLIENT_ID}&code=${code}&redirect_uri=${encodeURIComponent(
-      COGNITO_REDIRECT_URI
+      COGNITO_LOGIN_REDIRECT_URI
     )}`
   })
     .then(res => res.json())
@@ -69,7 +70,7 @@ const isTokenValid = accessToken => {
 
 module.exports = {
   getLoginUri,
-  getSignoutUri,
+  getLogoutUri,
   getTokensByCode,
   refreshToken,
   isTokenValid
