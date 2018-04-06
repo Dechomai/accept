@@ -329,7 +329,11 @@ InnerForm.propTypes = {
 AddProductFrom.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.any,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  photos: PropTypes.array,
+  onPhotosAdded: PropTypes.func,
+  onPhotoDelete: PropTypes.func,
+  onCancelClick: PropTypes.func
 };
 
 export default AddProductFrom;

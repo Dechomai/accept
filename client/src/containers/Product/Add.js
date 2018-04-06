@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, without, assoc} from 'ramda';
+import {compose, without, assoc, map, addIndex} from 'ramda';
 import autobind from 'autobindr';
 import uuidv4 from 'uuid/v4';
 
@@ -19,7 +19,19 @@ class Add extends React.Component {
 
   handleFormSubmit(product) {
     const photosFolder = uuidv4();
-    let data = assoc('photosFolder', photosFolder, product);
+    let data = compose(
+      assoc(
+        'photos',
+        addIndex(map)(
+          (photo, index) => ({
+            uri: photo.preview,
+            primary: index === 0
+          }),
+          this.state.photos
+        )
+      ),
+      assoc('photosFolder', photosFolder)
+    )(product);
 
     return this.props.createProduct(data, this.state.photos).then(() => {
       this.props.router.push('/');
