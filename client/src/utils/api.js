@@ -68,7 +68,7 @@ const api = {
         Accept: 'application/json'
       },
       body: formData
-    });
+    }).then(response => response.json());
   }
 };
 
