@@ -22,6 +22,9 @@
 
 .form-control {
   font-size: 13px;
+  &__sm {
+    width: 115px;
+  }
 }
 
 .checkbox-field {
@@ -71,6 +74,10 @@
 }
 
 .radio-field {
+  margin-bottom: 1.2rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
   &__checkmark {
     position: absolute;
     top: -4px;
@@ -109,6 +116,98 @@
             display: block;
           }
         }
+      }
+    }
+  }
+}
+
+.create-form {
+  .form-group {
+    margin-bottom: 0;
+  }
+  &__label {
+    font-size: 0.875rem;
+    padding-top: 2rem;
+    &__name {
+      font-weight: $font-weight-bold;
+    }
+    &__required {
+      color: $gray-500;
+    }
+    &__description {
+      color: $gray-500;
+      margin-top: 0.625rem;
+    }
+  }
+  &__content {
+    padding: 2rem 2.5rem 1.5rem;
+    margin-bottom: 2px;
+    background-color: $white;
+    .radio-field {
+      margin-top: 8px;
+    }
+  }
+  &__footer {
+    margin-top: 7rem;
+    background-color: $white;
+    padding: 1rem 0;
+  }
+  &__upload-photos {
+  }
+  &__placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    border: 1px solid $gray-400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      color: $gray-400;
+    }
+
+    &__caption {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: $font-size-sm;
+      background-color: $gray-300;
+
+      .icon {
+        color: $black;
+      }
+    }
+    &__upload-label {
+      color: $gray-500;
+    }
+
+    &--with-photo {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+
+      &:hover {
+        border-color: $blue;
+        outline: 1px solid $blue;
+        .create-form__placeholder__close {
+          display: flex;
+          cursor: pointer;
+        }
+      }
+      .create-form__placeholder__close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: $blue;
+        display: none;
+      }
+      .icon {
+        color: $white;
       }
     }
   }

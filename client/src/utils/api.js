@@ -44,10 +44,19 @@ const api = {
     return this.fetch('DELETE', ...args);
   },
 
-  uploadFiles(url, files) {
+  uploadFiles(url, files, others) {
     let formData = new FormData();
 
     Object.entries(files).forEach(([name, file]) => {
+      if (Array.isArray(file)) {
+        file.forEach(f => {
+          formData.append('photos', f);
+        });
+      } else {
+        formData.append(name, file);
+      }
+    });
+    Object.entries(others).forEach(([name, file]) => {
       formData.append(name, file);
     });
 
@@ -59,7 +68,7 @@ const api = {
         Accept: 'application/json'
       },
       body: formData
-    }).then(response => response.json());
+    });
   }
 };
 

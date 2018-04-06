@@ -21,6 +21,12 @@
     border-radius: $input-btn-line-height-lg + $input-btn-padding-y-lg * 2;
   }
 
+  &-cancel {
+    color: $gray-700;
+    &:hover {
+      color: inherit;
+    }
+  }
   &-with-icon {
     display: flex;
     align-items: center;

@@ -9,7 +9,7 @@ const Icon = ({name, size, className, style}) => (
   />
 );
 
-export const iconSizes = ['12', '16', '20', '24', '32', '36'];
+export const iconSizes = ['12', '16', '20', '24', '32', '64'];
 
 Icon.propTypes = {
   className: PropTypes.string,

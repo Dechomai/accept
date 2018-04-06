@@ -22,6 +22,20 @@ export const rules = {
     predicate: val => !/^[a-zA-Z0-9 _.-]*$/.test(val),
     message: 'Please, use digits, numbers and spaces only'
   },
+  price: {
+    predicate: val => !/^\d+(\.\d{2})?$/.test(val),
+    message:
+      'Price is invalid. Please, enter a real number between 0.01 and 2000000000 with 2 digitals after dot.\n' +
+      'Example: 555.05'
+  },
+  photosCount: {
+    predicate: val => val.length,
+    message: 'Please add at least one photo'
+  },
+  youtubeUrl: {
+    predicate: val => !/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(val),
+    message: 'Only youtube url allows'
+  },
   minLength: len => val => (val.length < len ? `Please, use minimum ${len} characters` : null),
   maxLength: len => val => (val.length > len ? `Please, use up to ${len} characters.` : null)
 };
