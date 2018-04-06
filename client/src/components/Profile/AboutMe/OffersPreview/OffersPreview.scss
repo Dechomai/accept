@@ -1,0 +1,17 @@
+.about {
+  &__offers {
+    &__header,
+    &__container {
+      display: flex;
+      background-color: white;
+    }
+    &__header {
+      align-items: center;
+      padding: 20px 23px;
+      margin-bottom: 2px;
+    }
+    &__container {
+      padding: 30px;
+    }
+  }
+}

@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import Icon from '../../common/Icon/Icon';
 import Text from '../../common/Text/Text';
 import ProfileSection from '../ProfileSection/ProfileSection';
+import OffersPreview from './OffersPreview/OffersPreview';
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 200;
 
@@ -95,23 +96,23 @@ class AboutMe extends React.Component {
         <div className="about__description">
           <Text
             className="about__description__content"
-            maxCharacters={isFullDescriptionShown ? null : MAX_SHORT_DESCRIPTION_LENGTH}>
+            maxCharacters={!isFullDescriptionShown && MAX_SHORT_DESCRIPTION_LENGTH}>
             {description}
           </Text>
-          {isDescriptionLong ? (
+          {isDescriptionLong && (
             <Button
               size="sm"
               color="link"
-              className="btn-with-icon about__description__more"
+              className="p-0 btn-with-icon about__description__more"
               onClick={this.handleToggleFullDescription}>
               <span>{isFullDescriptionShown ? 'Less' : 'More'}</span>
               <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="20" />
             </Button>
-          ) : null}
+          )}
           <Button
             size="sm"
             color="link"
-            className="btn-with-icon about__description__edit"
+            className="p-0 btn-with-icon about__description__edit"
             onClick={this.handleEditDescriptionClick}>
             <Icon name="pencil" size="20" />
             <span>Edit</span>
@@ -124,10 +125,49 @@ class AboutMe extends React.Component {
   }
 
   render() {
+    const products = [
+      {
+        title: 'Sony Point & Shoot Digital Camera',
+        price: 134,
+        currency: '£',
+        imageUrl: 'https://images-eu.ssl-images-amazon.com/images/I/41Tzp1i30CL.jpg'
+      },
+      {
+        title: 'Some stone',
+        price: 50,
+        currency: '₴',
+        imageUrl: 'https://redir-img17.allegroimg.com/photos/400x300/71/53/92/87/7153928796'
+      },
+      {
+        title: 'Used boots',
+        price: 20,
+        currency: '$',
+        imageUrl: 'http://vallenok.ru/image/cache/data/content/image-04-250x235.jpg'
+      }
+    ];
+
+    const services = [
+      {
+        title: 'Carpentry',
+        price: 8,
+        currency: '$',
+        imageUrl:
+          'https://eieihome.com/articles/wp-content/uploads/2014/11/carpenter-carving-wood.jpg',
+        per: 'hour'
+      },
+      {
+        title: 'Plumber',
+        price: 6,
+        currency: '$',
+        imageUrl:
+          'http://gregmeyerplumbing.com/wp-content/themes/smallbiz3.7.3/images/emergency-plumber.jpg',
+        per: 'hour'
+      }
+    ];
+
     return (
       <div className="about">
         <ProfileSection
-          className="about__description"
           imageUrl="/assets/img/about.png"
           placeholder="Write something about yourself..."
           btnText="Add description"
@@ -135,20 +175,39 @@ class AboutMe extends React.Component {
           {this.getDescription()}
         </ProfileSection>
         <ProfileSection
-          className="about__listings"
           imageUrl="/assets/img/product.png"
           placeholder="Here will be displayed your created listings"
           btnText="Create listing"
           btnIcon="plus"
-          onBtnClick={this.props.onAddProductClick}
-        />
+          onBtnClick={this.props.onAddProductClick}>
+          {products &&
+            products.length > 0 && (
+              <OffersPreview
+                title="Products"
+                type="products"
+                viewAllLink="/profile/products"
+                newPlaceholder="Add listing"
+                offers={products}
+              />
+            )}
+        </ProfileSection>
         <ProfileSection
-          className="about__services"
           imageUrl="/assets/img/service.png"
           placeholder="Here will be displayed your services"
           btnText="Offer service"
           btnIcon="plus"
-        />
+          onBtnClick={this.props.onAddServiceClick}>
+          {services &&
+            services.length > 0 && (
+              <OffersPreview
+                title="Services"
+                type="services"
+                viewAllLink="/profile/services"
+                newPlaceholder="Offer service"
+                offers={services}
+              />
+            )}
+        </ProfileSection>
       </div>
     );
   }
@@ -157,7 +216,8 @@ class AboutMe extends React.Component {
 AboutMe.propTypes = {
   user: PropTypes.object.isRequired,
   updateProfile: PropTypes.func.isRequired,
-  onAddProductClick: PropTypes.func.isRequired
+  onAddProductClick: PropTypes.func.isRequired,
+  onAddServiceClick: PropTypes.func.isRequired
 };
 
 export default AboutMe;

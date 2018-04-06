@@ -1,20 +1,25 @@
 @import '../../../theme/index';
 
 .profile-section {
-  position: relative;
   margin-bottom: 10px;
-  padding: 30px;
-  background-color: white;
 
   &__empty {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    padding: 60px 0;
   }
 
   &__placeholder {
-    margin: 1rem 0;
+    margin: 1rem 0 2rem;
+  }
+
+  &__link {
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   &__button {

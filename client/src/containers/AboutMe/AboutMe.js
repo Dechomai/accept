@@ -31,6 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onAddProductClick() {
     ownProps.router.push('/products/add');
+  },
+  onAddServiceClick() {
+    ownProps.router.push('/services/add');
   }
 });
 
