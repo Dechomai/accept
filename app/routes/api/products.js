@@ -70,7 +70,7 @@ productsRouter
     (req, res) => {
       const {userId} = req;
       const data = pick(
-        ['title', 'createdBy', 'video', 'description', 'condition', 'price'],
+        ['title', 'createdBy', 'video', 'photos', 'description', 'condition', 'price'],
         req.body
       );
       // TODO: enhance with photos
