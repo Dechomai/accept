@@ -73,7 +73,6 @@ productsRouter
         ['title', 'createdBy', 'video', 'photos', 'description', 'condition', 'price'],
         req.body
       );
-      // TODO: enhance with photos
       productsController
         .addProduct(data, userId)
         .then(
