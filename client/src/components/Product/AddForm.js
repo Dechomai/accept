@@ -36,7 +36,7 @@ class InnerForm extends React.Component {
   }
 
   renderPhotos() {
-    return this.props.photos.map(photo => (
+    return this.props.photos.map((photo, index) => (
       <Tile key={photo.preview} sizes="col-3">
         <div
           style={{backgroundImage: `url(${photo.preview})`}}
@@ -46,6 +46,14 @@ class InnerForm extends React.Component {
             onClick={() => this.props.onPhotoDelete(photo)}>
             <Icon name="close" size="20" />
           </div>
+          <button
+            type="button"
+            className={classNames('btn btn-sm btn-primary btn-round', {
+              'btn-dark create-form__placeholder--primary': this.props.primaryPhotoIndex === index
+            })}
+            onClick={() => this.props.onPrimaryPhotoIndexChanged(index)}>
+            {this.props.primaryPhotoIndex === index ? 'Primary' : 'Make Primary'}
+          </button>
         </div>
       </Tile>
     ));
@@ -336,7 +344,9 @@ AddProductFrom.propTypes = {
   error: PropTypes.any,
   onSubmit: PropTypes.func.isRequired,
   photos: PropTypes.array,
+  primaryPhotoIndex: PropTypes.number,
   onPhotosAdded: PropTypes.func,
+  onPrimaryPhotoIndexChanged: PropTypes.func,
   onPhotoDelete: PropTypes.func,
   onCancelClick: PropTypes.func
 };
