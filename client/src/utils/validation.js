@@ -11,33 +11,34 @@ export const rules = {
     message: 'Please, enter valid number'
   },
   digits: {
-    predicate: val => !/^[0-9_.-]*$/.test(val),
+    predicate: val => val && !/^[0-9_.-]*$/.test(val),
     message: 'Please, use digits only'
   },
   lettersAndDigits: {
-    predicate: val => !/^[a-zA-Z0-9_.-]*$/.test(val),
+    predicate: val => val && !/^[a-zA-Z0-9_.-]*$/.test(val),
     message: 'Please, use letters and digits only'
   },
   lettersDigitsAndSpaces: {
-    predicate: val => !/^[a-zA-Z0-9 _.-]*$/.test(val),
+    predicate: val => val && !/^[a-zA-Z0-9 _.-]*$/.test(val),
     message: 'Please, use digits, numbers and spaces only'
   },
   price: {
-    predicate: val => !/^\d+(\.\d{2})?$/.test(val),
+    predicate: val => val && !/^\d+(\.\d{2})?$/.test(val),
     message:
       'Price is invalid. Please, enter a real number between 0.01 and 2000000000 with 2 digitals after dot.\n' +
       'Example: 555.05'
   },
   photosCount: {
-    predicate: val => val.length,
+    predicate: val => val && val.length,
     message: 'Please add at least one photo'
   },
   youtubeUrl: {
     predicate: val => val && !/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(val),
     message: 'Only youtube url allows'
   },
-  minLength: len => val => (val.length < len ? `Please, use minimum ${len} characters` : null),
-  maxLength: len => val => (val.length > len ? `Please, use up to ${len} characters.` : null)
+  minLength: len => val =>
+    val && (val.length < len ? `Please, use minimum ${len} characters` : null),
+  maxLength: len => val => val && (val.length > len ? `Please, use up to ${len} characters.` : null)
 };
 
 export const getMessage = (fieldRules, value, values) => {
