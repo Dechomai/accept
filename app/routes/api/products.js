@@ -55,7 +55,9 @@ productsRouter
         .exists()
         .isLength({min: 3, max: 400}),
       body('video')
-        .optional()
+        .optional({
+          checkFalsy: true
+        })
         .isURL(),
       body('description')
         .exists()

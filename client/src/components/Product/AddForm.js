@@ -61,10 +61,15 @@ class InnerForm extends React.Component {
       handleBlur,
       handleSubmit,
       isSubmitting,
-      onCancelClick
+      onCancelClick,
+      loading
     } = this.props;
     return (
-      <form className="create-form">
+      <form
+        className={classNames('create-form', {
+          'create-form--disabled': loading
+        })}>
+        <div className="loader" />
         <div className="container">
           <div className="row">
             <div className="col-md-3 col-sm-12">
