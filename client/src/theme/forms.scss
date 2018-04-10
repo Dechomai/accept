@@ -125,6 +125,27 @@
 }
 
 .create-form {
+  position: relative;
+  .loader {
+    position: fixed;
+    top: calc(50% - 60px);
+    left: calc(50% - 60px);
+  }
+  &--disabled {
+    pointer-events: none;
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      opacity: 0.4;
+      background-color: $white;
+      z-index: 1;
+    }
+  }
   .form-group {
     margin-bottom: 0;
   }

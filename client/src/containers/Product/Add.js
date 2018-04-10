@@ -6,7 +6,7 @@ import autobind from 'autobindr';
 import uuidv4 from 'uuid/v4';
 
 import AddProductForm from '../../components/Product/AddForm';
-import {selectUserStatus} from '../../selectors';
+import {selectProductStatus} from '../../selectors';
 import PropTypes from 'prop-types';
 import {createProduct} from '../../actions/product';
 
@@ -64,7 +64,7 @@ Add.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  status: selectUserStatus(state)
+  status: selectProductStatus(state)
 });
 
 const mapDispatchToProps = dispatch => ({
