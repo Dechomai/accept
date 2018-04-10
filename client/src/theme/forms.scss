@@ -192,6 +192,17 @@
       color: $gray-400;
     }
 
+    .btn {
+      font-size: 0.75rem;
+      position: absolute;
+      bottom: 15px;
+      display: none;
+    }
+
+    .create-form__placeholder--primary {
+      display: block;
+    }
+
     &__caption {
       width: 100%;
       height: 100%;
@@ -221,6 +232,9 @@
         .create-form__placeholder__close {
           display: flex;
           cursor: pointer;
+        }
+        .btn {
+          display: block;
         }
       }
       .create-form__placeholder__close {

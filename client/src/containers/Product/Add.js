@@ -14,16 +14,18 @@ class Add extends React.Component {
   constructor() {
     super();
     autobind(this);
-    this.state = {photos: []};
+    this.state = {photos: [], primaryPhotoIndex: 0};
   }
 
   handleFormSubmit(product) {
     const photosFolder = uuidv4();
     let data = assoc('photosFolder', photosFolder, product);
 
-    return this.props.createProduct(data, this.state.photos).then(() => {
-      this.props.router.push('/');
-    });
+    return this.props
+      .createProduct(data, this.state.photos, this.state.primaryPhotoIndex)
+      .then(() => {
+        this.props.router.push('/');
+      });
   }
 
   handlePhotosAdded(photos) {
@@ -39,6 +41,13 @@ class Add extends React.Component {
   handleCancelClick() {
     this.props.router.goBack();
   }
+
+  handlePrimaryPhotoIndexChanged(index) {
+    this.setState({
+      primaryPhotoIndex: index
+    });
+  }
+
   render() {
     return (
       <AddProductForm
@@ -46,7 +55,9 @@ class Add extends React.Component {
         error={this.props.status.error}
         onSubmit={this.handleFormSubmit}
         photos={this.state.photos}
+        primaryPhotoIndex={this.state.primaryPhotoIndex}
         onPhotosAdded={this.handlePhotosAdded}
+        onPrimaryPhotoIndexChanged={this.handlePrimaryPhotoIndexChanged}
         onPhotoDelete={this.handlePhotoDelete}
         onCancelClick={this.handleCancelClick}
       />
@@ -68,8 +79,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createProduct(product, files) {
-    return dispatch(createProduct(product, files));
+  createProduct(product, files, primaryPhotoIndex) {
+    return dispatch(createProduct(product, files, primaryPhotoIndex));
   }
 });
 
