@@ -33,7 +33,7 @@ export const rules = {
     message: 'Please add at least one photo'
   },
   youtubeUrl: {
-    predicate: val => !/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(val),
+    predicate: val => val && !/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(val),
     message: 'Only youtube url allows'
   },
   minLength: len => val => (val.length < len ? `Please, use minimum ${len} characters` : null),
