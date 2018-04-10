@@ -1,0 +1,25 @@
+@import '../../../theme/index';
+
+.item-tile {
+  margin: $grid-gutter-width / 2 0;
+
+  &__photo {
+    width: 100%;
+    padding-top: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  &__price {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &__title {
+  }
+}

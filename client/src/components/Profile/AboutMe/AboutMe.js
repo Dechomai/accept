@@ -10,6 +10,7 @@ import Icon from '../../common/Icon/Icon';
 import Text from '../../common/Text/Text';
 import ProfileSection from '../ProfileSection/ProfileSection';
 import OffersPreview from './OffersPreview/OffersPreview';
+// import ItemTile from '../../common/ItemTile/ItemTile';
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 200;
 
@@ -190,6 +191,49 @@ class AboutMe extends React.Component {
                 offers={products}
               />
             )}
+          {/* <div className="container-fluid">
+            <div className="row">
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/600x200"
+                price={1001241234123412343}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <div className="col-3 my-2">
+                <div className="h-100 w-100 bg-success h1 text-center">+</div>
+              </div>
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+            </div>
+          </div> */}
         </ProfileSection>
         <ProfileSection
           imageUrl="/assets/img/service.png"
