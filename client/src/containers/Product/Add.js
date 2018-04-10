@@ -33,8 +33,17 @@ class Add extends React.Component {
   }
 
   handlePhotoDelete(photo) {
+    let {primaryPhotoIndex} = this.state;
+    const deletedIndex = this.state.photos.indexOf(photo);
+    if (primaryPhotoIndex > deletedIndex) {
+      primaryPhotoIndex -= 1;
+    } else if (primaryPhotoIndex === deletedIndex) {
+      primaryPhotoIndex = 0;
+    }
+
     this.setState({
-      photos: without([photo], this.state.photos)
+      photos: without([photo], this.state.photos),
+      primaryPhotoIndex
     });
   }
 
