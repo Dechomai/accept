@@ -53,6 +53,11 @@ const authMiddleware = (req, res, next) => {
           })
           .catch(err => {
             logger.debug('token refresh failed', err);
+            if (err === null) {
+              logger.debug('refresh token not found', err);
+              clearTokenCookie(res);
+              sendUnauthorizedError(res);
+            }
             if (err.error === 'invalid_grant') {
               logger.debug('refresh token revoked/expired', err);
               tokenStorage.removeUserToken(userId).then(() => {

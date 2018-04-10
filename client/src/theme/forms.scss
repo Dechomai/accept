@@ -128,8 +128,8 @@
   position: relative;
   .loader {
     position: fixed;
-    top: calc(50% - 60px);
-    left: calc(50% - 60px);
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
   }
   &--disabled {
     pointer-events: none;

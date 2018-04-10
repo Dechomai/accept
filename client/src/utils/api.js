@@ -44,7 +44,7 @@ const api = {
     return this.fetch('DELETE', ...args);
   },
 
-  uploadFiles(url, files, others) {
+  uploadFiles(url, files, others = {}) {
     let formData = new FormData();
 
     Object.entries(files).forEach(([name, file]) => {
