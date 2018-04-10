@@ -13,7 +13,7 @@ const ProfileSection = ({
   placeholder,
   btnText,
   btnIcon,
-  onClick,
+  onBtnClick,
   children
 }) => {
   const isEmpty = !((Array.isArray(children) && children.length) || children);
@@ -25,8 +25,11 @@ const ProfileSection = ({
           <small className="profile-section__placeholder text-muted">{placeholder}</small>
           <Button
             outline
-            className={classNames('profile-section__button', {'btn-with-icon': btnIcon})}
-            onClick={onClick}>
+            className={classNames('profile-section__button', {
+              'btn-with-icon': btnIcon
+            })}
+            disabled={!onBtnClick}
+            onClick={onBtnClick}>
             {btnIcon && <Icon size="16" name={btnIcon} />}
             <span>{btnText}</span>
           </Button>
@@ -44,7 +47,7 @@ ProfileSection.propTypes = {
   placeholder: PropTypes.string.isRequired,
   btnText: PropTypes.string.isRequired,
   btnIcon: PropTypes.string,
-  onClick: PropTypes.func.isRequired
+  onBtnClick: PropTypes.func
 };
 
 ProfileSection.defaultProps = {

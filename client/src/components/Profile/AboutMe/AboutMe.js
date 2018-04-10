@@ -131,7 +131,7 @@ class AboutMe extends React.Component {
           imageUrl="/assets/img/about.png"
           placeholder="Write something about yourself..."
           btnText="Add description"
-          onClick={this.handleEditDescriptionClick}>
+          onBtnClick={this.handleEditDescriptionClick}>
           {this.getDescription()}
         </ProfileSection>
         <ProfileSection
@@ -140,7 +140,7 @@ class AboutMe extends React.Component {
           placeholder="Here will be displayed your created listings"
           btnText="Create listing"
           btnIcon="plus"
-          onClick={() => {}}
+          onBtnClick={this.props.onAddProductClick}
         />
         <ProfileSection
           className="about__services"
@@ -148,7 +148,6 @@ class AboutMe extends React.Component {
           placeholder="Here will be displayed your services"
           btnText="Offer service"
           btnIcon="plus"
-          onClick={() => {}}
         />
       </div>
     );
@@ -157,7 +156,8 @@ class AboutMe extends React.Component {
 
 AboutMe.propTypes = {
   user: PropTypes.object.isRequired,
-  updateProfile: PropTypes.func.isRequired
+  updateProfile: PropTypes.func.isRequired,
+  onAddProductClick: PropTypes.func.isRequired
 };
 
 export default AboutMe;

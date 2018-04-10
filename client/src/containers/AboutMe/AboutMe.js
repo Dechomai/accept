@@ -1,4 +1,6 @@
+import {compose} from 'ramda';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import {updateProfile} from '../../actions/user';
 import {selectUserData, selectUserStatus} from '../../selectors';
 import AboutMe from '../../components/Profile/AboutMe/AboutMe';
@@ -23,10 +25,13 @@ const mapStateToProps = (state, ownProps) => {
     }
   };
 };
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   updateProfile(profile) {
     return dispatch(updateProfile(profile));
+  },
+  onAddProductClick() {
+    ownProps.router.push('/products/add');
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AboutMe);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(AboutMe);
