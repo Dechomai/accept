@@ -69,7 +69,7 @@ class InnerForm extends React.Component {
         className={classNames('create-form', {
           'create-form--disabled': loading
         })}>
-        <div className="loader" />
+        {loading && <div className="loader" />}
         <div className="container">
           <div className="row">
             <div className="col-md-3 col-sm-12">

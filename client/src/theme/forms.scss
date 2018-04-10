@@ -124,7 +124,6 @@
 .create-form {
   position: relative;
   .loader {
-    display: none;
     position: fixed;
     top: calc(50% - 60px);
     left: calc(50% - 60px);
@@ -142,9 +141,6 @@
       opacity: 0.4;
       background-color: $white;
       z-index: 1;
-    }
-    .loader {
-      display: block;
     }
   }
   .form-group {
