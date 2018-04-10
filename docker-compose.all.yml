@@ -11,7 +11,8 @@ services:
       - mongo
     environment:
       - DB_HOST=mongo
-      - COGNITO_REDIRECT_URI=https://accept.ngrok.io/auth/logincb
+      - COGNITO_LOGIN_REDIRECT_URI=https://accept.ngrok.io/auth/logincb
+      - COGNITO_LOGOUT_REDIRECT_URI=https://accept.ngrok.io/auth/logoutcb
   mongo:
     container_name: mongo
     image: mongo:3.6
