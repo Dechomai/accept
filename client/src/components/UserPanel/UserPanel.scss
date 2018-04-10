@@ -16,6 +16,10 @@
   &__name {
     font-weight: 600;
     margin: 0.75rem 0;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   // &__location {
