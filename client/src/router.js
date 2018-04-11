@@ -8,7 +8,6 @@ import {selectUserData} from './selectors';
 
 import App from './layout/App';
 import Home from './layout/Home';
-import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
 import AddProduct from './layout/AddProduct';
 import Profile from './layout/UserProfile';
@@ -131,9 +130,6 @@ class Router extends React.Component {
               )}
             />
           </Route>
-
-          {/* Temp route to showcase UI kit */}
-          <Route path="demo" component={Demo} />
         </Route>
       </ReactRouter>
     );
