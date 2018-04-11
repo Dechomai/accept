@@ -2,7 +2,16 @@
 
 .item-tile {
   margin: $grid-gutter-width / 2 0;
-
+  font-size: 14px;
+  &--new {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid darken(white, 15%);
+    padding: 20px 0;
+  }
   &,
   &:hover,
   &:active,
@@ -23,15 +32,43 @@
     background-position: center center;
   }
 
-  &__price {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-weight: bold;
+  &__icon {
+    color: darken(white, 60%);
+  }
+
+  &__placeholder {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: darken(white, 40%);
   }
 
   &__title {
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+    &__value {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: Montserrat;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    &__per {
+      font-weight: 500;
+      color: darken(white, 48%);
+    }
+  }
+
+  &__image {
+    width: 100%;
+    padding-top: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
   }
 }
