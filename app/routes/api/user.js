@@ -2,12 +2,14 @@ const express = require('express');
 const {body} = require('express-validator/check');
 const {pick} = require('ramda');
 const userController = require('../../controllers/api/user');
+const authMiddleware = require('../../middlewares/auth');
 const validationMiddleware = require('../../middlewares/validation');
 const {sendSuccess, sendError} = require('../../helpers/response');
 
 const PATH = '/user';
 
 const userRouter = express.Router();
+userRouter.use(authMiddleware);
 
 userRouter
   .route('/')
@@ -38,6 +40,7 @@ userRouter
       body('phone')
         .optional()
         .isMobilePhone('any')
+
         .trim(),
       body('username')
         .exists()
