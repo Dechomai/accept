@@ -5,10 +5,13 @@ import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import {Button} from 'reactstrap';
 import classNames from 'classnames';
+import {map, find, prop, compose} from 'ramda';
 
 import Icon from '../../common/Icon/Icon';
 import Text from '../../common/Text/Text';
 import ProfileSection from '../ProfileSection/ProfileSection';
+import OffersPreview from './OffersPreview/OffersPreview';
+// import ItemTile from '../../common/ItemTile/ItemTile';
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 200;
 
@@ -20,6 +23,16 @@ class AboutMe extends React.Component {
     this.state = {description};
 
     autobind(this);
+  }
+
+  componentDidMount() {
+    const {products} = this.props;
+    if (!products || (products.loading && (!products.listValid || products.error))) {
+      // TODO: Obtain user id if someone visits other user's profile page
+      const scope = this.props.isCurrentUser ? 'user' : 'id';
+
+      this.props.fetchProducts(scope, 0, 3);
+    }
   }
 
   handleEditDescriptionClick() {
@@ -95,23 +108,23 @@ class AboutMe extends React.Component {
         <div className="about__description">
           <Text
             className="about__description__content"
-            maxCharacters={isFullDescriptionShown ? null : MAX_SHORT_DESCRIPTION_LENGTH}>
+            maxCharacters={!isFullDescriptionShown && MAX_SHORT_DESCRIPTION_LENGTH}>
             {description}
           </Text>
-          {isDescriptionLong ? (
+          {isDescriptionLong && (
             <Button
               size="sm"
               color="link"
-              className="btn-with-icon about__description__more"
+              className="p-0 btn-with-icon about__description__more"
               onClick={this.handleToggleFullDescription}>
               <span>{isFullDescriptionShown ? 'Less' : 'More'}</span>
               <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="20" />
             </Button>
-          ) : null}
+          )}
           <Button
             size="sm"
             color="link"
-            className="btn-with-icon about__description__edit"
+            className="p-0 btn-with-icon about__description__edit"
             onClick={this.handleEditDescriptionClick}>
             <Icon name="pencil" size="20" />
             <span>Edit</span>
@@ -124,10 +137,26 @@ class AboutMe extends React.Component {
   }
 
   render() {
+    let {products} = this.props;
+
+    if (products && products.data && !products.loading) {
+      products = map(
+        product => ({
+          title: product.title,
+          price: product.price,
+          type: 'product',
+          currency: '£',
+          imageUrl: compose(prop('uri'), find(photo => photo.primary), prop('photos'))(product)
+        }),
+        products.data
+      );
+    }
+
+    const services = [];
+
     return (
       <div className="about">
         <ProfileSection
-          className="about__description"
           imageUrl="/assets/img/about.png"
           placeholder="Write something about yourself..."
           btnText="Add description"
@@ -135,29 +164,95 @@ class AboutMe extends React.Component {
           {this.getDescription()}
         </ProfileSection>
         <ProfileSection
-          className="about__listings"
           imageUrl="/assets/img/product.png"
           placeholder="Here will be displayed your created listings"
           btnText="Create listing"
           btnIcon="plus"
-          onBtnClick={this.props.onAddProductClick}
-        />
+          onBtnClick={this.props.onAddProductClick}>
+          {products &&
+            products.length > 0 && (
+              <OffersPreview
+                title="Products"
+                type="product"
+                viewAllLink="/profile/products"
+                newPlaceholder="Add listing"
+                offers={products}
+              />
+            )}
+          {/* <div className="container-fluid">
+            <div className="row">
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/600x200"
+                price={1001241234123412343}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <div className="col-3 my-2">
+                <div className="h-100 w-100 bg-success h1 text-center">+</div>
+              </div>
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+              <ItemTile
+                sizes="col-3"
+                photo="http://placehold.it/20x20"
+                price={123}
+                title="alksdjhfask hflasjkdf asdh "
+              />
+            </div>
+          </div> */}
+        </ProfileSection>
         <ProfileSection
-          className="about__services"
           imageUrl="/assets/img/service.png"
           placeholder="Here will be displayed your services"
           btnText="Offer service"
           btnIcon="plus"
-        />
+          onBtnClick={this.props.onAddServiceClick}>
+          {services &&
+            services.length > 0 && (
+              <OffersPreview
+                title="Services"
+                type="service"
+                viewAllLink="/profile/services"
+                newPlaceholder="Offer service"
+                offers={services}
+              />
+            )}
+        </ProfileSection>
       </div>
     );
   }
 }
 
 AboutMe.propTypes = {
+  isCurrentUser: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  products: PropTypes.object.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
-  onAddProductClick: PropTypes.func.isRequired
+  onAddProductClick: PropTypes.func.isRequired,
+  onAddServiceClick: PropTypes.func.isRequired
 };
 
 export default AboutMe;

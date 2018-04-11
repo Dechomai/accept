@@ -1,0 +1,49 @@
+.offer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 14px;
+  &--new {
+    cursor: pointer;
+    align-items: center;
+    border: 1px solid darken(white, 15%);
+    padding: 20px 0;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__icon {
+    color: darken(white, 60%);
+  }
+
+  &__placeholder {
+    font-size: 13px;
+    font-weight: 600;
+    color: darken(white, 40%);
+  }
+
+  &__title {
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+    &__value {
+      font-family: Montserrat;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    &__per {
+      font-weight: 500;
+      color: darken(white, 48%);
+    }
+  }
+
+  &__image {
+    height: 170px;
+    margin-bottom: 12px;
+  }
+}

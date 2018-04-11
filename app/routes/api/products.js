@@ -1,5 +1,6 @@
 const express = require('express');
 const {body, query, param} = require('express-validator/check');
+const {isUUID} = require('validator');
 const {pick} = require('ramda');
 const {sendSuccess, sendError} = require('../../helpers/response');
 const productsController = require('../../controllers/api/products');
@@ -26,11 +27,14 @@ productsRouter
         .toInt(),
       query('user')
         .optional()
-        .isUUID() // should be uuid(as in sdk)
+        .custom(value => isUUID(value) || value === 'current')
     ),
     (req, res) => {
-      const {user: userId, limit = DEFAULT_LIMIT, skip = 0} = req.query;
-      if (userId) {
+      const {user, limit = DEFAULT_LIMIT, skip = 0} = req.query;
+
+      if (user) {
+        const userId = user === 'current' ? req.userId : user;
+
         productsController.getProductsForUser(userId, {limit, skip}).then(
           ({products, count}) => sendSuccess(res, {limit, skip, count, products}),
           err => {

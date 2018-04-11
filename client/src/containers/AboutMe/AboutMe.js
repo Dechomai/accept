@@ -2,17 +2,19 @@ import {compose} from 'ramda';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {updateProfile} from '../../actions/user';
-import {selectUserData, selectUserStatus} from '../../selectors';
+import {fetchProducts} from '../../actions/products';
+import {selectUserData, selectUserStatus, selectSomeOwnProducts} from '../../selectors';
 import AboutMe from '../../components/Profile/AboutMe/AboutMe';
 
 const mapStateToProps = (state, ownProps) => {
   // if current user
   // check based on route or smth.
-  if (!ownProps.userId) {
+  if (ownProps.userId) {
     return {
       isCurrentUser: true,
       user: selectUserData(state),
-      status: selectUserStatus(state)
+      status: selectUserStatus(state),
+      products: selectSomeOwnProducts(state, 0, 3)
     };
   }
 
@@ -29,8 +31,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateProfile(profile) {
     return dispatch(updateProfile(profile));
   },
+  fetchProducts(scope, skip, limit) {
+    return dispatch(fetchProducts(scope, skip, limit));
+  },
   onAddProductClick() {
     ownProps.router.push('/products/add');
+  },
+  onAddServiceClick() {
+    ownProps.router.push('/services/add');
   }
 });
 

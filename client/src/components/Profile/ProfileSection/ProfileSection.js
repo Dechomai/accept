@@ -17,6 +17,7 @@ const ProfileSection = ({
   children
 }) => {
   const isEmpty = !((Array.isArray(children) && children.length) || children);
+
   return (
     <div className={classNames('profile-section', className)}>
       {isEmpty ? (

@@ -1,7 +1,15 @@
 @import '../../../theme/index';
 .about {
   &__description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 30px;
+    background-color: white;
+
     &--edit {
+      padding: 25px 30px 15px;
+      background-color: white;
     }
 
     &--editing {
@@ -18,18 +26,17 @@
     }
 
     &__actions {
+      display: flex;
+      justify-content: flex-end;
       margin-top: 15px;
     }
 
     &__content {
       word-break: break-word;
+      align-self: flex-start;
     }
     &__more {
-    }
-    &__edit {
-      position: absolute;
-      right: 30px;
-      bottom: 15px;
+      margin-right: auto;
     }
     &__error {
       font-size: 12px;
