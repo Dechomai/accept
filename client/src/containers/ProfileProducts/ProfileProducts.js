@@ -3,14 +3,17 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import ProfileProducts from '../../components/Profile/ProfileProducts/ProfileProducts';
 import {fetchProducts} from '../../actions/products';
+import {selectSomeOwnProducts} from '../../selectors';
 
-const mapStateToProps = () => ({});
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchProducts(scope, skip, limit) {
-    return dispatch(fetchProducts(scope, skip, limit));
-  },
-  onAddProductClick() {
-    ownProps.router.push('/products/add');
+const DEFAULT_LIMIT = 19;
+
+const mapStateToProps = state => ({
+  products: selectSomeOwnProducts(state, 0, DEFAULT_LIMIT)
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchProducts() {
+    return dispatch(fetchProducts('user', 0, DEFAULT_LIMIT));
   }
 });
 

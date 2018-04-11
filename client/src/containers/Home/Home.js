@@ -6,7 +6,7 @@ import {selectUserData, selectUserStatus, selectAllProductsFor} from '../../sele
 import {fetchProducts} from '../../actions/products';
 import Home from '../../components/Home/Home';
 
-const DEFAULT_LIMIT = 6;
+const DEFAULT_LIMIT = 19;
 
 const mapStateToProps = state => ({
   userData: selectUserData(state),
