@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import {Button} from 'reactstrap';
 import classNames from 'classnames';
+import {map, find, prop, compose} from 'ramda';
 
 import Icon from '../../common/Icon/Icon';
 import Text from '../../common/Text/Text';
@@ -22,6 +23,16 @@ class AboutMe extends React.Component {
     this.state = {description};
 
     autobind(this);
+  }
+
+  componentDidMount() {
+    const {products} = this.props;
+    if (!products || (products.loading && (!products.listValid || products.error))) {
+      // TODO: Obtain user id if someone visits other user's profile page
+      const scope = this.props.isCurrentUser ? 'user' : 'id';
+
+      this.props.fetchProducts(scope, 0, 3);
+    }
   }
 
   handleEditDescriptionClick() {
@@ -126,45 +137,22 @@ class AboutMe extends React.Component {
   }
 
   render() {
-    const products = [
-      {
-        title: 'Sony Point & Shoot Digital Camera',
-        price: 134,
-        currency: '£',
-        imageUrl: 'https://images-eu.ssl-images-amazon.com/images/I/41Tzp1i30CL.jpg'
-      },
-      {
-        title: 'Some stone',
-        price: 50,
-        currency: '₴',
-        imageUrl: 'https://redir-img17.allegroimg.com/photos/400x300/71/53/92/87/7153928796'
-      },
-      {
-        title: 'Used boots',
-        price: 20,
-        currency: '$',
-        imageUrl: 'http://vallenok.ru/image/cache/data/content/image-04-250x235.jpg'
-      }
-    ];
+    let {products} = this.props;
 
-    const services = [
-      {
-        title: 'Carpentry',
-        price: 8,
-        currency: '$',
-        imageUrl:
-          'https://eieihome.com/articles/wp-content/uploads/2014/11/carpenter-carving-wood.jpg',
-        per: 'hour'
-      },
-      {
-        title: 'Plumber',
-        price: 6,
-        currency: '$',
-        imageUrl:
-          'http://gregmeyerplumbing.com/wp-content/themes/smallbiz3.7.3/images/emergency-plumber.jpg',
-        per: 'hour'
-      }
-    ];
+    if (products && products.data && !products.loading) {
+      products = map(
+        product => ({
+          title: product.title,
+          price: product.price,
+          type: 'product',
+          currency: '£',
+          imageUrl: compose(prop('uri'), find(photo => photo.primary), prop('photos'))(product)
+        }),
+        products.data
+      );
+    }
+
+    const services = [];
 
     return (
       <div className="about">
@@ -185,7 +173,7 @@ class AboutMe extends React.Component {
             products.length > 0 && (
               <OffersPreview
                 title="Products"
-                type="products"
+                type="product"
                 viewAllLink="/profile/products"
                 newPlaceholder="Add listing"
                 offers={products}
@@ -245,7 +233,7 @@ class AboutMe extends React.Component {
             services.length > 0 && (
               <OffersPreview
                 title="Services"
-                type="services"
+                type="service"
                 viewAllLink="/profile/services"
                 newPlaceholder="Offer service"
                 offers={services}
@@ -258,7 +246,10 @@ class AboutMe extends React.Component {
 }
 
 AboutMe.propTypes = {
+  isCurrentUser: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  products: PropTypes.object.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   onAddProductClick: PropTypes.func.isRequired,
   onAddServiceClick: PropTypes.func.isRequired
