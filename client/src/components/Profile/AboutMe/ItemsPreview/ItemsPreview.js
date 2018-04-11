@@ -29,15 +29,8 @@ class ItemsPreview extends React.Component {
         </div>
         <div className="container-fluid">
           <div className="row about__items__container">
-            <NewItemTile
-              placeholder={newPlaceholder}
-              type={type}
-              sizes="col-3"
-              className="col-lg-3"
-            />
-            {items.map((item, i) => (
-              <ItemTile key={i} {...item} sizes="col-3" className="col-lg-3" />
-            ))}
+            <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />
+            {items.map((item, i) => <ItemTile key={i} {...item} sizes="col-3" />)}
           </div>
         </div>
       </div>
