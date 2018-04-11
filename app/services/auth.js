@@ -8,6 +8,9 @@ const authService = {
   getLogoutUri() {
     return cognito.getLogoutUri();
   },
+  getSignUpUri() {
+    return cognito.getSignUpUri();
+  },
   getTokenByCode(code) {
     return cognito.getTokensByCode(code);
   },

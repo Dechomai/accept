@@ -18,7 +18,6 @@ class Home extends React.Component {
 
   componentDidMount() {
     const {products} = this.props;
-    console.log(products);
     if (!products || (products && !products.listValid)) {
       this.props.fetchProducts();
     }
