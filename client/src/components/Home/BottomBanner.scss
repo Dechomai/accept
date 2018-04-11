@@ -1,0 +1,43 @@
+@import '../../theme/index';
+
+.bottom-banner {
+  width: 100%;
+  margin-top: 1rem;
+  background-color: #faefd2;
+  background-image: url('/assets/img/bottom-banner.png');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
+  height: 400px;
+  padding: 2rem 1rem;
+
+  @include media-breakpoint-up(xs) {
+    //default styles
+  }
+
+  @include media-breakpoint-up(sm) {
+    padding: 3rem 2rem;
+  }
+
+  @include media-breakpoint-up(md) {
+  }
+
+  @include media-breakpoint-up(lg) {
+    background-size: auto;
+    padding: 3rem 480px 3rem 2rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    background-size: auto;
+    padding: 4rem 480px 4rem 4rem;
+  }
+
+  &__content {
+    &__text {
+    }
+
+    &__btn {
+      margin-top: 2rem;
+    }
+  }
+}

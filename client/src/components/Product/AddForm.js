@@ -65,19 +65,18 @@ class InnerForm extends React.Component {
       errors,
       touched,
       isValid,
+      isSubmitting,
       handleChange,
       handleBlur,
       handleSubmit,
-      isSubmitting,
-      onCancelClick,
-      loading
+      onCancelClick
     } = this.props;
     return (
       <form
         className={classNames('create-form', {
-          'create-form--disabled': loading
+          'create-form--disabled': isSubmitting
         })}>
-        {loading && <div className="loader" />}
+        {isSubmitting && <div className="loader" />}
         <div className="container">
           <div className="row">
             <div className="col-md-3 col-sm-12">
@@ -322,7 +321,6 @@ const AddProductFrom = withFormik({
       setSubmitting(false);
       setTouched({});
     });
-    setSubmitting(false);
   }
 })(InnerForm);
 
@@ -331,17 +329,14 @@ InnerForm.propTypes = {
   errors: PropTypes.any,
   touched: PropTypes.object,
   isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,
   handleSubmit: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  error: PropTypes.any,
-  loading: PropTypes.bool
+  onCancelClick: PropTypes.func
 };
 
 AddProductFrom.propTypes = {
-  loading: PropTypes.bool,
-  error: PropTypes.any,
   onSubmit: PropTypes.func.isRequired,
   photos: PropTypes.array,
   primaryPhotoIndex: PropTypes.number,

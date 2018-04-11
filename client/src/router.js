@@ -7,6 +7,7 @@ import {pathOr} from 'ramda';
 import {selectUserData} from './selectors';
 
 import App from './layout/App';
+import Home from './layout/Home';
 import Demo from './layout/Demo';
 import SignUp from './layout/SignUp';
 import AddProduct from './layout/AddProduct';
@@ -94,7 +95,7 @@ class Router extends React.Component {
           component={App}
           onEnter={this.onRootRouteEnter}
           onChange={this.onRootRouteChange}>
-          <IndexRoute component={() => <h1>Home</h1>} />
+          <IndexRoute component={Home} />
 
           <Route path="signup" component={SignUp} />
 
@@ -106,11 +107,29 @@ class Router extends React.Component {
           </Route>
 
           <Route path="products">
+            <IndexRoute component={() => <h1>All Products</h1>} />
             <Route path="add" component={AddProduct} />
+            <Route
+              path=":productId"
+              component={({params}) => (
+                <h1>
+                  Product <pre>{params.productId}</pre> Details
+                </h1>
+              )}
+            />
           </Route>
 
           <Route path="services">
+            <IndexRoute component={() => <h1>All Services</h1>} />
             <Route path="add" component={() => <h1>Add Service</h1>} />
+            <Route
+              path=":serviceId"
+              component={({params}) => (
+                <h1>
+                  Service <pre>{params.serviceId}</pre> Details
+                </h1>
+              )}
+            />
           </Route>
 
           {/* Temp route to showcase UI kit */}
