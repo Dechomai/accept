@@ -4,6 +4,7 @@ const {isUUID} = require('validator');
 const {pick} = require('ramda');
 const {sendSuccess, sendError} = require('../../helpers/response');
 const productsController = require('../../controllers/api/products');
+const authMiddleware = require('../../middlewares/auth');
 const validationMiddleware = require('../../middlewares/validation');
 
 const PATH = '/products';
@@ -54,6 +55,7 @@ productsRouter
     }
   )
   .post(
+    authMiddleware,
     validationMiddleware(
       body('title')
         .exists()

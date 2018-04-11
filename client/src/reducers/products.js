@@ -3,7 +3,16 @@ import createReducer from '../utils/createReducer';
 import {
   FETCH_PRODUCTS_REQUEST,
   FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_FAILURE
+  FETCH_PRODUCTS_FAILURE,
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE
 } from '../actions/products';
 
 const getInitialState = () => ({
@@ -57,14 +66,46 @@ const meta = (state = {}, action) => {
 
 const actions = [FETCH_PRODUCTS_REQUEST, FETCH_PRODUCTS_SUCCESS, FETCH_PRODUCTS_FAILURE];
 
+const invalidateActions = [
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE
+];
+
 const products = (state = getInitialState(), action) => {
   const {type} = action;
+
+  if (invalidateActions.includes(type)) {
+    return {
+      ...state,
+      all: invalidateState(state.all),
+      user: invalidateState(state.user)
+    };
+  }
+
   if (!actions.includes(type)) return state;
   const {scope} = action;
   return {
     ...state,
     [scope]: meta(state[scope], action)
   };
+};
+
+const invalidateState = state => {
+  const newState = {};
+  for (let param in state) {
+    newState[param] = {
+      ...state[param],
+      listValid: false
+    };
+  }
+  return newState;
 };
 
 export default products;

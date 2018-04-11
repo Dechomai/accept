@@ -1,0 +1,13 @@
+@import '../../theme/index';
+
+.home {
+  &__products,
+  &__services {
+    background: $white;
+    padding: 2rem;
+  }
+
+  &__products {
+    border-bottom: solid 1px $gray-400;
+  }
+}

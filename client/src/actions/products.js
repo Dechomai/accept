@@ -1,10 +1,55 @@
 import productService from '../services/product';
 
+export const CREATE_PRODUCT_REQUEST = 'CREATE_PRODUCT_REQUEST';
+export const CREATE_PRODUCT_SUCCESS = 'CREATE_PRODUCT_SUCCESS';
+export const CREATE_PRODUCT_FAILURE = 'CREATE_PRODUCT_FAILURE';
+
 export const FETCH_PRODUCTS_REQUEST = 'FETCH_PRODUCTS_REQUEST';
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS';
 export const FETCH_PRODUCTS_FAILURE = 'FETCH_PRODUCTS_FAILURE';
 
-// const scope = 'all' | 'user' | 'userId';
+export const UPDATE_PRODUCT_REQUEST = 'UPDATE_PRODUCT_REQUEST';
+export const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS';
+export const UPDATE_PRODUCT_FAILURE = 'UPDATE_PRODUCT_FAILURE';
+
+export const DELETE_PRODUCT_REQUEST = 'DELETE_PRODUCT_REQUEST';
+export const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS';
+export const DELETE_PRODUCT_FAILURE = 'DELETE_PRODUCT_FAILURE';
+
+// CREATE
+
+export const createProductRequest = () => ({
+  type: CREATE_PRODUCT_REQUEST,
+  payload: {}
+});
+
+export const createProductSuccess = product => ({
+  type: CREATE_PRODUCT_SUCCESS,
+  payload: {
+    product
+  }
+});
+
+export const createProductFailure = error => ({
+  type: CREATE_PRODUCT_FAILURE,
+  payload: {
+    error
+  }
+});
+
+export const createProduct = (product, files, primaryPhotoIndex) => dispatch => {
+  dispatch(createProductRequest());
+
+  return productService
+    .createProduct(product, files, primaryPhotoIndex)
+    .then(
+      data => dispatch(createProductSuccess(data.product)),
+      err => Promise.reject(dispatch(createProductFailure(err)))
+    );
+};
+
+// FETCH LIST
+// scope = 'all' | 'user' | userId;
 
 export const fetchProductsRequest = (scope, skip, limit) => ({
   type: FETCH_PRODUCTS_REQUEST,

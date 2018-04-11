@@ -6,7 +6,7 @@ const {createLoggerWith} = require('../../logger');
 const logger = createLoggerWith('[CTRL:Products]');
 
 const DEFAULT_SORT = {
-  createdAt: 1
+  createdAt: -1
 };
 
 const productController = {

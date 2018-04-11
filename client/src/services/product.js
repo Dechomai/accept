@@ -23,12 +23,7 @@ const productService = {
     return api.uploadFiles('/product', files, photosFolder);
   },
   getProducts(skip, limit) {
-    return api.get('/products', {
-      body: {
-        skip,
-        limit
-      }
-    });
+    return api.get(`/products?skip=${skip}&limit=${limit}`);
   },
   getUserProducts(userId, skip, limit) {
     return api.get('/products', {

@@ -6,9 +6,8 @@ import autobind from 'autobindr';
 import uuidv4 from 'uuid/v4';
 
 import AddProductForm from '../../components/Product/AddForm';
-import {selectProductStatus} from '../../selectors';
 import PropTypes from 'prop-types';
-import {createProduct} from '../../actions/product';
+import {createProduct} from '../../actions/products';
 
 class Add extends React.Component {
   constructor() {
@@ -60,8 +59,6 @@ class Add extends React.Component {
   render() {
     return (
       <AddProductForm
-        loading={this.props.status.loading}
-        error={this.props.status.error}
         onSubmit={this.handleFormSubmit}
         photos={this.state.photos}
         primaryPhotoIndex={this.state.primaryPhotoIndex}
@@ -76,16 +73,10 @@ class Add extends React.Component {
 
 Add.propTypes = {
   router: PropTypes.any,
-  status: PropTypes.shape({
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.any
-  }),
   createProduct: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  status: selectProductStatus(state)
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
   createProduct(product, files, primaryPhotoIndex) {
