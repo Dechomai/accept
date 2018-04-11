@@ -3,7 +3,8 @@ import {
   FETCH_PRODUCTS_REQUEST,
   // FETCH_PRODUCTS_SUCCESS,
   // FETCH_PRODUCTS_FAILURE,
-  fetchProductsRequest
+  fetchProductsRequest,
+  createProductRequest
   // fetchProductsSuccess,
   // fetchProductsFailure
 } from '../../actions/products';
@@ -45,5 +46,33 @@ describe('Reducers > products', () => {
   it(`should handle ${FETCH_PRODUCTS_REQUEST}`, () => {
     state = products(undefined, fetchProductsRequest('user', 1, 2));
     expect(state.user['skip=1,limit=2']).toHaveProperty('loading', true);
+  });
+
+  it('should invalidate state', () => {
+    state = products(
+      {
+        all: {
+          'skip=0,limit=10': {
+            loading: false,
+            error: null,
+            data: [1, 2, 3],
+            count: 0,
+            listValid: true
+          }
+        },
+        user: {
+          'skip=10,limit=10': {
+            loading: false,
+            error: null,
+            data: [4, 5, 6],
+            count: 0,
+            listValid: true
+          }
+        }
+      },
+      createProductRequest()
+    );
+    expect(state.all['skip=0,limit=10']).toHaveProperty('listValid', false);
+    expect(state.user['skip=10,limit=10']).toHaveProperty('listValid', false);
   });
 });
