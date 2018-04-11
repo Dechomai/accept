@@ -6,7 +6,7 @@ import Text from '../Text/Text';
 import classNames from 'classnames';
 import {Link} from 'react-router';
 
-const ItemTile = ({className, sizes, imageUrl, currency, price, title, link, per}) => {
+const ItemTile = ({className, sizes, imageUrl, currency, price, title, link, per, isLoading}) => {
   const imgUrl = imageUrl || 'http://placehold.it/200x200';
   const Component = link ? Link : 'div';
   const props = link ? {to: link} : {};
@@ -17,6 +17,11 @@ const ItemTile = ({className, sizes, imageUrl, currency, price, title, link, per
       className={classNames(sizes, 'item-tile', className, {
         'item-tile--link': link
       })}>
+      {isLoading && (
+        <div className="item-tile__overlay">
+          <div className="loader" />
+        </div>
+      )}
       <div className="item-tile__photo" style={{backgroundImage: `url(${imgUrl})`}} />
       <div className="item-tile__price">
         <span className="item-tile__price__value">
@@ -39,7 +44,8 @@ ItemTile.propTypes = {
   link: PropTypes.string,
   imageUrl: PropTypes.string,
   currency: PropTypes.string,
-  per: PropTypes.oneOf(['hour'])
+  per: PropTypes.oneOf(['hour']),
+  isLoading: PropTypes.bool
 };
 
 export default ItemTile;

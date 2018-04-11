@@ -32,7 +32,7 @@ class Home extends React.Component {
           key={product.id}
           link={`/products/${product.id}`}
           sizes="col-4 col-md-2"
-          photo={product.photos.length ? product.photos.find(p => p.primary).uri : null}
+          imageUrl={product.photos.length ? product.photos.find(p => p.primary).uri : null}
           price={product.price}
           title={product.title}
         />

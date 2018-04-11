@@ -26,7 +26,7 @@ class AboutMe extends React.Component {
 
   componentDidMount() {
     const {products} = this.props;
-    if (!products || (products.loading && (!products.listValid || products.error))) {
+    if (!products || (!products.loading && (!products.listValid || products.error))) {
       // TODO: Obtain user id if someone visits other user's profile page
       const scope = this.props.isCurrentUser ? 'user' : 'id';
 
@@ -136,10 +136,12 @@ class AboutMe extends React.Component {
   }
 
   render() {
-    let {products} = this.props;
+    const {products} = this.props;
 
-    if (products && products.data && !products.loading) {
-      products = map(
+    let productsList = [];
+
+    if (products && products.data) {
+      productsList = map(
         product => ({
           title: product.title,
           price: product.price,
@@ -168,16 +170,16 @@ class AboutMe extends React.Component {
           btnText="Create listing"
           btnIcon="plus"
           onBtnClick={this.props.onAddProductClick}>
-          {products &&
-            products.length > 0 && (
-              <ItemsPreview
-                title="Products"
-                type="products"
-                viewAllLink="/profile/products"
-                newPlaceholder="Add listing"
-                items={products}
-              />
-            )}
+          {productsList.length > 0 && (
+            <ItemsPreview
+              title="Products"
+              type="products"
+              viewAllLink="/profile/products"
+              newPlaceholder="Add listing"
+              items={productsList}
+              isLoading={products.loading || !products.listValid}
+            />
+          )}
         </ProfileSection>
         <ProfileSection
           imageUrl="/assets/img/service.png"
@@ -193,6 +195,7 @@ class AboutMe extends React.Component {
                 viewAllLink="/profile/services"
                 newPlaceholder="Offer service"
                 items={services}
+                isLoading={products.loading || !products.listValid}
               />
             )}
         </ProfileSection>

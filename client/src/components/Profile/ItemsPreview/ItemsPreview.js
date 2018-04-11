@@ -14,7 +14,7 @@ class ItemsPreview extends React.Component {
   }
 
   render() {
-    const {title, type, newPlaceholder, items} = this.props;
+    const {title, type, newPlaceholder, items, isLoading} = this.props;
 
     return (
       <div className="about__items">
@@ -30,7 +30,9 @@ class ItemsPreview extends React.Component {
         <div className="container-fluid">
           <div className="row about__items__container">
             <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />
-            {items.map((item, i) => <ItemTile key={i} {...item} sizes="col-3" />)}
+            {items.map((item, i) => (
+              <ItemTile key={i} {...item} isLoading={isLoading} sizes="col-3" />
+            ))}
           </div>
         </div>
       </div>
@@ -42,7 +44,8 @@ ItemsPreview.propTypes = {
   title: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['products', 'services']).isRequired,
   newPlaceholder: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool
 };
 
 export default ItemsPreview;
