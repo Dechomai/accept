@@ -3,12 +3,26 @@
 .footer {
   background: $black;
   color: $white;
-  padding: 1.5rem 0 0.5rem;
   color: $gray-600;
+
+  &__link {
+    font-size: $font-size-sm;
+    margin: 0 1rem;
+    &,
+    &:hover,
+    &:active,
+    &:visited {
+      color: $white;
+    }
+  }
 
   img {
     height: 29px;
     opacity: 0.5;
     margin-right: 2rem;
+  }
+
+  &__copyright {
+    border-top: solid 1px $gray-800;
   }
 }
