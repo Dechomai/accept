@@ -180,48 +180,48 @@ class AboutMe extends React.Component {
               />
             )}
           {/* <div className="container-fluid">
-            <div className="row">
-              <ItemTile
-                sizes="col-3"
-                photo="http://placehold.it/600x200"
-                price={1001241234123412343}
-                title="alksdjhfask hflasjkdf asdh "
-              />
-              <ItemTile
-                sizes="col-3"
-                photo="http://placehold.it/20x20"
-                price={123}
-                title="alksdjhfask hflasjkdf asdh "
-              />
-              <div className="col-3 my-2">
-                <div className="h-100 w-100 bg-success h1 text-center">+</div>
-              </div>
-              <ItemTile
-                sizes="col-3"
-                photo="http://placehold.it/20x20"
-                price={123}
-                title="alksdjhfask hflasjkdf asdh "
-              />
-              <ItemTile
-                sizes="col-3"
-                photo="http://placehold.it/20x20"
-                price={123}
-                title="alksdjhfask hflasjkdf asdh "
-              />
-              <ItemTile
-                sizes="col-3"
-                photo="http://placehold.it/20x20"
-                price={123}
-                title="alksdjhfask hflasjkdf asdh "
-              />
-              <ItemTile
-                sizes="col-3"
-                photo="http://placehold.it/20x20"
-                price={123}
-                title="alksdjhfask hflasjkdf asdh "
-              />
+          <div className="row">
+            <ItemTile
+              sizes="col-3"
+              photo="http://placehold.it/600x200"
+              price={1001241234123412343}
+              title="alksdjhfask hflasjkdf asdh "
+            />
+            <ItemTile
+              sizes="col-3"
+              photo="http://placehold.it/20x20"
+              price={123}
+              title="alksdjhfask hflasjkdf asdh "
+            />
+            <div className="col-3 my-2">
+              <div className="h-100 w-100 bg-success h1 text-center">+</div>
             </div>
-          </div> */}
+            <ItemTile
+              sizes="col-3"
+              photo="http://placehold.it/20x20"
+              price={123}
+              title="alksdjhfask hflasjkdf asdh "
+            />
+            <ItemTile
+              sizes="col-3"
+              photo="http://placehold.it/20x20"
+              price={123}
+              title="alksdjhfask hflasjkdf asdh "
+            />
+            <ItemTile
+              sizes="col-3"
+              photo="http://placehold.it/20x20"
+              price={123}
+              title="alksdjhfask hflasjkdf asdh "
+            />
+            <ItemTile
+              sizes="col-3"
+              photo="http://placehold.it/20x20"
+              price={123}
+              title="alksdjhfask hflasjkdf asdh "
+            />
+          </div>
+        </div> */}
         </ProfileSection>
         <ProfileSection
           imageUrl="/assets/img/service.png"
@@ -248,7 +248,7 @@ class AboutMe extends React.Component {
 AboutMe.propTypes = {
   isCurrentUser: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  products: PropTypes.object.isRequired,
+  products: PropTypes.any,
   fetchProducts: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   onAddProductClick: PropTypes.func.isRequired,
