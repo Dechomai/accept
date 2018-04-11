@@ -62,7 +62,7 @@ class Header extends React.Component {
               </DropdownItem>
             </Link>
             <DropdownItem divider />
-            <DropdownItem href="/signout" className="header__user-info__dropdown__link">
+            <DropdownItem href="/logout" className="header__user-info__dropdown__link">
               <Icon name="logout" size="20" />
               <small className="text-muted">Logout</small>
             </DropdownItem>

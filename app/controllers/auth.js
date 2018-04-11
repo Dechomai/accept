@@ -10,9 +10,15 @@ const authController = {
   getLoginUri() {
     return authService.getLoginUri();
   },
+
+  getSignUpUri() {
+    return authService.getSignUpUri();
+  },
+
   getLogoutUri() {
     return authService.getLogoutUri();
   },
+
   userLoggedIn(code) {
     return authService
       .getTokenByCode(code)
@@ -53,6 +59,7 @@ const authController = {
         return Promise.reject(err);
       });
   },
+
   userLogOut(userId) {
     return tokenStorage.removeUserToken(userId).then(
       () => {
@@ -64,6 +71,7 @@ const authController = {
       }
     );
   },
+
   userLoggedOutConfirmed() {
     logger.info('User logout confirmend by Cognito');
     return Promise.resolve();
