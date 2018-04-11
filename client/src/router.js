@@ -16,7 +16,7 @@ import AboutMe from './containers/AboutMe/AboutMe';
 /*
 
   / - home
-  /signup - finish signup wizard
+  /signup-finish - finish signup-finish wizard
 
   User Profile
 
@@ -55,14 +55,14 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
   const state = store.getState();
   const user = selectUserData(state);
 
-  // if user status is 'newreg' redirect to /signup
-  if (pathname !== '/signup' && user && user.status === 'newreg') {
-    replace('/signup');
+  // if user status is 'newreg' redirect to /signup-finish
+  if (pathname !== '/signup-finish' && user && user.status === 'newreg') {
+    replace('/signup-finish');
     return cb();
   }
 
-  // if user status is other that 'newreg' disable /signup
-  if (pathname === '/signup' && (!user || (user && user.status !== 'newreg'))) {
+  // if user status is other that 'newreg' disable /signup-finish
+  if (pathname === '/signup-finish' && (!user || (user && user.status !== 'newreg'))) {
     const prev = pathOr('/', ['location', 'pathname'], prevState);
     replace(prev);
     return cb();
@@ -96,7 +96,7 @@ class Router extends React.Component {
           onChange={this.onRootRouteChange}>
           <IndexRoute component={Home} />
 
-          <Route path="signup" component={SignUp} />
+          <Route path="signup-finish" component={SignUp} showFooter={false} />
 
           <Route path="profile" component={Profile}>
             <IndexRoute component={AboutMe} />

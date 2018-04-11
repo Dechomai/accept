@@ -1,0 +1,14 @@
+@import '../../theme/index';
+
+.footer {
+  background: $black;
+  color: $white;
+  padding: 1.5rem 0 0.5rem;
+  color: $gray-600;
+
+  img {
+    height: 29px;
+    opacity: 0.5;
+    margin-right: 2rem;
+  }
+}
