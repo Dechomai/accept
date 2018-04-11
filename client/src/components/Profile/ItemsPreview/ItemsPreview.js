@@ -4,9 +4,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button} from 'reactstrap';
-import ItemTile from '../../../common/ItemTile/ItemTile';
-import NewItemTile from '../../../common/ItemTile/NewItemTile';
-import Icon from '../../../common/Icon/Icon';
+import ItemTile from '../../common/ItemTile/ItemTile';
+import NewItemTile from '../../common/ItemTile/NewItemTile';
+import Icon from '../../common/Icon/Icon';
 
 class ItemsPreview extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class ItemsPreview extends React.Component {
 
 ItemsPreview.propTypes = {
   title: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['product', 'service']).isRequired,
+  type: PropTypes.oneOf(['products', 'services']).isRequired,
   newPlaceholder: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired
 };

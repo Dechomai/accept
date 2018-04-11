@@ -19,7 +19,9 @@ const ItemTile = ({className, sizes, imageUrl, currency, price, title, link, per
       })}>
       <div className="item-tile__photo" style={{backgroundImage: `url(${imgUrl})`}} />
       <div className="item-tile__price">
-        <span className="item-tile__price__value">{`${currency} ${price.toFixed(2)}`}</span>
+        <span className="item-tile__price__value">
+          {`${currency || ''} ${price.toFixed(2)}`.trim()}
+        </span>
         {per && <span className="item-tile__price__per">{`/ ${per}`}</span>}
       </div>
       <Text className="item-tile__title" maxCharacters={40}>
@@ -36,7 +38,7 @@ ItemTile.propTypes = {
   title: PropTypes.string.isRequired,
   link: PropTypes.string,
   imageUrl: PropTypes.string,
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.string,
   per: PropTypes.oneOf(['hour'])
 };
 

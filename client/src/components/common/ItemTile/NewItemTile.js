@@ -16,7 +16,7 @@ const NewItemTile = props => (
 NewItemTile.propTypes = {
   sizes: PropTypes.string.isRequired,
   className: PropTypes.string,
-  type: PropTypes.oneOf(['product', 'service']).isRequired,
+  type: PropTypes.oneOf(['products', 'services']).isRequired,
   placeholder: PropTypes.string.isRequired
 };
 

@@ -10,7 +10,7 @@ import {map, find, prop, compose} from 'ramda';
 import Icon from '../../common/Icon/Icon';
 import Text from '../../common/Text/Text';
 import ProfileSection from '../ProfileSection/ProfileSection';
-import ItemsPreview from './ItemsPreview/ItemsPreview';
+import ItemsPreview from '../ItemsPreview/ItemsPreview';
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 200;
 
@@ -172,7 +172,7 @@ class AboutMe extends React.Component {
             products.length > 0 && (
               <ItemsPreview
                 title="Products"
-                type="product"
+                type="products"
                 viewAllLink="/profile/products"
                 newPlaceholder="Add listing"
                 items={products}
@@ -189,7 +189,7 @@ class AboutMe extends React.Component {
             services.length > 0 && (
               <ItemsPreview
                 title="Services"
-                type="service"
+                type="services"
                 viewAllLink="/profile/services"
                 newPlaceholder="Offer service"
                 items={services}
