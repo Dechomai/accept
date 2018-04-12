@@ -27,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     }
   };
 };
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
   updateProfile(profile) {
     return dispatch(updateProfile(profile));

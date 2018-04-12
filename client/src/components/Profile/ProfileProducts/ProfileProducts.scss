@@ -1,0 +1,12 @@
+@import '../../../theme/index';
+
+.profile-products {
+  background-color: $white;
+  &__title {
+    border-bottom: 2px solid $gray-100;
+    padding: 1.25rem 1.5rem;
+  }
+  &__content {
+    padding: 1.25rem 1.5rem;
+  }
+}
