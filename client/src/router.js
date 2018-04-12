@@ -11,6 +11,7 @@ import Home from './layout/Home';
 import SignUp from './layout/SignUp';
 import AddProduct from './layout/AddProduct';
 import Profile from './layout/UserProfile';
+import AllProducts from './layout/AllProducts';
 import AboutMe from './containers/Profile/About';
 import ProfileProducts from './containers/Profile/Products';
 
@@ -107,7 +108,7 @@ class Router extends React.Component {
           </Route>
 
           <Route path="products">
-            <IndexRoute component={() => <h1>All Products</h1>} />
+            <IndexRoute component={AllProducts} />
             <Route path="add" component={AddProduct} />
             <Route
               path=":productId"
