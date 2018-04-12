@@ -8,10 +8,11 @@ const mediaController = {
       folder: 'users'
     });
   },
-  uploadProductImages(folder, images) {
+  uploadProductImages(productId, images) {
     return Promise.all(
       images.reduce(
-        (acc, image) => acc.concat([cloudinary.uploadImage(image, {folder: `products/${folder}`})]),
+        (acc, image) =>
+          acc.concat([cloudinary.uploadImage(image, {folder: `products/${productId}`})]),
         []
       )
     );

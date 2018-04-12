@@ -33,7 +33,7 @@ class ItemsPreview extends React.Component {
                 link={`/${type}/${item.id}`}
                 price={item.price}
                 title={item.title}
-                imageUrl={item.photos.length ? item.photos.find(p => p.primary).uri : null}
+                imageUrl={item.photos.length ? item.photos[item.primaryPhotoIndex] : null}
                 sizes="col-3"
               />
             ))}
