@@ -6,6 +6,11 @@
     border-bottom: 2px solid $gray-100;
     padding: 1.25rem 1.5rem;
   }
+
+  &__pagination {
+    padding: 1.25rem 1.5rem 0;
+  }
+
   &__content {
     padding: 1.25rem 1.5rem;
   }
