@@ -56,7 +56,6 @@ describe('Reducers > products', () => {
             loading: false,
             error: null,
             data: [1, 2, 3],
-            count: 0,
             listValid: true
           }
         },
@@ -65,7 +64,6 @@ describe('Reducers > products', () => {
             loading: false,
             error: null,
             data: [4, 5, 6],
-            count: 0,
             listValid: true
           }
         }
