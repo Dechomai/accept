@@ -11,8 +11,8 @@ import Home from './layout/Home';
 import SignUp from './layout/SignUp';
 import AddProduct from './layout/AddProduct';
 import Profile from './layout/UserProfile';
-import AboutMe from './containers/AboutMe/AboutMe';
-import ProfileProducts from './containers/ProfileProducts/ProfileProducts';
+import AboutMe from './containers/Profile/About';
+import ProfileProducts from './containers/Profile/Products';
 
 /*
 

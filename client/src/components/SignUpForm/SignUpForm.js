@@ -6,7 +6,7 @@ import {withFormik} from 'formik';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import FileUpload from '../FileUpload/FileUpload';
+import FileUpload from '../common/FileUpload/FileUpload';
 import Icon from '../common/Icon/Icon';
 import createValidator, {rules} from '../../utils/validation';
 import userService from '../../services/user';

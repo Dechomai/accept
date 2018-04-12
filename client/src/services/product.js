@@ -26,13 +26,7 @@ const productService = {
     return api.get(`/products?skip=${skip}&limit=${limit}`);
   },
   getUserProducts(userId, skip, limit) {
-    return api.get('/products', {
-      body: {
-        user: userId,
-        skip,
-        limit
-      }
-    });
+    return api.get(`/products?user=${userId}&skip=${skip}&limit=${limit}`);
   }
 };
 

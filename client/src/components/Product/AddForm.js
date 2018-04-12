@@ -7,7 +7,7 @@ import autobind from 'autobindr';
 import {Button} from 'reactstrap';
 
 import Icon from '../common/Icon/Icon';
-import FileUpload from '../FileUpload/FileUpload';
+import FileUpload from '../common/FileUpload/FileUpload';
 import {rules} from '../../utils/validation';
 import createValidator from '../../utils/validation';
 import Tile from '../common/Tile/Tile';

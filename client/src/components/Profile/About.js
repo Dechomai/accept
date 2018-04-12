@@ -1,21 +1,19 @@
-import './AboutMe.scss';
+import './About.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import {Button} from 'reactstrap';
 import classNames from 'classnames';
-import {map, find, prop, compose} from 'ramda';
 
-import Icon from '../../common/Icon/Icon';
-import Text from '../../common/Text/Text';
-import ProfileSection from '../ProfileSection/ProfileSection';
-import OffersPreview from './OffersPreview/OffersPreview';
-// import ItemTile from '../../common/ItemTile/ItemTile';
+import Icon from '../common/Icon/Icon';
+import Text from '../common/Text/Text';
+import ProfileSection from './ProfileSection/ProfileSection';
+import ItemsPreview from './ItemsPreview/ItemsPreview';
 
 const MAX_SHORT_DESCRIPTION_LENGTH = 200;
 
-class AboutMe extends React.Component {
+class About extends React.Component {
   constructor(props) {
     super(props);
     const {description} = this.props.user;
@@ -27,7 +25,7 @@ class AboutMe extends React.Component {
 
   componentDidMount() {
     const {products} = this.props;
-    if (!products || (products.loading && (!products.listValid || products.error))) {
+    if (!products || (!products.loading && (!products.listValid || products.error))) {
       // TODO: Obtain user id if someone visits other user's profile page
       const scope = this.props.isCurrentUser ? 'user' : 'id';
 
@@ -136,24 +134,37 @@ class AboutMe extends React.Component {
     return null;
   }
 
+  getProducts() {
+    const {products} = this.props;
+    const showProducts = products && products.data && products.data.length;
+    if (!showProducts) return null;
+    return (
+      <ItemsPreview
+        title="Products"
+        type="products"
+        viewAllLink="/profile/products"
+        newPlaceholder="Add listing"
+        items={products.data}
+      />
+    );
+  }
+
+  getServices() {
+    const {services} = this.props;
+    const showServices = services && services.data && services.data.length;
+    if (!showServices) return null;
+    return (
+      <ItemsPreview
+        title="Sroducts"
+        type="services"
+        viewAllLink="/profile/services"
+        newPlaceholder="Offer service"
+        items={services.data}
+      />
+    );
+  }
+
   render() {
-    let {products} = this.props;
-
-    if (products && products.data && !products.loading) {
-      products = map(
-        product => ({
-          title: product.title,
-          price: product.price,
-          type: 'product',
-          currency: '£',
-          imageUrl: compose(prop('uri'), find(photo => photo.primary), prop('photos'))(product)
-        }),
-        products.data
-      );
-    }
-
-    const services = [];
-
     return (
       <div className="about">
         <ProfileSection
@@ -169,59 +180,7 @@ class AboutMe extends React.Component {
           btnText="Create listing"
           btnIcon="plus"
           onBtnClick={this.props.onAddProductClick}>
-          {products &&
-            products.length > 0 && (
-              <OffersPreview
-                title="Products"
-                type="product"
-                viewAllLink="/profile/products"
-                newPlaceholder="Add listing"
-                offers={products}
-              />
-            )}
-          {/* <div className="container-fluid">
-          <div className="row">
-            <ItemTile
-              sizes="col-3"
-              photo="http://placehold.it/600x200"
-              price={1001241234123412343}
-              title="alksdjhfask hflasjkdf asdh "
-            />
-            <ItemTile
-              sizes="col-3"
-              photo="http://placehold.it/20x20"
-              price={123}
-              title="alksdjhfask hflasjkdf asdh "
-            />
-            <div className="col-3 my-2">
-              <div className="h-100 w-100 bg-success h1 text-center">+</div>
-            </div>
-            <ItemTile
-              sizes="col-3"
-              photo="http://placehold.it/20x20"
-              price={123}
-              title="alksdjhfask hflasjkdf asdh "
-            />
-            <ItemTile
-              sizes="col-3"
-              photo="http://placehold.it/20x20"
-              price={123}
-              title="alksdjhfask hflasjkdf asdh "
-            />
-            <ItemTile
-              sizes="col-3"
-              photo="http://placehold.it/20x20"
-              price={123}
-              title="alksdjhfask hflasjkdf asdh "
-            />
-            <ItemTile
-              sizes="col-3"
-              photo="http://placehold.it/20x20"
-              price={123}
-              title="alksdjhfask hflasjkdf asdh "
-            />
-          </div>
-        </div> */}
+          {this.getProducts()}
         </ProfileSection>
         <ProfileSection
           imageUrl="/assets/img/service.png"
@@ -229,30 +188,22 @@ class AboutMe extends React.Component {
           btnText="Offer service"
           btnIcon="plus"
           onBtnClick={this.props.onAddServiceClick}>
-          {services &&
-            services.length > 0 && (
-              <OffersPreview
-                title="Services"
-                type="service"
-                viewAllLink="/profile/services"
-                newPlaceholder="Offer service"
-                offers={services}
-              />
-            )}
+          {this.getServices()}
         </ProfileSection>
       </div>
     );
   }
 }
 
-AboutMe.propTypes = {
+About.propTypes = {
   isCurrentUser: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   products: PropTypes.any,
+  services: PropTypes.any,
   fetchProducts: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   onAddProductClick: PropTypes.func.isRequired,
   onAddServiceClick: PropTypes.func.isRequired
 };
 
-export default AboutMe;
+export default About;

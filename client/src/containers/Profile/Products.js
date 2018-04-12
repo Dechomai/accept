@@ -1,7 +1,7 @@
 import {compose} from 'ramda';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import ProfileProducts from '../../components/Profile/ProfileProducts/ProfileProducts';
+import ProfileProducts from '../../components/Profile/Products';
 import {fetchProducts} from '../../actions/products';
 import {selectSomeOwnProducts} from '../../selectors';
 

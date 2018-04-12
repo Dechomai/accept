@@ -1,6 +1,9 @@
-import './ProfileProducts.scss';
+import './Products.scss';
 import React from 'react';
-import ItemTile from '../../common/ItemTile/ItemTile';
+import ItemTile from '../common/ItemTile/ItemTile';
+import NewItemTile from '../common/ItemTile/NewItemTile';
+
+const TILE_SIZE = 'col-6 col-sm-3';
 
 class ProfileProduct extends React.Component {
   componentDidMount() {
@@ -15,17 +18,21 @@ class ProfileProduct extends React.Component {
     if (!products || products.loading) return <div className="loader" />;
 
     if (products.data) {
-      return products.data.map(product => (
-        <ItemTile
-          key={product.id}
-          link={`/products/${product.id}`}
-          sizes="col-3 col-md-3"
-          editable={true}
-          photo={product.photos.length ? product.photos.find(p => p.primary).uri : null}
-          price={product.price}
-          title={product.title}
-        />
-      ));
+      return [
+        <NewItemTile key="new" type="products" sizes={TILE_SIZE} placeholder="Add listing" />
+      ].concat(
+        products.data.map(product => (
+          <ItemTile
+            key={product.id}
+            link={`/products/${product.id}`}
+            sizes={TILE_SIZE}
+            editable={true}
+            photo={product.photos.length ? product.photos.find(p => p.primary).uri : null}
+            price={product.price}
+            title={product.title}
+          />
+        ))
+      );
     }
   }
 
