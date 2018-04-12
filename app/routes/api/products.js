@@ -121,7 +121,7 @@ productsRouter
           },
           err => {
             logger.error('post:products', 'Error uploading images', err);
-            //sendError(res, {message: 'Error uploading images'}, {status: 400});
+            sendError(res, {message: 'Error uploading images'}, {status: 400});
           }
         )
         .then(imageUrls => {
