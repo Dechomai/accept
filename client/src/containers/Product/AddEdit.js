@@ -65,12 +65,12 @@ class AddEdit extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <AddEditProductForm
         onSubmit={this.handleFormSubmit}
         photos={this.state.photos}
         primaryPhotoIndex={this.state.primaryPhotoIndex}
+        product={this.props.product}
         onPhotosAdded={this.handlePhotosAdded}
         onPrimaryPhotoIndexChanged={this.handlePrimaryPhotoIndexChanged}
         onPhotoDelete={this.handlePhotoDelete}
@@ -87,8 +87,7 @@ AddEdit.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    //TODO change skip and limit
-    product: selectOwnProductById(state, 0, 19, ownProps.params.productId)
+    product: selectOwnProductById(state, ownProps.params.productId)
   };
 };
 

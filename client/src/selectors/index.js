@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import {find, propEq} from 'ramda';
 
 const selectUser = state => state.user;
 const selectProduct = state => state.product;
@@ -30,10 +29,4 @@ export const selectAllProductsFor = createSelector(
   (products, {skip, limit}) => products[`skip=${skip},limit=${limit}`]
 );
 
-export const selectOwnProductById = (state, skip, limit, productId) => {
-  const product = selectProductDetails(state)[productId];
-  if (product) return product;
-
-  const productsList = selectSomeOwnProducts(state, skip, limit);
-  return productsList && productsList.listValid && find(propEq('id', productId))(productsList.data);
-};
+export const selectOwnProductById = (state, productId) => selectProductDetails(state)[productId];

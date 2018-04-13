@@ -302,13 +302,22 @@ class InnerForm extends React.Component {
 }
 
 const AddProductFrom = withFormik({
-  mapPropsToValues: () => ({
-    title: '',
-    video: '',
-    description: '',
-    condition: 'new',
-    price: ''
-  }),
+  enableReinitialize: true,
+  mapPropsToValues: props => {
+    const {product} = props;
+
+    if (product && product.data) {
+      return pick(['title', 'video', 'description', 'condition', 'price'], product.data);
+    }
+
+    return {
+      title: '',
+      video: '',
+      description: '',
+      condition: 'new',
+      price: ''
+    };
+  },
   validate: createValidator({
     title: ['required', rules.minLength(3), rules.maxLength(400), 'lettersDigitsAndSpaces'],
     video: ['youtubeUrl'],
