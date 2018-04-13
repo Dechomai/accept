@@ -5,15 +5,23 @@ import {compose, without, assoc} from 'ramda';
 import autobind from 'autobindr';
 import uuidv4 from 'uuid/v4';
 
-import AddProductForm from '../../components/Product/AddForm';
+import {selectOwnProductById} from '../../selectors';
+import AddEditProductForm from '../../components/Product/AddEditForm';
 import PropTypes from 'prop-types';
-import {createProduct} from '../../actions/products';
+import {createProduct, fetchProductById} from '../../actions/products';
 
-class Add extends React.Component {
-  constructor() {
-    super();
+class AddEdit extends React.Component {
+  constructor(props) {
+    super(props);
     autobind(this);
     this.state = {photos: [], primaryPhotoIndex: 0};
+  }
+
+  componentDidMount() {
+    const {params, product} = this.props;
+    if (!product && params.productId) {
+      this.props.fetchProductById(params.productId);
+    }
   }
 
   handleFormSubmit(product) {
@@ -57,8 +65,9 @@ class Add extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
-      <AddProductForm
+      <AddEditProductForm
         onSubmit={this.handleFormSubmit}
         photos={this.state.photos}
         primaryPhotoIndex={this.state.primaryPhotoIndex}
@@ -71,17 +80,25 @@ class Add extends React.Component {
   }
 }
 
-Add.propTypes = {
+AddEdit.propTypes = {
   router: PropTypes.any,
   createProduct: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state, ownProps) => {
+  return {
+    //TODO change skip and limit
+    product: selectOwnProductById(state, 0, 19, ownProps.params.productId)
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   createProduct(product, files, primaryPhotoIndex) {
     return dispatch(createProduct(product, files, primaryPhotoIndex));
+  },
+  fetchProductById(productId) {
+    return dispatch(fetchProductById(productId));
   }
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Add);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(AddEdit);

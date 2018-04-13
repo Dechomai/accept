@@ -2,15 +2,27 @@ import './Products.scss';
 import React from 'react';
 import ItemTile from '../common/ItemTile/ItemTile';
 import NewItemTile from '../common/ItemTile/NewItemTile';
+import autobind from 'autobindr';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
 class ProfileProduct extends React.Component {
+  constructor(props) {
+    super(props);
+    autobind(this);
+  }
+
   componentDidMount() {
     const {products} = this.props;
     if (!products || (products && !products.listValid)) {
       this.props.fetchProducts();
     }
+  }
+
+  handleOnClickEdit(e, productId) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.router.push(`/products/edit/${productId}`);
   }
 
   renderProductsList() {
@@ -27,6 +39,9 @@ class ProfileProduct extends React.Component {
             link={`/products/${product.id}`}
             sizes={TILE_SIZE}
             editable={true}
+            onClickEdit={e => {
+              this.handleOnClickEdit(e, product.id);
+            }}
             photo={product.photos.length ? product.photos.find(p => p.primary).uri : null}
             price={product.price}
             title={product.title}

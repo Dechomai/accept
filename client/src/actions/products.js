@@ -16,6 +16,10 @@ export const DELETE_PRODUCT_REQUEST = 'DELETE_PRODUCT_REQUEST';
 export const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS';
 export const DELETE_PRODUCT_FAILURE = 'DELETE_PRODUCT_FAILURE';
 
+export const FETCH_PRODUCT_BY_ID_REQUEST = 'FETCH_PRODUCT_BY_ID_REQUEST';
+export const FETCH_PRODUCT_BY_ID_SUCCESS = 'FETCH_PRODUCT_BY_ID_SUCCESS';
+export const FETCH_PRODUCT_BY_ID_FAILURE = 'FETCH_PRODUCT_BY_ID_FAILURE';
+
 // CREATE
 
 export const createProductRequest = () => ({
@@ -98,4 +102,38 @@ export const fetchProducts = (scope, skip, limit) => dispatch => {
     data => dispatch(fetchProductsSuccess(scope, skip, limit, data.products, data.count)),
     err => Promise.reject(dispatch(fetchProductsFailure(scope, skip, limit, err)))
   );
+};
+
+//Product by ID
+export const fetchProductByIdRequest = productId => ({
+  type: FETCH_PRODUCT_BY_ID_REQUEST,
+  productId,
+  payload: {}
+});
+
+export const fetchProductByIdSuccess = (productId, product) => ({
+  type: FETCH_PRODUCT_BY_ID_SUCCESS,
+  productId,
+  payload: {
+    product
+  }
+});
+
+export const fetchProductByIdFailure = (productId, error) => ({
+  type: FETCH_PRODUCT_BY_ID_FAILURE,
+  productId,
+  payload: {
+    error
+  }
+});
+
+export const fetchProductById = productId => dispatch => {
+  dispatch(fetchProductByIdRequest(productId));
+
+  return productService
+    .getProductById(productId)
+    .then(
+      data => dispatch(fetchProductByIdSuccess(productId, data.product)),
+      err => Promise.reject(dispatch(fetchProductByIdFailure(productId, err)))
+    );
 };

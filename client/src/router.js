@@ -10,6 +10,7 @@ import App from './layout/App';
 import Home from './layout/Home';
 import SignUp from './layout/SignUp';
 import AddProduct from './layout/AddProduct';
+import EditProduct from './layout/EditProduct';
 import Profile from './layout/UserProfile';
 import AllProducts from './layout/AllProducts';
 import AboutMe from './containers/Profile/About';
@@ -110,6 +111,7 @@ class Router extends React.Component {
           <Route path="products">
             <IndexRoute component={AllProducts} />
             <Route path="add" component={AddProduct} />
+            <Route path="edit/:productId" component={EditProduct} />
             <Route
               path=":productId"
               component={({params}) => (

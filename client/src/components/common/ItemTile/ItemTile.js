@@ -7,7 +7,18 @@ import classNames from 'classnames';
 import {Link} from 'react-router';
 import Icon from '../../common/Icon/Icon';
 
-const ItemTile = ({className, sizes, editable, imageUrl, currency, price, title, link, per}) => {
+const ItemTile = ({
+  className,
+  sizes,
+  editable,
+  onClickEdit,
+  imageUrl,
+  currency,
+  price,
+  title,
+  link,
+  per
+}) => {
   const imgUrl = imageUrl || 'http://placehold.it/200x200';
   const Component = link ? Link : 'div';
   const props = link ? {to: link} : {};
@@ -21,7 +32,9 @@ const ItemTile = ({className, sizes, editable, imageUrl, currency, price, title,
       <div className="item-tile__photo" style={{backgroundImage: `url(${imgUrl})`}}>
         {editable && (
           <div className="item-tile__actions">
-            <Icon name="pencil" />
+            <span onClick={onClickEdit}>
+              <Icon name="pencil" />
+            </span>
             <Icon name="delete" />
           </div>
         )}
@@ -43,6 +56,7 @@ ItemTile.propTypes = {
   className: PropTypes.string,
   sizes: PropTypes.string.isRequired,
   editable: PropTypes.bool,
+  onClickEdit: PropTypes.func,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string.isRequired,
   link: PropTypes.string,
