@@ -1,4 +1,16 @@
-const {dissoc, map, nth, prop, compose, concat, contains, filter, flip, not} = require('ramda');
+const {
+  dissoc,
+  map,
+  nth,
+  prop,
+  compose,
+  concat,
+  contains,
+  filter,
+  flip,
+  not,
+  zip
+} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
@@ -137,7 +149,13 @@ const productController = {
 
     return mediaController
       .removeProductImages(product.id, removedPhotos)
-      .then(() => mediaController.uploadProductImages(product.id, photosToUpload))
+      .then(results => {
+        const imageRemoveStatuses = zip(removedPhotos, results);
+        imageRemoveStatuses.forEach(([photoId, {result}]) => {
+          logger.info(':editProduct', `Photo ${photoId} remove status is: ${result}`);
+        });
+        return mediaController.uploadProductImages(product.id, photosToUpload);
+      })
       .then(
         results => {
           logger.info('post:products', 'Images uploaded', results);
