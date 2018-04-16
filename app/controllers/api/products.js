@@ -1,7 +1,9 @@
-const {assoc} = require('ramda');
+const {dissoc, nth, prop, compose} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
+const uuidv4 = require('uuid/v4');
+const mediaController = require('./media');
 
 const logger = createLoggerWith('[CTRL:Products]');
 
@@ -89,8 +91,34 @@ const productController = {
       });
   },
 
-  addProduct(productData, userId) {
-    return Product.create(assoc('createdBy', userId, productData))
+  addProduct(productData, images, userId) {
+    const productId = uuidv4();
+
+    const photos = images.map(file => ({id: uuidv4(), buffer: file.buffer}));
+    const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
+    const primaryPhotoId = compose(prop('id'), nth(primaryPhotoIndex))(photos);
+
+    return mediaController
+      .uploadProductImages(productId, photos)
+      .then(
+        results => {
+          logger.info('post:products', 'Images uploaded', results);
+          return results.map(({id, url}) => ({_id: id, url}));
+        },
+        err => {
+          logger.error('post:products', 'Error uploading images', err);
+          return Promise.reject('Error uploading images to cloud');
+        }
+      )
+      .then(photos =>
+        Product.create({
+          ...dissoc('primaryPhotoIndex', productData),
+          _id: productId,
+          createdBy: userId,
+          photos,
+          primaryPhotoId
+        })
+      )
       .then(product => {
         logger.info(':addProduct', `created ${product.id}`, product);
         return product.toJSON();

@@ -47,45 +47,6 @@ uploadRouter
       );
     });
   })
-  .post('/product', (req, res) => {
-    upload.array('photos', 8)(req, res, err => {
-      if (err) {
-        logger.error('post:product', err);
-        if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-          logger.error('post:product', 'LIMIT_UNEXPECTED_FILE', err);
-          return sendError(res, {message: 'Invalid request'}, {status: 400});
-        }
-        logger.error('post:product', 'Unknown error', err);
-        return sendError(res, {message: 'Error processing request'}, {status: 400});
-      }
-      const {photosFolder} = req.body;
-      if (!photosFolder) {
-        logger.error('post:product', 'photosFolder not provided');
-        return sendError(res, {message: 'photosFolder not provided'}, {status: 400});
-      }
-      const {files} = req;
-      if (files.some(file => !/image\/(png|gif|jpeg)/.test(file.mimetype))) {
-        logger.error('post:product', 'Invalid file type', err);
-        return sendError(
-          res,
-          {message: 'Invalid file type. Only png, gif, jpeg are supported'},
-          {status: 400}
-        );
-      }
-      const buffers = files.map(f => f.buffer);
-      mediaController.uploadProductImages(photosFolder, buffers).then(
-        results => {
-          logger.info('post:products', 'Images uploaded', results);
-          const uris = results.map(image => image.url);
-          sendSuccess(res, {imageUri: uris});
-        },
-        err => {
-          logger.error('post:products', 'Error uploading image', err);
-          sendError(res, {message: 'Error uploading image'}, {status: 400});
-        }
-      );
-    });
-  })
   .post('/service', (req, res) => {
     res.send('upload service picture');
   });

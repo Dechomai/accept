@@ -4,9 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button} from 'reactstrap';
+
 import ItemTile from '../../common/ItemTile/ItemTile';
 import NewItemTile from '../../common/ItemTile/NewItemTile';
 import Icon from '../../common/Icon/Icon';
+
+import {compose, find, prop, propEq} from 'ramda';
 
 class ItemsPreview extends React.Component {
   render() {
@@ -33,7 +36,11 @@ class ItemsPreview extends React.Component {
                 link={`/${type}/${item.id}`}
                 price={item.price}
                 title={item.title}
-                imageUrl={item.photos.length ? item.photos.find(p => p.primary).uri : null}
+                imageUrl={
+                  item.photos.length
+                    ? compose(prop('url'), find(propEq('id', item.primaryPhotoId)))(item.photos)
+                    : null
+                }
                 sizes="col-3"
               />
             ))}
