@@ -52,6 +52,38 @@ export const createProduct = (product, files, primaryPhotoIndex) => dispatch => 
     );
 };
 
+// UPDATE
+
+export const updateProductRequest = () => ({
+  type: UPDATE_PRODUCT_REQUEST,
+  payload: {}
+});
+
+export const updateProductSuccess = product => ({
+  type: UPDATE_PRODUCT_SUCCESS,
+  payload: {
+    product
+  }
+});
+
+export const updateProductFailure = error => ({
+  type: UPDATE_PRODUCT_FAILURE,
+  payload: {
+    error
+  }
+});
+
+export const updateProduct = (product, files, primaryPhotoIndex) => dispatch => {
+  dispatch(updateProductRequest());
+
+  return productService
+    .updateProduct(product, files, primaryPhotoIndex)
+    .then(
+      data => dispatch(updateProductSuccess(data.product)),
+      err => Promise.reject(dispatch(updateProductFailure(err)))
+    );
+};
+
 // FETCH LIST
 // scope = 'all' | 'user' | userId;
 

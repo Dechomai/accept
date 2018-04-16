@@ -19,6 +19,9 @@ const productService = {
       });
     });
   },
+  updateProduct(product, files, primaryPhotoIndex) {
+    console.log('This method will update product', product, files, primaryPhotoIndex);
+  },
   uploadPhotos(files, photosFolder) {
     return api.uploadFiles('/product', files, photosFolder);
   },
