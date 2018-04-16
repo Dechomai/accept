@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, without, assoc} from 'ramda';
+import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 import uuidv4 from 'uuid/v4';
 
@@ -14,14 +14,28 @@ class AddEdit extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = {photos: [], primaryPhotoIndex: 0};
+    this.state = {photos: [], existingPhotos: [], primaryPhotoIndex: 0};
   }
 
   componentDidMount() {
     const {params, product} = this.props;
     if (!product && params.productId) {
-      this.props.fetchProductById(params.productId);
+      this.props.fetchProductById(params.productId).then(() => {
+        this.setExistingPhotosToState();
+      });
+    } else {
+      this.setExistingPhotosToState();
     }
+  }
+
+  setExistingPhotosToState() {
+    const {product} = this.props;
+    product &&
+      product.data &&
+      this.setState({
+        existingPhotos: product.data.photos,
+        primaryPhotoIndex: findIndex(propEq('primary', true))(product.data.photos)
+      });
   }
 
   handleFormSubmit(product) {
@@ -40,18 +54,33 @@ class AddEdit extends React.Component {
   }
 
   handlePhotoDelete(photo) {
+    let deletedIndex = null;
     let {primaryPhotoIndex} = this.state;
-    const deletedIndex = this.state.photos.indexOf(photo);
+    const isExistingPhoto = !!photo._id;
+
+    if (isExistingPhoto) {
+      deletedIndex = this.state.photos.indexOf(photo);
+    } else {
+      deletedIndex = this.state.photos.indexOf(photo) + this.state.existingPhotos.length;
+    }
+
     if (primaryPhotoIndex > deletedIndex) {
       primaryPhotoIndex -= 1;
     } else if (primaryPhotoIndex === deletedIndex) {
       primaryPhotoIndex = 0;
     }
 
-    this.setState({
-      photos: without([photo], this.state.photos),
-      primaryPhotoIndex
-    });
+    !isExistingPhoto &&
+      this.setState({
+        photos: without([photo], this.state.photos),
+        primaryPhotoIndex
+      });
+
+    isExistingPhoto &&
+      this.setState({
+        existingPhotos: without([photo], this.state.existingPhotos),
+        primaryPhotoIndex
+      });
   }
 
   handleCancelClick() {
@@ -69,6 +98,7 @@ class AddEdit extends React.Component {
       <AddEditProductForm
         onSubmit={this.handleFormSubmit}
         photos={this.state.photos}
+        existingPhotos={this.state.existingPhotos}
         primaryPhotoIndex={this.state.primaryPhotoIndex}
         product={this.props.product}
         onPhotosAdded={this.handlePhotosAdded}
