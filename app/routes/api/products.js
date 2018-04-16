@@ -148,7 +148,7 @@ productsRouter
         .optional()
         .isUUID()
     ),
-    (req, res) => {
+    async (req, res) => {
       const {userId, files: newPhotos} = req;
       const {productId} = req.params;
       const productData = pick(
@@ -156,20 +156,28 @@ productsRouter
         req.body
       );
       const {removedPhotos} = req.body;
+      try {
+        const ownedProduct = await productsController.isProductOwner(userId, productId);
 
-      return productsController
-        .getProduct(productId)
-        .then(product => {
-          if (product.createdBy.id !== userId) {
-            return Promise.reject('Current user is not owner of this product');
+        if (ownedProduct) {
+          try {
+            const product = await productsController.editProduct(
+              ownedProduct,
+              productData,
+              newPhotos,
+              removedPhotos
+            );
+            sendSuccess(res, {product});
+          } catch (error) {
+            sendError(res, {message: typeof error === 'string' ? error : 'Error editing product'});
           }
-
-          return productsController.editProduct(product, productData, newPhotos, removedPhotos);
-        })
-        .then(
-          product => sendSuccess(res, {product}),
-          error => sendError(res, {message: error || 'Error editing product'})
-        );
+        } else {
+          sendError(res, {message: 'Current user is not owner of this product'}, {status: 401});
+        }
+      } catch (err) {
+        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+        sendError(res, {message: 'Error checking product ownership'});
+      }
     }
   );
 

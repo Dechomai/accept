@@ -1,4 +1,4 @@
-const {dissoc, map, nth, prop, compose, filter, zip} = require('ramda');
+const {dissoc, nth, prop, compose, zip} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
@@ -14,6 +14,28 @@ const DEFAULT_SORT = {
 const mapPhotoToDbModel = ({id, url}) => ({_id: id, url});
 
 const productController = {
+  isProductOwner(userId, productId) {
+    return Product.findById(productId)
+      .then(product => {
+        logger.info(':isProductOwner', `${productId} found`, product);
+        const isOwner = product.createdBy === userId;
+        if (product.createdBy === userId) {
+          logger.info(
+            ':isProductOwner',
+            `User ${userId} is ${isOwner ? '' : 'not '}owner of ${productId}`
+          );
+          return isOwner ? product : null;
+        }
+      })
+      .catch(err => {
+        if (err === null) {
+          logger.error(':isProductOwner', `${productId} not found`);
+        } else {
+          logger.error(':isProductOwner', `${productId} error`, err);
+        }
+        return Promise.reject(err);
+      });
+  },
   getProductsForUser(userId, {limit, skip}) {
     return Promise.all([
       Product.find({createdBy: userId}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
@@ -155,10 +177,7 @@ const productController = {
         }
       )
       .then(uploadedPhotos => {
-        const remainingPhotos = compose(
-          map(mapPhotoToDbModel),
-          filter(photo => !removedPhotos.includes(photo.id))
-        )(product.photos);
+        const remainingPhotos = product.photos.filter(photo => !removedPhotos.includes(photo.id));
         const photos = [...remainingPhotos, ...uploadedPhotos];
         const primaryPhoto = photos[primaryPhotoIndex] || photos[0];
         const primaryPhotoId = primaryPhoto ? primaryPhoto._id : null;
