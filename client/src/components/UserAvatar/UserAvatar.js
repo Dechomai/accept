@@ -4,7 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const getInitials = user => `${user.firstName[0]}${user.lastName[0]}`;
+const getInitials = user =>
+  user.firstName && user.lastName && `${user.firstName[0]}${user.lastName[0]}`;
 
 const UserAvatar = ({user, size}) => {
   return (
