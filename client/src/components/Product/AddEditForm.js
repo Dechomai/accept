@@ -8,6 +8,7 @@ import {Button} from 'reactstrap';
 
 import Icon from '../common/Icon/Icon';
 import FileUpload from '../common/FileUpload/FileUpload';
+import Loader from '../common/Loader/Loader';
 import {rules} from '../../utils/validation';
 import createValidator from '../../utils/validation';
 import Tile from '../common/Tile/Tile';
@@ -115,7 +116,7 @@ class InnerForm extends React.Component {
         className={classNames('create-form', {
           'create-form--disabled': isSubmitting
         })}>
-        {isSubmitting && <div className="loader" />}
+        {isSubmitting && <Loader />}
         <div className="container">
           <div className="row">
             <div className="col-md-3 col-sm-12">

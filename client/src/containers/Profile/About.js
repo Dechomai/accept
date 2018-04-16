@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {updateProfile} from '../../actions/user';
 import {fetchProducts} from '../../actions/products';
-import {selectUserData, selectUserStatus, selectSomeOwnProducts} from '../../selectors';
+import {selectUserData, selectUserStatus, selectOwnProductsFor} from '../../selectors';
 import AboutMe from '../../components/Profile/About';
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
       isCurrentUser: true,
       user: selectUserData(state),
       status: selectUserStatus(state),
-      products: selectSomeOwnProducts(state, 0, 3)
+      products: selectOwnProductsFor(state, {skip: 0, limit: 3})
     };
   }
 
@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateProfile(profile) {
     return dispatch(updateProfile(profile));
   },
-  fetchProducts(scope, skip, limit) {
-    return dispatch(fetchProducts(scope, skip, limit));
+  fetchProducts({scope, skip, limit}) {
+    return dispatch(fetchProducts({scope, skip, limit}));
   },
   onAddProductClick() {
     ownProps.router.push('/products/add');

@@ -11,12 +11,12 @@ const DEFAULT_LIMIT = 6;
 const mapStateToProps = state => ({
   userData: selectUserData(state),
   userState: selectUserStatus(state),
-  products: selectAllProductsFor(state, 0, DEFAULT_LIMIT)
+  products: selectAllProductsFor(state, {skip: 0, limit: DEFAULT_LIMIT})
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchProducts() {
-    return dispatch(fetchProducts('all', 0, DEFAULT_LIMIT));
+    return dispatch(fetchProducts({scope: 'all', skip: 0, limit: DEFAULT_LIMIT}));
   }
 });
 
