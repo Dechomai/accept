@@ -49,9 +49,9 @@ class InnerForm extends React.Component {
     } = this.props;
 
     return photos.map((photo, index) => (
-      <Tile key={photo.preview || photo.uri} sizes="col-3">
+      <Tile key={photo.preview} sizes="col-3">
         <div
-          style={{backgroundImage: `url(${photo.preview || photo.uri})`}}
+          style={{backgroundImage: `url(${photo.preview})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
           <div className="create-form__placeholder__close" onClick={() => onPhotoDelete(photo)}>
             <Icon name="close" size="20" />
@@ -79,9 +79,9 @@ class InnerForm extends React.Component {
     } = this.props;
 
     return existingPhotos.map((photo, index) => (
-      <Tile key={photo.uri} sizes="col-3">
+      <Tile key={photo.url} sizes="col-3">
         <div
-          style={{backgroundImage: `url(${photo.uri})`}}
+          style={{backgroundImage: `url(${photo.url})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
           <div className="create-form__placeholder__close" onClick={() => onPhotoDelete(photo)}>
             <Icon name="close" size="20" />

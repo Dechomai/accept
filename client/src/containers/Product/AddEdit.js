@@ -34,7 +34,7 @@ class AddEdit extends React.Component {
       product.data &&
       this.setState({
         existingPhotos: product.data.photos,
-        primaryPhotoIndex: findIndex(propEq('primary', true))(product.data.photos)
+        primaryPhotoIndex: findIndex(propEq('id', product.data.primaryPhotoId))(product.data.photos)
       });
   }
 
@@ -56,10 +56,10 @@ class AddEdit extends React.Component {
   handlePhotoDelete(photo) {
     let deletedIndex = null;
     let {primaryPhotoIndex} = this.state;
-    const isExistingPhoto = !!photo._id;
+    const isExistingPhoto = !!photo.id;
 
     if (isExistingPhoto) {
-      deletedIndex = this.state.photos.indexOf(photo);
+      deletedIndex = this.state.existingPhotos.indexOf(photo);
     } else {
       deletedIndex = this.state.photos.indexOf(photo) + this.state.existingPhotos.length;
     }
