@@ -21,7 +21,6 @@ const ProfileProduct = ({products}) => {
       />
     ))
   );
-  // }
 };
 
 export default ProfileProduct;
