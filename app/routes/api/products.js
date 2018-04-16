@@ -121,7 +121,57 @@ productsRouter
         sendError(res, {message: 'Error getting product'});
       }
     );
-  });
+  })
+  .put(
+    authMiddleware,
+    upload.array('newPhotos', 8),
+    uploadErrorHandler(logger, 'put:product', /image\/(png|gif|jpeg)/),
+    validationMiddleware(
+      body('title')
+        .optional()
+        .isLength({min: 3, max: 400}),
+      body('video')
+        .optional({
+          checkFalsy: true
+        })
+        .isURL(),
+      body('description')
+        .optional()
+        .isLength({min: 10, max: 800}),
+      body('condition')
+        .optional()
+        .isIn(['new', 'used']),
+      body('price')
+        .optional()
+        .isFloat({min: 0, max: 2000000}),
+      body('removedPhotos.*')
+        .optional()
+        .isUUID()
+    ),
+    (req, res) => {
+      const {userId, files: newPhotos} = req;
+      const {productId} = req.params;
+      const productData = pick(
+        ['title', 'video', 'description', 'condition', 'price', 'primaryPhotoIndex'],
+        req.body
+      );
+      const {removedPhotos} = req.body;
+
+      return productsController
+        .getProduct(productId)
+        .then(product => {
+          if (product.createdBy.id !== userId) {
+            return Promise.reject('Current user is not owner of this product');
+          }
+
+          return productsController.editProduct(product, productData, newPhotos, removedPhotos);
+        })
+        .then(
+          product => sendSuccess(res, {product}),
+          error => sendError(res, {message: error || 'Error editing product'})
+        );
+    }
+  );
 
 module.exports = app => {
   app.use(PATH, productsRouter);

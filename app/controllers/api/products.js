@@ -1,4 +1,4 @@
-const {dissoc, nth, prop, compose} = require('ramda');
+const {dissoc, map, nth, prop, compose, concat, contains, filter, flip, not} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
@@ -10,6 +10,8 @@ const logger = createLoggerWith('[CTRL:Products]');
 const DEFAULT_SORT = {
   createdAt: -1
 };
+
+const mapPhotoToDbModel = ({id, url}) => ({_id: id, url});
 
 const productController = {
   getProductsForUser(userId, {limit, skip}) {
@@ -125,6 +127,52 @@ const productController = {
       })
       .catch(err => {
         logger.error(':addProduct', 'error', err);
+        return Promise.reject(err);
+      });
+  },
+
+  editProduct(product, productData, newPhotos, removedPhotos) {
+    const photosToUpload = newPhotos.map(file => ({id: uuidv4(), buffer: file.buffer}));
+    const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
+
+    return mediaController
+      .removeProductImages(product.id, removedPhotos)
+      .then(() => mediaController.uploadProductImages(product.id, photosToUpload))
+      .then(
+        results => {
+          logger.info('post:products', 'Images uploaded', results);
+          return results.map(mapPhotoToDbModel);
+        },
+        err => {
+          logger.error('post:products', 'Error uploading images', err);
+          return Promise.reject('Error uploading images to cloud');
+        }
+      )
+      .then(uploadedPhotos => {
+        const photos = compose(
+          flip(concat)(uploadedPhotos),
+          map(mapPhotoToDbModel),
+          filter(compose(compose(not, flip(contains)(removedPhotos)), prop('id'))),
+          prop('photos')
+        )(product);
+        const primaryPhotoId = compose(prop('_id'), nth(primaryPhotoIndex))(photos);
+
+        return Product.findByIdAndUpdate(
+          product.id,
+          {
+            ...productData,
+            photos,
+            primaryPhotoId
+          },
+          {new: true}
+        );
+      })
+      .then(product => {
+        logger.info(':editProduct', `edited ${product.id}`, product);
+        return product.toJSON();
+      })
+      .catch(err => {
+        logger.error(':editProduct', 'error', err);
         return Promise.reject(err);
       });
   }
