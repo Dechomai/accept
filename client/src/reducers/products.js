@@ -15,17 +15,40 @@ import {
   DELETE_PRODUCT_FAILURE
 } from '../actions/products';
 
+/*
+  type State = {
+    all: ScopeState,
+    user: ScopeState,
+    [userId: string]: ScopeState
+  }
+
+  type ScopeState = {
+    count: number,
+    [param: string]: ListState // param is "skip=0,limit=0"
+  }
+
+  type ListState = {
+      loading: boolean,
+      error: any,
+      data: Array<any>,
+      listValid: boolean
+  }
+*/
+
 const getInitialState = () => ({
   all: {},
   user: {}
   // [userId]: {}
 });
 
+const getInitialScopeState = () => ({
+  count: 0
+});
+
 const getInitialListState = () => ({
   loading: false,
   error: null,
   data: [],
-  count: 0,
   listValid: false
 });
 
@@ -42,7 +65,6 @@ const list = createReducer(getInitialListState(), {
       loading: false,
       error: null,
       data: payload.data,
-      count: payload.count,
       listValid: true
     };
   },
@@ -55,11 +77,12 @@ const list = createReducer(getInitialListState(), {
   }
 });
 
-const meta = (state = {}, action) => {
+const meta = (state = getInitialScopeState(), action) => {
   const {skip, limit} = action;
   const params = `skip=${skip},limit=${limit}`;
   return {
     ...state,
+    count: action.payload.count || state.count,
     [params]: list(state[params], action)
   };
 };

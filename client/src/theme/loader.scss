@@ -1,11 +1,19 @@
 .loader {
-  border: 16px solid $gray-400;
-  border-top: 16px solid $blue;
+  $size: 3rem;
+  $border-width: 0.25rem;
+
+  border: $border-width solid $gray-400;
+  border-top: $border-width solid $blue;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: $size;
+  height: $size;
   z-index: 2;
-  animation: spin 1s linear infinite;
+  animation: spin 600ms linear infinite;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes spin {
