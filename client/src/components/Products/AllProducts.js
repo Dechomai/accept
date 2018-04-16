@@ -1,9 +1,11 @@
 import './AllProducts.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import ItemTile from '../common/ItemTile/ItemTile';
 import {Link} from 'react-router';
 import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
+
+import ItemTile from '../common/ItemTile/ItemTile';
+import Loader from '../common/Loader/Loader';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
@@ -21,7 +23,7 @@ class AllProducts extends React.Component {
 
   renderProductsList() {
     const {products} = this.props;
-    if (!products || products.loading) return <div className="loader" />;
+    if (!products || products.loading) return <Loader />;
 
     if (products.data) {
       return products.data.map(product => (
@@ -50,8 +52,8 @@ class AllProducts extends React.Component {
               Products
             </BreadcrumbItem>
           </Breadcrumb>
-          {this.props.products && (
-            <small className="all-products__count">{this.props.products.count} results</small>
+          {this.props.count && (
+            <small className="all-products__count">{this.props.count} results</small>
           )}
         </div>
         <div className="row">{this.renderProductsList()}</div>

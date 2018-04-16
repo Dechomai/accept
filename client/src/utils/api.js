@@ -6,6 +6,15 @@ const getOptions = () => ({
 });
 const getBody = (method, body) => (method === 'GET' ? {} : {body: JSON.stringify(body)});
 
+// export const MIN_LOADING_TIME = 2000;
+// const waitFor = promise => {
+//   const timeout = new Promise(resolve => {
+//     setTimeout(resolve, MIN_LOADING_TIME);
+//   });
+
+//   return Promise.all([promise, timeout]).then(([arg]) => arg);
+// };
+
 const api = {
   fetch(method, url, {headers = {}, body, ...props} = {}, options = getOptions()) {
     return fetch(`${options.API}${url}`, {

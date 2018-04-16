@@ -9,6 +9,7 @@ import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
 import ItemTile from '../common/ItemTile/ItemTile';
 import Icon from '../common/Icon/Icon';
+import Loader from '../common/Loader/Loader';
 
 class Home extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Home extends React.Component {
 
   getProducts() {
     const {products} = this.props;
-    if (!products || products.loading) return 'spinner';
+    if (!products || products.loading) return <Loader />;
     if (products.data)
       return products.data.map(product => (
         <ItemTile
@@ -55,7 +56,7 @@ class Home extends React.Component {
                 <h3>Products</h3>
               </div>
             </div>
-            <div className="row">{this.getProducts()}</div>
+            <div className="row home__products__row">{this.getProducts()}</div>
             <div className="row">
               <div className="col-12 text-center">
                 <Link to="/products">
