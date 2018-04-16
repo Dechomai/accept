@@ -1,16 +1,4 @@
-const {
-  dissoc,
-  map,
-  nth,
-  prop,
-  compose,
-  concat,
-  contains,
-  filter,
-  flip,
-  not,
-  zip
-} = require('ramda');
+const {dissoc, map, nth, prop, compose, filter, zip} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
@@ -108,12 +96,12 @@ const productController = {
   addProduct(productData, images, userId) {
     const productId = uuidv4();
 
-    const photos = images.map(file => ({id: uuidv4(), buffer: file.buffer}));
+    const photosToUpload = images.map(file => ({id: uuidv4(), buffer: file.buffer}));
     const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
-    const primaryPhotoId = compose(prop('id'), nth(primaryPhotoIndex))(photos);
+    const primaryPhotoId = compose(prop('id'), nth(primaryPhotoIndex))(photosToUpload);
 
     return mediaController
-      .uploadProductImages(productId, photos)
+      .uploadProductImages(productId, photosToUpload)
       .then(
         results => {
           logger.info('post:products', 'Images uploaded', results);
@@ -167,13 +155,13 @@ const productController = {
         }
       )
       .then(uploadedPhotos => {
-        const photos = compose(
-          flip(concat)(uploadedPhotos),
+        const remainingPhotos = compose(
           map(mapPhotoToDbModel),
-          filter(compose(compose(not, flip(contains)(removedPhotos)), prop('id'))),
-          prop('photos')
-        )(product);
-        const primaryPhotoId = compose(prop('_id'), nth(primaryPhotoIndex))(photos);
+          filter(photo => !removedPhotos.includes(photo.id))
+        )(product.photos);
+        const photos = [...remainingPhotos, ...uploadedPhotos];
+        const primaryPhoto = photos[primaryPhotoIndex] || photos[0];
+        const primaryPhotoId = primaryPhoto ? primaryPhoto._id : null;
 
         return Product.findByIdAndUpdate(
           product.id,
