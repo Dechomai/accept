@@ -1,11 +1,16 @@
 const express = require('express');
+const multer = require('multer');
+const {createLoggerWith} = require('../../logger');
 const {body, query, param} = require('express-validator/check');
 const {isUUID} = require('validator');
 const {pick} = require('ramda');
 const {sendSuccess, sendError} = require('../../helpers/response');
 const productsController = require('../../controllers/api/products');
+const logger = createLoggerWith('[RTR]:Media');
 const authMiddleware = require('../../middlewares/auth');
+const upload = multer({includeEmptyFields: true});
 const validationMiddleware = require('../../middlewares/validation');
+const uploadErrorHandler = require('../../middlewares/uploadErrorHandler');
 
 const PATH = '/products';
 
@@ -61,6 +66,8 @@ productsRouter
   )
   .post(
     authMiddleware,
+    upload.array('photos', 8),
+    uploadErrorHandler(logger, 'post:products', /image\/(png|gif|jpeg)/),
     validationMiddleware(
       body('title')
         .exists()
@@ -81,16 +88,17 @@ productsRouter
         .isFloat({min: 0, max: 2000000})
     ),
     (req, res) => {
-      const {userId} = req;
-      const data = pick(
-        ['title', 'createdBy', 'video', 'photos', 'description', 'condition', 'price'],
+      const {userId, files} = req;
+      const productData = pick(
+        ['title', 'video', 'description', 'condition', 'price', 'primaryPhotoIndex'],
         req.body
       );
-      productsController
-        .addProduct(data, userId)
+
+      return productsController
+        .addProduct(productData, files, userId)
         .then(
           product => sendSuccess(res, {product}),
-          () => sendError(res, {message: 'Error creating product'})
+          error => sendError(res, {message: error || 'Error creating product'})
         );
     }
   );
@@ -101,7 +109,7 @@ productsRouter
     validationMiddleware(
       param('productId')
         .exists()
-        .isMongoId()
+        .isUUID()
     )
   )
   .get((req, res) => {

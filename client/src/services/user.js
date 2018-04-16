@@ -22,7 +22,7 @@ const userService = {
     });
   },
   uploadAvatar(avatar) {
-    return api.uploadFiles('/user', {avatar});
+    return api.postForm('/user', {avatar});
   }
 };
 
