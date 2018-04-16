@@ -7,6 +7,7 @@ import {fetchProducts} from '../../actions/products';
 import {selectOwnProductsFor, selectOwnProductsCount} from '../../selectors';
 import ProfileProducts from '../../components/Profile/Products';
 import Pagination from '../../components/common/Pagination/Pagination';
+import Loader from '../../components/common/Loader/Loader';
 
 const DEFAULT_LIMIT = 11;
 
@@ -26,7 +27,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchProducts() {
-    
     return dispatch(fetchProducts({scope: 'user', skip: ownProps.skip, limit: ownProps.limit}));
   }
 });
@@ -71,7 +71,7 @@ export default compose(
     onPaginationPrevClick,
     onPaginationPageClick
   }) => {
-    if ((!products || !products.data.length) && !count) return <div className="loader" />;
+    if ((!products || !products.data.length) && !count) return <Loader />;
     return (
       <div className="profile-products">
         <h6 className="profile-products__title">All products</h6>
@@ -91,7 +91,7 @@ export default compose(
             {products && products.data && products.data.length ? (
               <ProfileProducts products={products.data} />
             ) : (
-              <div className="loader" />
+              <Loader />
             )}
           </div>
         </div>
