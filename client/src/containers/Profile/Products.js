@@ -78,7 +78,7 @@ export default compose(
 
         <div className="profile-products__pagination">
           <Pagination
-            totalPages={Math.floor(count / limit)}
+            totalPages={Math.ceil(count / limit)}
             currentPage={Math.floor(skip / limit)}
             onNextClick={onPaginationNextClick}
             onPrevClick={onPaginationPrevClick}
