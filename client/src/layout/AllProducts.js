@@ -7,7 +7,7 @@ const AllProducts = () => {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <h4 className="mt-5">All Products</h4>
+            <h4 className="mt-5">Products</h4>
           </div>
         </div>
         <AllProductsContainer />

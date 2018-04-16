@@ -1,21 +1,111 @@
-import {compose} from 'ramda';
+import React from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
-import AllProducts from '../../components/Products/AllProducts';
-import {selectAllProductsFor, selectAllProductsCount} from '../../selectors';
+import {withRouter, Link} from 'react-router';
+import {compose, withStateHandlers, lifecycle} from 'recompact';
+import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
+
 import {fetchProducts} from '../../actions/products';
+import {selectAllProductsFor, selectAllProductsCount} from '../../selectors';
+import AllProducts from '../../components/Products/AllProducts';
+import Pagination from '../../components/common/Pagination/Pagination';
+import Loader from '../../components/common/Loader/Loader';
 
 const DEFAULT_LIMIT = 20;
 
-const mapStateToProps = state => ({
-  products: selectAllProductsFor(state, {skip: 0, limit: DEFAULT_LIMIT}),
-  count: selectAllProductsCount(state)
-});
+const refetchProducts = props => {
+  const {products} = props;
+  if (!products || (!products.listValid && !products.loading)) {
+    props.fetchProducts();
+  }
+};
 
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = (state, ownProps) => {
+  return {
+    products: selectAllProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
+    count: selectAllProductsCount(state)
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchProducts() {
-    return dispatch(fetchProducts({scope: 'all', skip: 0, limit: DEFAULT_LIMIT}));
+    return dispatch(fetchProducts({scope: 'all', skip: ownProps.skip, limit: ownProps.limit}));
   }
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(AllProducts);
+export default compose(
+  withStateHandlers(
+    () => ({
+      skip: 0,
+      limit: DEFAULT_LIMIT
+    }),
+    {
+      onPaginationNextClick: ({skip, limit}) => () => ({
+        skip: skip + limit
+      }),
+      onPaginationPrevClick: ({skip, limit}) => () => ({
+        skip: skip - limit
+      }),
+      onPaginationPageClick: ({limit}) => pageIndex => ({
+        skip: pageIndex * limit
+      })
+    }
+  ),
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentDidMount() {
+      refetchProducts(this.props);
+    },
+    // replace in React v17
+    // static getDerivedStateFromProps(nextProps, prevState)
+    componentWillUpdate(nextProps) {
+      refetchProducts(nextProps);
+    }
+  })
+)(
+  ({
+    products,
+    count,
+    skip,
+    limit,
+    onPaginationNextClick,
+    onPaginationPrevClick,
+    onPaginationPageClick
+  }) => {
+    if ((!products || !products.data.length) && !count) return <Loader />;
+    return (
+      <div className="all-products">
+        <div className="d-flex justify-content-between align-items-center my-3">
+          <Breadcrumb tag="nav">
+            <BreadcrumbItem>
+              <Link to="/">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active tag="span">
+              Products
+            </BreadcrumbItem>
+          </Breadcrumb>
+
+          <small className="all-products__count">{count} results</small>
+
+          <Pagination
+            totalPages={Math.floor(count / limit)}
+            currentPage={Math.floor(skip / limit)}
+            onNextClick={onPaginationNextClick}
+            onPrevClick={onPaginationPrevClick}
+            onPageClick={onPaginationPageClick}
+          />
+        </div>
+
+        <div className="all-products__content">
+          <div className="row">
+            {products && products.data && products.data.length ? (
+              <AllProducts products={products.data} />
+            ) : (
+              <Loader />
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
