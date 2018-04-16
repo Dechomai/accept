@@ -51,14 +51,14 @@ export const createProduct = (product, files, primaryPhotoIndex) => dispatch => 
 // FETCH LIST
 // scope = 'all' | 'user' | userId;
 
-export const fetchProductsRequest = (scope, skip, limit) => ({
+export const fetchProductsRequest = ({scope, skip, limit}) => ({
   type: FETCH_PRODUCTS_REQUEST,
   scope,
   skip,
   limit,
   payload: {}
 });
-export const fetchProductsSuccess = (scope, skip, limit, data, count) => ({
+export const fetchProductsSuccess = ({scope, skip, limit}, data, count) => ({
   type: FETCH_PRODUCTS_SUCCESS,
   scope,
   skip,
@@ -68,7 +68,7 @@ export const fetchProductsSuccess = (scope, skip, limit, data, count) => ({
     count
   }
 });
-export const fetchProductsFailure = (scope, skip, limit, error) => ({
+export const fetchProductsFailure = ({scope, skip, limit}, error) => ({
   type: FETCH_PRODUCTS_FAILURE,
   scope,
   skip,
@@ -78,24 +78,24 @@ export const fetchProductsFailure = (scope, skip, limit, error) => ({
   }
 });
 
-export const fetchProducts = (scope, skip, limit) => dispatch => {
-  dispatch(fetchProductsRequest(scope, skip, limit));
+export const fetchProducts = ({scope, skip, limit}) => dispatch => {
+  dispatch(fetchProductsRequest({scope, skip, limit}));
 
   let productsPromise;
 
   switch (scope) {
     case 'all':
-      productsPromise = productService.getProducts(skip, limit);
+      productsPromise = productService.getProducts({skip, limit});
       break;
     case 'user':
-      productsPromise = productService.getUserProducts('current', skip, limit);
+      productsPromise = productService.getUserProducts('current', {skip, limit});
       break;
     default:
-      productsPromise = productService.getUserProducts(scope, skip, limit);
+      productsPromise = productService.getUserProducts(scope, {skip, limit});
   }
 
   return productsPromise.then(
-    data => dispatch(fetchProductsSuccess(scope, skip, limit, data.products, data.count)),
-    err => Promise.reject(dispatch(fetchProductsFailure(scope, skip, limit, err)))
+    data => dispatch(fetchProductsSuccess({scope, skip, limit}, data.products, data.count)),
+    err => Promise.reject(dispatch(fetchProductsFailure({scope, skip, limit}, err)))
   );
 };

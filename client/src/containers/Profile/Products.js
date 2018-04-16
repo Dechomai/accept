@@ -19,14 +19,15 @@ const refetchProducts = props => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    products: selectOwnProductsFor(state, ownProps.skip, ownProps.limit),
+    products: selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
     count: selectOwnProductsCount(state)
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchProducts() {
-    return dispatch(fetchProducts('user', ownProps.skip, ownProps.limit));
+    
+    return dispatch(fetchProducts({scope: 'user', skip: ownProps.skip, limit: ownProps.limit}));
   }
 });
 

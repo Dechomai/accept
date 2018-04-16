@@ -29,7 +29,7 @@ class About extends React.Component {
       // TODO: Obtain user id if someone visits other user's profile page
       const scope = this.props.isCurrentUser ? 'user' : 'id';
 
-      this.props.fetchProducts(scope, 0, 3);
+      this.props.fetchProducts({scope, skip: 0, limit: 3});
     }
   }
 

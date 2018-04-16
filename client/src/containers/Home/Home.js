@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchProducts() {
-    return dispatch(fetchProducts('all', 0, DEFAULT_LIMIT));
+    return dispatch(fetchProducts({scope: 'all', skip: 0, limit: DEFAULT_LIMIT}));
   }
 });
 
