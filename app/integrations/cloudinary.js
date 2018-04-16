@@ -12,37 +12,23 @@ cloudinary.config({
 });
 
 const cloudinaryIntegration = {
-  uploadImage(image, options = {}) {
+  uploadImage(buffer, options = {}) {
     return new Promise((resolve, reject) => {
-      const {name, folder, ...opts} = options;
-      if (image instanceof Buffer) {
-        cloudinary.v2.uploader
-          .upload_stream(
-            {
-              folder,
-              public_id: name,
-              ...opts
-            },
-            (err, result) => {
-              if (err) return reject(err);
-              resolve(result);
-            }
-          )
-          .end(image);
-      } else {
-        cloudinary.v2.uploader.upload(
-          image,
+      const {id, folder, ...opts} = options;
+
+      cloudinary.v2.uploader
+        .upload_stream(
           {
             folder,
-            public_id: name,
+            public_id: id,
             ...opts
           },
           (err, result) => {
             if (err) return reject(err);
-            resolve(result);
+            resolve({...result, id});
           }
-        );
-      }
+        )
+        .end(buffer);
     });
   }
 };

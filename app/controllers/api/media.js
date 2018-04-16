@@ -4,7 +4,7 @@ const cloudinary = require('../../integrations/cloudinary');
 const mediaController = {
   uploadUserAvatar(userId, image) {
     return cloudinary.uploadImage(image, {
-      name: userId,
+      id: userId,
       folder: 'users'
     });
   },
@@ -12,7 +12,9 @@ const mediaController = {
     return Promise.all(
       images.reduce(
         (acc, image) =>
-          acc.concat([cloudinary.uploadImage(image, {folder: `products/${productId}`})]),
+          acc.concat([
+            cloudinary.uploadImage(image.buffer, {id: image.id, folder: `products/${productId}`})
+          ]),
         []
       )
     );

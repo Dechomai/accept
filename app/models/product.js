@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 const BaseSchema = require('./utils/base');
 
+const photoSchema = new BaseSchema({
+  _id: String,
+  url: {
+    type: String,
+    required: true
+  }
+});
+
 const productSchema = new BaseSchema(
   {
     _id: String,
@@ -14,8 +22,8 @@ const productSchema = new BaseSchema(
       required: true,
       index: true
     },
-    photos: [String],
-    primaryPhotoIndex: Number,
+    photos: [photoSchema],
+    primaryPhotoId: String,
     video: String,
     description: {
       type: String,
