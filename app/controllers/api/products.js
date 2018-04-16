@@ -107,7 +107,7 @@ const productController = {
         },
         err => {
           logger.error('post:products', 'Error uploading images', err);
-          //sendError(res, {message: 'Error uploading images'}, {status: 400});
+          return Promise.reject('Error uploading images to cloud');
         }
       )
       .then(photos =>

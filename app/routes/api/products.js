@@ -98,7 +98,7 @@ productsRouter
         .addProduct(productData, files, userId)
         .then(
           product => sendSuccess(res, {product}),
-          () => sendError(res, {message: 'Error creating product'})
+          error => sendError(res, {message: error || 'Error creating product'})
         );
     }
   );
