@@ -47,7 +47,6 @@ class InnerForm extends React.Component {
       onPrimaryPhotoIndexChanged,
       onPhotoDelete
     } = this.props;
-
     return photos.map((photo, index) => (
       <Tile key={photo.preview} sizes="col-3">
         <div
@@ -344,6 +343,9 @@ class InnerForm extends React.Component {
 
 const AddProductFrom = withFormik({
   enableReinitialize: true,
+  isInitialValid: props => {
+    return props.product && !!props.product.data;
+  },
   mapPropsToValues: props => {
     const {product} = props;
 

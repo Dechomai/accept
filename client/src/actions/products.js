@@ -73,11 +73,11 @@ export const updateProductFailure = error => ({
   }
 });
 
-export const updateProduct = (product, files, primaryPhotoIndex) => dispatch => {
+export const updateProduct = (product, primaryPhotoIndex) => dispatch => {
   dispatch(updateProductRequest());
 
   return productService
-    .updateProduct(product, files, primaryPhotoIndex)
+    .updateProduct(product, primaryPhotoIndex)
     .then(
       data => dispatch(updateProductSuccess(data.product)),
       err => Promise.reject(dispatch(updateProductFailure(err)))

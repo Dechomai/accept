@@ -4,8 +4,8 @@ const productService = {
   createProduct(product, photos, primaryPhotoIndex) {
     return api.postForm('/products', {...product, photos, primaryPhotoIndex});
   },
-  updateProduct(product, files, primaryPhotoIndex) {
-    console.log('This method will update product', product, files, primaryPhotoIndex);
+  updateProduct(product, primaryPhotoIndex) {
+    return api.putForm('/products', {...product, primaryPhotoIndex});
   },
   getProducts({skip, limit}) {
     return api.get(`/products?skip=${skip}&limit=${limit}`);

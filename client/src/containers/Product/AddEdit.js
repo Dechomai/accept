@@ -8,13 +8,13 @@ import uuidv4 from 'uuid/v4';
 import {selectOwnProductById} from '../../selectors';
 import AddEditProductForm from '../../components/Product/AddEditForm';
 import PropTypes from 'prop-types';
-import {createProduct, fetchProductById} from '../../actions/products';
+import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
 
 class AddEdit extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = {photos: [], existingPhotos: [], primaryPhotoIndex: 0};
+    this.state = {photos: [], existingPhotos: [], removedPhotos: [], primaryPhotoIndex: 0};
   }
 
   componentDidMount() {
@@ -39,14 +39,27 @@ class AddEdit extends React.Component {
   }
 
   handleFormSubmit(product) {
+    console.log(product);
     const photosFolder = uuidv4();
     let data = assoc('photosFolder', photosFolder, product);
 
-    return this.props
-      .createProduct(data, this.state.photos, this.state.primaryPhotoIndex)
-      .then(() => {
+    if (this.props.params.productId) {
+      data = compose(
+        assoc('removedPhotos', this.state.removedPhotos),
+        assoc('newPhotos', this.state.photos),
+        assoc('primaryPhotoIndex', this.state.primaryPhotoIndex)
+      )(data);
+
+      return this.props.updateProduct(data, this.state.primaryPhotoIndex).then(() => {
         this.props.router.push('/');
       });
+    } else {
+      return this.props
+        .createProduct(data, this.state.photos, this.state.primaryPhotoIndex)
+        .then(() => {
+          this.props.router.push('/');
+        });
+    }
   }
 
   handlePhotosAdded(photos) {
@@ -79,7 +92,8 @@ class AddEdit extends React.Component {
     isExistingPhoto &&
       this.setState({
         existingPhotos: without([photo], this.state.existingPhotos),
-        primaryPhotoIndex
+        primaryPhotoIndex,
+        removedPhotos: this.state.removedPhotos.concat(photo.id)
       });
   }
 
@@ -112,7 +126,8 @@ class AddEdit extends React.Component {
 
 AddEdit.propTypes = {
   router: PropTypes.any,
-  createProduct: PropTypes.func.isRequired
+  createProduct: PropTypes.func.isRequired,
+  updateProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -124,6 +139,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   createProduct(product, files, primaryPhotoIndex) {
     return dispatch(createProduct(product, files, primaryPhotoIndex));
+  },
+  updateProduct(product, files, primaryPhotoIndex) {
+    return dispatch(updateProduct(product, files, primaryPhotoIndex));
   },
   fetchProductById(productId) {
     return dispatch(fetchProductById(productId));
