@@ -99,7 +99,9 @@ const api = {
         Accept: 'application/json'
       },
       body: formData
-    }).then(response => response.json());
+    })
+      .then(res => (res.status === STATUS_SUCCESSFULL ? res.json() : Promise.reject(res)))
+      .catch(res => this.handleError(res));
   }
 };
 

@@ -1,7 +1,7 @@
 import {
-  FETCH_PRODUCT_BY_ID_REQUEST,
-  FETCH_PRODUCT_BY_ID_SUCCESS,
-  FETCH_PRODUCT_BY_ID_FAILURE,
+  FETCH_PRODUCT_DETAILS_REQUEST,
+  FETCH_PRODUCT_DETAILS_SUCCESS,
+  FETCH_PRODUCT_DETAILS_FAILURE,
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_FAILURE
@@ -9,7 +9,7 @@ import {
 
 const productDetails = (state = {}, action) => {
   switch (action.type) {
-    case FETCH_PRODUCT_BY_ID_REQUEST: {
+    case FETCH_PRODUCT_DETAILS_REQUEST: {
       return {
         ...state,
         [action.productId]: {
@@ -18,7 +18,7 @@ const productDetails = (state = {}, action) => {
         }
       };
     }
-    case FETCH_PRODUCT_BY_ID_SUCCESS: {
+    case FETCH_PRODUCT_DETAILS_SUCCESS: {
       return {
         ...state,
         [action.productId]: {
@@ -28,7 +28,7 @@ const productDetails = (state = {}, action) => {
         }
       };
     }
-    case FETCH_PRODUCT_BY_ID_FAILURE: {
+    case FETCH_PRODUCT_DETAILS_FAILURE: {
       return {
         ...state,
         [action.productId]: {

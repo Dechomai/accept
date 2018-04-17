@@ -11,7 +11,8 @@ const ItemTile = ({
   className,
   sizes,
   editable,
-  onClickEdit,
+  onEditClick,
+  onDeleteClick,
   imageUrl,
   currency,
   price,
@@ -32,10 +33,10 @@ const ItemTile = ({
       <div className="item-tile__photo" style={{backgroundImage: `url(${imgUrl})`}}>
         {editable && (
           <div className="item-tile__actions">
-            <span onClick={onClickEdit}>
+            <span onClick={onEditClick}>
               <Icon name="pencil" />
             </span>
-            <Icon name="delete" />
+            <Icon name="delete" onClick={onDeleteClick} />
           </div>
         )}
       </div>
@@ -56,7 +57,8 @@ ItemTile.propTypes = {
   className: PropTypes.string,
   sizes: PropTypes.string.isRequired,
   editable: PropTypes.bool,
-  onClickEdit: PropTypes.func,
+  onEditClick: PropTypes.func,
+  onDeleteClick: PropTypes.func,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string.isRequired,
   link: PropTypes.string,

@@ -1,11 +1,11 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, without, assoc, findIndex, propEq, clone} from 'ramda';
+import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
 import {selectOwnProductById} from '../../selectors';
-import AddEditProductForm from '../../components/Product/AddEditForm';
+import AddEditProductForm from '../../components/Product/ProductEditor';
 import PropTypes from 'prop-types';
 import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
 
@@ -38,14 +38,12 @@ class AddEdit extends React.Component {
   }
 
   handleFormSubmit(product) {
-    let data = clone(product);
-
     if (this.props.params.productId) {
-      data = compose(
+      const data = compose(
         assoc('removedPhotos', this.state.removedPhotos),
         assoc('newPhotos', this.state.photos),
         assoc('primaryPhotoIndex', this.state.primaryPhotoIndex)
-      )(data);
+      )(product);
 
       return this.props
         .updateProduct(data, this.props.params.productId, this.state.primaryPhotoIndex)
@@ -54,7 +52,7 @@ class AddEdit extends React.Component {
         });
     } else {
       return this.props
-        .createProduct(data, this.state.photos, this.state.primaryPhotoIndex)
+        .createProduct(product, this.state.photos, this.state.primaryPhotoIndex)
         .then(() => {
           this.props.router.push('/');
         });
@@ -82,18 +80,18 @@ class AddEdit extends React.Component {
       primaryPhotoIndex = 0;
     }
 
-    !isExistingPhoto &&
-      this.setState({
-        photos: without([photo], this.state.photos),
-        primaryPhotoIndex
-      });
-
-    isExistingPhoto &&
+    if (isExistingPhoto) {
       this.setState({
         existingPhotos: without([photo], this.state.existingPhotos),
         primaryPhotoIndex,
         removedPhotos: this.state.removedPhotos.concat(photo.id)
       });
+    } else {
+      this.setState({
+        photos: without([photo], this.state.photos),
+        primaryPhotoIndex
+      });
+    }
   }
 
   handleCancelClick() {

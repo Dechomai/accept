@@ -6,7 +6,7 @@ import NewItemTile from '../common/ItemTile/NewItemTile';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
-const ProfileProduct = ({products, onClickEdit}) => {
+const ProfileProduct = ({products, onEditClick}) => {
   return [
     <NewItemTile key="new" type="products" sizes={TILE_SIZE} placeholder="Add listing" />
   ].concat(
@@ -15,8 +15,8 @@ const ProfileProduct = ({products, onClickEdit}) => {
         key={product.id}
         link={`/products/${product.id}`}
         sizes={TILE_SIZE}
-        onClickEdit={e => {
-          onClickEdit(e, product.id);
+        onEditClick={e => {
+          onEditClick(e, product.id);
         }}
         editable={true}
         photo={

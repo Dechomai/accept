@@ -92,7 +92,7 @@ export default compose(
             {products && products.data && products.data.length ? (
               <ProfileProducts
                 products={products.data}
-                onClickEdit={(e, productId) => {
+                onEditClick={(e, productId) => {
                   e.preventDefault();
                   e.stopPropagation();
                   router.push(`/products/edit/${productId}`);

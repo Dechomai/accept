@@ -16,9 +16,9 @@ export const DELETE_PRODUCT_REQUEST = 'DELETE_PRODUCT_REQUEST';
 export const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS';
 export const DELETE_PRODUCT_FAILURE = 'DELETE_PRODUCT_FAILURE';
 
-export const FETCH_PRODUCT_BY_ID_REQUEST = 'FETCH_PRODUCT_BY_ID_REQUEST';
-export const FETCH_PRODUCT_BY_ID_SUCCESS = 'FETCH_PRODUCT_BY_ID_SUCCESS';
-export const FETCH_PRODUCT_BY_ID_FAILURE = 'FETCH_PRODUCT_BY_ID_FAILURE';
+export const FETCH_PRODUCT_DETAILS_REQUEST = 'FETCH_PRODUCT_DETAILS_REQUEST';
+export const FETCH_PRODUCT_DETAILS_SUCCESS = 'FETCH_PRODUCT_DETAILS_SUCCESS';
+export const FETCH_PRODUCT_DETAILS_FAILURE = 'FETCH_PRODUCT_DETAILS_FAILURE';
 
 // CREATE
 
@@ -141,13 +141,13 @@ export const fetchProducts = ({scope, skip, limit}) => dispatch => {
 
 //Product by ID
 export const fetchProductByIdRequest = productId => ({
-  type: FETCH_PRODUCT_BY_ID_REQUEST,
+  type: FETCH_PRODUCT_DETAILS_REQUEST,
   productId,
   payload: {}
 });
 
 export const fetchProductByIdSuccess = (productId, product) => ({
-  type: FETCH_PRODUCT_BY_ID_SUCCESS,
+  type: FETCH_PRODUCT_DETAILS_SUCCESS,
   productId,
   payload: {
     product
@@ -155,7 +155,7 @@ export const fetchProductByIdSuccess = (productId, product) => ({
 });
 
 export const fetchProductByIdFailure = (productId, error) => ({
-  type: FETCH_PRODUCT_BY_ID_FAILURE,
+  type: FETCH_PRODUCT_DETAILS_FAILURE,
   productId,
   payload: {
     error
