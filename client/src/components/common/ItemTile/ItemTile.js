@@ -1,7 +1,7 @@
 import './ItemTile.scss';
 
 import React from 'react';
-import {Modal, ModalHeader, ModalFooter} from 'reactstrap';
+import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import Text from '../Text/Text';
@@ -85,14 +85,15 @@ class ItemTile extends React.Component {
         </Text>
         {editable && (
           <Modal isOpen={this.state.modal} toggle={this.toggle} className="confirmation-modal">
-            <ModalHeader toggle={this.toggle}>Do you really want to delete {title} ?</ModalHeader>
+            <ModalHeader toggle={this.toggle}>Delete item</ModalHeader>
+            <ModalBody>Do you really want to delete {title} ?</ModalBody>
             <ModalFooter>
-              <button className="btn btn-primary" onClick={this.handleDeleteItem}>
-                Delete
-              </button>{' '}
-              <button className="btn btn-danger" onClick={this.toggle}>
+              <Button color="link" onClick={this.toggle}>
                 Cancel
-              </button>
+              </Button>
+              <Button color="danger" onClick={this.handleDeleteItem}>
+                Delete
+              </Button>
             </ModalFooter>
           </Modal>
         )}
