@@ -18,6 +18,14 @@ const mediaController = {
         []
       )
     );
+  },
+  removeProductImages(productId, imageIds) {
+    return Promise.all(
+      imageIds.reduce(
+        (acc, imageId) => acc.concat([cloudinary.removeImage(`products/${productId}/${imageId}`)]),
+        []
+      )
+    );
   }
 };
 

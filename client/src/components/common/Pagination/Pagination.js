@@ -12,7 +12,7 @@ import Icon from '../Icon/Icon';
 // < 1 2 3 ... 10 >
 // < 1 ...3 4 5... 10 >
 // etc.
-const paginationRange = total => range(0, total + 1);
+const paginationRange = total => range(0, total);
 
 const Pagination = ({currentPage, totalPages, onPrevClick, onNextClick, onPageClick}) => (
   <div className="pagination pagination-sm">

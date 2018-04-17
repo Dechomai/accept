@@ -88,7 +88,7 @@ export default compose(
           <small className="all-products__count">{count} results</small>
 
           <Pagination
-            totalPages={Math.floor(count / limit)}
+            totalPages={Math.ceil(count / limit)}
             currentPage={Math.floor(skip / limit)}
             onNextClick={onPaginationNextClick}
             onPrevClick={onPaginationPrevClick}

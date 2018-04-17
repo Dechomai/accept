@@ -1,4 +1,4 @@
-const {dissoc, nth, prop, compose} = require('ramda');
+const {dissoc, nth, prop, compose, zip} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
@@ -11,7 +11,31 @@ const DEFAULT_SORT = {
   createdAt: -1
 };
 
+const mapPhotoToDbModel = ({id, url}) => ({_id: id, url});
+
 const productController = {
+  isProductOwner(userId, productId) {
+    return Product.findById(productId)
+      .then(product => {
+        logger.info(':isProductOwner', `${productId} found`, product);
+        const isOwner = product.createdBy === userId;
+        if (product.createdBy === userId) {
+          logger.info(
+            ':isProductOwner',
+            `User ${userId} is ${isOwner ? '' : 'not '}owner of ${productId}`
+          );
+          return isOwner ? product : null;
+        }
+      })
+      .catch(err => {
+        if (err === null) {
+          logger.error(':isProductOwner', `${productId} not found`);
+        } else {
+          logger.error(':isProductOwner', `${productId} error`, err);
+        }
+        return Promise.reject(err);
+      });
+  },
   getProductsForUser(userId, {limit, skip}) {
     return Promise.all([
       Product.find({createdBy: userId}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
@@ -94,12 +118,12 @@ const productController = {
   addProduct(productData, images, userId) {
     const productId = uuidv4();
 
-    const photos = images.map(file => ({id: uuidv4(), buffer: file.buffer}));
+    const photosToUpload = images.map(file => ({id: uuidv4(), buffer: file.buffer}));
     const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
-    const primaryPhotoId = compose(prop('id'), nth(primaryPhotoIndex))(photos);
+    const primaryPhotoId = compose(prop('id'), nth(primaryPhotoIndex))(photosToUpload);
 
     return mediaController
-      .uploadProductImages(productId, photos)
+      .uploadProductImages(productId, photosToUpload)
       .then(
         results => {
           logger.info('post:products', 'Images uploaded', results);
@@ -125,6 +149,55 @@ const productController = {
       })
       .catch(err => {
         logger.error(':addProduct', 'error', err);
+        return Promise.reject(err);
+      });
+  },
+
+  editProduct(product, productData, newPhotos, removedPhotos) {
+    const photosToUpload = newPhotos.map(file => ({id: uuidv4(), buffer: file.buffer}));
+    const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
+
+    return mediaController
+      .removeProductImages(product.id, removedPhotos)
+      .then(results => {
+        const imageRemoveStatuses = zip(removedPhotos, results);
+        imageRemoveStatuses.forEach(([photoId, {result}]) => {
+          logger.info(':editProduct', `Photo ${photoId} remove status is: ${result}`);
+        });
+        return mediaController.uploadProductImages(product.id, photosToUpload);
+      })
+      .then(
+        results => {
+          logger.info('post:products', 'Images uploaded', results);
+          return results.map(mapPhotoToDbModel);
+        },
+        err => {
+          logger.error('post:products', 'Error uploading images', err);
+          return Promise.reject('Error uploading images to cloud');
+        }
+      )
+      .then(uploadedPhotos => {
+        const remainingPhotos = product.photos.filter(photo => !removedPhotos.includes(photo.id));
+        const photos = [...remainingPhotos, ...uploadedPhotos];
+        const primaryPhoto = photos[primaryPhotoIndex] || photos[0];
+        const primaryPhotoId = primaryPhoto ? primaryPhoto._id : null;
+
+        return Product.findByIdAndUpdate(
+          product.id,
+          {
+            ...productData,
+            photos,
+            primaryPhotoId
+          },
+          {new: true}
+        );
+      })
+      .then(product => {
+        logger.info(':editProduct', `edited ${product.id}`, product);
+        return product.toJSON();
+      })
+      .catch(err => {
+        logger.error(':editProduct', 'error', err);
         return Promise.reject(err);
       });
   }

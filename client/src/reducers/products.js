@@ -72,7 +72,8 @@ const list = createReducer(getInitialListState(), {
     return {
       ...state,
       loading: false,
-      error: payload.error
+      error: payload.error,
+      listValid: true
     };
   }
 });
