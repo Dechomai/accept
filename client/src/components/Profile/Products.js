@@ -18,6 +18,9 @@ const ProfileProduct = ({products, onEditClick}) => {
         onEditClick={e => {
           onEditClick(e, product.id);
         }}
+        onDeleteClick={() => {
+          console.log('item deleted');
+        }}
         editable={true}
         photo={
           product.photos.length
