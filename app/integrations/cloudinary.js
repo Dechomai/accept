@@ -30,6 +30,14 @@ const cloudinaryIntegration = {
         )
         .end(buffer);
     });
+  },
+  removeImage(publicId) {
+    return new Promise((resolve, reject) => {
+      cloudinary.v2.uploader.destroy(publicId, (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
   }
 };
 
