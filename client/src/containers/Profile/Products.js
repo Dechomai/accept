@@ -69,7 +69,8 @@ export default compose(
     limit,
     onPaginationNextClick,
     onPaginationPrevClick,
-    onPaginationPageClick
+    onPaginationPageClick,
+    router
   }) => {
     if ((!products || !products.data.length) && !count) return <Loader />;
     return (
@@ -89,7 +90,14 @@ export default compose(
         <div className="profile-products__content">
           <div className="row">
             {products && products.data && products.data.length ? (
-              <ProfileProducts products={products.data} />
+              <ProfileProducts
+                products={products.data}
+                onEditClick={(e, productId) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/products/edit/${productId}`);
+                }}
+              />
             ) : (
               <Loader />
             )}

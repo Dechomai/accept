@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 
 const selectUser = state => state.user;
 const selectProducts = state => state.products;
+const selectProductDetails = state => state.productDetails;
 
 // User
 export const selectUserStatus = createSelector(selectUser, ({loading, error}) => ({
@@ -26,4 +27,6 @@ export const selectAllProductsFor = createSelector(
   [selectAllProducts, (state, {skip, limit}) => ({skip, limit})],
   (products, {skip, limit}) => products[`skip=${skip},limit=${limit}`]
 );
+
+export const selectOwnProductById = (state, productId) => selectProductDetails(state)[productId];
 export const selectAllProductsCount = createSelector(selectAllProducts, products => products.count);

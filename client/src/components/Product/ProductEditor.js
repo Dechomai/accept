@@ -22,12 +22,15 @@ class InnerForm extends React.Component {
   }
 
   handleUploadPhoto(files) {
-    const photos = this.props.photos.concat(files).slice(0, 8);
+    const photos = this.props.photos.concat(files).slice(0, 8 - this.props.existingPhotos.length);
     this.props.onPhotosAdded(photos);
   }
 
   renderEmptyPhotoPlaceholders() {
-    return range(0, MAX_PHOTOS - this.props.photos.length - 1).map(item => (
+    return range(
+      0,
+      MAX_PHOTOS - (this.props.photos.length + this.props.existingPhotos.length) - 1
+    ).map(item => (
       <Tile sizes="col-3" key={item}>
         <div className="create-form__placeholder">
           <Icon name="image" size="64" />
@@ -37,23 +40,58 @@ class InnerForm extends React.Component {
   }
 
   renderPhotos() {
-    return this.props.photos.map((photo, index) => (
+    const {
+      photos,
+      primaryPhotoIndex,
+      existingPhotos,
+      onPrimaryPhotoIndexChanged,
+      onPhotoDelete
+    } = this.props;
+    return photos.map((photo, index) => (
       <Tile key={photo.preview} sizes="col-3">
         <div
           style={{backgroundImage: `url(${photo.preview})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
-          <div
-            className="create-form__placeholder__close"
-            onClick={() => this.props.onPhotoDelete(photo)}>
+          <div className="create-form__placeholder__close" onClick={() => onPhotoDelete(photo)}>
             <Icon name="close" size="20" />
           </div>
           <button
             type="button"
             className={classNames('btn btn-sm btn-primary btn-round', {
-              'btn-dark create-form__placeholder--primary': this.props.primaryPhotoIndex === index
+              'btn-dark create-form__placeholder--primary':
+                primaryPhotoIndex - existingPhotos.length === index
             })}
-            onClick={() => this.props.onPrimaryPhotoIndexChanged(index)}>
-            {this.props.primaryPhotoIndex === index ? 'Primary' : 'Make Primary'}
+            onClick={() => onPrimaryPhotoIndexChanged(index + existingPhotos.length)}>
+            {primaryPhotoIndex - existingPhotos.length === index ? 'Primary' : 'Make Primary'}
+          </button>
+        </div>
+      </Tile>
+    ));
+  }
+
+  renderExistingPhotos() {
+    const {
+      primaryPhotoIndex,
+      existingPhotos,
+      onPrimaryPhotoIndexChanged,
+      onPhotoDelete
+    } = this.props;
+
+    return existingPhotos.map((photo, index) => (
+      <Tile key={photo.url} sizes="col-3">
+        <div
+          style={{backgroundImage: `url(${photo.url})`}}
+          className="create-form__placeholder create-form__placeholder--with-photo">
+          <div className="create-form__placeholder__close" onClick={() => onPhotoDelete(photo)}>
+            <Icon name="close" size="20" />
+          </div>
+          <button
+            type="button"
+            className={classNames('btn btn-sm btn-primary btn-round', {
+              'btn-dark create-form__placeholder--primary': primaryPhotoIndex === index
+            })}
+            onClick={() => onPrimaryPhotoIndexChanged(index)}>
+            {primaryPhotoIndex === index ? 'Primary' : 'Make Primary'}
           </button>
         </div>
       </Tile>
@@ -122,8 +160,9 @@ class InnerForm extends React.Component {
               <div className="create-form__content">
                 <div className="container-fluid create-form__upload-photos">
                   <div className="row">
+                    {this.renderExistingPhotos()}
                     {this.renderPhotos()}
-                    {this.props.photos.length < MAX_PHOTOS && (
+                    {this.props.photos.length + this.props.existingPhotos.length < MAX_PHOTOS && (
                       <Tile sizes="col-3">
                         <FileUpload
                           className="create-form__placeholder"
@@ -303,13 +342,25 @@ class InnerForm extends React.Component {
 }
 
 const AddProductFrom = withFormik({
-  mapPropsToValues: () => ({
-    title: '',
-    video: '',
-    description: '',
-    condition: 'new',
-    price: ''
-  }),
+  enableReinitialize: true,
+  isInitialValid: props => {
+    return props.product && !!props.product.data;
+  },
+  mapPropsToValues: props => {
+    const {product} = props;
+
+    if (product && product.data) {
+      return pick(['title', 'video', 'description', 'condition', 'price'], product.data);
+    }
+
+    return {
+      title: '',
+      video: '',
+      description: '',
+      condition: 'new',
+      price: ''
+    };
+  },
   validate: createValidator({
     title: ['required', rules.minLength(3), rules.maxLength(400), 'lettersDigitsAndSpaces'],
     video: ['youtubeUrl'],

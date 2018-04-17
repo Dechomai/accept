@@ -56,11 +56,12 @@ export const getMessage = (fieldRules, value, values) => {
   return null;
 };
 
-const createValidator = (rulesMap = {}) => values =>
-  Object.entries(rulesMap).reduce((acc, [name, fieldRules]) => {
+const createValidator = (rulesMap = {}) => values => {
+  return Object.entries(rulesMap).reduce((acc, [name, fieldRules]) => {
     const msg = getMessage(fieldRules, values[name], values);
     if (msg) acc[name] = msg;
     return acc;
   }, {});
+};
 
 export default createValidator;

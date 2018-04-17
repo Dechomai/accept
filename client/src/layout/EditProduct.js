@@ -1,20 +1,20 @@
 import React from 'react';
 
-import AddProductContainer from '../containers/Product/ProductEditor';
+import EditProductContainer from '../containers/Product/ProductEditor';
 
-const AddProduct = () => {
+const EditProduct = () => {
   return (
     <div className="add-product__page ">
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <h4 className="mt-4 mb-4">Create your listing</h4>
+            <h4 className="mt-4 mb-4">Edit your listing</h4>
           </div>
         </div>
       </div>
-      <AddProductContainer />
+      <EditProductContainer />
     </div>
   );
 };
 
-export default AddProduct;
+export default EditProduct;

@@ -16,6 +16,10 @@ export const DELETE_PRODUCT_REQUEST = 'DELETE_PRODUCT_REQUEST';
 export const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS';
 export const DELETE_PRODUCT_FAILURE = 'DELETE_PRODUCT_FAILURE';
 
+export const FETCH_PRODUCT_DETAILS_REQUEST = 'FETCH_PRODUCT_DETAILS_REQUEST';
+export const FETCH_PRODUCT_DETAILS_SUCCESS = 'FETCH_PRODUCT_DETAILS_SUCCESS';
+export const FETCH_PRODUCT_DETAILS_FAILURE = 'FETCH_PRODUCT_DETAILS_FAILURE';
+
 // CREATE
 
 export const createProductRequest = () => ({
@@ -45,6 +49,41 @@ export const createProduct = (product, files, primaryPhotoIndex) => dispatch => 
     .then(
       data => dispatch(createProductSuccess(data.product)),
       err => Promise.reject(dispatch(createProductFailure(err)))
+    );
+};
+
+// UPDATE
+
+export const updateProductRequest = productId => ({
+  type: UPDATE_PRODUCT_REQUEST,
+  productId,
+  payload: {}
+});
+
+export const updateProductSuccess = (product, productId) => ({
+  type: UPDATE_PRODUCT_SUCCESS,
+  productId,
+  payload: {
+    product
+  }
+});
+
+export const updateProductFailure = (error, productId) => ({
+  type: UPDATE_PRODUCT_FAILURE,
+  productId,
+  payload: {
+    error
+  }
+});
+
+export const updateProduct = (product, productId, primaryPhotoIndex) => dispatch => {
+  dispatch(updateProductRequest(productId));
+
+  return productService
+    .updateProduct(product, productId, primaryPhotoIndex)
+    .then(
+      data => dispatch(updateProductSuccess(data.product, productId)),
+      err => Promise.reject(dispatch(updateProductFailure(err, productId)))
     );
 };
 
@@ -98,4 +137,38 @@ export const fetchProducts = ({scope, skip, limit}) => dispatch => {
     data => dispatch(fetchProductsSuccess({scope, skip, limit}, data.products, data.count)),
     err => Promise.reject(dispatch(fetchProductsFailure({scope, skip, limit}, err)))
   );
+};
+
+//Product by ID
+export const fetchProductByIdRequest = productId => ({
+  type: FETCH_PRODUCT_DETAILS_REQUEST,
+  productId,
+  payload: {}
+});
+
+export const fetchProductByIdSuccess = (productId, product) => ({
+  type: FETCH_PRODUCT_DETAILS_SUCCESS,
+  productId,
+  payload: {
+    product
+  }
+});
+
+export const fetchProductByIdFailure = (productId, error) => ({
+  type: FETCH_PRODUCT_DETAILS_FAILURE,
+  productId,
+  payload: {
+    error
+  }
+});
+
+export const fetchProductById = productId => dispatch => {
+  dispatch(fetchProductByIdRequest(productId));
+
+  return productService
+    .getProductById(productId)
+    .then(
+      data => dispatch(fetchProductByIdSuccess(productId, data.product)),
+      err => Promise.reject(dispatch(fetchProductByIdFailure(productId, err)))
+    );
 };

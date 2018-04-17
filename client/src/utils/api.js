@@ -76,6 +76,32 @@ const api = {
       },
       body: formData
     }).then(response => response.json());
+  },
+  putForm(url, data) {
+    let formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach(item => {
+          formData.append(key, item);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    const options = getOptions();
+
+    return fetch(options.API + url, {
+      method: 'PUT',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json'
+      },
+      body: formData
+    })
+      .then(res => (res.status === STATUS_SUCCESSFULL ? res.json() : Promise.reject(res)))
+      .catch(res => this.handleError(res));
   }
 };
 
