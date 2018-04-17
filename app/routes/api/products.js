@@ -164,21 +164,23 @@ productsRouter
       const {removedPhotos = []} = req.body;
       try {
         const ownedProduct = await productsController.isProductOwner(userId, productId);
-
-        if (ownedProduct) {
-          try {
-            const product = await productsController.editProduct(
-              ownedProduct,
-              productData,
-              newPhotos,
-              removedPhotos
-            );
-            sendSuccess(res, {product});
-          } catch (error) {
-            sendError(res, {message: typeof error === 'string' ? error : 'Error editing product'});
-          }
-        } else {
-          sendError(res, {message: 'Current user is not owner of this product'}, {status: 401});
+        if (!ownedProduct) {
+          return sendError(
+            res,
+            {message: 'Current user is not owner of this product'},
+            {status: 401}
+          );
+        }
+        try {
+          const product = await productsController.editProduct(
+            ownedProduct,
+            productData,
+            newPhotos,
+            removedPhotos
+          );
+          sendSuccess(res, {product});
+        } catch (error) {
+          sendError(res, {message: typeof error === 'string' ? error : 'Error editing product'});
         }
       } catch (err) {
         if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
