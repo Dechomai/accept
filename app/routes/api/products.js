@@ -125,6 +125,12 @@ productsRouter
   .put(
     authMiddleware,
     upload.array('newPhotos', 8),
+    (req, res, next) => {
+      if (typeof req.body.removedPhotos === 'string') {
+        req.body.removedPhotos = [req.body.removedPhotos];
+      }
+      next();
+    },
     uploadErrorHandler(logger, 'put:product', /image\/(png|gif|jpeg)/),
     validationMiddleware(
       body('title')
