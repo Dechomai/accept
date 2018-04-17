@@ -15,6 +15,7 @@ import Profile from './layout/UserProfile';
 import AllProducts from './layout/AllProducts';
 import AboutMe from './containers/Profile/About';
 import ProfileProducts from './containers/Profile/Products';
+import ProductDetails from './containers/Product/Details';
 
 /*
 
@@ -112,14 +113,7 @@ class Router extends React.Component {
             <IndexRoute component={AllProducts} />
             <Route path="add" component={AddProduct} />
             <Route path="edit/:productId" component={EditProduct} />
-            <Route
-              path=":productId"
-              component={({params}) => (
-                <h1>
-                  Product <pre>{params.productId}</pre> Details
-                </h1>
-              )}
-            />
+            <Route path=":productId" component={ProductDetails} />
           </Route>
 
           <Route path="services">

@@ -1,0 +1,63 @@
+@import '../../theme/index';
+
+.product-details {
+  font-size: 13px;
+
+  &__header,
+  &__content {
+    background-color: $white;
+  }
+  &__header {
+    margin-top: 30px;
+    margin-bottom: 2px;
+    padding: 18px 30px;
+    &__title {
+      font-size: 20px;
+    }
+  }
+  &__content {
+    padding: 30px;
+  }
+  &__top-section {
+    margin-top: 50px;
+  }
+  &__bottom-section {
+    margin-top: 54px;
+    padding-top: 32px;
+    border-top: 1px solid $gray-400;
+  }
+  &__title {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+  }
+  &__price {
+    font-family: Montserrat;
+    font-size: 26px;
+    font-weight: bold;
+  }
+  &__condition {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  &__quantity {
+    input,
+    input:read-only {
+      background-color: $white;
+      border: 1px solid $gray-500;
+      padding: 14px;
+      font-weight: 500;
+    }
+  }
+  &__description {
+    margin-top: 12px;
+    opacity: 0.65;
+  }
+}
+
+.gallery {
+  width: 400px;
+  height: 400px;
+  background-color: $gray-500;
+}
