@@ -146,6 +146,12 @@ const env = config.get('env');
 config.loadFile(path.resolve(__dirname, `./env/${env}.json`));
 
 // throws error if config does not conform to schema
-config.validate({allowed: 'strict'});
+try {
+  config.validate({allowed: 'strict'});
+} catch (err) {
+  console.log('Application configuration failed');
+  console.log(err.message);
+  process.exit(1);
+}
 
 module.exports = config;

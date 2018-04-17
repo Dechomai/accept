@@ -1,4 +1,7 @@
-/.git
-/node_modules
-/client
-# TODO ignore all unneeded files
+*
+!/app
+!/config
+!/public
+!app.js
+!package.json
+!yarn.lock
