@@ -155,7 +155,7 @@ productsRouter
         ['title', 'video', 'description', 'condition', 'price', 'primaryPhotoIndex'],
         req.body
       );
-      const {removedPhotos} = req.body;
+      const {removedPhotos = []} = req.body;
       try {
         const ownedProduct = await productsController.isProductOwner(userId, productId);
 
