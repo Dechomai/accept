@@ -1,9 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, without, assoc, findIndex, propEq} from 'ramda';
+import {compose, without, assoc, findIndex, propEq, clone} from 'ramda';
 import autobind from 'autobindr';
-import uuidv4 from 'uuid/v4';
 
 import {selectOwnProductById} from '../../selectors';
 import AddEditProductForm from '../../components/Product/AddEditForm';
@@ -39,9 +38,7 @@ class AddEdit extends React.Component {
   }
 
   handleFormSubmit(product) {
-    console.log(product);
-    const photosFolder = uuidv4();
-    let data = assoc('photosFolder', photosFolder, product);
+    let data = clone(product);
 
     if (this.props.params.productId) {
       data = compose(
@@ -50,9 +47,11 @@ class AddEdit extends React.Component {
         assoc('primaryPhotoIndex', this.state.primaryPhotoIndex)
       )(data);
 
-      return this.props.updateProduct(data, this.state.primaryPhotoIndex).then(() => {
-        this.props.router.push('/');
-      });
+      return this.props
+        .updateProduct(data, this.props.params.productId, this.state.primaryPhotoIndex)
+        .then(() => {
+          this.props.router.push('/');
+        });
     } else {
       return this.props
         .createProduct(data, this.state.photos, this.state.primaryPhotoIndex)
@@ -140,8 +139,8 @@ const mapDispatchToProps = dispatch => ({
   createProduct(product, files, primaryPhotoIndex) {
     return dispatch(createProduct(product, files, primaryPhotoIndex));
   },
-  updateProduct(product, files, primaryPhotoIndex) {
-    return dispatch(updateProduct(product, files, primaryPhotoIndex));
+  updateProduct(product, productId, primaryPhotoIndex) {
+    return dispatch(updateProduct(product, productId, primaryPhotoIndex));
   },
   fetchProductById(productId) {
     return dispatch(fetchProductById(productId));

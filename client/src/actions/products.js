@@ -54,33 +54,36 @@ export const createProduct = (product, files, primaryPhotoIndex) => dispatch => 
 
 // UPDATE
 
-export const updateProductRequest = () => ({
+export const updateProductRequest = productId => ({
   type: UPDATE_PRODUCT_REQUEST,
+  productId,
   payload: {}
 });
 
-export const updateProductSuccess = product => ({
+export const updateProductSuccess = (product, productId) => ({
   type: UPDATE_PRODUCT_SUCCESS,
+  productId,
   payload: {
     product
   }
 });
 
-export const updateProductFailure = error => ({
+export const updateProductFailure = (error, productId) => ({
   type: UPDATE_PRODUCT_FAILURE,
+  productId,
   payload: {
     error
   }
 });
 
-export const updateProduct = (product, primaryPhotoIndex) => dispatch => {
-  dispatch(updateProductRequest());
+export const updateProduct = (product, productId, primaryPhotoIndex) => dispatch => {
+  dispatch(updateProductRequest(productId));
 
   return productService
-    .updateProduct(product, primaryPhotoIndex)
+    .updateProduct(product, productId, primaryPhotoIndex)
     .then(
-      data => dispatch(updateProductSuccess(data.product)),
-      err => Promise.reject(dispatch(updateProductFailure(err)))
+      data => dispatch(updateProductSuccess(data.product, productId)),
+      err => Promise.reject(dispatch(updateProductFailure(err, productId)))
     );
 };
 
