@@ -1,0 +1,14 @@
+node_modules
+client
+scripts
+spec
+.dockerignore
+.editorconfig
+.env
+.env.sample
+.eslintignore
+.eslintrc.js
+.prettierrc.js
+*.md
+docker-compose.*.yml
+Dockerfile
