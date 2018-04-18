@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
 const uuidv4 = require('uuid/v4');
 const mediaController = require('./media');
+const {getVideoId} = require('../../helpers/youtube');
 
 const logger = createLoggerWith('[CTRL:Products]');
 
@@ -140,7 +141,8 @@ const productController = {
           _id: productId,
           createdBy: userId,
           photos,
-          primaryPhotoId
+          primaryPhotoId,
+          video: getVideoId(productData.video)
         })
       )
       .then(product => {
@@ -187,7 +189,8 @@ const productController = {
           {
             ...productData,
             photos,
-            primaryPhotoId
+            primaryPhotoId,
+            video: getVideoId(productData.video)
           },
           {new: true}
         );
