@@ -18,33 +18,33 @@ class ProductDetails extends React.Component {
     return (
       <div className="container product-details">
         <div className="row product-details__header">
-          <div className="col-12 d-flex align-items-center justify-content-between">
-            <span className="product-details__header__title">{product.title}</span>
-            <Link to={`/products/edit/${product.id}`}>
-              <Button size="sm" color="link" className="p-0 btn-with-icon product-details__edit">
-                <Icon name="pencil" size="20" />
-                <span>Edit</span>
-              </Button>
-            </Link>
-          </div>
+          <span className="col-md-9 product-details__header__title">{product.title}</span>
+          <Link className="col-md-3 d-flex justify-content-end" to={`/products/edit/${product.id}`}>
+            <Button size="sm" color="link" className="p-0 btn-with-icon product-details__edit">
+              <Icon name="pencil" size="20" />
+              <span>Edit</span>
+            </Button>
+          </Link>
         </div>
         <div className="row product-details__content">
-          <div className="col-6 product-details__gallery">
+          <div className="col-lg-6 product-details__gallery">
             <div className="gallery" />
           </div>
-          <div className="col-6">
+          <div className="col-lg-5 offset-lg-1">
             <div className="product-details__top-section">
               <div className="row d-flex align-items-center py-2">
-                <div className="col-3 product-details__title">Price</div>
-                <div className="col-3 product-details__price">{product.price.toFixed(2)}</div>
+                <div className="col-sm-3 col-6 product-details__title">Price</div>
+                <div className="col-sm-3 col-6 product-details__price">
+                  {product.price.toFixed(2)}
+                </div>
               </div>
               <div className="row d-flex align-items-center py-2">
-                <div className="col-3 product-details__title">Condition</div>
-                <div className="col-3 product-details__condition">{product.condition}</div>
+                <div className="col-sm-3 col-6 product-details__title">Condition</div>
+                <div className="col-sm-3 col-6 product-details__condition">{product.condition}</div>
               </div>
               <div className="row d-flex align-items-center py-2">
-                <div className="col-3 product-details__title">Quantity</div>
-                <div className="col-3 product-details__quantity">
+                <div className="col-sm-3 col-6 product-details__title">Quantity</div>
+                <div className="col-sm-3 col-6 product-details__quantity">
                   <Input value={1} readOnly />
                 </div>
               </div>
