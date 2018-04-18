@@ -18,7 +18,7 @@ const productController = {
   isProductOwner(userId, productId) {
     return Product.findById(productId)
       .then(product => {
-        logger.info(':isProductOwner', `${productId} found`, product);
+        logger.info(':isProductOwner', `${productId} found`, product.toJSON());
         const isOwner = product.createdBy === userId;
         if (product.createdBy === userId) {
           logger.info(
@@ -196,7 +196,7 @@ const productController = {
         );
       })
       .then(product => {
-        logger.info(':editProduct', `edited ${product.id}`, product);
+        logger.info(':editProduct', `edited ${product.id}`, product.toJSON());
         return product.toJSON();
       })
       .catch(err => {

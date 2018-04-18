@@ -169,10 +169,8 @@ class InnerForm extends React.Component {
                           accept="image/jpeg,image/png,image/gif"
                           multiple={true}
                           showPreview={false}
-                          maxSize={2.5 * 1024 * 1024}
-                          onSelect={
-                            this.handleUploadPhoto // ~2.5Mb
-                          }>
+                          maxSize={2.5 * 1024 * 1024} // ~2.5Mb
+                          onSelect={this.handleUploadPhoto}>
                           <div className="create-form__placeholder__caption">
                             <Icon name="upload" size="20" />
                             <small className="create-form__placeholder__upload-label">
@@ -354,8 +352,11 @@ const AddProductFrom = withFormik({
         ['title', 'video', 'description', 'condition', 'price'],
         product.data
       );
-
-      return assoc('video', `https://youtu.be/${productData.video}`, productData);
+      return assoc(
+        'video',
+        productData.video ? `https://youtu.be/${productData.video}` : '',
+        productData
+      );
     }
 
     return {
