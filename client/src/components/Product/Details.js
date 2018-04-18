@@ -6,6 +6,7 @@ import {Link} from 'react-router';
 import {Button, Input} from 'reactstrap';
 
 import Icon from '../common/Icon/Icon';
+import Gallery from '../common/Gallery/Gallery';
 
 class ProductDetails extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class ProductDetails extends React.Component {
         </div>
         <div className="row product-details__content">
           <div className="col-lg-6 product-details__gallery">
-            <div className="gallery" />
+            <Gallery items={this.props.product.photos} />
           </div>
           <div className="col-lg-5 offset-lg-1">
             <div className="product-details__top-section">
