@@ -29,7 +29,7 @@ class ProductDetails extends React.Component {
         </div>
         <div className="row product-details__content">
           <div className="col-lg-6 product-details__gallery">
-            <Gallery items={this.props.product.photos} />
+            <Gallery items={this.props.product.photos} video={this.props.product.video} />
           </div>
           <div className="col-lg-5 offset-lg-1">
             <div className="product-details__top-section">

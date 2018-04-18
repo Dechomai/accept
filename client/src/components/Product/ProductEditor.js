@@ -1,5 +1,5 @@
 import React from 'react';
-import {range, pick} from 'ramda';
+import {range, pick, assoc} from 'ramda';
 import classNames from 'classnames';
 import {withFormik} from 'formik';
 import PropTypes from 'prop-types';
@@ -350,7 +350,12 @@ const AddProductFrom = withFormik({
     const {product} = props;
 
     if (product && product.data) {
-      return pick(['title', 'video', 'description', 'condition', 'price'], product.data);
+      const productData = pick(
+        ['title', 'video', 'description', 'condition', 'price'],
+        product.data
+      );
+
+      return assoc('video', `https://youtu.be/${productData.video}`, productData);
     }
 
     return {
