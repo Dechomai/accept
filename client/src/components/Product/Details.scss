@@ -12,6 +12,7 @@
     margin-bottom: 2px;
     padding: 18px 30px;
     &__title {
+      word-break: break-word;
       font-size: 20px;
     }
   }
@@ -51,6 +52,7 @@
     }
   }
   &__description {
+    word-break: break-word;
     margin-top: 12px;
     opacity: 0.65;
   }
