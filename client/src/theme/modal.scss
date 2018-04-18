@@ -1,0 +1,18 @@
+.confirmation-modal {
+  .modal-content {
+    border-radius: 0;
+  }
+  .modal-header {
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: normal;
+    }
+    .close {
+      font-size: 2rem;
+      margin: -1.6rem -1.2rem -1.2rem auto;
+    }
+  }
+  .modal-body {
+    font-size: 1.25rem;
+  }
+}
