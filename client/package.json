@@ -8,7 +8,7 @@
     "clean": "rimraf ./build/*",
     "test": "jest -c jest.config.js --verbose",
     "test:watch": "yarn test --watchAll",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --mode=development --https",
     "build": "npm-run-all clean build:*",
     "build:code": "cross-env NODE_ENV=production webpack --mode=production",
     "build:assets": "ncp src/assets build/assets",
