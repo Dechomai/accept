@@ -6,7 +6,7 @@ import {getProductPrimaryImage} from '../../utils/img';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
-const ProfileProduct = ({products, onEditClick}) => {
+const ProfileProduct = ({products, onEditClick, onDeleteClick}) => {
   return [
     <NewItemTile key="new" type="products" sizes={TILE_SIZE} placeholder="Add listing" />
   ].concat(
@@ -19,7 +19,7 @@ const ProfileProduct = ({products, onEditClick}) => {
           onEditClick(e, product.id);
         }}
         onDeleteClick={() => {
-          console.log('item deleted');
+          onDeleteClick(product.id);
         }}
         editable={true}
         imageUrl={getProductPrimaryImage(product)}

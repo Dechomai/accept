@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {compose, withStateHandlers, lifecycle} from 'recompact';
 
-import {fetchProducts} from '../../actions/products';
+import {fetchProducts, deleteProduct} from '../../actions/products';
 import {selectOwnProductsFor, selectOwnProductsCount} from '../../selectors';
 import ProfileProducts from '../../components/Profile/Products';
 import Pagination from '../../components/common/Pagination/Pagination';
@@ -28,6 +28,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchProducts() {
     return dispatch(fetchProducts({scope: 'user', skip: ownProps.skip, limit: ownProps.limit}));
+  },
+  deleteProduct(productId) {
+    return dispatch(deleteProduct(productId));
   }
 });
 
@@ -70,7 +73,8 @@ export default compose(
     onPaginationNextClick,
     onPaginationPrevClick,
     onPaginationPageClick,
-    router
+    router,
+    deleteProduct
   }) => {
     if ((!products || !products.data.length) && !count) return <Loader />;
     return (
@@ -97,6 +101,7 @@ export default compose(
                   e.stopPropagation();
                   router.push(`/products/edit/${productId}`);
                 }}
+                onDeleteClick={deleteProduct}
               />
             ) : (
               <Loader />
