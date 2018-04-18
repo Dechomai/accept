@@ -36,7 +36,7 @@ const Pagination = ({currentPage, totalPages, onPrevClick, onNextClick, onPageCl
     ))}
     <div
       className={classNames('page-item', {
-        disabled: currentPage === totalPages
+        disabled: currentPage === totalPages - 1
       })}>
       <span className="page-link" onClick={onNextClick}>
         <Icon name="chevron-right" size="16" />

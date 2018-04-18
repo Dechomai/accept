@@ -1,8 +1,8 @@
 import './Products.scss';
 import React from 'react';
-import {find, compose, prop, propEq} from 'ramda';
 import ItemTile from '../common/ItemTile/ItemTile';
 import NewItemTile from '../common/ItemTile/NewItemTile';
+import {getProductPrimaryImage} from '../../utils/img';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
@@ -22,11 +22,7 @@ const ProfileProduct = ({products, onEditClick}) => {
           console.log('item deleted');
         }}
         editable={true}
-        photo={
-          product.photos.length
-            ? compose(prop('url'), find(propEq('id', product.primaryPhotoId)))(product.photos)
-            : null
-        }
+        imageUrl={getProductPrimaryImage(product)}
         price={product.price}
         title={product.title}
       />

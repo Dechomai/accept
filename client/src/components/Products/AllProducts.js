@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ItemTile from '../common/ItemTile/ItemTile';
+import {getProductPrimaryImage} from '../../utils/img';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
@@ -13,7 +14,7 @@ const AllProducts = ({products}) =>
       key={product.id}
       link={`/products/${product.id}`}
       sizes={TILE_SIZE}
-      imageUrl={product.photos.length ? product.photos.find(p => p.primary).uri : null}
+      imageUrl={getProductPrimaryImage(product)}
       price={product.price}
       title={product.title}
     />

@@ -11,7 +11,7 @@ import ItemTile from '../common/ItemTile/ItemTile';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
 
-import {compose, find, prop, propEq} from 'ramda';
+import {getProductPrimaryImage} from '../../utils/img';
 
 class Home extends React.Component {
   constructor(props) {
@@ -35,11 +35,7 @@ class Home extends React.Component {
           key={product.id}
           link={`/products/${product.id}`}
           sizes="col-4 col-md-2"
-          imageUrl={
-            product.photos.length
-              ? compose(prop('url'), find(propEq('id', product.primaryPhotoId)))(product.photos)
-              : null
-          }
+          imageUrl={getProductPrimaryImage(product)}
           price={product.price}
           title={product.title}
         />

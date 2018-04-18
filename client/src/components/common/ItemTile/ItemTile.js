@@ -1,13 +1,15 @@
 import './ItemTile.scss';
 
 import React from 'react';
-import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
-import Text from '../Text/Text';
 import classNames from 'classnames';
 import {Link} from 'react-router';
+import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
+
+import Text from '../Text/Text';
 import Icon from '../../common/Icon/Icon';
+import {getImageThumbnail} from '../../../utils/img';
 
 class ItemTile extends React.Component {
   constructor(props) {
@@ -49,7 +51,7 @@ class ItemTile extends React.Component {
       per
     } = this.props;
 
-    const imgUrl = imageUrl || 'http://placehold.it/200x200';
+    const imgUrl = imageUrl ? getImageThumbnail(imageUrl) : '/assets/img/placeholder.png';
     const Component = link ? Link : 'div';
     const props = link ? {to: link} : {};
 
