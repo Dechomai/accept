@@ -5,5 +5,8 @@ export const getProductPrimaryImage = ({photos, primaryPhotoId}) => {
 
 export const getImageThumbnail = (img, {width = 200, height = 200, crop = 'fill'} = {}) => {
   const transformations = [`w_${width}`, `h_${height}`, `c_${crop}`].join(',');
-  return img.replace('image/upload/', `image/upload/${transformations}/`);
+  const urlWithTransformations = img.replace('image/upload/', `image/upload/${transformations}/`);
+  if (window.location.protocol === 'https:')
+    return urlWithTransformations.replace('http://', 'https://');
+  return urlWithTransformations;
 };
