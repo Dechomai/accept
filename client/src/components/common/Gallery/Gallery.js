@@ -46,7 +46,7 @@ class Gallery extends React.Component {
     const slides = items.map(item => {
       return (
         <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.id}>
-          <img src={item.url} />
+          <div style={{backgroundImage: `url(${item.url})`}} />
         </CarouselItem>
       );
     });
