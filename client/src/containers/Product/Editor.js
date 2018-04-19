@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
-import {selectProductById, selectUserData} from '../../selectors';
+import {selectProductById, selectProfile} from '../../selectors';
 import ProductEditor from '../../components/Product/Editor';
 import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
 import Loader from '../../components/common/Loader/Loader';
@@ -32,7 +32,7 @@ class AddEdit extends React.Component {
 
   checkPermissionToEdit() {
     const {product, user, router} = this.props;
-    if (product && product.data && product.data.createdBy.id === user.id) {
+    if (product && product.data && product.data.createdBy.id === user.data.id) {
       this.setExistingPhotosToState(product);
     } else {
       router.push('/');
@@ -144,7 +144,7 @@ AddEdit.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     product: selectProductById(state, ownProps.params.productId),
-    user: selectUserData(state)
+    user: selectProfile(state)
   };
 };
 
