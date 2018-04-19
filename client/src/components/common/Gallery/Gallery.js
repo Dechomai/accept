@@ -91,13 +91,12 @@ class Gallery extends React.Component {
 
     const videoPreview =
       video && video.length ? (
-        <Tile sizes="col-2">
+        <Tile sizes="col-2" key={video}>
           <div
             className={classNames('gallery-previews__item', 'gallery-previews__video', {
               'gallery-previews__item--active': isVideoActive
             })}
             onClick={this.toggleVideo}
-            key={video}
             style={{backgroundImage: `url(https://img.youtube.com/vi/${video}/0.jpg)`}}>
             <div className="gallery-previews__video__overlay" />
             <Icon className="gallery-previews__video__icon" name="play-circle-outline" />
