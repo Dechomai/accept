@@ -340,7 +340,7 @@ class InnerForm extends React.Component {
   }
 }
 
-const AddProductFrom = withFormik({
+const ProductEditor = withFormik({
   enableReinitialize: true,
   isInitialValid: props => {
     return props.product && !!props.product.data;
@@ -395,7 +395,7 @@ InnerForm.propTypes = {
   onCancelClick: PropTypes.func
 };
 
-AddProductFrom.propTypes = {
+ProductEditor.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   photos: PropTypes.array,
   primaryPhotoIndex: PropTypes.number,
@@ -405,4 +405,4 @@ AddProductFrom.propTypes = {
   onCancelClick: PropTypes.func
 };
 
-export default AddProductFrom;
+export default ProductEditor;

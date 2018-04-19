@@ -29,7 +29,8 @@ class Details extends React.Component {
 }
 
 Details.propTypes = {
-  product: PropTypes.any
+  product: PropTypes.any,
+  user: PropTypes.any
 };
 
 const mapStateToProps = (state, ownProps) => ({

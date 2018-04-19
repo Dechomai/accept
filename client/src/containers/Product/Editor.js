@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
-import {selectProductById} from '../../selectors';
-import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
+import {selectProductById, selectUserData} from '../../selectors';
 import ProductEditor from '../../components/Product/Editor';
+import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
 import Loader from '../../components/common/Loader/Loader';
 
 class AddEdit extends React.Component {
@@ -23,16 +23,23 @@ class AddEdit extends React.Component {
 
     if (!product || (product && !product.data)) {
       this.props.fetchProductById(params.productId).then(() => {
-        this.setExistingPhotosToState();
+        this.checkPermissionToEdit();
       });
     } else {
-      this.setExistingPhotosToState();
+      this.checkPermissionToEdit();
     }
   }
 
-  setExistingPhotosToState() {
-    const {product} = this.props;
-    if (!product || !product.data) return;
+  checkPermissionToEdit() {
+    const {product, user, router} = this.props;
+    if (product && product.data && product.data.createdBy.id === user.id) {
+      this.setExistingPhotosToState(product);
+    } else {
+      router.push('/');
+    }
+  }
+
+  setExistingPhotosToState(product) {
     this.setState({
       existingPhotos: product.data.photos,
       primaryPhotoIndex: findIndex(propEq('id', product.data.primaryPhotoId))(product.data.photos)
@@ -136,7 +143,8 @@ AddEdit.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    product: selectProductById(state, ownProps.params.productId)
+    product: selectProductById(state, ownProps.params.productId),
+    user: selectUserData(state)
   };
 };
 
