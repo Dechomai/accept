@@ -193,7 +193,7 @@ const productController = {
             video: getVideoId(productData.video)
           },
           {new: true}
-        );
+        ).populate('createdBy', User.publicProjection);
       })
       .then(product => {
         logger.info(':editProduct', `edited ${product.id}`, product.toJSON());

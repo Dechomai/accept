@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
 import {selectProductById} from '../../selectors';
-import AddEditProductForm from '../../components/Product/Editor';
-import PropTypes from 'prop-types';
 import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
+import ProductEditor from '../../components/Product/Editor';
+import Loader from '../../components/common/Loader/Loader';
 
 class AddEdit extends React.Component {
   constructor(props) {
@@ -18,7 +19,9 @@ class AddEdit extends React.Component {
 
   componentDidMount() {
     const {params, product} = this.props;
-    if (!product && params.productId) {
+    if (!params.productId) return;
+
+    if (!product || (product && !product.data)) {
       this.props.fetchProductById(params.productId).then(() => {
         this.setExistingPhotosToState();
       });
@@ -29,32 +32,30 @@ class AddEdit extends React.Component {
 
   setExistingPhotosToState() {
     const {product} = this.props;
-    product &&
-      product.data &&
-      this.setState({
-        existingPhotos: product.data.photos,
-        primaryPhotoIndex: findIndex(propEq('id', product.data.primaryPhotoId))(product.data.photos)
-      });
+    if (!product || !product.data) return;
+    this.setState({
+      existingPhotos: product.data.photos,
+      primaryPhotoIndex: findIndex(propEq('id', product.data.primaryPhotoId))(product.data.photos)
+    });
   }
 
   handleFormSubmit(product) {
-    if (this.props.params.productId) {
+    const {productId} = this.props.params;
+    if (productId) {
       const data = compose(
         assoc('removedPhotos', this.state.removedPhotos),
         assoc('newPhotos', this.state.photos),
         assoc('primaryPhotoIndex', this.state.primaryPhotoIndex)
       )(product);
 
-      return this.props
-        .updateProduct(data, this.props.params.productId, this.state.primaryPhotoIndex)
-        .then(() => {
-          this.props.router.push('/');
-        });
+      return this.props.updateProduct(data, productId, this.state.primaryPhotoIndex).then(() => {
+        this.props.router.push(`/products/${productId}`);
+      });
     } else {
       return this.props
         .createProduct(product, this.state.photos, this.state.primaryPhotoIndex)
         .then(() => {
-          this.props.router.push('/');
+          this.props.router.push(`/products/${productId}`);
         });
     }
   }
@@ -105,13 +106,19 @@ class AddEdit extends React.Component {
   }
 
   render() {
+    const {product} = this.props;
+    if (
+      (this.props.params.productId && !product) ||
+      (product && (product.loading && !product.data))
+    )
+      return <Loader />;
     return (
-      <AddEditProductForm
+      <ProductEditor
         onSubmit={this.handleFormSubmit}
         photos={this.state.photos}
         existingPhotos={this.state.existingPhotos}
         primaryPhotoIndex={this.state.primaryPhotoIndex}
-        product={this.props.product}
+        product={product}
         onPhotosAdded={this.handlePhotosAdded}
         onPrimaryPhotoIndexChanged={this.handlePrimaryPhotoIndexChanged}
         onPhotoDelete={this.handlePhotoDelete}
