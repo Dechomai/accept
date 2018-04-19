@@ -8,7 +8,7 @@ import {fetchProducts} from '../../actions/products';
 import {selectAllProductsFor, selectAllProductsCount} from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
-import ProductsList from '../../components/Products/ProductsList';
+import ProductsList from '../../components/Product/List';
 
 const DEFAULT_LIMIT = 20;
 

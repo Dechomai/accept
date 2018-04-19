@@ -5,7 +5,7 @@ import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
 import {selectProductById} from '../../selectors';
-import AddEditProductForm from '../../components/Product/ProductEditor';
+import AddEditProductForm from '../../components/Product/Editor';
 import PropTypes from 'prop-types';
 import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
 

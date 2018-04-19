@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EditProductContainer from '../containers/Product/ProductEditor';
+import EditProductContainer from '../containers/Product/Editor';
 
 const EditProduct = () => {
   return (

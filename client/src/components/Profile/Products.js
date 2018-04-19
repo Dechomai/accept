@@ -1,7 +1,7 @@
 import './Products.scss';
 import React from 'react';
 import NewItemTile from '../common/ItemTile/NewItemTile';
-import ProductsList from '../Products/ProductsList';
+import ProductsList from '../Product/List';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 

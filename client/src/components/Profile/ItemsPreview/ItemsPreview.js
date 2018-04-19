@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 import {Button} from 'reactstrap';
 
 import NewItemTile from '../../common/ItemTile/NewItemTile';
-import ProductsList from '../../Products/ProductsList';
+import ProductsList from '../../Product/List';
 import Icon from '../../common/Icon/Icon';
 
 class ItemsPreview extends React.Component {
