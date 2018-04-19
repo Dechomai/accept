@@ -157,14 +157,14 @@ class About extends React.Component {
   }
 
   getProducts() {
-    const {router, products, isCurrentUser} = this.props;
+    const {router, products, isCurrentUser, userId} = this.props;
     const showProducts = products && products.data && products.data.length;
     if (!showProducts) return null;
     return (
       <ItemsPreview
         title="Products"
         type="products"
-        viewAllLink="/profile/products"
+        viewAllLink={isCurrentUser ? '/profile/products' : `/user/${userId}/products`}
         newPlaceholder="Add listing"
         items={products.data}
         editable={isCurrentUser}
@@ -178,14 +178,14 @@ class About extends React.Component {
   }
 
   getServices() {
-    const {services, isCurrentUser} = this.props;
+    const {services, isCurrentUser, userId} = this.props;
     const showServices = services && services.data && services.data.length;
     if (!showServices) return null;
     return (
       <ItemsPreview
         title="Sroducts"
         type="services"
-        viewAllLink="/profile/services"
+        viewAllLink={isCurrentUser ? '/profile/services' : `/user/${userId}/services`}
         newPlaceholder="Offer service"
         items={services.data}
         editable={isCurrentUser}
