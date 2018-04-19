@@ -35,7 +35,6 @@ class AddEdit extends React.Component {
     if (product && product.data && product.data.createdBy.id === user.id) {
       this.setExistingPhotosToState(product);
     } else {
-      console.log(product, user.id);
       router.push('/');
     }
   }
