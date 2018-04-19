@@ -70,12 +70,12 @@ class ProductDetails extends React.Component {
               <div className="row product-details__bottom-section">
                 <div className="col-12">
                   <div className="product-details__title">Seller</div>
-                  <div className="product-details__seller">
+                  <Link className="product-details__seller" to={`/user/${product.createdBy.id}`}>
                     <UserAvatar user={product.createdBy} />
                     <span className="product-details__seller__username">
                       {product.createdBy.username}
                     </span>
-                  </div>
+                  </Link>
                 </div>
               </div>
             )}
