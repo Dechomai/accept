@@ -23,9 +23,10 @@ export const rules = {
     message: 'Please, use digits, numbers and spaces only'
   },
   price: {
-    predicate: val => val && !/^\d+(\.\d{2})?$/.test(val),
+    predicate: val =>
+      (val && !/^\d+(\.\d{2})?$/.test(val)) || parseFloat(val) < 0.01 || parseFloat(val) > 2000000,
     message:
-      'Price is invalid. Please, enter a real number between 0.01 and 2000000000 with 2 digitals after dot.\n' +
+      'Price is invalid. Please, enter a real number between 0.01 and 2 000 000 with 2 decimals after dot.\n' +
       'Example: 555.05'
   },
   photosCount: {

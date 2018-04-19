@@ -41,6 +41,7 @@ const productDetails = (state = {}, action) => {
       return {
         ...state,
         [action.productId]: {
+          ...state[action.productId],
           loading: true,
           error: null
         }
@@ -60,6 +61,7 @@ const productDetails = (state = {}, action) => {
       return {
         ...state,
         [action.productId]: {
+          ...state[action.productId],
           loading: false,
           error: action.payload.error
         }
