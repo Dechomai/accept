@@ -14,7 +14,10 @@ import {
 import autobind from 'autobindr';
 import classNames from 'classnames';
 
+import {getImageThumbnail} from '../../../utils/img';
+
 import Icon from '../Icon/Icon';
+import Tile from '../Tile/Tile';
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -59,7 +62,11 @@ class Gallery extends React.Component {
   renderSlides() {
     return this.props.items.map(item => (
       <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.id}>
-        <div style={{backgroundImage: `url(${item.url})`}} />
+        <div
+          style={{
+            backgroundImage: `url(${getImageThumbnail(item.url, {width: 600, height: 600})})`
+          }}
+        />
       </CarouselItem>
     ));
   }
@@ -69,30 +76,33 @@ class Gallery extends React.Component {
     const {activeIndex, isVideoActive} = this.state;
 
     const photoPreviews = items.map((item, index) => (
-      <div
-        className={classNames('gallery-previews__item', {
-          'gallery-previews__item--active': index === activeIndex
-        })}
-        onClick={() => {
-          this.goToIndex(index);
-        }}
-        key={item.id}
-        style={{backgroundImage: `url(${item.url})`}}
-      />
+      <Tile sizes="col-2" key={item.id}>
+        <div
+          className={classNames('gallery-previews__item', {
+            'gallery-previews__item--active': index === activeIndex
+          })}
+          onClick={() => this.goToIndex(index)}
+          style={{
+            backgroundImage: `url(${getImageThumbnail(item.url, {width: 100, height: 100})})`
+          }}
+        />
+      </Tile>
     ));
 
     const videoPreview =
       video && video.length ? (
-        <div
-          className={classNames('gallery-previews__item', 'gallery-previews__video', {
-            'gallery-previews__item--active': isVideoActive
-          })}
-          onClick={this.toggleVideo}
-          key={video}
-          style={{backgroundImage: `url(https://img.youtube.com/vi/${video}/0.jpg)`}}>
-          <div className="gallery-previews__video__overlay" />
-          <Icon className="gallery-previews__video__icon" name="play-circle-outline" />
-        </div>
+        <Tile sizes="col-2">
+          <div
+            className={classNames('gallery-previews__item', 'gallery-previews__video', {
+              'gallery-previews__item--active': isVideoActive
+            })}
+            onClick={this.toggleVideo}
+            key={video}
+            style={{backgroundImage: `url(https://img.youtube.com/vi/${video}/0.jpg)`}}>
+            <div className="gallery-previews__video__overlay" />
+            <Icon className="gallery-previews__video__icon" name="play-circle-outline" />
+          </div>
+        </Tile>
       ) : null;
 
     return [...photoPreviews, videoPreview];
@@ -104,21 +114,23 @@ class Gallery extends React.Component {
 
     return (
       <div className="gallery">
-        <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-          <CarouselIndicators
-            items={this.props.items.map(item => ({key: item.id}))}
-            activeIndex={activeIndex}
-            onClickHandler={this.goToIndex}
-          />
-          {this.renderSlides()}
-          <CarouselControl
-            direction="prev"
-            directionText="Previous"
-            onClickHandler={this.previous}
-          />
-          <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-        </Carousel>
-        <div className="gallery-previews">{this.renderPreviews()}</div>
+        <div className="carousel-wrapper">
+          <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+            <CarouselIndicators
+              items={this.props.items.map(item => ({key: item.id}))}
+              activeIndex={activeIndex}
+              onClickHandler={this.goToIndex}
+            />
+            {this.renderSlides()}
+            <CarouselControl
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={this.previous}
+            />
+            <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+          </Carousel>
+        </div>
+        <div className="gallery-previews row">{this.renderPreviews()}</div>
         <Modal isOpen={isVideoActive} toggle={this.toggleVideo} className="gallery-video-popup">
           <ModalHeader className="gallery-video-popup__header" toggle={this.toggleVideo} />
           <ModalBody className="gallery-video-popup__body">

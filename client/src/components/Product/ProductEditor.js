@@ -12,6 +12,7 @@ import Loader from '../common/Loader/Loader';
 import {rules} from '../../utils/validation';
 import createValidator from '../../utils/validation';
 import Tile from '../common/Tile/Tile';
+import {getImageThumbnail} from '../../utils/img';
 
 const MAX_PHOTOS = 8;
 
@@ -80,7 +81,7 @@ class InnerForm extends React.Component {
     return existingPhotos.map((photo, index) => (
       <Tile key={photo.url} sizes="col-3">
         <div
-          style={{backgroundImage: `url(${photo.url})`}}
+          style={{backgroundImage: `url(${getImageThumbnail(photo.url)})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
           <div className="create-form__placeholder__close" onClick={() => onPhotoDelete(photo)}>
             <Icon name="close" size="20" />
