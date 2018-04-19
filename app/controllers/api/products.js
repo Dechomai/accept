@@ -146,9 +146,16 @@ const productController = {
         })
       )
       .then(product => {
-        logger.info(':addProduct', `created ${product.id}`, product);
-        return product.toJSON();
+        logger.info(':addProduct', `created ${product.id}`, product.toJSON());
+        return product;
       })
+      .then(product =>
+        User.findById(userId, User.publicProjection).then(user => {
+          product.createdBy = user;
+          return product;
+        })
+      )
+      .then(product => product.toJSON())
       .catch(err => {
         logger.error(':addProduct', 'error', err);
         return Promise.reject(err);
