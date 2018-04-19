@@ -11,13 +11,13 @@ import Icon from '../../common/Icon/Icon';
 
 class ItemsPreview extends React.Component {
   render() {
-    const {title, type, newPlaceholder, items, editable} = this.props;
+    const {title, type, newPlaceholder, items, editable, viewAllLink} = this.props;
 
     return (
       <div className="about__items">
         <div className="about__items__header">
           <div className="mr-auto">{title}</div>
-          <Link to={`/profile/${type}`}>
+          <Link to={viewAllLink}>
             <Button size="sm" color="link" className="p-0 btn-with-icon">
               <span>View all</span>
               <Icon name="menu-right" />
@@ -40,7 +40,8 @@ ItemsPreview.propTypes = {
   type: PropTypes.oneOf(['products', 'services']).isRequired,
   newPlaceholder: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
+  viewAllLink: PropTypes.string.isRequired
 };
 
 export default ItemsPreview;
