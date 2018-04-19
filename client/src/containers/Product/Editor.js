@@ -62,7 +62,7 @@ class AddEdit extends React.Component {
       return this.props
         .createProduct(product, this.state.photos, this.state.primaryPhotoIndex)
         .then(() => {
-          this.props.router.push(`/products/${productId}`);
+          this.props.router.push(`/profile`);
         });
     }
   }
