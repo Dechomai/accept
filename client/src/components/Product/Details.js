@@ -50,6 +50,15 @@ class ProductDetails extends React.Component {
                   <Input value={1} readOnly />
                 </div>
               </div>
+              {!isOwner && (
+                <div className="row d-flex align-items-center py-3">
+                  <div className="col-12 product-details__exchange">
+                    <Button className="btn-with-icon btn-full-width" color="primary">
+                      <Icon size="20" name="autorenew" />Exchange
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="row product-details__bottom-section">
               <div className="col-12">

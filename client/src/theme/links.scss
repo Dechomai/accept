@@ -31,10 +31,14 @@
   &-with-icon {
     display: flex;
     align-items: center;
-
+    justify-content: center;
     .icon {
       margin: 0 3px;
     }
+  }
+
+  &-full-width {
+    width: 100%;
   }
 }
 
