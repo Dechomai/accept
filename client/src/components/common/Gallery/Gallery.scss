@@ -1,6 +1,13 @@
 @import '../../../theme/index';
 
 .gallery {
+  &--empty {
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $gray-400;
+  }
   .carousel-wrapper {
     position: relative;
     width: 100%;
