@@ -133,7 +133,7 @@ class Gallery extends React.Component {
             <div
               className="carousel carousel--placeholder"
               style={{
-                backgroundImage: `url('../../assets/img/placeholder.png')`
+                backgroundImage: `url('/assets/img/placeholder.png')`
               }}
             />
           )}
