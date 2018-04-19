@@ -77,33 +77,35 @@ class Header extends React.Component {
     const {user} = this.props;
     return (
       <header className="header">
-        <div className="header__logo">
-          <Link to="/" className="header__logo__link">
-            <img className="header__logo__img" src="/assets/logo.svg" alt="Accept" />
-          </Link>
-        </div>
-        <div className="header__content">
-          {user &&
-            user.data && (
-              <nav className="header__nav">
-                <Link
-                  to="/products/add"
-                  className="header__nav__item"
-                  activeClassName="header__nav__item--active"
-                  onlyActiveOnIndex>
-                  Sell
-                </Link>
-                <span className="header__nav__separator">or</span>
-                <Link
-                  to="/services/add"
-                  className="header__nav__item"
-                  activeClassName="header__nav__item--active"
-                  onlyActiveOnIndex>
-                  Offer
-                </Link>
-              </nav>
-            )}
-          <div className="header__user-info">{this.getUserInfo()}</div>
+        <div className="container header__container">
+          <div className="header__logo">
+            <Link to="/" className="header__logo__link">
+              <img className="header__logo__img" src="/assets/logo.svg" alt="Accept" />
+            </Link>
+          </div>
+          <div className="header__content">
+            {user &&
+              user.data && (
+                <nav className="header__nav">
+                  <Link
+                    to="/products/add"
+                    className="header__nav__item"
+                    activeClassName="header__nav__item--active"
+                    onlyActiveOnIndex>
+                    Sell
+                  </Link>
+                  <span className="header__nav__separator">or</span>
+                  <Link
+                    to="/services/add"
+                    className="header__nav__item"
+                    activeClassName="header__nav__item--active"
+                    onlyActiveOnIndex>
+                    Offer
+                  </Link>
+                </nav>
+              )}
+            <div className="header__user-info">{this.getUserInfo()}</div>
+          </div>
         </div>
       </header>
     );
