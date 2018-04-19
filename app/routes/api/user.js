@@ -12,9 +12,9 @@ const userRouter = express.Router();
 userRouter.use(authMiddleware);
 
 userRouter
-  .route('/')
+  .route('/:userId?')
   .get((req, res) => {
-    const {userId} = req;
+    const userId = req.params.userId || req.userId;
     userController.getUserInfo(userId).then(
       user => sendSuccess(res, {user}),
       err => {

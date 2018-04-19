@@ -19,8 +19,9 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.user && !this.props.status.loading && !this.props.status.error) {
-      this.props.fetchUser();
+    const {user} = this.props;
+    if (!user || (!user.data && !user.loading && !user.error)) {
+      this.props.fetchProfile();
     }
   }
 
@@ -41,20 +42,20 @@ class Header extends React.Component {
   }
 
   getUserInfo() {
-    const {user, status} = this.props;
-    const {loading, error} = status;
+    const {user} = this.props;
+    const {loading, error} = user;
     if (loading) return null; // show spinner or smth
     if (error) return this.getSignInButton();
-    if (user)
+    if (user && user.data)
       return (
         <Dropdown
           className="header__user-info__avatar"
           isOpen={this.state.dropdownOpen}
           toggle={this.toggle}>
           <DropdownToggle caret className="header__user-info__toggle">
-            <UserAvatar user={this.props.user} />
+            <UserAvatar user={user.data} />
           </DropdownToggle>
-          <DropdownMenu right={true} className="header__user-info__dropdown">
+          <DropdownMenu right className="header__user-info__dropdown">
             <Link to="/profile" className="header__user-info__dropdown__link">
               <DropdownItem>
                 <Icon name="account" size="20" />
@@ -73,6 +74,7 @@ class Header extends React.Component {
   }
 
   render() {
+    const {user} = this.props;
     return (
       <header className="header">
         <div className="header__logo">
@@ -81,25 +83,26 @@ class Header extends React.Component {
           </Link>
         </div>
         <div className="header__content">
-          {this.props.user && (
-            <nav className="header__nav">
-              <Link
-                to="/products/add"
-                className="header__nav__item"
-                activeClassName="header__nav__item--active"
-                onlyActiveOnIndex>
-                Sell
-              </Link>
-              <span className="header__nav__separator">or</span>
-              <Link
-                to="/services/add"
-                className="header__nav__item"
-                activeClassName="header__nav__item--active"
-                onlyActiveOnIndex>
-                Offer
-              </Link>
-            </nav>
-          )}
+          {user &&
+            user.data && (
+              <nav className="header__nav">
+                <Link
+                  to="/products/add"
+                  className="header__nav__item"
+                  activeClassName="header__nav__item--active"
+                  onlyActiveOnIndex>
+                  Sell
+                </Link>
+                <span className="header__nav__separator">or</span>
+                <Link
+                  to="/services/add"
+                  className="header__nav__item"
+                  activeClassName="header__nav__item--active"
+                  onlyActiveOnIndex>
+                  Offer
+                </Link>
+              </nav>
+            )}
           <div className="header__user-info">{this.getUserInfo()}</div>
         </div>
       </header>
@@ -108,12 +111,8 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  fetchUser: PropTypes.func.isRequired,
-  user: PropTypes.object,
-  status: PropTypes.shape({
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.any
-  })
+  fetchProfile: PropTypes.func.isRequired,
+  user: PropTypes.object
 };
 
 export default Header;

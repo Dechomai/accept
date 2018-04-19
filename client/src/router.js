@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-router';
 import autobind from 'autobindr';
-import {pathOr} from 'ramda';
+import {prop, pathOr} from 'ramda';
 
-import {selectUserData} from './selectors';
+import {selectProfile} from './selectors';
 
 import App from './layout/App';
 import Home from './layout/Home';
@@ -57,7 +57,7 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
   const {location} = nextState;
   const {pathname} = location;
   const state = store.getState();
-  const user = selectUserData(state);
+  const user = prop('data', selectProfile(state));
 
   // if user status is 'newreg' redirect to /signup-finish
   if (pathname !== '/signup-finish' && user && user.status === 'newreg') {
@@ -107,6 +107,12 @@ class Router extends React.Component {
             <Route path="products" component={ProfileProducts} />
             <Route path="services" component={() => <h1>Profile Services</h1>} />
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
+          </Route>
+
+          <Route path="user/:userId" component={Profile}>
+            <IndexRoute component={AboutMe} />
+            <Route path="products" component={ProfileProducts} />
+            <Route path="services" component={() => <h1>Profile Services</h1>} />
           </Route>
 
           <Route path="products">

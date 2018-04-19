@@ -2,35 +2,41 @@ import {compose} from 'ramda';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {updateProfile} from '../../actions/user';
+import {fetchUser} from '../../actions/users';
 import {fetchProducts} from '../../actions/products';
-import {selectUserData, selectUserStatus, selectOwnProductsFor} from '../../selectors';
+import {
+  selectProfile,
+  selectOwnProductsFor,
+  selectUserProductsFor,
+  selectUser
+} from '../../selectors';
 import AboutMe from '../../components/Profile/About';
 
 const mapStateToProps = (state, ownProps) => {
-  // if current user
-  // check based on route or smth.
-  if (!ownProps.userId) {
+  const {userId} = ownProps.params;
+
+  if (!userId) {
     return {
       isCurrentUser: true,
-      user: selectUserData(state),
-      status: selectUserStatus(state),
+      user: selectProfile(state),
       products: selectOwnProductsFor(state, {skip: 0, limit: 3})
     };
   }
 
   return {
     isCurrentUser: false,
-    user: null,
-    status: {
-      loading: false,
-      error: null
-    }
+    userId,
+    user: selectUser(state, userId),
+    products: selectUserProductsFor(state, {userId, skip: 0, limit: 4})
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   updateProfile(profile) {
     return dispatch(updateProfile(profile));
+  },
+  fetchUser(userId) {
+    return dispatch(fetchUser(userId));
   },
   fetchProducts({scope, skip, limit}) {
     return dispatch(fetchProducts({scope, skip, limit}));

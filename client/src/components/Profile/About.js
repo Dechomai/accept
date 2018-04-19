@@ -11,25 +11,44 @@ import Text from '../common/Text/Text';
 import ProfileSection from './ProfileSection/ProfileSection';
 import ItemsPreview from './ItemsPreview/ItemsPreview';
 
+const PREVIEW_ITEMS_COUNT = 3;
 const MAX_SHORT_DESCRIPTION_LENGTH = 200;
 
 class About extends React.Component {
   constructor(props) {
     super(props);
-    const {description} = this.props.user;
 
-    this.state = {description};
+    this.state = {description: ''};
 
     autobind(this);
   }
 
-  componentDidMount() {
-    const {products} = this.props;
-    if (!products || (!products.loading && (!products.listValid || products.error))) {
-      // TODO: Obtain user id if someone visits other user's profile page
-      const scope = this.props.isCurrentUser ? 'user' : 'id';
+  componentWillReceiveProps(nextProps) {
+    const {user} = nextProps;
+    const description = !user || !user.data || user.loading ? '' : user.data.description;
 
-      this.props.fetchProducts({scope, skip: 0, limit: 3});
+    this.setState({description});
+  }
+
+  componentDidMount() {
+    const {user, userId, products, isCurrentUser} = this.props;
+
+    if (!user || (!user.data && !user.loading && !user.error)) {
+      this.props.fetchUser(userId);
+    }
+
+    if (
+      !products ||
+      (!products.data && !products.loading && !products.error) ||
+      (!products.loading && !products.listValid)
+    ) {
+      const scope = isCurrentUser ? 'user' : userId;
+
+      this.props.fetchProducts({
+        scope,
+        skip: 0,
+        limit: isCurrentUser ? PREVIEW_ITEMS_COUNT : PREVIEW_ITEMS_COUNT + 1
+      });
     }
   }
 
@@ -68,6 +87,7 @@ class About extends React.Component {
   }
 
   getDescription() {
+    const {isCurrentUser} = this.props;
     const {isEditMode, isFullDescriptionShown} = this.state;
     const {description, isDescriptionInvalid} = this.state;
 
@@ -119,14 +139,16 @@ class About extends React.Component {
               <Icon name={isFullDescriptionShown ? 'menu-up' : 'menu-down'} size="20" />
             </Button>
           )}
-          <Button
-            size="sm"
-            color="link"
-            className="p-0 btn-with-icon about__description__edit"
-            onClick={this.handleEditDescriptionClick}>
-            <Icon name="pencil" size="20" />
-            <span>Edit</span>
-          </Button>
+          {isCurrentUser && (
+            <Button
+              size="sm"
+              color="link"
+              className="p-0 btn-with-icon about__description__edit"
+              onClick={this.handleEditDescriptionClick}>
+              <Icon name="pencil" size="20" />
+              <span>Edit</span>
+            </Button>
+          )}
         </div>
       );
     }
@@ -135,7 +157,7 @@ class About extends React.Component {
   }
 
   getProducts() {
-    const {products} = this.props;
+    const {products, isCurrentUser} = this.props;
     const showProducts = products && products.data && products.data.length;
     if (!showProducts) return null;
     return (
@@ -145,12 +167,13 @@ class About extends React.Component {
         viewAllLink="/profile/products"
         newPlaceholder="Add listing"
         items={products.data}
+        editable={isCurrentUser}
       />
     );
   }
 
   getServices() {
-    const {services} = this.props;
+    const {services, isCurrentUser} = this.props;
     const showServices = services && services.data && services.data.length;
     if (!showServices) return null;
     return (
@@ -160,18 +183,21 @@ class About extends React.Component {
         viewAllLink="/profile/services"
         newPlaceholder="Offer service"
         items={services.data}
+        editable={isCurrentUser}
       />
     );
   }
 
   render() {
+    const {isCurrentUser, onAddProductClick, onAddServiceClick} = this.props;
     return (
       <div className="about">
         <ProfileSection
           imageUrl="/assets/img/about.png"
           placeholder="Write something about yourself..."
           btnText="Add description"
-          onBtnClick={this.handleEditDescriptionClick}>
+          onBtnClick={this.handleEditDescriptionClick}
+          editable={isCurrentUser}>
           {this.getDescription()}
         </ProfileSection>
         <ProfileSection
@@ -179,7 +205,8 @@ class About extends React.Component {
           placeholder="Here will be displayed your created listings"
           btnText="Create listing"
           btnIcon="plus"
-          onBtnClick={this.props.onAddProductClick}>
+          onBtnClick={onAddProductClick}
+          editable={isCurrentUser}>
           {this.getProducts()}
         </ProfileSection>
         <ProfileSection
@@ -187,7 +214,8 @@ class About extends React.Component {
           placeholder="Here will be displayed your services"
           btnText="Offer service"
           btnIcon="plus"
-          onBtnClick={this.props.onAddServiceClick}>
+          onBtnClick={onAddServiceClick}
+          editable={isCurrentUser}>
           {this.getServices()}
         </ProfileSection>
       </div>
@@ -197,9 +225,11 @@ class About extends React.Component {
 
 About.propTypes = {
   isCurrentUser: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
+  userId: PropTypes.string,
+  user: PropTypes.object,
   products: PropTypes.any,
   services: PropTypes.any,
+  fetchUser: PropTypes.func.isRequired,
   fetchProducts: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   onAddProductClick: PropTypes.func.isRequired,

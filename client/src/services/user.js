@@ -1,8 +1,8 @@
 import api from '../utils/api';
 
 const userService = {
-  getUser() {
-    return api.get('/user');
+  getUser(userId) {
+    return api.get(`/user/${userId || ''}`);
   },
   createProfile(profile) {
     return api.post('/user', {
