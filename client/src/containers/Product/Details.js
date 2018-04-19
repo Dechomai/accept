@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose} from 'ramda';
+import {compose, path} from 'ramda';
 
 import {selectProductById, selectProfile} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
@@ -19,9 +19,9 @@ class Details extends React.Component {
 
   render() {
     const {product, user} = this.props;
-
+    const userId = path(['data', 'id'], user);
     return product && product.data ? (
-      <ProductDetails product={product.data} isOwner={product.data.createdBy.id === user.data.id} />
+      <ProductDetails product={product.data} isOwner={product.data.createdBy.id === userId} />
     ) : (
       <Loader />
     );
