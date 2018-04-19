@@ -11,7 +11,7 @@ import Icon from '../../common/Icon/Icon';
 
 class ItemsPreview extends React.Component {
   render() {
-    const {title, type, newPlaceholder, items} = this.props;
+    const {title, type, newPlaceholder, items, editable} = this.props;
 
     return (
       <div className="about__items">
@@ -26,8 +26,8 @@ class ItemsPreview extends React.Component {
         </div>
         <div className="container-fluid">
           <div className="row about__items__container">
-            <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />
-            <ProductsList list={items} tileSize={'col-3'} editable={true} />
+            {editable && <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />}
+            <ProductsList list={items} tileSize={'col-3'} editable={editable} />
           </div>
         </div>
       </div>
@@ -39,7 +39,8 @@ ItemsPreview.propTypes = {
   title: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['products', 'services']).isRequired,
   newPlaceholder: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  editable: PropTypes.bool
 };
 
 export default ItemsPreview;

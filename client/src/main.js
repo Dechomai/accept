@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import createStore from './store';
 import Router from './router';
 
-import {fetchUser} from './actions/user';
+import {fetchProfile} from './actions/user';
 
 const start = performance.now();
 
@@ -26,7 +26,7 @@ Promise.all([
       store,
       // fetch user data before rendering app
       // catch error if user is unauthorized(we don't care here)
-      store.dispatch(fetchUser()).catch(() => {})
+      store.dispatch(fetchProfile()).catch(() => {})
     ])
   )
   .then(([store]) => {

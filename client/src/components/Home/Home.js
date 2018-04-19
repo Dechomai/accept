@@ -35,10 +35,11 @@ class Home extends React.Component {
   }
 
   render() {
+    const {user} = this.props;
     return (
       <div className="home">
         <div className="container">
-          {!this.props.userData && <TopBanner />}
+          {(!user || !user.data) && <TopBanner />}
 
           <div className="home__products">
             <div className="row">
@@ -86,11 +87,7 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  userData: PropTypes.any,
-  userState: PropTypes.shape({
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.any
-  }).isRequired
+  user: PropTypes.object
 };
 
 export default Home;

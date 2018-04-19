@@ -2,15 +2,14 @@ import {compose} from 'ramda';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 
-import {selectUserData, selectUserStatus, selectAllProductsFor} from '../../selectors';
+import {selectProfile, selectAllProductsFor} from '../../selectors';
 import {fetchProducts} from '../../actions/products';
 import Home from '../../components/Home/Home';
 
 const DEFAULT_LIMIT = 6;
 
 const mapStateToProps = state => ({
-  userData: selectUserData(state),
-  userState: selectUserStatus(state),
+  user: selectProfile(state),
   products: selectAllProductsFor(state, {skip: 0, limit: DEFAULT_LIMIT})
 });
 
