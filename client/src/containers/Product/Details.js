@@ -4,7 +4,7 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose} from 'ramda';
 
-import {selectProductById, selectUserData} from '../../selectors';
+import {selectProductById, selectProfile} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
 import ProductDetails from '../../components/Product/Details';
 import Loader from '../../components/common/Loader/Loader';
@@ -21,7 +21,7 @@ class Details extends React.Component {
     const {product, user} = this.props;
 
     return product && product.data ? (
-      <ProductDetails product={product.data} isOwner={product.data.createdBy.id === user.id} />
+      <ProductDetails product={product.data} isOwner={product.data.createdBy.id === user.data.id} />
     ) : (
       <Loader />
     );
@@ -33,7 +33,7 @@ Details.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  user: selectUserData(state),
+  user: selectProfile(state),
   product: selectProductById(state, ownProps.params.productId)
 });
 
