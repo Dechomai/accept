@@ -4,15 +4,12 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose} from 'ramda';
 
-import {selectOwnProductById} from '../../selectors';
+import {selectProductById, selectUserData} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
 import ProductDetails from '../../components/Product/Details';
+import Loader from '../../components/common/Loader/Loader';
 
 class Details extends React.Component {
-  constructor() {
-    super();
-  }
-
   componentDidMount() {
     const {params, product} = this.props;
     if (!product && params.productId) {
@@ -21,9 +18,13 @@ class Details extends React.Component {
   }
 
   render() {
-    const {product} = this.props;
+    const {product, user} = this.props;
 
-    return product && product.data ? <ProductDetails product={product.data} /> : null;
+    return product && product.data ? (
+      <ProductDetails product={product.data} isOwner={product.data.createdBy.id === user.id} />
+    ) : (
+      <Loader />
+    );
   }
 }
 
@@ -32,7 +33,8 @@ Details.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  product: selectOwnProductById(state, ownProps.params.productId)
+  user: selectUserData(state),
+  product: selectProductById(state, ownProps.params.productId)
 });
 
 const mapDispatchToProps = dispatch => ({

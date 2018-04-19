@@ -7,9 +7,9 @@ import classNames from 'classnames';
 const getInitials = user =>
   user.firstName && user.lastName && `${user.firstName[0]}${user.lastName[0]}`;
 
-const UserAvatar = ({user, size}) => {
+const UserAvatar = ({user, size, className}) => {
   return (
-    <div className={classNames('user-avatar', `user-avatar--${size}`)}>
+    <div className={classNames(className, 'user-avatar', `user-avatar--${size}`)}>
       {user.photoUrl ? (
         <img src={user.photoUrl} alt="" />
       ) : (
@@ -20,11 +20,13 @@ const UserAvatar = ({user, size}) => {
 };
 
 UserAvatar.propTypes = {
+  className: PropTypes.string,
   user: PropTypes.object.isRequired,
   size: PropTypes.oneOf(['sm', 'lg'])
 };
 
 UserAvatar.defaultProps = {
+  className: '',
   size: 'sm'
 };
 
