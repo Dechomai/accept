@@ -1,12 +1,8 @@
 @import '../../../theme/index';
 
 .gallery {
-  &--empty {
+  &__placeholder {
     height: 320px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $gray-400;
   }
   .carousel-wrapper {
     position: relative;
@@ -20,6 +16,11 @@
     height: 100%;
     top: 0;
     left: 0;
+
+    &--placeholder {
+      background-position: center center;
+      background-size: cover;
+    }
 
     .carousel-inner {
       .carousel-item {

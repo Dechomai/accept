@@ -108,26 +108,35 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const {video} = this.props;
+    const {video, items} = this.props;
     const {activeIndex, isVideoActive} = this.state;
 
     return (
       <div className="gallery">
         <div className="carousel-wrapper">
-          <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-            <CarouselIndicators
-              items={this.props.items.map(item => ({key: item.id}))}
-              activeIndex={activeIndex}
-              onClickHandler={this.goToIndex}
+          {items.length ? (
+            <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+              <CarouselIndicators
+                items={items.map(item => ({key: item.id}))}
+                activeIndex={activeIndex}
+                onClickHandler={this.goToIndex}
+              />
+              {this.renderSlides()}
+              <CarouselControl
+                direction="prev"
+                directionText="Previous"
+                onClickHandler={this.previous}
+              />
+              <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+            </Carousel>
+          ) : (
+            <div
+              className="carousel carousel--placeholder"
+              style={{
+                backgroundImage: `url('../../assets/img/placeholder.png')`
+              }}
             />
-            {this.renderSlides()}
-            <CarouselControl
-              direction="prev"
-              directionText="Previous"
-              onClickHandler={this.previous}
-            />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-          </Carousel>
+          )}
         </div>
         <div className="gallery-previews row">{this.renderPreviews()}</div>
         <Modal isOpen={isVideoActive} toggle={this.toggleVideo} className="gallery-video-popup">

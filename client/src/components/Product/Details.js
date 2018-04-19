@@ -30,13 +30,7 @@ class ProductDetails extends React.Component {
         </div>
         <div className="row product-details__content">
           <div className="col-lg-6 product-details__gallery">
-            {this.props.product.photos.length ? (
-              <Gallery items={this.props.product.photos} video={this.props.product.video} />
-            ) : (
-              <div className="gallery gallery--empty">
-                <Icon name="image" size="64" />
-              </div>
-            )}
+            <Gallery items={this.props.product.photos} video={this.props.product.video} />
           </div>
           <div className="col-lg-5 offset-lg-1">
             <div className="product-details__top-section">
