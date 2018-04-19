@@ -7,11 +7,9 @@ import {Button} from 'reactstrap';
 
 import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
-import ItemTile from '../common/ItemTile/ItemTile';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
-
-import {getProductPrimaryImage} from '../../utils/img';
+import ProductsList from '../Products/ProductsList';
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,17 +27,7 @@ class Home extends React.Component {
   getProducts() {
     const {products} = this.props;
     if (!products || products.loading) return <Loader />;
-    if (products.data)
-      return products.data.map(product => (
-        <ItemTile
-          key={product.id}
-          link={`/products/${product.id}`}
-          sizes="col-4 col-md-2"
-          imageUrl={getProductPrimaryImage(product)}
-          price={product.price}
-          title={product.title}
-        />
-      ));
+    if (products.data) return <ProductsList list={products.data} tileSize={'col-4 col-md-2'} />;
   }
 
   getServices() {
