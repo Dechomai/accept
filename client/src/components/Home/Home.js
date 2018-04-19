@@ -9,7 +9,7 @@ import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
-import ProductsList from '../Products/ProductsList';
+import ProductsList from '../Product/List';
 
 class Home extends React.Component {
   constructor(props) {

@@ -28,5 +28,5 @@ export const selectAllProductsFor = createSelector(
   (products, {skip, limit}) => products[`skip=${skip},limit=${limit}`]
 );
 
-export const selectOwnProductById = (state, productId) => selectProductDetails(state)[productId];
+export const selectProductById = (state, productId) => selectProductDetails(state)[productId];
 export const selectAllProductsCount = createSelector(selectAllProducts, products => products.count);

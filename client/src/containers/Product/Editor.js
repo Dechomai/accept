@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
-import {selectOwnProductById} from '../../selectors';
-import AddEditProductForm from '../../components/Product/ProductEditor';
+import {selectProductById} from '../../selectors';
+import AddEditProductForm from '../../components/Product/Editor';
 import PropTypes from 'prop-types';
 import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
 
@@ -129,7 +129,7 @@ AddEdit.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    product: selectOwnProductById(state, ownProps.params.productId)
+    product: selectProductById(state, ownProps.params.productId)
   };
 };
 
