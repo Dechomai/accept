@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {compose, without, assoc, findIndex, propEq} from 'ramda';
 import autobind from 'autobindr';
 
-import {selectProductById} from '../../selectors';
+import {selectProductById, selectUserData} from '../../selectors';
 import AddEditProductForm from '../../components/Product/Editor';
 import PropTypes from 'prop-types';
 import {createProduct, updateProduct, fetchProductById} from '../../actions/products';
@@ -20,21 +20,27 @@ class AddEdit extends React.Component {
     const {params, product} = this.props;
     if (!product && params.productId) {
       this.props.fetchProductById(params.productId).then(() => {
-        this.setExistingPhotosToState();
+        this.checkPermissionToEdit();
       });
     } else {
-      this.setExistingPhotosToState();
+      this.checkPermissionToEdit();
     }
   }
 
-  setExistingPhotosToState() {
-    const {product} = this.props;
-    product &&
-      product.data &&
-      this.setState({
-        existingPhotos: product.data.photos,
-        primaryPhotoIndex: findIndex(propEq('id', product.data.primaryPhotoId))(product.data.photos)
-      });
+  checkPermissionToEdit() {
+    const {product, user, router} = this.props;
+    if (product && product.data && product.data.createdBy.id === user.id) {
+      this.setExistingPhotosToState(product);
+    } else {
+      router.push('/');
+    }
+  }
+
+  setExistingPhotosToState(product) {
+    this.setState({
+      existingPhotos: product.data.photos,
+      primaryPhotoIndex: findIndex(propEq('id', product.data.primaryPhotoId))(product.data.photos)
+    });
   }
 
   handleFormSubmit(product) {
@@ -129,7 +135,8 @@ AddEdit.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    product: selectProductById(state, ownProps.params.productId)
+    product: selectProductById(state, ownProps.params.productId),
+    user: selectUserData(state)
   };
 };
 
