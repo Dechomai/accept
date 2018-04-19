@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button} from 'reactstrap';
 
-import ItemTile from '../../common/ItemTile/ItemTile';
 import NewItemTile from '../../common/ItemTile/NewItemTile';
+import ProductsList from '../../Products/ProductsList';
 import Icon from '../../common/Icon/Icon';
-import {getProductPrimaryImage} from '../../../utils/img';
 
 class ItemsPreview extends React.Component {
   render() {
@@ -28,17 +27,7 @@ class ItemsPreview extends React.Component {
         <div className="container-fluid">
           <div className="row about__items__container">
             <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />
-            {items.map(item => (
-              <ItemTile
-                key={item.id}
-                editable
-                link={`/${type}/${item.id}`}
-                price={item.price}
-                title={item.title}
-                imageUrl={getProductPrimaryImage(item)}
-                sizes="col-3"
-              />
-            ))}
+            <ProductsList list={items} tileSize={'col-3'} editable={true} />
           </div>
         </div>
       </div>

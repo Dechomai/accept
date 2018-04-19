@@ -1,32 +1,22 @@
 import './Products.scss';
 import React from 'react';
-import ItemTile from '../common/ItemTile/ItemTile';
 import NewItemTile from '../common/ItemTile/NewItemTile';
-import {getProductPrimaryImage} from '../../utils/img';
+import ProductsList from '../Products/ProductsList';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
-const ProfileProduct = ({products, onEditClick}) => {
+const ProfileProduct = ({products, onEditClick, onDeleteClick}) => {
   return [
     <NewItemTile key="new" type="products" sizes={TILE_SIZE} placeholder="Add listing" />
   ].concat(
-    products.map(product => (
-      <ItemTile
-        key={product.id}
-        link={`/products/${product.id}`}
-        sizes={TILE_SIZE}
-        onEditClick={e => {
-          onEditClick(e, product.id);
-        }}
-        onDeleteClick={() => {
-          console.log('item deleted');
-        }}
-        editable={true}
-        imageUrl={getProductPrimaryImage(product)}
-        price={product.price}
-        title={product.title}
-      />
-    ))
+    <ProductsList
+      key="list"
+      list={products}
+      tileSize={TILE_SIZE}
+      editable={true}
+      onEditClick={onEditClick}
+      onDeleteClick={onDeleteClick}
+    />
   );
 };
 export default ProfileProduct;
