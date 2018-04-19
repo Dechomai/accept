@@ -157,7 +157,7 @@ class About extends React.Component {
   }
 
   getProducts() {
-    const {products, isCurrentUser} = this.props;
+    const {router, products, isCurrentUser} = this.props;
     const showProducts = products && products.data && products.data.length;
     if (!showProducts) return null;
     return (
@@ -168,6 +168,11 @@ class About extends React.Component {
         newPlaceholder="Add listing"
         items={products.data}
         editable={isCurrentUser}
+        onEditClick={(e, productId) => {
+          e.preventDefault();
+          e.stopPropagation();
+          router.push(`/products/edit/${productId}`);
+        }}
       />
     );
   }
