@@ -199,7 +199,11 @@ class About extends React.Component {
       <div className="about">
         <ProfileSection
           imageUrl="/assets/img/about.png"
-          placeholder="Write something about yourself..."
+          placeholder={
+            isCurrentUser
+              ? 'Write something about yourself...'
+              : 'User has not provided any information yet'
+          }
           btnText="Add description"
           onBtnClick={this.handleEditDescriptionClick}
           editable={isCurrentUser}>
@@ -207,7 +211,9 @@ class About extends React.Component {
         </ProfileSection>
         <ProfileSection
           imageUrl="/assets/img/product.png"
-          placeholder="Here will be displayed your created listings"
+          placeholder={
+            isCurrentUser ? 'Here will be displayed your created listings' : 'No listings yet'
+          }
           btnText="Create listing"
           btnIcon="plus"
           onBtnClick={onAddProductClick}
@@ -216,7 +222,7 @@ class About extends React.Component {
         </ProfileSection>
         <ProfileSection
           imageUrl="/assets/img/service.png"
-          placeholder="Here will be displayed your services"
+          placeholder={isCurrentUser ? 'Here will be displayed your services' : 'No services yet'}
           btnText="Offer service"
           btnIcon="plus"
           onBtnClick={onAddServiceClick}
