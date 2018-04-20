@@ -176,8 +176,6 @@
     background-color: $white;
     padding: 1rem 0;
   }
-  &__upload-photos {
-  }
   &__placeholder {
     position: relative;
     width: 100%;
@@ -226,6 +224,14 @@
       background-repeat: no-repeat;
       background-position: center center;
 
+      .create-form__placeholder__close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: $blue;
+        display: none;
+      }
+
       &:hover {
         border-color: $blue;
         outline: 1px solid $blue;
@@ -236,13 +242,6 @@
         .btn {
           display: block;
         }
-      }
-      .create-form__placeholder__close {
-        position: absolute;
-        right: 0;
-        top: 0;
-        background-color: $blue;
-        display: none;
       }
       .icon {
         color: $white;
