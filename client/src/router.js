@@ -34,14 +34,14 @@ import ProductDetails from './containers/Product/Details';
   /products - all products
     /add - create new product
     /:productId - product page(will differ if created by current user)
-    /edit/:productId - product edit(only available if current user created this product)
+    /:productId/edit - product edit(only available if current user created this product)
 
   Services
 
   /services - all services
     /add - create new service
     /:serviceId - service page(will differ if created by current user)
-    /edit/:serviceId - service edit(only available if current user created this service)
+    /:serviceId/edit - service edit(only available if current user created this service)
 
   Users
 
@@ -53,11 +53,11 @@ import ProductDetails from './containers/Product/Details';
 */
 
 const authorizedRoutes = [
-  {path: '/profile', redirectTo: '/'},
-  {path: '/products/add', redirectTo: '/'},
-  {path: '/products/edit', redirectTo: '/'},
-  {path: '/services/add', redirectTo: '/'},
-  {path: '/services/edit', redirectTo: '/'}
+  {pattern: /\/profile/, redirectTo: '/'},
+  {pattern: /\/products\/add/, redirectTo: '/'},
+  {pattern: /\/products\/.+\/edit/, redirectTo: '/'},
+  {pattern: /\/services\/add/, redirectTo: '/'},
+  {pattern: /\/services\/.+\/edit/, redirectTo: '/'}
 ];
 
 // perform redirects on router changes
@@ -80,7 +80,7 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
     return cb();
   }
 
-  const authRoute = authorizedRoutes.find(route => pathname.startsWith(route.path));
+  const authRoute = authorizedRoutes.find(route => pathname.match(route.pattern));
   if (!user && authRoute) {
     replace(authRoute.redirectTo);
   }
@@ -129,8 +129,8 @@ class Router extends React.Component {
           <Route path="products">
             <IndexRoute component={AllProducts} />
             <Route path="add" component={AddProduct} />
-            <Route path="edit/:productId" component={EditProduct} />
             <Route path=":productId" component={ProductDetails} />
+            <Route path=":productId/edit" component={EditProduct} />
           </Route>
 
           <Route path="services">

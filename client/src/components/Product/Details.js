@@ -20,7 +20,7 @@ class ProductDetails extends React.Component {
           {isOwner && (
             <Link
               className="col-md-3 d-flex justify-content-end"
-              to={`/products/edit/${product.id}`}>
+              to={`/products/${product.id}/edit`}>
               <Button size="sm" color="link" className="p-0 btn-with-icon product-details__edit">
                 <Icon name="pencil" size="20" />
                 <span>Edit</span>

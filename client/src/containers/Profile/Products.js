@@ -112,7 +112,7 @@ export default compose(
                 onEditClick={(e, productId) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  router.push(`/products/edit/${productId}`);
+                  router.push(`/products/${productId}/edit`);
                 }}
                 editable={editable}
               />
