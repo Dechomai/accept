@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Router as ReactRouter, IndexRoute, Route, browserHistory} from 'react-router';
+import {Router as ReactRouter, IndexRoute, Route, Redirect, browserHistory} from 'react-router';
 import autobind from 'autobindr';
 import {prop, pathOr} from 'ramda';
 
@@ -146,6 +146,7 @@ class Router extends React.Component {
             />
           </Route>
         </Route>
+        <Redirect from="*" to="/" />
       </ReactRouter>
     );
   }
