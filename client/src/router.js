@@ -52,7 +52,15 @@ import ProductDetails from './containers/Product/Details';
 
 */
 
-// perform derirects on router changes
+const authorizedRoutes = [
+  {pattern: /\/profile/, redirectTo: '/'},
+  {pattern: /\/products\/add/, redirectTo: '/'},
+  {pattern: /\/products\/.+\/edit/, redirectTo: '/'},
+  {pattern: /\/services\/add/, redirectTo: '/'},
+  {pattern: /\/services\/.+\/edit/, redirectTo: '/'}
+];
+
+// perform redirects on router changes
 export const redirect = (prevState, nextState, store, replace, cb) => {
   const {location} = nextState;
   const {pathname} = location;
@@ -72,7 +80,10 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
     return cb();
   }
 
-  // TODO: disable profile* routes for not registered users
+  const authRoute = authorizedRoutes.find(route => pathname.match(route.pattern));
+  if (!user && authRoute) {
+    replace(authRoute.redirectTo);
+  }
 
   cb();
 };
@@ -109,7 +120,7 @@ class Router extends React.Component {
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
 
-          <Route path="user/:userId" component={Profile}>
+          <Route path="users/:userId" component={Profile}>
             <IndexRoute component={AboutMe} />
             <Route path="products" component={ProfileProducts} />
             <Route path="services" component={() => <h1>Profile Services</h1>} />
@@ -118,8 +129,8 @@ class Router extends React.Component {
           <Route path="products">
             <IndexRoute component={AllProducts} />
             <Route path="add" component={AddProduct} />
-            <Route path="edit/:productId" component={EditProduct} />
             <Route path=":productId" component={ProductDetails} />
+            <Route path=":productId/edit" component={EditProduct} />
           </Route>
 
           <Route path="services">

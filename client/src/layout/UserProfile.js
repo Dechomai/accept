@@ -21,20 +21,20 @@ const UserProfile = ({children, params: {userId}}) => {
           <div className="col-md-9">
             <nav className="user-profile__nav">
               <Link
-                to={userId ? `/user/${userId}` : '/profile'}
+                to={userId ? `/users/${userId}` : '/profile'}
                 className="user-profile__nav-item"
                 activeClassName="user-profile__nav-item--active"
                 onlyActiveOnIndex>
                 About
               </Link>
               <Link
-                to={userId ? `/user/${userId}/products` : '/profile/products'}
+                to={userId ? `/users/${userId}/products` : '/profile/products'}
                 className="user-profile__nav-item"
                 activeClassName="user-profile__nav-item--active">
                 Products
               </Link>
               <Link
-                to={userId ? `/user/${userId}/services` : '/profile/services'}
+                to={userId ? `/users/${userId}/services` : '/profile/services'}
                 className="user-profile__nav-item"
                 activeClassName="user-profile__nav-item--active">
                 Services

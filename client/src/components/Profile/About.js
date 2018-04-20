@@ -164,14 +164,14 @@ class About extends React.Component {
       <ItemsPreview
         title="Products"
         type="products"
-        viewAllLink={isCurrentUser ? '/profile/products' : `/user/${userId}/products`}
+        viewAllLink={isCurrentUser ? '/profile/products' : `/users/${userId}/products`}
         newPlaceholder="Add listing"
         items={products.data}
         editable={isCurrentUser}
         onEditClick={(e, productId) => {
           e.preventDefault();
           e.stopPropagation();
-          router.push(`/products/edit/${productId}`);
+          router.push(`/products/${productId}/edit`);
         }}
       />
     );
@@ -185,7 +185,7 @@ class About extends React.Component {
       <ItemsPreview
         title="Sroducts"
         type="services"
-        viewAllLink={isCurrentUser ? '/profile/services' : `/user/${userId}/services`}
+        viewAllLink={isCurrentUser ? '/profile/services' : `/users/${userId}/services`}
         newPlaceholder="Offer service"
         items={services.data}
         editable={isCurrentUser}
