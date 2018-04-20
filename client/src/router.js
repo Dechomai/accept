@@ -34,14 +34,14 @@ import ProductDetails from './containers/Product/Details';
   /products - all products
     /add - create new product
     /:productId - product page(will differ if created by current user)
-    /:productId/edit - product edit(only available if current user created this product)
+    /edit/:productId - product edit(only available if current user created this product)
 
   Services
 
   /services - all services
     /add - create new service
     /:serviceId - service page(will differ if created by current user)
-    /:serviceId/edit - service edit(only available if current user created this service)
+    /edit/:serviceId - service edit(only available if current user created this service)
 
   Users
 
@@ -52,7 +52,15 @@ import ProductDetails from './containers/Product/Details';
 
 */
 
-// perform derirects on router changes
+const authorizedRoutes = [
+  {path: '/profile', redirectTo: '/'},
+  {path: '/products/add', redirectTo: '/'},
+  {path: '/products/edit', redirectTo: '/'},
+  {path: '/services/add', redirectTo: '/'},
+  {path: '/services/edit', redirectTo: '/'}
+];
+
+// perform redirects on router changes
 export const redirect = (prevState, nextState, store, replace, cb) => {
   const {location} = nextState;
   const {pathname} = location;
@@ -72,7 +80,10 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
     return cb();
   }
 
-  // TODO: disable profile* routes for not registered users
+  const authRoute = authorizedRoutes.find(route => pathname.startsWith(route.path));
+  if (!user && authRoute) {
+    replace(authRoute.redirectTo);
+  }
 
   cb();
 };
@@ -109,7 +120,7 @@ class Router extends React.Component {
             <Route path="edit" component={() => <h1>Edit Profile</h1>} />
           </Route>
 
-          <Route path="user/:userId" component={Profile}>
+          <Route path="users/:userId" component={Profile}>
             <IndexRoute component={AboutMe} />
             <Route path="products" component={ProfileProducts} />
             <Route path="services" component={() => <h1>Profile Services</h1>} />
