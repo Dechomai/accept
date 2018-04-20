@@ -1,6 +1,7 @@
 const {assoc} = require('ramda');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
+const mediaController = require('./media');
 
 const logger = createLoggerWith('[CTRL:User]');
 
@@ -22,11 +23,16 @@ const userController = {
       });
   },
 
-  createUser(id, userData) {
-    return User.findByIdAndUpdate(id, assoc('status', 'active', userData), {
-      new: true,
-      select: User.projection
-    })
+  createUser(id, userData, avatar) {
+    return (avatar ? mediaController.uploadUserAvatar(id, avatar) : Promise.resolve())
+      .then(photo => (photo && photo.url ? assoc('photoUrl', photo.url, userData) : userData))
+      .then(assoc('status', 'active'))
+      .then(data =>
+        User.findByIdAndUpdate(id, data, {
+          new: true,
+          select: User.projection
+        })
+      )
       .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
         logger.info(':createUser', 'user created', user);

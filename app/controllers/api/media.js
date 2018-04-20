@@ -3,7 +3,7 @@ const cloudinary = require('../../integrations/cloudinary');
 
 const mediaController = {
   uploadUserAvatar(userId, image) {
-    return cloudinary.uploadImage(image, {
+    return cloudinary.uploadImage(image.buffer, {
       id: userId,
       folder: 'users'
     });

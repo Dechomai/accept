@@ -57,6 +57,7 @@ const authMiddleware = (req, res, next) => {
               logger.debug('refresh token not found', err);
               clearTokenCookie(res);
               sendUnauthorizedError(res);
+              return;
             }
             if (err.error === 'invalid_grant') {
               logger.debug('refresh token revoked/expired', err);
