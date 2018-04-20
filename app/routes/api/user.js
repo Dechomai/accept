@@ -9,7 +9,6 @@ const {sendSuccess, sendError} = require('../../helpers/response');
 const PATH = '/user';
 
 const userRouter = express.Router();
-userRouter.use(authMiddleware);
 
 userRouter
   .route('/:userId?')
@@ -24,6 +23,7 @@ userRouter
     );
   })
   .post(
+    authMiddleware,
     validationMiddleware(
       body('firstName')
         .exists()
@@ -67,6 +67,7 @@ userRouter
     }
   )
   .put(
+    authMiddleware,
     validationMiddleware(
       body('description')
         .optional()
@@ -95,6 +96,7 @@ userRouter
   );
 
 userRouter.route('/unique-username').post(
+  authMiddleware,
   validationMiddleware(
     body('username')
       .exists()
