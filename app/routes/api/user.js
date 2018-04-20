@@ -13,14 +13,21 @@ const userRouter = express.Router();
 userRouter
   .route('/:userId?')
   .get((req, res) => {
-    const userId = req.params.userId || req.userId;
-    userController.getUserInfo(userId).then(
-      user => sendSuccess(res, {user}),
-      err => {
-        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
-        sendError(res, {message: 'Error getting user'});
-      }
-    );
+    const {userId} = req.params;
+    new Promise(resolve => {
+      if (userId) return resolve(userId);
+      authMiddleware(req, res, () => {
+        resolve(req.userId);
+      });
+    }).then(userId => {
+      userController.getUserInfo(userId).then(
+        user => sendSuccess(res, {user}),
+        err => {
+          if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+          sendError(res, {message: 'Error getting user'});
+        }
+      );
+    });
   })
   .post(
     authMiddleware,
