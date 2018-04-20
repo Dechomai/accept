@@ -3,17 +3,18 @@ import {getImageThumbnail, getProductPrimaryImage} from '../img';
 describe('Utils > img', () => {
   describe('getImageThumbnail', () => {
     it('should add cognito transformation options to url', () => {
-      expect(
-        getImageThumbnail(
-          'http://res.cloudinary.com/abc/image/upload/v1523972389/products/63e1d447-eddf-47ca-974c-967b5007bf4b/69383a7b-abf1-490c-a615-dd04001e0d85.jpg'
-        )
-      ).toEqual(
-        'http://res.cloudinary.com/abc/image/upload/w_200,h_200,c_fill/v1523972389/products/63e1d447-eddf-47ca-974c-967b5007bf4b/69383a7b-abf1-490c-a615-dd04001e0d85.jpg'
+      expect(getImageThumbnail('abc/image/upload/def')).toEqual(
+        'abc/image/upload/w_200,h_200,c_fill/def'
       );
     });
     it('should create transformation string based on params', () => {
       expect(getImageThumbnail('abc/image/upload/def', {width: 100, height: 50})).toEqual(
         'abc/image/upload/w_100,h_50,c_fill/def'
+      );
+    });
+    it('should remove image extension', () => {
+      expect(getImageThumbnail('abc/image/upload/def.png')).toEqual(
+        'abc/image/upload/w_200,h_200,c_fill/def'
       );
     });
   });
