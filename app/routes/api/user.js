@@ -40,30 +40,6 @@ userRouter.route('/unique-username').post(
   }
 );
 
-userRouter.route('/unique-username').post(
-  validationMiddleware(
-    body('username')
-      .exists()
-      .isLength({min: 1, max: 100})
-      .isAlphanumeric()
-      .trim()
-  ),
-  (req, res) => {
-    const {username} = req.body;
-    userController.isUsernameUnique(username).then(
-      user =>
-        sendSuccess(res, {
-          unique: !user,
-          message: user ? 'Username is unavailable' : 'Username is available'
-        }),
-      () =>
-        sendError(res, {
-          message: 'Unable to check username'
-        })
-    );
-  }
-);
-
 userRouter
   .route('/:userId?')
   .get((req, res) => {
