@@ -2,9 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {compose, withStateHandlers, lifecycle} from 'recompact';
-
 import {fetchProducts, deleteProduct} from '../../actions/products';
-import {selectOwnProductsFor, selectOwnProductsCount} from '../../selectors';
+import {
+  selectOwnProductsFor,
+  selectOwnProductsCount,
+  selectUserProductsFor,
+  selectUserProductsCount
+} from '../../selectors';
 import ProfileProducts from '../../components/Profile/Products';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
@@ -19,20 +23,31 @@ const refetchProducts = props => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  const {userId} = ownProps.params;
+
   return {
-    products: selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
-    count: selectOwnProductsCount(state)
+    editable: !userId,
+    products: userId
+      ? selectUserProductsFor(state, {userId, skip: ownProps.skip, limit: ownProps.limit})
+      : selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
+    count: userId ? selectUserProductsCount(state, userId) : selectOwnProductsCount(state)
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchProducts() {
-    return dispatch(fetchProducts({scope: 'user', skip: ownProps.skip, limit: ownProps.limit}));
-  },
-  deleteProduct(productId) {
-    return dispatch(deleteProduct(productId));
-  }
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const {userId} = ownProps.params;
+
+  return {
+    fetchProducts() {
+      return dispatch(
+        fetchProducts({scope: userId || 'user', skip: ownProps.skip, limit: ownProps.limit})
+      );
+    },
+    deleteProduct(productId) {
+      return dispatch(deleteProduct(productId));
+    }
+  };
+};
 
 export default compose(
   withStateHandlers(
@@ -68,6 +83,7 @@ export default compose(
   ({
     products,
     count,
+    editable,
     skip,
     limit,
     onPaginationNextClick,
@@ -99,9 +115,10 @@ export default compose(
                 onEditClick={(e, productId) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  router.push(`/products/edit/${productId}`);
+                  router.push(`/products/${productId}/edit`);
                 }}
                 onDeleteClick={deleteProduct}
+                editable={editable}
               />
             ) : (
               <Loader />

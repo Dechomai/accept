@@ -6,6 +6,7 @@
   text-align: center;
   background: $orange;
   overflow: hidden;
+  user-select: none;
 
   img {
     vertical-align: initial;
@@ -32,9 +33,5 @@
 
   &__initials {
     color: $white;
-  }
-
-  img {
-    vertical-align: initial;
   }
 }

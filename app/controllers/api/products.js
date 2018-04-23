@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
 const uuidv4 = require('uuid/v4');
 const mediaController = require('./media');
+const {getVideoId} = require('../../helpers/youtube');
 
 const logger = createLoggerWith('[CTRL:Products]');
 
@@ -17,7 +18,7 @@ const productController = {
   isProductOwner(userId, productId) {
     return Product.findById(productId)
       .then(product => {
-        logger.info(':isProductOwner', `${productId} found`, product);
+        logger.info(':isProductOwner', `${productId} found`, product.toJSON());
         const isOwner = product.createdBy === userId;
         if (product.createdBy === userId) {
           logger.info(
@@ -140,13 +141,21 @@ const productController = {
           _id: productId,
           createdBy: userId,
           photos,
-          primaryPhotoId
+          primaryPhotoId,
+          video: getVideoId(productData.video)
         })
       )
       .then(product => {
-        logger.info(':addProduct', `created ${product.id}`, product);
-        return product.toJSON();
+        logger.info(':addProduct', `created ${product.id}`, product.toJSON());
+        return product;
       })
+      .then(product =>
+        User.findById(userId, User.publicProjection).then(user => {
+          product.createdBy = user;
+          return product;
+        })
+      )
+      .then(product => product.toJSON())
       .catch(err => {
         logger.error(':addProduct', 'error', err);
         return Promise.reject(err);
@@ -187,13 +196,14 @@ const productController = {
           {
             ...productData,
             photos,
-            primaryPhotoId
+            primaryPhotoId,
+            video: getVideoId(productData.video)
           },
           {new: true}
-        );
+        ).populate('createdBy', User.publicProjection);
       })
       .then(product => {
-        logger.info(':editProduct', `edited ${product.id}`, product);
+        logger.info(':editProduct', `edited ${product.id}`, product.toJSON());
         return product.toJSON();
       })
       .catch(err => {

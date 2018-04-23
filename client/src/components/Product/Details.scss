@@ -2,29 +2,37 @@
 
 .product-details {
   font-size: 13px;
+  margin-top: 2rem;
 
   &__header,
   &__content {
     background-color: $white;
   }
+
   &__header {
-    margin-top: 30px;
     margin-bottom: 2px;
-    padding: 18px 30px;
+    padding: 1rem 2rem;
+
     &__title {
       word-break: break-word;
       font-size: 20px;
+      margin: 0;
     }
   }
+
+  &__seller-avatar {
+    align-self: flex-end;
+  }
+
   &__content {
-    padding: 30px;
+    padding: 2rem;
   }
   &__top-section {
-    margin-top: 50px;
+    margin-top: 3rem;
   }
   &__bottom-section {
-    margin-top: 54px;
-    padding-top: 32px;
+    margin-top: 2rem;
+    padding-top: 2rem;
     border-top: 1px solid $gray-400;
   }
   &__title {
@@ -34,7 +42,7 @@
     text-transform: uppercase;
   }
   &__price {
-    font-family: Montserrat;
+    font-family: Montserrat, sans-serif;
     font-size: 26px;
     font-weight: bold;
   }
@@ -53,7 +61,21 @@
   }
   &__description {
     word-break: break-word;
-    margin-top: 12px;
-    opacity: 0.65;
+    margin-top: 0.75rem;
+    color: $gray-500;
+  }
+  &__seller {
+    margin-top: 0.75rem;
+
+    &__username {
+      margin: 0 0 0 0.5rem;
+      color: $blue;
+      font-weight: 600;
+      font-size: $font-size-sm;
+
+      &:before {
+        content: '@';
+      }
+    }
   }
 }

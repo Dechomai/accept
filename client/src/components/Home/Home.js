@@ -7,11 +7,9 @@ import {Button} from 'reactstrap';
 
 import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
-import ItemTile from '../common/ItemTile/ItemTile';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
-
-import {getProductPrimaryImage} from '../../utils/img';
+import ProductsList from '../Product/List';
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,17 +27,7 @@ class Home extends React.Component {
   getProducts() {
     const {products} = this.props;
     if (!products || products.loading) return <Loader />;
-    if (products.data)
-      return products.data.map(product => (
-        <ItemTile
-          key={product.id}
-          link={`/products/${product.id}`}
-          sizes="col-4 col-md-2"
-          imageUrl={getProductPrimaryImage(product)}
-          price={product.price}
-          title={product.title}
-        />
-      ));
+    if (products.data) return <ProductsList list={products.data} tileSize={'col-4 col-md-2'} />;
   }
 
   getServices() {
@@ -47,10 +35,11 @@ class Home extends React.Component {
   }
 
   render() {
+    const {user} = this.props;
     return (
       <div className="home">
         <div className="container">
-          {!this.props.userData && <TopBanner />}
+          {(!user || !user.data) && <TopBanner />}
 
           <div className="home__products">
             <div className="row">
@@ -98,11 +87,7 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  userData: PropTypes.any,
-  userState: PropTypes.shape({
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.any
-  }).isRequired
+  user: PropTypes.object
 };
 
 export default Home;

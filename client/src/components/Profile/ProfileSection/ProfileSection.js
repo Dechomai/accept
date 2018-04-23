@@ -14,6 +14,7 @@ const ProfileSection = ({
   btnText,
   btnIcon,
   onBtnClick,
+  editable,
   children
 }) => {
   const isEmpty = !((Array.isArray(children) && children.length) || children);
@@ -24,16 +25,18 @@ const ProfileSection = ({
         <div className="profile-section__empty">
           <img className="profile-section__image" src={imageUrl} />
           <small className="profile-section__placeholder text-muted">{placeholder}</small>
-          <Button
-            outline
-            className={classNames('profile-section__button', {
-              'btn-with-icon': btnIcon
-            })}
-            disabled={!onBtnClick}
-            onClick={onBtnClick}>
-            {btnIcon && <Icon size="16" name={btnIcon} />}
-            <span>{btnText}</span>
-          </Button>
+          {editable && (
+            <Button
+              outline
+              className={classNames('profile-section__button', {
+                'btn-with-icon': btnIcon
+              })}
+              disabled={!onBtnClick}
+              onClick={onBtnClick}>
+              {btnIcon && <Icon size="16" name={btnIcon} />}
+              <span>{btnText}</span>
+            </Button>
+          )}
         </div>
       ) : (
         <div className="profile-section__content">{children}</div>
@@ -48,7 +51,8 @@ ProfileSection.propTypes = {
   placeholder: PropTypes.string.isRequired,
   btnText: PropTypes.string.isRequired,
   btnIcon: PropTypes.string,
-  onBtnClick: PropTypes.func
+  onBtnClick: PropTypes.func,
+  editable: PropTypes.bool
 };
 
 ProfileSection.defaultProps = {

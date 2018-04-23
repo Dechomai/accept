@@ -1,5 +1,5 @@
 import React from 'react';
-import {range, pick} from 'ramda';
+import {range, pick, assoc} from 'ramda';
 import classNames from 'classnames';
 import {withFormik} from 'formik';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import Loader from '../common/Loader/Loader';
 import {rules} from '../../utils/validation';
 import createValidator from '../../utils/validation';
 import Tile from '../common/Tile/Tile';
+import {getImageThumbnail} from '../../utils/img';
 
 const MAX_PHOTOS = 8;
 
@@ -80,7 +81,7 @@ class InnerForm extends React.Component {
     return existingPhotos.map((photo, index) => (
       <Tile key={photo.url} sizes="col-3">
         <div
-          style={{backgroundImage: `url(${photo.url})`}}
+          style={{backgroundImage: `url(${getImageThumbnail(photo.url)})`}}
           className="create-form__placeholder create-form__placeholder--with-photo">
           <div className="create-form__placeholder__close" onClick={() => onPhotoDelete(photo)}>
             <Icon name="close" size="20" />
@@ -169,10 +170,8 @@ class InnerForm extends React.Component {
                           accept="image/jpeg,image/png,image/gif"
                           multiple={true}
                           showPreview={false}
-                          maxSize={2.5 * 1024 * 1024}
-                          onSelect={
-                            this.handleUploadPhoto // ~2.5Mb
-                          }>
+                          maxSize={2.5 * 1024 * 1024} // ~2.5Mb
+                          onSelect={this.handleUploadPhoto}>
                           <div className="create-form__placeholder__caption">
                             <Icon name="upload" size="20" />
                             <small className="create-form__placeholder__upload-label">
@@ -341,7 +340,7 @@ class InnerForm extends React.Component {
   }
 }
 
-const AddProductFrom = withFormik({
+const ProductEditor = withFormik({
   enableReinitialize: true,
   isInitialValid: props => {
     return props.product && !!props.product.data;
@@ -350,7 +349,15 @@ const AddProductFrom = withFormik({
     const {product} = props;
 
     if (product && product.data) {
-      return pick(['title', 'video', 'description', 'condition', 'price'], product.data);
+      const productData = pick(
+        ['title', 'video', 'description', 'condition', 'price'],
+        product.data
+      );
+      return assoc(
+        'video',
+        productData.video ? `https://youtu.be/${productData.video}` : '',
+        productData
+      );
     }
 
     return {
@@ -388,7 +395,7 @@ InnerForm.propTypes = {
   onCancelClick: PropTypes.func
 };
 
-AddProductFrom.propTypes = {
+ProductEditor.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   photos: PropTypes.array,
   primaryPhotoIndex: PropTypes.number,
@@ -398,4 +405,4 @@ AddProductFrom.propTypes = {
   onCancelClick: PropTypes.func
 };
 
-export default AddProductFrom;
+export default ProductEditor;

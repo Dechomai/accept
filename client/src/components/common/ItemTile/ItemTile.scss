@@ -52,9 +52,6 @@
     color: darken(white, 40%);
   }
 
-  &__title {
-  }
-
   &__actions {
     position: absolute;
     top: 0;
@@ -83,7 +80,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-family: Montserrat;
+      font-family: Montserrat, sans-serif;
       font-size: 18px;
       font-weight: bold;
     }

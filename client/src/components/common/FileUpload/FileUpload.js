@@ -42,7 +42,10 @@ class FileUpload extends React.Component {
           onDrop={this.onDrop}
           {...rest}>
           {showPreview && this.state.file ? (
-            <img className="file-upload__preview" src={this.state.file.preview} alt="" />
+            <div
+              className="file-upload__preview"
+              style={{backgroundImage: `url(${this.state.file.preview})`}}
+            />
           ) : (
             children
           )}

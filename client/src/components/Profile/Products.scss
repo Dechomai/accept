@@ -1,4 +1,10 @@
 @import '../../theme/index';
+.all-products {
+  &__top-line {
+    display: flex;
+    justify-content: space-between;
+  }
+}
 
 .profile-products {
   background-color: $white;

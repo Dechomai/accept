@@ -19,9 +19,6 @@
     padding: 3rem 2rem;
   }
 
-  @include media-breakpoint-up(md) {
-  }
-
   @include media-breakpoint-up(lg) {
     background-size: auto;
     padding: 3rem 480px 3rem 2rem;
@@ -33,9 +30,6 @@
   }
 
   &__content {
-    &__text {
-    }
-
     &__btn {
       margin-top: 2rem;
     }

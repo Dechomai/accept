@@ -1,9 +1,24 @@
 @import '../../../theme/index';
 
 .gallery {
+  .carousel-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+  }
+
   .carousel {
-    height: 400px;
-    margin-bottom: 1rem;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    &--placeholder {
+      background-position: center center;
+      background-size: cover;
+    }
+
     .carousel-inner {
       .carousel-item {
         height: 100%;
@@ -20,31 +35,86 @@
     }
   }
   .gallery-previews {
-    display: flex;
-    flex-wrap: wrap;
+    margin: 0.25rem -0.25rem 0;
+
+    .col-2 {
+      padding: 0 0.25rem;
+
+      .tile {
+        margin: 0.25rem 0;
+      }
+    }
+
     &__item {
       position: relative;
-      width: 50px;
-      height: 50px;
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem;
+      width: 100%;
+      height: 100%;
       background-position: center center;
       background-repeat: no-repeat;
       background-size: cover;
       cursor: pointer;
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        transition: background-color 200ms ease-out;
+      }
+
       &--active {
         cursor: inherit;
+        pointer-events: none;
+
         &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
           background-color: $gray-700;
         }
       }
     }
+
+    &__video {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      &__overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: $black;
+        opacity: 0.5;
+      }
+
+      &__icon {
+        color: $white;
+        z-index: 1;
+      }
+    }
+  }
+}
+
+.gallery-video-popup {
+  &__header {
+    padding: 0;
+    padding-right: 10px;
+    border: none;
+
+    .close {
+      outline: none;
+    }
+  }
+
+  &__body {
+    display: flex;
+    padding-top: 0;
+  }
+
+  &__frame {
+    width: 100%;
+    height: 320px;
+    border-radius: 5px;
   }
 }

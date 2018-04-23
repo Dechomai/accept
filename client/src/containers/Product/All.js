@@ -6,9 +6,9 @@ import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
 import {fetchProducts} from '../../actions/products';
 import {selectAllProductsFor, selectAllProductsCount} from '../../selectors';
-import AllProducts from '../../components/Products/AllProducts';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
+import ProductsList from '../../components/Product/List';
 
 const DEFAULT_LIMIT = 20;
 
@@ -99,7 +99,7 @@ export default compose(
         <div className="all-products__content">
           <div className="row">
             {products && products.data && products.data.length ? (
-              <AllProducts products={products.data} />
+              <ProductsList list={products.data} tileSize={'col-6 col-sm-3'} />
             ) : (
               <Loader />
             )}

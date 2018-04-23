@@ -1,5 +1,5 @@
 import React from 'react';
-import AllProductsContainer from '../containers/Products/AllProducts';
+import AllProductsContainer from '../containers/Product/All';
 
 const AllProducts = () => {
   return (

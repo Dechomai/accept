@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import {compose, assoc} from 'ramda';
+import {compose, assoc, pick} from 'ramda';
 import autobind from 'autobindr';
 
 import {createProfile} from '../../actions/user';
-import {selectUserStatus} from '../../selectors';
+import {selectProfile} from '../../selectors';
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
 
 class SignUp extends React.Component {
@@ -53,9 +53,10 @@ SignUp.propTypes = {
   createProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  status: selectUserStatus(state)
-});
+const mapStateToProps = state => {
+  const profile = selectProfile(state);
+  return {status: profile && pick(['loading', 'error'], profile)};
+};
 
 const mapDispatchToProps = dispatch => ({
   createProfile(profile) {

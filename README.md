@@ -5,7 +5,7 @@
 *   Jira **TODO**
 *   Confluence **TODO**
 *   Repository https://gitlab2.eleks-software.local/accept/accept-pay
-*   CI **TODO** _when available_
+*   CI ***TODO*** _when available_
 *   Environments **TODO**
 
     *   dev

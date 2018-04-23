@@ -1,16 +1,15 @@
 const express = require('express');
-const multer = require('multer');
-const {createLoggerWith} = require('../../logger');
 const {body, query, param} = require('express-validator/check');
 const {isUUID} = require('validator');
 const {pick} = require('ramda');
+const {createLoggerWith} = require('../../logger');
 const {sendSuccess, sendError} = require('../../helpers/response');
 const productsController = require('../../controllers/api/products');
-const logger = createLoggerWith('[RTR]:Media');
 const authMiddleware = require('../../middlewares/auth');
-const upload = multer({includeEmptyFields: true});
 const validationMiddleware = require('../../middlewares/validation');
-const uploadErrorHandler = require('../../middlewares/uploadErrorHandler');
+const {createArrayUploadMiddleware} = require('../../middlewares/upload');
+
+const logger = createLoggerWith('[RTR]:Products');
 
 const PATH = '/products';
 
@@ -66,8 +65,10 @@ productsRouter
   )
   .post(
     authMiddleware,
-    upload.array('photos', 8),
-    uploadErrorHandler(logger, 'post:products', /image\/(png|gif|jpeg)/),
+    createArrayUploadMiddleware({field: 'photos', maxCount: 8})({
+      logger,
+      logPrefix: 'post:products'
+    }),
     validationMiddleware(
       body('title')
         .exists()
@@ -124,14 +125,16 @@ productsRouter
   })
   .put(
     authMiddleware,
-    upload.array('newPhotos', 8),
+    createArrayUploadMiddleware({field: 'newPhotos', maxCount: 8})({
+      logger,
+      logPrefix: 'post:products'
+    }),
     (req, res, next) => {
       if (typeof req.body.removedPhotos === 'string') {
         req.body.removedPhotos = [req.body.removedPhotos];
       }
       next();
     },
-    uploadErrorHandler(logger, 'put:product', /image\/(png|gif|jpeg)/),
     validationMiddleware(
       body('title')
         .optional()

@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
+    "stylelint": "stylelint ./client/src/**/*.scss",
     "test": "jasmine",
     "start": "nodemon app.js",
     "start:debug": "cross-env DEBUG=express:* nodemon app.js",
@@ -16,7 +17,8 @@
   },
   "lint-staged": {
     "*.js": ["prettier --write", "eslint --fix", "git add"],
-    "*.{scss,json}": ["prettier --write", "git add"]
+    "*.scss": ["prettier --write", "stylelint --fix", "git add"],
+    "*.json": ["prettier --write", "git add"]
   },
   "nodemonConfig": {
     "ignore": ["client/*", "public/*"]
@@ -53,6 +55,7 @@
     "ncp": "^2.0.0",
     "nodemon": "^1.17.2",
     "prettier": "^1.11.1",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "stylelint": "^9.2.0"
   }
 }

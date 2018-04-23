@@ -1,7 +1,7 @@
 import {
-  FETCH_USER_REQUEST,
-  FETCH_USER_SUCCESS,
-  FETCH_USER_FAILURE,
+  FETCH_PROFILE_REQUEST,
+  FETCH_PROFILE_SUCCESS,
+  FETCH_PROFILE_FAILURE,
   CREATE_PROFILE_REQUEST,
   CREATE_PROFILE_SUCCESS,
   CREATE_PROFILE_FAILURE,
@@ -18,13 +18,13 @@ const getInitialState = () => ({
 
 const user = (state = getInitialState(), action) => {
   switch (action.type) {
-    case FETCH_USER_REQUEST: {
+    case FETCH_PROFILE_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case FETCH_USER_SUCCESS: {
+    case FETCH_PROFILE_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -32,7 +32,7 @@ const user = (state = getInitialState(), action) => {
         error: null
       };
     }
-    case FETCH_USER_FAILURE: {
+    case FETCH_PROFILE_FAILURE: {
       return {
         ...state,
         loading: false,
