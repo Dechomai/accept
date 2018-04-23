@@ -41,7 +41,8 @@ const productSchema = new BaseSchema(
     status: {
       type: String,
       enum: ['active', 'deleted'],
-      default: 'active'
+      default: 'active',
+      index: true
     }
   },
   {
