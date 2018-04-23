@@ -4,9 +4,17 @@
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-  background: $orange;
   overflow: hidden;
   user-select: none;
+
+  $colors: #968fe3 #5c7bc0 #50b385 #e9ca84 #d78a57;
+  @each $color in $colors {
+    $i: index($colors, $color);
+
+    &--color-#{$i - 1} {
+      background-color: nth($colors, $i);
+    }
+  }
 
   img {
     vertical-align: initial;

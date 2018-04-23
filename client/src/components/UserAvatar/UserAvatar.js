@@ -4,12 +4,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import stringToRange from '../../utils/stringToRange';
+
 const getInitials = user =>
   user.firstName && user.lastName && `${user.firstName[0]}${user.lastName[0]}`;
 
 const UserAvatar = ({user, size, className}) => {
   return (
-    <div className={classNames(className, 'user-avatar', `user-avatar--${size}`)}>
+    <div
+      className={classNames(
+        className,
+        'user-avatar',
+        `user-avatar--${size}`,
+        `user-avatar--color-${stringToRange(user.firsName + user.lastName, 5)}`
+      )}>
       {user.photoUrl ? (
         <img src={user.photoUrl} alt="" />
       ) : (
