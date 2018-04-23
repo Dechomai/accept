@@ -31,8 +31,8 @@ class About extends React.Component {
   }
 
   //Todo need to be refactored
-  refetchProducts() {
-    const {user, userId, products, isCurrentUser} = this.props;
+  refetchProducts(props) {
+    const {user, userId, products, isCurrentUser} = props;
 
     if (!user || (!user.data && !user.loading && !user.error)) {
       this.props.fetchUser(userId);
@@ -54,13 +54,13 @@ class About extends React.Component {
   }
 
   componentDidMount() {
-    this.refetchProducts();
+    this.refetchProducts(this.props);
   }
 
   // replace in React v17
   // static getDerivedStateFromProps(nextProps, prevState)
-  componentWillUpdate() {
-    this.refetchProducts();
+  componentWillUpdate(nextProps) {
+    this.refetchProducts(nextProps);
   }
 
   handleEditDescriptionClick() {
