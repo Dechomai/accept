@@ -221,12 +221,22 @@ const productController = {
   removeProduct(product) {
     if (product.removed) return Promise.reject(null);
 
-    return Product.findByIdAndUpdate(product.id, {
-      removed: true
-    })
+    const photosToRemove = product.photos.map(photo => photo.id);
+
+    return mediaController
+      .removeProductImages(product.id, photosToRemove)
+      .then(results => {
+        const imageRemoveStatuses = zip(photosToRemove, results);
+        imageRemoveStatuses.forEach(([photoId, {result}]) => {
+          logger.info(':removeProduct', `Photo ${photoId} remove status is: ${result}`);
+        });
+
+        return Product.findByIdAndUpdate(product.id, {
+          removed: true
+        });
+      })
       .then(product => {
-        logger.info(':removeProduct', `removed ${product.id}`, product.toJSON());
-        return product.toJSON();
+        logger.info(':removeProduct', `removed ${product.id}`);
       })
       .catch(err => {
         logger.error(':removeProduct', 'error', err);

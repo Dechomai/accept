@@ -205,8 +205,8 @@ productsRouter
         );
       }
       try {
-        const product = await productsController.removeProduct(ownedProduct);
-        sendSuccess(res, {product});
+        await productsController.removeProduct(ownedProduct);
+        sendSuccess(res);
       } catch (err) {
         if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
         sendError(res, {message: typeof err === 'string' ? err : 'Error removing product'});
