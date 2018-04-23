@@ -22,6 +22,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = () => {};
+const mapDispatchToProps = () => ({});
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Profile);

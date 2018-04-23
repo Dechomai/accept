@@ -13,7 +13,7 @@ import ProfileProducts from '../../components/Profile/Products';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 
-const DEFAULT_LIMIT = 11;
+const DEFAULT_LIMIT = 12;
 
 const refetchProducts = props => {
   const {products} = props;
@@ -51,9 +51,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default compose(
   withStateHandlers(
-    () => ({
+    props => ({
       skip: 0,
-      limit: DEFAULT_LIMIT
+      limit: props.params.userId ? DEFAULT_LIMIT : DEFAULT_LIMIT - 1
     }),
     {
       onPaginationNextClick: ({skip, limit}) => () => ({
