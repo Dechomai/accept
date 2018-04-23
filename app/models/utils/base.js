@@ -11,7 +11,6 @@ module.exports = class BaseSchema extends mongoose.Schema {
             versionKey: false,
             transform: (doc, ret /* , options */) => {
               delete ret._id;
-              delete ret.removed;
               return ret;
             }
           }

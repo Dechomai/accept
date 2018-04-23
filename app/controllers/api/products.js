@@ -39,12 +39,12 @@ const productController = {
   },
   getProductsForUser(userId, {limit, skip}) {
     return Promise.all([
-      Product.find({createdBy: userId, removed: {$ne: true}}, Product.projection, {
+      Product.find({createdBy: userId, status: 'active'}, Product.projection, {
         limit,
         skip,
         sort: DEFAULT_SORT
       }),
-      Product.count({createdBy: userId, removed: {$ne: true}})
+      Product.count({createdBy: userId, status: 'active'})
     ])
       .then(([products, count]) => {
         if (!products.length) return Promise.reject(null);
@@ -78,8 +78,8 @@ const productController = {
 
   getProducts({limit, skip}) {
     return Promise.all([
-      Product.find({removed: {$ne: true}}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
-      Product.count({removed: {$ne: true}})
+      Product.find({status: 'active'}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
+      Product.count({status: 'active'})
     ])
       .then(([products, count]) => {
         if (!products.length) return Promise.reject(null);
@@ -103,9 +103,9 @@ const productController = {
   },
 
   getProduct(productId) {
-    return Product.findById(productId, Product.projection)
+    return Product.findOne({_id: productId, status: 'active'}, Product.projection)
       .populate('createdBy', User.publicProjection)
-      .then(product => (product && !product.removed ? product.toJSON() : Promise.reject(null)))
+      .then(product => (product ? product.toJSON() : Promise.reject(null)))
       .then(product => {
         logger.info(':getProduct', `${productId} found`, product);
         return product;
@@ -167,7 +167,7 @@ const productController = {
   },
 
   editProduct(product, productData, newPhotos, removedPhotos) {
-    if (product.removed) return Promise.reject(null);
+    if (product.status === 'deleted') return Promise.reject(null);
 
     const photosToUpload = newPhotos.map(file => ({id: uuidv4(), buffer: file.buffer}));
     const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
@@ -219,7 +219,7 @@ const productController = {
   },
 
   removeProduct(product) {
-    if (product.removed) return Promise.reject(null);
+    if (product.status === 'deleted') return Promise.reject(null);
 
     const photosToRemove = product.photos.map(photo => photo.id);
 
@@ -232,7 +232,7 @@ const productController = {
         });
 
         return Product.findByIdAndUpdate(product.id, {
-          removed: true
+          status: 'deleted'
         });
       })
       .then(product => {

@@ -38,7 +38,11 @@ const productSchema = new BaseSchema(
       type: Number,
       required: true
     },
-    removed: Boolean
+    status: {
+      type: String,
+      enum: ['active', 'deleted'],
+      default: 'active'
+    }
   },
   {
     timestamps: true
@@ -50,7 +54,8 @@ const productSchema = new BaseSchema(
 */
 
 productSchema.statics.projection = {
-  updatedAt: 0
+  updatedAt: 0,
+  status: 0
 };
 
 const Product = mongoose.model('Product', productSchema);
