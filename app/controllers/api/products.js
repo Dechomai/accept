@@ -39,8 +39,12 @@ const productController = {
   },
   getProductsForUser(userId, {limit, skip}) {
     return Promise.all([
-      Product.find({createdBy: userId}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
-      Product.count({createdBy: userId})
+      Product.find({createdBy: userId, status: 'active'}, Product.projection, {
+        limit,
+        skip,
+        sort: DEFAULT_SORT
+      }),
+      Product.count({createdBy: userId, status: 'active'})
     ])
       .then(([products, count]) => {
         if (!products.length) return Promise.reject(null);
@@ -74,8 +78,8 @@ const productController = {
 
   getProducts({limit, skip}) {
     return Promise.all([
-      Product.find({}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
-      Product.count({})
+      Product.find({status: 'active'}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
+      Product.count({status: 'active'})
     ])
       .then(([products, count]) => {
         if (!products.length) return Promise.reject(null);
@@ -99,7 +103,7 @@ const productController = {
   },
 
   getProduct(productId) {
-    return Product.findById(productId, Product.projection)
+    return Product.findOne({_id: productId, status: 'active'}, Product.projection)
       .populate('createdBy', User.publicProjection)
       .then(product => (product ? product.toJSON() : Promise.reject(null)))
       .then(product => {
@@ -163,6 +167,8 @@ const productController = {
   },
 
   editProduct(product, productData, newPhotos, removedPhotos) {
+    if (product.status === 'deleted') return Promise.reject(null);
+
     const photosToUpload = newPhotos.map(file => ({id: uuidv4(), buffer: file.buffer}));
     const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
 
@@ -208,6 +214,32 @@ const productController = {
       })
       .catch(err => {
         logger.error(':editProduct', 'error', err);
+        return Promise.reject(err);
+      });
+  },
+
+  removeProduct(product) {
+    if (product.status === 'deleted') return Promise.reject(null);
+
+    const photosToRemove = product.photos.map(photo => photo.id);
+
+    return mediaController
+      .removeProductImages(product.id, photosToRemove)
+      .then(results => {
+        const imageRemoveStatuses = zip(photosToRemove, results);
+        imageRemoveStatuses.forEach(([photoId, {result}]) => {
+          logger.info(':removeProduct', `Photo ${photoId} remove status is: ${result}`);
+        });
+
+        return Product.findByIdAndUpdate(product.id, {
+          status: 'deleted'
+        });
+      })
+      .then(product => {
+        logger.info(':removeProduct', `removed ${product.id}`);
+      })
+      .catch(err => {
+        logger.error(':removeProduct', 'error', err);
         return Promise.reject(err);
       });
   }
