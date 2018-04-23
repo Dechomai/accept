@@ -11,7 +11,16 @@ import Icon from '../../common/Icon/Icon';
 
 class ItemsPreview extends React.Component {
   render() {
-    const {title, type, newPlaceholder, items, editable, viewAllLink, onEditClick} = this.props;
+    const {
+      title,
+      type,
+      newPlaceholder,
+      items,
+      editable,
+      viewAllLink,
+      onEditClick,
+      onDeleteClick
+    } = this.props;
 
     return (
       <div className="about__items">
@@ -31,6 +40,7 @@ class ItemsPreview extends React.Component {
               list={items}
               tileSize={'col-3'}
               onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}
               editable={editable}
             />
           </div>
