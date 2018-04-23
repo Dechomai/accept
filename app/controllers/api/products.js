@@ -39,8 +39,12 @@ const productController = {
   },
   getProductsForUser(userId, {limit, skip}) {
     return Promise.all([
-      Product.find({createdBy: userId}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
-      Product.count({createdBy: userId})
+      Product.find({createdBy: userId, removed: {$ne: true}}, Product.projection, {
+        limit,
+        skip,
+        sort: DEFAULT_SORT
+      }),
+      Product.count({createdBy: userId, removed: {$ne: true}})
     ])
       .then(([products, count]) => {
         if (!products.length) return Promise.reject(null);
@@ -74,8 +78,8 @@ const productController = {
 
   getProducts({limit, skip}) {
     return Promise.all([
-      Product.find({}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
-      Product.count({})
+      Product.find({removed: {$ne: true}}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
+      Product.count({removed: {$ne: true}})
     ])
       .then(([products, count]) => {
         if (!products.length) return Promise.reject(null);
@@ -101,7 +105,7 @@ const productController = {
   getProduct(productId) {
     return Product.findById(productId, Product.projection)
       .populate('createdBy', User.publicProjection)
-      .then(product => (product ? product.toJSON() : Promise.reject(null)))
+      .then(product => (product && !product.removed ? product.toJSON() : Promise.reject(null)))
       .then(product => {
         logger.info(':getProduct', `${productId} found`, product);
         return product;
@@ -163,6 +167,8 @@ const productController = {
   },
 
   editProduct(product, productData, newPhotos, removedPhotos) {
+    if (product.removed) return Promise.reject(null);
+
     const photosToUpload = newPhotos.map(file => ({id: uuidv4(), buffer: file.buffer}));
     const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
 
@@ -208,6 +214,22 @@ const productController = {
       })
       .catch(err => {
         logger.error(':editProduct', 'error', err);
+        return Promise.reject(err);
+      });
+  },
+
+  removeProduct(product) {
+    if (product.removed) return Promise.reject(null);
+
+    return Product.findByIdAndUpdate(product.id, {
+      removed: true
+    })
+      .then(product => {
+        logger.info(':removeProduct', `removed ${product.id}`, product.toJSON());
+        return product.toJSON();
+      })
+      .catch(err => {
+        logger.error(':removeProduct', 'error', err);
         return Promise.reject(err);
       });
   }

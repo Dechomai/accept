@@ -37,7 +37,8 @@ const productSchema = new BaseSchema(
     price: {
       type: Number,
       required: true
-    }
+    },
+    removed: Boolean
   },
   {
     timestamps: true

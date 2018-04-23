@@ -182,15 +182,40 @@ productsRouter
             removedPhotos
           );
           sendSuccess(res, {product});
-        } catch (error) {
-          sendError(res, {message: typeof error === 'string' ? error : 'Error editing product'});
+        } catch (err) {
+          if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+          sendError(res, {message: typeof err === 'string' ? err : 'Error editing product'});
         }
       } catch (err) {
         if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
         sendError(res, {message: 'Error checking product ownership'});
       }
     }
-  );
+  )
+  .delete(authMiddleware, async (req, res) => {
+    const {userId} = req;
+    const {productId} = req.params;
+    try {
+      const ownedProduct = await productsController.isProductOwner(userId, productId);
+      if (!ownedProduct) {
+        return sendError(
+          res,
+          {message: 'Current user is not owner of this product'},
+          {status: 401}
+        );
+      }
+      try {
+        const product = await productsController.removeProduct(ownedProduct);
+        sendSuccess(res, {product});
+      } catch (err) {
+        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+        sendError(res, {message: typeof err === 'string' ? err : 'Error removing product'});
+      }
+    } catch (err) {
+      if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+      sendError(res, {message: 'Error checking product ownership'});
+    }
+  });
 
 module.exports = app => {
   app.use(PATH, productsRouter);
