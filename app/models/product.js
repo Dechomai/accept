@@ -37,6 +37,12 @@ const productSchema = new BaseSchema(
     price: {
       type: Number,
       required: true
+    },
+    status: {
+      type: String,
+      enum: ['active', 'deleted'],
+      default: 'active',
+      index: true
     }
   },
   {
@@ -49,7 +55,8 @@ const productSchema = new BaseSchema(
 */
 
 productSchema.statics.projection = {
-  updatedAt: 0
+  updatedAt: 0,
+  status: 0
 };
 
 const Product = mongoose.model('Product', productSchema);
