@@ -7,6 +7,9 @@ const productService = {
   updateProduct(product, productId, primaryPhotoIndex) {
     return api.putForm(`/products/${productId}`, {...product, primaryPhotoIndex});
   },
+  deleteProduct(productId) {
+    return api.delete(`/products/${productId}`);
+  },
   getProducts({skip, limit}) {
     return api.get(`/products?skip=${skip}&limit=${limit}`);
   },

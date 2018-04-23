@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {updateProfile} from '../../actions/user';
 import {fetchUser} from '../../actions/users';
-import {fetchProducts} from '../../actions/products';
+import {fetchProducts, deleteProduct} from '../../actions/products';
 import {
   selectProfile,
   selectOwnProductsFor,
@@ -40,6 +40,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   fetchProducts({scope, skip, limit}) {
     return dispatch(fetchProducts({scope, skip, limit}));
+  },
+  deleteProduct(productId) {
+    return dispatch(deleteProduct(productId));
   },
   onAddProductClick() {
     ownProps.router.push('/products/add');

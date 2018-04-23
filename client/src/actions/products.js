@@ -172,3 +172,33 @@ export const fetchProductById = productId => dispatch => {
       err => Promise.reject(dispatch(fetchProductByIdFailure(productId, err)))
     );
 };
+
+// DELETE
+
+export const deleteProductRequest = () => ({
+  type: DELETE_PRODUCT_REQUEST,
+  payload: {}
+});
+
+export const deleteProductSuccess = () => ({
+  type: DELETE_PRODUCT_SUCCESS,
+  payload: {}
+});
+
+export const deleteProductFailure = error => ({
+  type: DELETE_PRODUCT_FAILURE,
+  payload: {
+    error
+  }
+});
+
+export const deleteProduct = productId => dispatch => {
+  dispatch(deleteProductRequest());
+
+  return productService
+    .deleteProduct(productId)
+    .then(
+      () => dispatch(deleteProductSuccess(productId)),
+      err => Promise.reject(dispatch(deleteProductFailure(err)))
+    );
+};

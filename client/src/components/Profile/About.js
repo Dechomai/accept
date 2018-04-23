@@ -30,7 +30,8 @@ class About extends React.Component {
     this.setState({description});
   }
 
-  componentDidMount() {
+  //Todo need to be refactored
+  refetchProducts() {
     const {user, userId, products, isCurrentUser} = this.props;
 
     if (!user || (!user.data && !user.loading && !user.error)) {
@@ -50,6 +51,16 @@ class About extends React.Component {
         limit: isCurrentUser ? PREVIEW_ITEMS_COUNT : PREVIEW_ITEMS_COUNT + 1
       });
     }
+  }
+
+  componentDidMount() {
+    this.refetchProducts();
+  }
+
+  // replace in React v17
+  // static getDerivedStateFromProps(nextProps, prevState)
+  componentWillUpdate() {
+    this.refetchProducts();
   }
 
   handleEditDescriptionClick() {
@@ -157,7 +168,7 @@ class About extends React.Component {
   }
 
   getProducts() {
-    const {router, products, isCurrentUser, userId} = this.props;
+    const {router, products, isCurrentUser, userId, deleteProduct} = this.props;
     const showProducts = products && products.data && products.data.length;
     if (!showProducts) return null;
     return (
@@ -173,6 +184,7 @@ class About extends React.Component {
           e.stopPropagation();
           router.push(`/products/${productId}/edit`);
         }}
+        onDeleteClick={deleteProduct}
       />
     );
   }
