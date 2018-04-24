@@ -171,7 +171,7 @@ productsRouter
           return sendError(
             res,
             {message: 'Current user is not owner of this product'},
-            {status: 401}
+            {status: 403}
           );
         }
         try {
@@ -201,7 +201,7 @@ productsRouter
         return sendError(
           res,
           {message: 'Current user is not owner of this product'},
-          {status: 401}
+          {status: 403}
         );
       }
       try {

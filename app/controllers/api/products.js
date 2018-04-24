@@ -18,15 +18,16 @@ const productController = {
   isProductOwner(userId, productId) {
     return Product.findById(productId)
       .then(product => {
+        if (!product) return Promise.reject(null);
         logger.info(':isProductOwner', `${productId} found`, product.toJSON());
         const isOwner = product.createdBy === userId;
-        if (product.createdBy === userId) {
+        if (isOwner) {
           logger.info(
             ':isProductOwner',
             `User ${userId} is ${isOwner ? '' : 'not '}owner of ${productId}`
           );
-          return isOwner ? product : null;
         }
+        return isOwner ? product : null;
       })
       .catch(err => {
         if (err === null) {
