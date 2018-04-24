@@ -46,32 +46,21 @@ const productController = {
       }),
       Product.count({createdBy: userId, status: 'active'})
     ])
-      .then(([products, count]) => {
-        if (!products.length) return Promise.reject(null);
-        return [products, count];
-      })
       .then(([products, count = 0]) => {
         logger.info(
           ':getProductsForUser',
           `(limit:${limit},skip:${skip}) found ${products.length},`,
-          ` total ${count},`,
-          ` for ${userId}`
+          `total ${count},`,
+          `for ${userId}`
         );
         return {products, count};
       })
       .catch(err => {
-        if (err === null) {
-          logger.error(
-            ':getProductsForUser',
-            `(limit:${limit},skip:${skip}) not found, for ${userId}`
-          );
-        } else {
-          logger.error(
-            ':getProductsForUser',
-            `(limit:${limit},skip:${skip}) error, for ${userId}`,
-            err
-          );
-        }
+        logger.error(
+          ':getProductsForUser',
+          `(limit:${limit},skip:${skip}) error, for ${userId}`,
+          err
+        );
         return Promise.reject(err);
       });
   },
@@ -81,10 +70,6 @@ const productController = {
       Product.find({status: 'active'}, Product.projection, {limit, skip, sort: DEFAULT_SORT}),
       Product.count({status: 'active'})
     ])
-      .then(([products, count]) => {
-        if (!products.length) return Promise.reject(null);
-        return [products, count];
-      })
       .then(([products, count = 0]) => {
         logger.info(
           ':getProducts',
@@ -93,11 +78,7 @@ const productController = {
         return {products, count};
       })
       .catch(err => {
-        if (err === null) {
-          logger.error(':getProducts', `(limit:${limit},skip:${skip}) not found`);
-        } else {
-          logger.error(':getProducts', `(limit:${limit},skip:${skip}) error`, err);
-        }
+        logger.error(':getProducts', `(limit:${limit},skip:${skip}) error`, err);
         return Promise.reject(err);
       });
   },
