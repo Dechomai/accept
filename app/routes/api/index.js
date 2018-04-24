@@ -1,10 +1,9 @@
 const express = require('express');
 
 const userRouter = require('./user');
-const mediaRouter = require('./media');
 const productsRouter = require('./products');
 
-const routers = [userRouter, mediaRouter, productsRouter];
+const routers = [userRouter, productsRouter];
 
 const PATH = '/api';
 const apiRouter = express.Router();
