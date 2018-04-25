@@ -23,13 +23,6 @@ class About extends React.Component {
     autobind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {user} = nextProps;
-    const description = !user || !user.data || user.loading ? '' : user.data.description;
-
-    this.setState({description});
-  }
-
   //Todo need to be refactored
   refetchProducts(props) {
     const {user, userId, products, isCurrentUser} = props;
@@ -54,6 +47,10 @@ class About extends React.Component {
   }
 
   componentDidMount() {
+    const {user} = this.props;
+    const description = !user || !user.data || user.loading ? '' : user.data.description;
+
+    this.setState({description});
     this.refetchProducts(this.props);
   }
 
