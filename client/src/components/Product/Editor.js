@@ -234,7 +234,7 @@ class InnerForm extends React.Component {
                       'is-invalid': touched.description && errors.description
                     })}
                     type="text"
-                    rows="4"
+                    rows="10"
                     placeholder="Describe item..."
                     name="description"
                     onChange={handleChange}
