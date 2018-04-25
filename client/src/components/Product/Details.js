@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
-import {getOrderedPhotos} from 'utils/img';
+import {getOrderedPhotos} from '../../utils/img';
 
 import Icon from '../common/Icon/Icon';
 import Gallery from '../common/Gallery/Gallery';
