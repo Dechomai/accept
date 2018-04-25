@@ -108,7 +108,7 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const {video, items} = this.props;
+    const {video, items, showCarouselIndicators} = this.props;
     const {activeIndex, isVideoActive} = this.state;
 
     return (
@@ -116,11 +116,13 @@ class Gallery extends React.Component {
         <div className="carousel-wrapper">
           {items.length ? (
             <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-              <CarouselIndicators
-                items={items.map(item => ({key: item.id}))}
-                activeIndex={activeIndex}
-                onClickHandler={this.goToIndex}
-              />
+              {showCarouselIndicators && (
+                <CarouselIndicators
+                  items={items.map(item => ({key: item.id}))}
+                  activeIndex={activeIndex}
+                  onClickHandler={this.goToIndex}
+                />
+              )}
               {this.renderSlides()}
               <CarouselControl
                 direction="prev"
@@ -157,7 +159,12 @@ class Gallery extends React.Component {
 
 Gallery.propTypes = {
   items: PropTypes.array.isRequired,
-  video: PropTypes.string
+  video: PropTypes.string,
+  showCarouselIndicators: PropTypes.bool
+};
+
+Gallery.defaultProps = {
+  showCarouselIndicators: false
 };
 
 export default Gallery;
