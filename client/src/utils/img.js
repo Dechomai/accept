@@ -3,6 +3,16 @@ export const getProductPrimaryImage = ({photos, primaryPhotoId}) => {
   return photos.find(p => p.id === primaryPhotoId).url;
 };
 
+export const getOrderedPhotos = ({photos, primaryPhotoId}) => {
+  if (!primaryPhotoId) {
+    return photos;
+  }
+  const primaryPhoto = photos.find(photo => photo.id === primaryPhotoId);
+  const orderedPhotos = photos.filter(photo => photo !== primaryPhoto);
+  orderedPhotos.unshift(primaryPhoto);
+  return orderedPhotos;
+};
+
 export const getImageThumbnail = (img, {width = 200, height = 200, crop = 'fill'} = {}) => {
   const transformations = [`w_${width}`, `h_${height}`, `c_${crop}`].join(',');
   // add transformations
