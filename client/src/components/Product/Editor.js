@@ -369,9 +369,9 @@ const ProductEditor = withFormik({
     };
   },
   validate: createValidator({
-    title: ['required', rules.minLength(3), rules.maxLength(400), 'lettersDigitsAndSpaces'],
+    title: ['required', rules.minLength(3), rules.maxLength(400), 'commonText'],
     video: ['youtubeUrl'],
-    description: ['required', rules.minLength(10), rules.maxLength(800), 'lettersDigitsAndSpaces'],
+    description: ['required', rules.minLength(10), rules.maxLength(800), 'commonText'],
     price: ['required', 'price']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
