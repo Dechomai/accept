@@ -2,6 +2,7 @@ import './About.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {pathOr} from 'ramda';
 import autobind from 'autobindr';
 import {Button} from 'reactstrap';
 import classNames from 'classnames';
@@ -48,7 +49,7 @@ class About extends React.Component {
 
   componentDidMount() {
     const {user} = this.props;
-    const description = !user || !user.data || user.loading ? '' : user.data.description;
+    const description = pathOr('', ['data', 'description'], user);
 
     this.setState({description});
     this.refetchProducts(this.props);
