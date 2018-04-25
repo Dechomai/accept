@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
+import {getOrderedPhotos} from 'utils/img';
+
 import Icon from '../common/Icon/Icon';
 import Gallery from '../common/Gallery/Gallery';
 import UserAvatar from '../UserAvatar/UserAvatar';
@@ -17,10 +19,10 @@ class ProductDetails extends React.Component {
       <div className="container product-details">
         <div className="row">
           <Breadcrumb tag="nav" className="mb-3">
-            <BreadcrumbItem active>
+            <BreadcrumbItem>
               <Link to="/">Home</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem active tag="span">
+            <BreadcrumbItem>
               <Link to="/products">Products</Link>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -45,11 +47,7 @@ class ProductDetails extends React.Component {
         </div>
         <div className="row product-details__content">
           <div className="col-lg-6 product-details__gallery">
-            <Gallery
-              photos={product.photos}
-              primaryPhoto={product.photos.find(photo => photo.id === product.primaryPhotoId)}
-              video={this.props.product.video}
-            />
+            <Gallery photos={getOrderedPhotos(product)} video={this.props.product.video} />
           </div>
           <div className="col-lg-5 offset-lg-1">
             <div className="product-details__top-section">

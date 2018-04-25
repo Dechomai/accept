@@ -59,18 +59,8 @@ class Gallery extends React.Component {
     this.setState({isVideoActive: !isVideoActive});
   }
 
-  getOrderedPhotos() {
-    const {photos, primaryPhoto} = this.props;
-    if (!primaryPhoto) {
-      return photos;
-    }
-    const orderedPhotos = photos.filter(photo => photo !== primaryPhoto);
-    orderedPhotos.unshift(primaryPhoto);
-    return orderedPhotos;
-  }
-
   renderSlides() {
-    const photos = this.getOrderedPhotos();
+    const {photos} = this.props;
     return photos.map(item => (
       <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.id}>
         <div
@@ -83,9 +73,8 @@ class Gallery extends React.Component {
   }
 
   renderPreviews() {
-    const {video} = this.props;
+    const {video, photos} = this.props;
     const {activeIndex, isVideoActive} = this.state;
-    const photos = this.getOrderedPhotos();
     const photoPreviews = photos.map((photo, index) => (
       <Tile sizes="col-2" key={photo.id}>
         <div
@@ -119,9 +108,8 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const {video, showCarouselIndicators} = this.props;
+    const {video, photos, showCarouselIndicators} = this.props;
     const {activeIndex, isVideoActive} = this.state;
-    const photos = this.getOrderedPhotos();
 
     return (
       <div className="gallery">
@@ -136,12 +124,20 @@ class Gallery extends React.Component {
                 />
               )}
               {this.renderSlides()}
-              <CarouselControl
-                direction="prev"
-                directionText="Previous"
-                onClickHandler={this.previous}
-              />
-              <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+              {photos.length > 1 && (
+                <React.Fragment>
+                  <CarouselControl
+                    direction="prev"
+                    directionText="Previous"
+                    onClickHandler={this.previous}
+                  />
+                  <CarouselControl
+                    direction="next"
+                    directionText="Next"
+                    onClickHandler={this.next}
+                  />
+                </React.Fragment>
+              )}
             </Carousel>
           ) : (
             <div
@@ -171,7 +167,6 @@ class Gallery extends React.Component {
 
 Gallery.propTypes = {
   photos: PropTypes.array.isRequired,
-  primaryPhoto: PropTypes.object,
   video: PropTypes.string,
   showCarouselIndicators: PropTypes.bool
 };
