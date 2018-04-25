@@ -17,49 +17,61 @@ class ProductDetails extends React.Component {
       <div className="container product-details">
         <div className="row">
           <Breadcrumb tag="nav" className="mb-3">
-            <BreadcrumbItem>
+            <BreadcrumbItem active>
               <Link to="/">Home</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem tag="span">
+            <BreadcrumbItem active tag="span">
               <Link to="/products">Products</Link>
             </BreadcrumbItem>
           </Breadcrumb>
         </div>
         <div className="row product-details__header">
-          <h5 className="col-md-9 product-details__header__title">{product.title}</h5>
-          {isOwner && (
-            <Link
-              className="col-md-3 d-flex justify-content-end"
-              to={`/products/${product.id}/edit`}>
-              <Button size="sm" color="link" className="p-0 btn-with-icon product-details__edit">
-                <Icon name="pencil" size="20" />
-                <span>Edit</span>
-              </Button>
+          <div className="col-12 d-flex justify-content-between">
+            <Link className="product-details__seller" to={`/users/${product.createdBy.id}`}>
+              <UserAvatar user={product.createdBy} />
+              <span className="product-details__seller__username">
+                {product.createdBy.username}
+              </span>
             </Link>
-          )}
+            {isOwner && (
+              <Link className="d-flex justify-content-end" to={`/products/${product.id}/edit`}>
+                <Button size="sm" color="link" className="p-0 btn-with-icon product-details__edit">
+                  <Icon name="pencil" size="20" />
+                  <span>Edit</span>
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
         <div className="row product-details__content">
           <div className="col-lg-6 product-details__gallery">
-            <Gallery items={this.props.product.photos} video={this.props.product.video} />
+            <Gallery
+              photos={product.photos}
+              primaryPhoto={product.photos.find(photo => photo.id === product.primaryPhotoId)}
+              video={this.props.product.video}
+            />
           </div>
           <div className="col-lg-5 offset-lg-1">
             <div className="product-details__top-section">
+              <h5 className="product-details__title">{product.title}</h5>
               <div className="row d-flex align-items-center py-2">
-                <div className="col-sm-3 col-6 product-details__title">Price</div>
+                <div className="col-sm-3 col-6 product-details__property">Price</div>
                 <div className="col-sm-3 col-6 product-details__price">
                   {product.price.toFixed(2)}
                 </div>
               </div>
               <div className="row d-flex align-items-center py-2">
-                <div className="col-sm-3 col-6 product-details__title">Condition</div>
+                <div className="col-sm-3 col-6 product-details__property">Condition</div>
                 <div className="col-sm-3 col-6 product-details__condition">{product.condition}</div>
               </div>
-              <div className="row d-flex align-items-center py-2">
-                <div className="col-sm-3 col-6 product-details__title">Quantity</div>
-                <div className="col-sm-3 col-6 product-details__quantity">
-                  <Input value={1} readOnly />
+              {!isOwner && (
+                <div className="row d-flex align-items-center py-2">
+                  <div className="col-sm-3 col-6 product-details__property">Quantity</div>
+                  <div className="col-sm-3 col-6 product-details__quantity">
+                    <Input value={1} readOnly />
+                  </div>
                 </div>
-              </div>
+              )}
               {!isOwner && (
                 <div className="row d-flex align-items-center py-3">
                   <div className="col-12 product-details__exchange">
@@ -72,23 +84,10 @@ class ProductDetails extends React.Component {
             </div>
             <div className="row product-details__bottom-section">
               <div className="col-12">
-                <div className="product-details__title">Description</div>
+                <div className="product-details__property">Description</div>
                 <div className="product-details__description">{product.description}</div>
               </div>
             </div>
-            {!isOwner && (
-              <div className="row product-details__bottom-section">
-                <div className="col-12">
-                  <div className="product-details__title">Seller</div>
-                  <Link className="product-details__seller" to={`/users/${product.createdBy.id}`}>
-                    <UserAvatar user={product.createdBy} />
-                    <span className="product-details__seller__username">
-                      {product.createdBy.username}
-                    </span>
-                  </Link>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

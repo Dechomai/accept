@@ -2,7 +2,7 @@
 
 .product-details {
   font-size: 13px;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 
   &__header,
   &__content {
@@ -12,12 +12,6 @@
   &__header {
     margin-bottom: 2px;
     padding: 1rem 2rem;
-
-    &__title {
-      word-break: break-word;
-      font-size: 20px;
-      margin: 0;
-    }
   }
 
   &__seller-avatar {
@@ -27,15 +21,18 @@
   &__content {
     padding: 2rem;
   }
-  &__top-section {
-    margin-top: 3rem;
-  }
   &__bottom-section {
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid $gray-400;
   }
   &__title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 2rem;
+    word-break: break-word;
+  }
+  &__property {
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.9px;
@@ -65,8 +62,6 @@
     color: $gray-500;
   }
   &__seller {
-    margin-top: 0.75rem;
-
     &__username {
       margin: 0 0 0 0.5rem;
       color: $blue;

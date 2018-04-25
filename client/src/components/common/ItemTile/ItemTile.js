@@ -82,7 +82,7 @@ class ItemTile extends React.Component {
           </span>
           {per && <span className="item-tile__price__per">{`/ ${per}`}</span>}
         </div>
-        <Text className="item-tile__title" maxCharacters={40}>
+        <Text className="item-tile__title" maxCharacters={60}>
           {title}
         </Text>
         {editable && (
@@ -90,7 +90,7 @@ class ItemTile extends React.Component {
             <ModalHeader toggle={this.toggle}>Delete item</ModalHeader>
             <ModalBody>Do you really want to delete {title} ?</ModalBody>
             <ModalFooter>
-              <Button color="link" onClick={this.toggle}>
+              <Button color="light" onClick={this.toggle}>
                 Cancel
               </Button>
               <Button color="danger" onClick={this.handleDeleteItem}>
