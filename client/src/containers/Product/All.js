@@ -72,30 +72,33 @@ export default compose(
     onPaginationPrevClick,
     onPaginationPageClick
   }) => {
+    const Navigation = ({showResults}) => (
+      <div className="d-flex justify-content-between align-items-center my-3">
+        <Breadcrumb tag="nav">
+          <BreadcrumbItem>
+            <Link to="/">Home</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active tag="span">
+            Products
+          </BreadcrumbItem>
+        </Breadcrumb>
+
+        {showResults && <small className="all-products__count">{count} results</small>}
+
+        <Pagination
+          totalPages={Math.ceil(count / limit)}
+          currentPage={Math.floor(skip / limit)}
+          onNextClick={onPaginationNextClick}
+          onPrevClick={onPaginationPrevClick}
+          onPageClick={onPaginationPageClick}
+        />
+      </div>
+    );
+
     if ((!products || !products.data.length) && !count) return <Loader />;
     return (
       <div className="all-products">
-        <div className="d-flex justify-content-between align-items-center my-3">
-          <Breadcrumb tag="nav">
-            <BreadcrumbItem>
-              <Link to="/">Home</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active tag="span">
-              Products
-            </BreadcrumbItem>
-          </Breadcrumb>
-
-          <small className="all-products__count">{count} results</small>
-
-          <Pagination
-            totalPages={Math.ceil(count / limit)}
-            currentPage={Math.floor(skip / limit)}
-            onNextClick={onPaginationNextClick}
-            onPrevClick={onPaginationPrevClick}
-            onPageClick={onPaginationPageClick}
-          />
-        </div>
-
+        <Navigation showResults />
         <div className="all-products__content">
           <div className="row">
             {products && products.data && products.data.length ? (
@@ -105,6 +108,7 @@ export default compose(
             )}
           </div>
         </div>
+        <Navigation />
       </div>
     );
   }

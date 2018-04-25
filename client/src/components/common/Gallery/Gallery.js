@@ -37,14 +37,14 @@ class Gallery extends React.Component {
   next() {
     if (this.animating) return;
     const nextIndex =
-      this.state.activeIndex === this.props.items.length - 1 ? 0 : this.state.activeIndex + 1;
+      this.state.activeIndex === this.props.photos.length - 1 ? 0 : this.state.activeIndex + 1;
     this.setState({activeIndex: nextIndex});
   }
 
   previous() {
     if (this.animating) return;
     const nextIndex =
-      this.state.activeIndex === 0 ? this.props.items.length - 1 : this.state.activeIndex - 1;
+      this.state.activeIndex === 0 ? this.props.photos.length - 1 : this.state.activeIndex - 1;
     this.setState({activeIndex: nextIndex});
   }
 
@@ -59,8 +59,19 @@ class Gallery extends React.Component {
     this.setState({isVideoActive: !isVideoActive});
   }
 
+  getOrderedPhotos() {
+    const {photos, primaryPhoto} = this.props;
+    if (!primaryPhoto) {
+      return photos;
+    }
+    const orderedPhotos = photos.filter(photo => photo !== primaryPhoto);
+    orderedPhotos.unshift(primaryPhoto);
+    return orderedPhotos;
+  }
+
   renderSlides() {
-    return this.props.items.map(item => (
+    const photos = this.getOrderedPhotos();
+    return photos.map(item => (
       <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.id}>
         <div
           style={{
@@ -72,18 +83,18 @@ class Gallery extends React.Component {
   }
 
   renderPreviews() {
-    const {items, video} = this.props;
+    const {video} = this.props;
     const {activeIndex, isVideoActive} = this.state;
-
-    const photoPreviews = items.map((item, index) => (
-      <Tile sizes="col-2" key={item.id}>
+    const photos = this.getOrderedPhotos();
+    const photoPreviews = photos.map((photo, index) => (
+      <Tile sizes="col-2" key={photo.id}>
         <div
           className={classNames('gallery-previews__item', {
             'gallery-previews__item--active': index === activeIndex
           })}
           onClick={() => this.goToIndex(index)}
           style={{
-            backgroundImage: `url(${getImageThumbnail(item.url, {width: 100, height: 100})})`
+            backgroundImage: `url(${getImageThumbnail(photo.url, {width: 100, height: 100})})`
           }}
         />
       </Tile>
@@ -108,17 +119,18 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const {video, items, showCarouselIndicators} = this.props;
+    const {video, showCarouselIndicators} = this.props;
     const {activeIndex, isVideoActive} = this.state;
+    const photos = this.getOrderedPhotos();
 
     return (
       <div className="gallery">
         <div className="carousel-wrapper">
-          {items.length ? (
+          {photos.length ? (
             <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
               {showCarouselIndicators && (
                 <CarouselIndicators
-                  items={items.map(item => ({key: item.id}))}
+                  items={photos.map(photo => ({key: photo.id}))}
                   activeIndex={activeIndex}
                   onClickHandler={this.goToIndex}
                 />
@@ -158,7 +170,8 @@ class Gallery extends React.Component {
 }
 
 Gallery.propTypes = {
-  items: PropTypes.array.isRequired,
+  photos: PropTypes.array.isRequired,
+  primaryPhoto: PropTypes.object,
   video: PropTypes.string,
   showCarouselIndicators: PropTypes.bool
 };

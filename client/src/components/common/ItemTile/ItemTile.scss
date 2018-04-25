@@ -2,7 +2,7 @@
 
 .item-tile {
   position: relative;
-  margin: $grid-gutter-width / 2 0;
+  margin: $grid-gutter-width 0;
   font-size: 14px;
 
   &--new {
@@ -13,6 +13,11 @@
     cursor: pointer;
     border: 1px solid darken(white, 15%);
     padding: 20px 0;
+    transition: 200ms ease-in-out;
+    &:hover {
+      border: 1px solid transparent;
+      background: darken($white, 5%);
+    }
   }
 
   &,
@@ -30,6 +35,10 @@
   &:hover &__actions {
     visibility: visible;
     opacity: 1;
+  }
+
+  &__title {
+    word-break: break-word;
   }
 
   &__photo {
@@ -75,7 +84,7 @@
   &__price {
     display: flex;
     align-items: center;
-    margin-bottom: 7px;
+    margin-top: 1rem;
     &__value {
       white-space: nowrap;
       overflow: hidden;
