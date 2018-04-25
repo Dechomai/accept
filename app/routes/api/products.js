@@ -37,30 +37,21 @@ productsRouter
     (req, res) => {
       const {user, limit = DEFAULT_LIMIT, skip = 0} = req.query;
 
-      if (user) {
-        new Promise(resolve => {
-          if (user !== 'current') return resolve(user);
-          authMiddleware(req, res, () => {
-            resolve(req.userId);
-          });
-        }).then(userId => {
-          productsController.getProductsForUser(userId, {limit, skip}).then(
-            ({products, count}) => sendSuccess(res, {limit, skip, count, products}),
-            err => {
-              if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
-              sendError(res, {message: 'Error getting products'});
-            }
-          );
+      new Promise(resolve => {
+        if (!user) return resolve(null);
+        if (user !== 'current') return resolve(user);
+        authMiddleware(req, res, () => {
+          resolve(req.userId);
         });
-      } else {
-        productsController.getProducts({limit, skip}).then(
+      }).then(user => {
+        productsController.getProducts({userId: user, limit, skip}).then(
           ({products, count}) => sendSuccess(res, {limit, skip, count, products}),
           err => {
             if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
             sendError(res, {message: 'Error getting products'});
           }
         );
-      }
+      });
     }
   )
   .post(
