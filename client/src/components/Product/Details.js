@@ -3,7 +3,7 @@ import './Details.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
-import {Button, Input} from 'reactstrap';
+import {Button, Input, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
 import Icon from '../common/Icon/Icon';
 import Gallery from '../common/Gallery/Gallery';
@@ -15,6 +15,16 @@ class ProductDetails extends React.Component {
 
     return (
       <div className="container product-details">
+        <div className="row">
+          <Breadcrumb tag="nav" className="mb-3">
+            <BreadcrumbItem>
+              <Link to="/">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem tag="span">
+              <Link to="/products">Products</Link>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </div>
         <div className="row product-details__header">
           <h5 className="col-md-9 product-details__header__title">{product.title}</h5>
           {isOwner && (

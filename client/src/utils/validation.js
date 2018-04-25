@@ -22,6 +22,11 @@ export const rules = {
     predicate: val => val && !/^[a-zA-Z0-9 _.-]*$/.test(val),
     message: 'Please, use digits, numbers and spaces only'
   },
+  commonText: {
+    predicate: val => val && !/^[a-zA-Z0-9,:;*()$#@% _.-]*$/.test(val),
+    message:
+      'Please, use digits, numbers and spaces and following symbols (, : ; * () $ # @ %) only'
+  },
   price: {
     predicate: val =>
       (val && !/^\d+(\.\d{2})?$/.test(val)) || parseFloat(val) < 0.01 || parseFloat(val) > 2000000,

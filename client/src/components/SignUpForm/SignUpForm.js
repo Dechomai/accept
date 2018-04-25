@@ -176,7 +176,7 @@ const SignUpForm = withFormik({
     firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
     lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
     phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
-    address: [rules.minLength(5), rules.maxLength(100), 'lettersDigitsAndSpaces'],
+    address: [rules.minLength(5), rules.maxLength(100), 'commonText'],
     username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched, setErrors}) => {

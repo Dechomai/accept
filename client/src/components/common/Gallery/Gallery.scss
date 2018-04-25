@@ -94,6 +94,32 @@
       }
     }
   }
+  .carousel-control-next {
+    .carousel-control-next-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      background-image: none;
+      &:before {
+        font-family: 'Material Design Icons', sans-serif;
+        font-size: 36px;
+        content: '\F142';
+        color: $black;
+      }
+    }
+  }
+  .carousel-control-prev {
+    .carousel-control-prev-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      background-image: none;
+      &:before {
+        font-family: 'Material Design Icons', sans-serif;
+        font-size: 36px;
+        content: '\F141';
+        color: $black;
+      }
+    }
+  }
 }
 
 .gallery-video-popup {
