@@ -39,7 +39,7 @@ class ItemsPreview extends React.Component {
             <ItemsList
               type={type}
               list={items}
-              tileSize={'col-3'}
+              tileSize="col-3"
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
               editable={editable}

@@ -102,7 +102,7 @@ export default compose(
         <div className="all-products__content">
           <div className="row">
             {products && products.data && products.data.length ? (
-              <ItemsList type="products" list={products.data} tileSize={'col-6 col-sm-3'} />
+              <ItemsList type="products" list={products.data} tileSize="col-6 col-sm-3" />
             ) : (
               <Loader />
             )}

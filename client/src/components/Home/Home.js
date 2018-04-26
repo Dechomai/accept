@@ -28,7 +28,7 @@ class Home extends React.Component {
     const {products} = this.props;
     if (!products || products.loading) return <Loader />;
     if (products.data)
-      return <ItemsList type="products" list={products.data} tileSize={'col-4 col-md-2'} />;
+      return <ItemsList type="products" list={products.data} tileSize="col-4 col-md-2" />;
   }
 
   getServices() {

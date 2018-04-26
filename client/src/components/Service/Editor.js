@@ -1,5 +1,5 @@
 import React from 'react';
-import {range, pick} from 'ramda';
+import {range, pick, assoc} from 'ramda';
 import classNames from 'classnames';
 import {withFormik} from 'formik';
 import PropTypes from 'prop-types';
@@ -188,6 +188,34 @@ class InnerForm extends React.Component {
           <div className="row">
             <div className="col-md-3 col-sm-12">
               <div className="create-form__label">
+                <span className="create-form__label__name">Add video </span>
+                <span className="create-form__label__required">(optional)</span>
+              </div>
+            </div>
+            <div className="col-md-9 col-sm-12">
+              <div className="create-form__content">
+                <div className="form-group">
+                  <label>Upload Video with Youtube</label>
+                  <input
+                    className={classNames('form-control', {
+                      'is-invalid': touched.video && errors.video
+                    })}
+                    type="text"
+                    placeholder="YouTube video URL"
+                    name="video"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.video}
+                  />
+                  {touched.video &&
+                    errors.video && <div className="invalid-feedback">{errors.video}</div>}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-3 col-sm-12">
+              <div className="create-form__label">
                 <span className="create-form__label__name">Describe your service </span>
                 <span className="create-form__label__required">(required)</span>
               </div>
@@ -271,12 +299,17 @@ const ServiceEditor = withFormik({
     const {service} = props;
 
     if (service && service.data) {
-      const serviceData = pick(['title', 'description', 'condition', 'price'], service.data);
-      return serviceData;
+      const serviceData = pick(['title', 'video', 'description', 'price'], service.data);
+      return assoc(
+        'video',
+        serviceData.video ? `https://youtu.be/${serviceData.video}` : '',
+        serviceData
+      );
     }
 
     return {
       title: '',
+      video: '',
       description: '',
       condition: 'new',
       price: ''
@@ -284,11 +317,12 @@ const ServiceEditor = withFormik({
   },
   validate: createValidator({
     title: ['required', rules.minLength(3), rules.maxLength(400), 'commonText'],
+    video: ['youtubeUrl'],
     description: ['required', rules.minLength(10), rules.maxLength(800), 'commonText'],
     price: ['required', 'price']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
-    const service = pick(['title', 'photos', 'description', 'price'], values);
+    const service = pick(['title', 'photos', 'video', 'description', 'price'], values);
     props.onSubmit(service).catch(() => {
       setSubmitting(false);
       setTouched({});
