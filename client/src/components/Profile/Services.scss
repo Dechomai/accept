@@ -1,0 +1,26 @@
+@import '../../theme/index';
+.all-services {
+  &__top-line {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.profile-services {
+  background-color: $white;
+  &__title {
+    border-bottom: 2px solid $gray-100;
+    padding: 1.25rem 1.5rem;
+  }
+
+  &__pagination {
+    padding: 1.25rem 1.5rem 0;
+  }
+
+  &__content {
+    padding: 1.25rem 1.5rem;
+
+    min-height: 400px;
+    position: relative;
+  }
+}

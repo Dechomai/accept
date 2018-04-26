@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 
 import UserPanel from '../../containers/UserPanel/UserPanel';
 
-const Profile = ({children, isCurrentUser, params: {userId}, productsCount}) => {
+const Profile = ({children, isCurrentUser, params: {userId}, productsCount, servicesCount}) => {
   return (
     <div className="user-profile__content container">
       <div className="row">
@@ -31,7 +31,7 @@ const Profile = ({children, isCurrentUser, params: {userId}, productsCount}) => 
               to={isCurrentUser ? '/profile/services' : `/users/${userId}/services`}
               className="user-profile__nav-item"
               activeClassName="user-profile__nav-item--active">
-              Services
+              {`Services ${servicesCount ? `(${servicesCount})` : ''}`}
             </Link>
           </nav>
           {children}
