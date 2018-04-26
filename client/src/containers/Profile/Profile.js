@@ -1,7 +1,12 @@
 import {compose} from 'ramda';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {selectOwnProductsCount, selectUserProductsCount} from '../../selectors';
+import {
+  selectOwnProductsCount,
+  selectUserProductsCount,
+  selectOwnServicesCount,
+  selectUserServicesCount
+} from '../../selectors';
 import Profile from '../../components/Profile/Profile';
 
 const mapStateToProps = (state, ownProps) => {
@@ -11,14 +16,16 @@ const mapStateToProps = (state, ownProps) => {
     return {
       children,
       isCurrentUser: true,
-      productsCount: selectOwnProductsCount(state)
+      productsCount: selectOwnProductsCount(state),
+      servicesCount: selectOwnServicesCount(state)
     };
   }
 
   return {
     children,
     isCurrentUser: false,
-    productsCount: selectUserProductsCount(state, userId)
+    productsCount: selectUserProductsCount(state, userId),
+    servicesCount: selectUserServicesCount(state, userId)
   };
 };
 

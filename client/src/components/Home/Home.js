@@ -18,9 +18,12 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    const {products} = this.props;
+    const {products, services} = this.props;
     if (!products || (products && !products.listValid)) {
       this.props.fetchProducts();
+    }
+    if (!services || (services && !services.listValid)) {
+      this.props.fetchServices();
     }
   }
 
@@ -32,7 +35,10 @@ class Home extends React.Component {
   }
 
   getServices() {
-    return <div className="col-12">......</div>;
+    const {services} = this.props;
+    if (!services || services.loading) return <Loader />;
+    if (services.data)
+      return <ItemsList type="services" list={services.data} tileSize="col-4 col-md-2" />;
   }
 
   render() {
