@@ -2,13 +2,14 @@
 
 ## Links
 
-*   Jira **TODO**
-*   Confluence **TODO**
+*   Jira https://jd.eleks.com/secure/RapidBoard.jspa?projectKey=ACPT&rapidView=923
+*   Confluence https://cd.eleks.com/pages/viewpage.action?pageId=65317902
 *   Repository https://gitlab2.eleks-software.local/accept/accept-pay
-*   CI ***TODO*** _when available_
-*   Environments **TODO**
+*   CI https://jksap.eleks-software.local/
+*   Environments
 
     *   dev
+        *   https://dev.accept.io/
     *   stage
     *   prod
 
