@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {Button} from 'reactstrap';
 
-import NewItemTile from '../../common/ItemTile/NewItemTile';
-import ProductsList from '../../Product/List';
+import NewItemTile from '../../common/Item/NewItemTile';
+import ItemsList from '../../common/Item/List';
 import Icon from '../../common/Icon/Icon';
 
 class ItemsPreview extends React.Component {
@@ -36,7 +36,8 @@ class ItemsPreview extends React.Component {
         <div className="container-fluid">
           <div className="row about__items__container">
             {editable && <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />}
-            <ProductsList
+            <ItemsList
+              of={type}
               list={items}
               tileSize={'col-3'}
               onEditClick={onEditClick}

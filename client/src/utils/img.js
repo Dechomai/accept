@@ -1,4 +1,4 @@
-export const getProductPrimaryImage = ({photos, primaryPhotoId}) => {
+export const getPrimaryImage = ({photos, primaryPhotoId}) => {
   if (!photos.length || !primaryPhotoId) return null;
   return photos.find(p => p.id === primaryPhotoId).url;
 };
