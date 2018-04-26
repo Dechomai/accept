@@ -1,7 +1,7 @@
 import './Products.scss';
 import React from 'react';
-import NewItemTile from '../common/ItemTile/NewItemTile';
-import ProductsList from '../Product/List';
+import NewItemTile from '../common/Item/NewItemTile';
+import ItemsList from '../common/Item/List';
 
 const TILE_SIZE = 'col-6 col-sm-3';
 
@@ -11,8 +11,9 @@ const ProfileProduct = ({products, onEditClick, onDeleteClick, editable}) => {
       {editable && (
         <NewItemTile key="new" type="products" sizes={TILE_SIZE} placeholder="Add listing" />
       )}
-      <ProductsList
+      <ItemsList
         key="list"
+        of="products"
         list={products}
         tileSize={TILE_SIZE}
         editable={editable}

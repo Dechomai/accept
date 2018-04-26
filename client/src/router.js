@@ -17,6 +17,8 @@ import AllServices from './layout/AllServices';
 import AboutMe from './containers/Profile/About';
 import ProfileProducts from './containers/Profile/Products';
 import ProductDetails from './containers/Product/Details';
+import AddService from './layout/AddService';
+import ServiceDetails from './containers/Service/Details';
 
 /*
 
@@ -136,15 +138,8 @@ class Router extends React.Component {
 
           <Route path="services">
             <IndexRoute component={AllServices} />
-            <Route path="add" component={() => <h1>Add Service</h1>} />
-            <Route
-              path=":serviceId"
-              component={({params}) => (
-                <h1>
-                  Service <pre>{params.serviceId}</pre> Details
-                </h1>
-              )}
-            />
+            <Route path="add" component={AddService} />
+            <Route path=":serviceId" component={ServiceDetails} />
           </Route>
         </Route>
         <Redirect from="*" to="/" />

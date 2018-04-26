@@ -4,7 +4,7 @@ import {withRouter, Link} from 'react-router';
 import {compose, withStateHandlers, lifecycle} from 'recompact';
 import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
-import {fetchServices} from '../../actions/products';
+import {fetchServices} from '../../actions/services';
 import {selectAllServicesFor, selectAllServicesCount} from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
@@ -102,7 +102,7 @@ export default compose(
         <div className="all-services__content">
           <div className="row">
             {services && services.data && services.data.length ? (
-              <ItemsList list={services.data} tileSize={'col-6 col-sm-3'} />
+              <ItemsList type="services" list={services.data} tileSize={'col-6 col-sm-3'} />
             ) : (
               <Loader />
             )}

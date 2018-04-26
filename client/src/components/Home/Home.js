@@ -9,7 +9,7 @@ import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
-import ProductsList from '../Product/List';
+import ItemsList from '../common/Item/List';
 
 class Home extends React.Component {
   constructor(props) {
@@ -27,7 +27,8 @@ class Home extends React.Component {
   getProducts() {
     const {products} = this.props;
     if (!products || products.loading) return <Loader />;
-    if (products.data) return <ProductsList list={products.data} tileSize={'col-4 col-md-2'} />;
+    if (products.data)
+      return <ItemsList type="products" list={products.data} tileSize={'col-4 col-md-2'} />;
   }
 
   getServices() {
