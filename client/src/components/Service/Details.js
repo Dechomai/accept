@@ -47,7 +47,7 @@ class ServiceDetails extends React.Component {
         </div>
         <div className="row service-details__content">
           <div className="col-lg-6 service-details__gallery">
-            <Gallery photos={getOrderedPhotos(service)} />
+            <Gallery photos={getOrderedPhotos(service)} video={service.video} />
           </div>
           <div className="col-lg-5 offset-lg-1">
             <div className="service-details__top-section">

@@ -9,16 +9,17 @@ import {selectProfile} from './selectors';
 import App from './layout/App';
 import Home from './layout/Home';
 import SignUp from './layout/SignUp';
-import AddProduct from './layout/AddProduct';
-import EditProduct from './layout/EditProduct';
 import Profile from './layout/UserProfile';
+import AboutMe from './containers/Profile/About';
+import AddProduct from './layout/AddProduct';
+import AddService from './layout/AddService';
+import EditProduct from './layout/EditProduct';
+import EditService from './layout/EditService';
 import AllProducts from './layout/AllProducts';
 import AllServices from './layout/AllServices';
-import AboutMe from './containers/Profile/About';
 import ProfileProducts from './containers/Profile/Products';
-import ProductDetails from './containers/Product/Details';
-import AddService from './layout/AddService';
 import ProfileServices from './containers/Profile/Services';
+import ProductDetails from './containers/Product/Details';
 import ServiceDetails from './containers/Service/Details';
 
 /*
@@ -127,7 +128,7 @@ class Router extends React.Component {
           <Route path="users/:userId" component={Profile}>
             <IndexRoute component={AboutMe} />
             <Route path="products" component={ProfileProducts} />
-            <Route path="services" component={() => <h1>Profile Services</h1>} />
+            <Route path="services" component={ProfileServices} />
           </Route>
 
           <Route path="products">
@@ -141,6 +142,7 @@ class Router extends React.Component {
             <IndexRoute component={AllServices} />
             <Route path="add" component={AddService} />
             <Route path=":serviceId" component={ServiceDetails} />
+            <Route path=":serviceId/edit" component={EditService} />
           </Route>
         </Route>
         <Redirect from="*" to="/" />
