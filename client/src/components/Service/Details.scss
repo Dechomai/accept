@@ -1,0 +1,74 @@
+@import '../../theme/index';
+
+.service-details {
+  font-size: 13px;
+  margin-top: 1.5rem;
+
+  &__header,
+  &__content {
+    background-color: $white;
+  }
+
+  &__header {
+    margin-bottom: 2px;
+    padding: 1rem 2rem;
+  }
+
+  &__seller-avatar {
+    align-self: flex-end;
+  }
+
+  &__content {
+    padding: 2rem;
+  }
+  &__bottom-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid $gray-400;
+  }
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 2rem;
+    word-break: break-word;
+  }
+  &__property {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+  }
+  &__price {
+    &__value {
+      font-family: Rawline, sans-serif;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    &__per {
+      font-size: 14px;
+      font-weight: 500;
+      color: darken(white, 48%);
+    }
+  }
+  &__condition {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  &__description {
+    word-break: break-word;
+    margin-top: 0.75rem;
+    color: $gray-500;
+  }
+  &__seller {
+    &__username {
+      margin: 0 0 0 0.5rem;
+      color: $blue;
+      font-weight: 600;
+      font-size: $font-size-sm;
+
+      &:before {
+        content: '@';
+      }
+    }
+  }
+}
