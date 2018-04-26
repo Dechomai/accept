@@ -22,7 +22,7 @@ class AddEdit extends React.Component {
     if (!params.serviceId) return;
 
     if (!service || (service && !service.data)) {
-      this.props.fetchPServiceById(params.serviceId).then(() => {
+      this.props.fetchServiceById(params.serviceId).then(() => {
         this.checkPermissionToEdit();
       });
     } else {
@@ -135,7 +135,8 @@ class AddEdit extends React.Component {
 AddEdit.propTypes = {
   router: PropTypes.any,
   createService: PropTypes.func.isRequired,
-  updateService: PropTypes.func.isRequired
+  updateService: PropTypes.func.isRequired,
+  fetchServiceById: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {

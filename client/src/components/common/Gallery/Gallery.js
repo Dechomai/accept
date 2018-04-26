@@ -154,7 +154,7 @@ class Gallery extends React.Component {
           <ModalBody className="gallery-video-popup__body">
             <iframe
               className="gallery-video-popup__frame"
-              src={`https://www.youtube.com/embed/${video}`}
+              src={`https://www.youtube.com/embed/${video}?autoplay=1`}
               frameBorder="0"
               allow="autoplay; encrypted-media"
             />
