@@ -2,7 +2,7 @@ import React from 'react';
 
 import EditServiceContainer from '../containers/Service/Editor';
 
-const EditProduct = () => {
+const EditService = () => {
   return (
     <div className="add-service__page ">
       <div className="container">
@@ -17,4 +17,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default EditService;
