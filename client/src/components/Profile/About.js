@@ -210,7 +210,7 @@ class About extends React.Component {
         title="Services"
         type="services"
         viewAllLink={isCurrentUser ? '/profile/services' : `/users/${userId}/services`}
-        newPlaceholder="Add listing"
+        newPlaceholder="Offer service"
         items={services.data}
         editable={isCurrentUser}
         onEditClick={(e, serviceId) => {
