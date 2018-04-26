@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import ItemTile from './ItemTile';
 import {getPrimaryImage} from '../../../utils/img';
 
-const ItemsList = ({of, list, tileSize, editable, onEditClick, onDeleteClick}) =>
+const ItemsList = ({type, list, tileSize, editable, onEditClick, onDeleteClick}) =>
   list.map(item => (
     <ItemTile
       key={item.id}
-      link={`/${of}/${item.id}`}
+      link={`/${type}/${item.id}`}
       sizes={tileSize}
       imageUrl={getPrimaryImage(item)}
       price={item.price}
@@ -23,7 +23,7 @@ const ItemsList = ({of, list, tileSize, editable, onEditClick, onDeleteClick}) =
   ));
 
 ItemsList.propTypes = {
-  of: PropTypes.oneOf(['products', 'services']).isRequired,
+  type: PropTypes.oneOf(['products', 'services']).isRequired,
   list: PropTypes.any.isRequired,
   tileSize: PropTypes.string.isRequired,
   editable: PropTypes.bool,

@@ -37,7 +37,7 @@ class ItemsPreview extends React.Component {
           <div className="row about__items__container">
             {editable && <NewItemTile placeholder={newPlaceholder} type={type} sizes="col-3" />}
             <ItemsList
-              of={type}
+              type={type}
               list={items}
               tileSize={'col-3'}
               onEditClick={onEditClick}
