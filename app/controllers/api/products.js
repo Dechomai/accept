@@ -1,4 +1,4 @@
-const {dissoc, nth, prop, compose, zip} = require('ramda');
+const {dissoc, path, zip} = require('ramda');
 const Product = require('../../models/product');
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
@@ -89,14 +89,14 @@ const productController = {
 
     const photosToUpload = images.map(file => ({id: uuidv4(), buffer: file.buffer}));
     const primaryPhotoIndex = parseInt(productData.primaryPhotoIndex) || 0;
-    const primaryPhotoId = compose(prop('id'), nth(primaryPhotoIndex))(photosToUpload);
+    const primaryPhotoId = path([primaryPhotoIndex, 'id'], photosToUpload);
 
     return mediaController
       .uploadProductImages(productId, photosToUpload)
       .then(
         results => {
           logger.info('post:products', 'Images uploaded', results);
-          return results.map(({id, url}) => ({_id: id, url}));
+          return results.map(mapPhotoToDbModel);
         },
         err => {
           logger.error('post:products', 'Error uploading images', err);
