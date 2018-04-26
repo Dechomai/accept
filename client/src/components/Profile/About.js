@@ -275,7 +275,9 @@ About.propTypes = {
   fetchServices: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   onAddProductClick: PropTypes.func.isRequired,
-  onAddServiceClick: PropTypes.func.isRequired
+  onAddServiceClick: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
+  deleteService: PropTypes.func.isRequired
 };
 
 export default About;
