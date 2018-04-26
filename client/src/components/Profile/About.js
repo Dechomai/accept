@@ -24,9 +24,9 @@ class About extends React.Component {
     autobind(this);
   }
 
-  //Todo need to be refactored
-  refetchProducts(props) {
-    const {user, userId, products, isCurrentUser} = props;
+  //TODO: need to be refactored
+  refetchData(props) {
+    const {user, userId, products, services, isCurrentUser} = props;
 
     if (!user || (!user.data && !user.loading && !user.error)) {
       this.props.fetchUser(userId);
@@ -45,6 +45,20 @@ class About extends React.Component {
         limit: isCurrentUser ? PREVIEW_ITEMS_COUNT : PREVIEW_ITEMS_COUNT + 1
       });
     }
+
+    if (
+      !services ||
+      (!services.data && !services.loading && !services.error) ||
+      (!services.loading && !services.listValid)
+    ) {
+      const scope = isCurrentUser ? 'user' : userId;
+
+      this.props.fetchServices({
+        scope,
+        skip: 0,
+        limit: isCurrentUser ? PREVIEW_ITEMS_COUNT : PREVIEW_ITEMS_COUNT + 1
+      });
+    }
   }
 
   componentDidMount() {
@@ -52,13 +66,13 @@ class About extends React.Component {
     const description = pathOr('', ['data', 'description'], user);
 
     this.setState({description});
-    this.refetchProducts(this.props);
+    this.refetchData(this.props);
   }
 
   // replace in React v17
   // static getDerivedStateFromProps(nextProps, prevState)
   componentWillUpdate(nextProps) {
-    this.refetchProducts(nextProps);
+    this.refetchData(nextProps);
   }
 
   handleEditDescriptionClick() {
@@ -188,17 +202,23 @@ class About extends React.Component {
   }
 
   getServices() {
-    const {services, isCurrentUser, userId} = this.props;
+    const {router, services, isCurrentUser, userId, deleteService} = this.props;
     const showServices = services && services.data && services.data.length;
     if (!showServices) return null;
     return (
       <ItemsPreview
-        title="Sroducts"
+        title="Services"
         type="services"
         viewAllLink={isCurrentUser ? '/profile/services' : `/users/${userId}/services`}
-        newPlaceholder="Offer service"
+        newPlaceholder="Add listing"
         items={services.data}
         editable={isCurrentUser}
+        onEditClick={(e, serviceId) => {
+          e.preventDefault();
+          e.stopPropagation();
+          router.push(`/services/${serviceId}/edit`);
+        }}
+        onDeleteClick={deleteService}
       />
     );
   }
@@ -252,6 +272,7 @@ About.propTypes = {
   services: PropTypes.any,
   fetchUser: PropTypes.func.isRequired,
   fetchProducts: PropTypes.func.isRequired,
+  fetchServices: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   onAddProductClick: PropTypes.func.isRequired,
   onAddServiceClick: PropTypes.func.isRequired

@@ -13,7 +13,7 @@ const ProfileProduct = ({products, onEditClick, onDeleteClick, editable}) => {
       )}
       <ItemsList
         key="list"
-        of="products"
+        type="products"
         list={products}
         tileSize={TILE_SIZE}
         editable={editable}
