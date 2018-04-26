@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const BaseSchema = require('./utils/base');
 const photoSchema = require('./photoSchema');
 
-const productSchema = new BaseSchema(
+const serviceSchema = new BaseSchema(
   {
     _id: String,
     title: {
@@ -22,11 +22,6 @@ const productSchema = new BaseSchema(
       type: String,
       required: true
     },
-    condition: {
-      type: String,
-      enum: ['new', 'used'],
-      required: true
-    },
     price: {
       type: Number,
       required: true
@@ -43,11 +38,11 @@ const productSchema = new BaseSchema(
   }
 );
 
-productSchema.statics.projection = {
+serviceSchema.statics.projection = {
   updatedAt: 0,
   status: 0
 };
 
-const Product = mongoose.model('Product', productSchema);
+const Service = mongoose.model('Service', serviceSchema);
 
-module.exports = Product;
+module.exports = Service;
