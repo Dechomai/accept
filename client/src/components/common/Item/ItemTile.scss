@@ -96,6 +96,11 @@
     &__per {
       font-weight: 500;
       color: darken(white, 48%);
+      white-space: nowrap;
+
+      &:before {
+        content: '\00a0';
+      }
     }
   }
 

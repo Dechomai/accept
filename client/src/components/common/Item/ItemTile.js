@@ -54,7 +54,7 @@ class ItemTile extends React.Component {
     const imgUrl = imageUrl ? getImageThumbnail(imageUrl) : '/assets/img/placeholder.png';
     const Component = link ? Link : 'div';
     const props = link ? {to: link} : {};
-
+    const formattedPrice = `${currency || ''} ${price.toFixed(2)}`.trim();
     return (
       <Component
         {...props}
@@ -77,8 +77,8 @@ class ItemTile extends React.Component {
           )}
         </div>
         <div className="item-tile__price">
-          <span className="item-tile__price__value">
-            {`${currency || ''} ${price.toFixed(2)}`.trim()}
+          <span className="item-tile__price__value" title={formattedPrice}>
+            {formattedPrice}
           </span>
           {per && <span className="item-tile__price__per">{`/ ${per}`}</span>}
         </div>

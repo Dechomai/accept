@@ -40,6 +40,10 @@
   &-full-width {
     width: 100%;
   }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
 }
 
 .breadcrumb {

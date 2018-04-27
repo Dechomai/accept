@@ -12,6 +12,7 @@ const ItemsList = ({type, list, tileSize, editable, onEditClick, onDeleteClick})
       imageUrl={getPrimaryImage(item)}
       price={item.price}
       title={item.title}
+      per={type === 'services' ? 'hour' : null}
       editable={editable}
       onEditClick={e => {
         onEditClick(e, item.id);
