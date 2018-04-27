@@ -23,7 +23,7 @@ class ServiceDetails extends React.Component {
               <Link to="/">Home</Link>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <Link to="/products">Products</Link>
+              <Link to="/services">Services</Link>
             </BreadcrumbItem>
           </Breadcrumb>
         </div>

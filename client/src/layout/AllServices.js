@@ -1,5 +1,5 @@
 import React from 'react';
-import AllServicesContainer from '../containers/Services/All';
+import AllServicesContainer from '../containers/Service/All';
 
 const AllServices = () => {
   return (
