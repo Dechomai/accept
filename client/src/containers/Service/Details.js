@@ -20,11 +20,15 @@ class Details extends React.Component {
   render() {
     const {service, user} = this.props;
     const userId = path(['data', 'id'], user);
-    return service && service.data ? (
-      <ServiceDetails service={service.data} isOwner={service.data.createdBy.id === userId} />
-    ) : (
-      <Loader />
-    );
+    if (path(['data'], service)) {
+      return (
+        <ServiceDetails service={service.data} isOwner={service.data.createdBy.id === userId} />
+      );
+    } else if (path(['loading'], service)) {
+      return <Loader />;
+    } else {
+      return <div className="alert alert-danger">There is no service with specified ID</div>;
+    }
   }
 }
 

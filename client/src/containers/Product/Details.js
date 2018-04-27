@@ -20,11 +20,15 @@ class Details extends React.Component {
   render() {
     const {product, user} = this.props;
     const userId = path(['data', 'id'], user);
-    return product && product.data ? (
-      <ProductDetails product={product.data} isOwner={product.data.createdBy.id === userId} />
-    ) : (
-      <Loader />
-    );
+    if (path(['data'], product)) {
+      return (
+        <ProductDetails product={product.data} isOwner={product.data.createdBy.id === userId} />
+      );
+    } else if (path(['loading'], product)) {
+      return <Loader />;
+    } else {
+      return <div className="alert alert-danger">There is no product with specified ID</div>;
+    }
   }
 }
 
