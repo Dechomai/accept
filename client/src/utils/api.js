@@ -31,10 +31,11 @@ const api = {
       .then(res => (res.status === STATUS_SUCCESSFULL ? res.json() : Promise.reject(res)))
       .catch(res => this.handleError(res));
   },
-  handleError(err) {
+  handleError(res) {
     // TODO: handle error
     // especially 401 (but optionally)
-    return err.json().then(err => Promise.reject(err));
+    const code = res.status;
+    return res.json().then(err => Promise.reject({code, ...err}));
   },
 
   get(...args) {
@@ -53,7 +54,7 @@ const api = {
     return this.fetch('DELETE', ...args);
   },
 
-  postForm(url, data) {
+  fetchForm(method, url, data) {
     let formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
@@ -75,33 +76,17 @@ const api = {
         Accept: 'application/json'
       },
       body: formData
-    }).then(response => response.json());
-  },
-  putForm(url, data) {
-    let formData = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach(item => {
-          formData.append(key, item);
-        });
-      } else {
-        formData.append(key, value);
-      }
-    });
-
-    const options = getOptions();
-
-    return fetch(options.API + url, {
-      method: 'PUT',
-      credentials: 'same-origin',
-      headers: {
-        Accept: 'application/json'
-      },
-      body: formData
     })
       .then(res => (res.status === STATUS_SUCCESSFULL ? res.json() : Promise.reject(res)))
       .catch(res => this.handleError(res));
+  },
+
+  postForm(...args) {
+    return this.fetchForm('POST', ...args);
+  },
+
+  putForm(...args) {
+    return this.fetchForm('PUT', ...args);
   }
 };
 

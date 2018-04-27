@@ -9,6 +9,7 @@ import {selectAllServicesFor, selectAllServicesCount} from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import ItemsList from '../../components/common/Item/List';
+import Empty from '../../components/common/Empty/Empty';
 
 const DEFAULT_LIMIT = 20;
 
@@ -95,7 +96,8 @@ export default compose(
       </div>
     );
 
-    if ((!services || !services.data.length) && !count) return <Loader />;
+    if (!services || services.loading) return <Loader />;
+    if (services && !services.data.length) return <Empty type="product" />;
     return (
       <div className="all-services">
         <Navigation showResults />

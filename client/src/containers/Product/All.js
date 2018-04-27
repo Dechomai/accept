@@ -9,6 +9,7 @@ import {selectAllProductsFor, selectAllProductsCount} from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import ItemsList from '../../components/common/Item/List';
+import Empty from '../../components/common/Empty/Empty';
 
 const DEFAULT_LIMIT = 20;
 
@@ -95,7 +96,8 @@ export default compose(
       </div>
     );
 
-    if ((!products || !products.data.length) && !count) return <Loader />;
+    if (!products || products.loading) return <Loader />;
+    if (products && !products.data.length) return <Empty type="product" />;
     return (
       <div className="all-products">
         <Navigation showResults />
