@@ -73,16 +73,20 @@ export default compose(
     onPaginationPrevClick,
     onPaginationPageClick
   }) => {
-    const Navigation = ({showResults}) => (
+    const Navigation = ({showResults, showBreadcrumbs}) => (
       <div className="d-flex justify-content-between align-items-center my-3">
-        <Breadcrumb tag="nav">
-          <BreadcrumbItem>
-            <Link to="/">Home</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem active tag="span">
-            Services
-          </BreadcrumbItem>
-        </Breadcrumb>
+        <div>
+          {showBreadcrumbs && (
+            <Breadcrumb tag="nav">
+              <BreadcrumbItem>
+                <Link to="/">Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem active tag="span">
+                Services
+              </BreadcrumbItem>
+            </Breadcrumb>
+          )}
+        </div>
 
         {showResults && <small className="all-services__count">{count} results</small>}
 
@@ -100,7 +104,7 @@ export default compose(
     if (services && !services.data.length) return <Empty type="product" />;
     return (
       <div className="all-services">
-        <Navigation showResults />
+        <Navigation showResults showBreadcrumbs />
         <div className="all-services__content">
           <div className="row">
             {services && services.data && services.data.length ? (
