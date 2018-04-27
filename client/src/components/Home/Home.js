@@ -58,7 +58,7 @@ class Home extends React.Component {
             <div className="row">
               <div className="col-12 text-center">
                 <Link to="/products">
-                  <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon d-inline-block">
+                  <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon">
                     <span>See more</span>
                     <Icon name="arrow-right" size="20" />
                   </Button>
@@ -77,7 +77,7 @@ class Home extends React.Component {
             <div className="row">
               <div className="col-12 text-center">
                 <Link to="/services">
-                  <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon d-inline-block">
+                  <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon">
                     <span>See more</span>
                     <Icon name="arrow-right" size="20" />
                   </Button>
