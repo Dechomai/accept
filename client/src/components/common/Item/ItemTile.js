@@ -15,7 +15,8 @@ class ItemTile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      deletingInProgress: false
     };
     autobind(this);
   }
@@ -32,8 +33,10 @@ class ItemTile extends React.Component {
     this.toggle();
   }
 
-  handleDeleteItem(e) {
-    this.toggle(e);
+  handleDeleteItem() {
+    this.setState({
+      deletingInProgress: true
+    });
     this.props.onDeleteClick();
   }
 
@@ -90,11 +93,14 @@ class ItemTile extends React.Component {
             <ModalHeader toggle={this.toggle}>Delete item</ModalHeader>
             <ModalBody>Do you really want to delete {title} ?</ModalBody>
             <ModalFooter>
-              <Button color="light" onClick={this.toggle}>
+              <Button color="light" onClick={this.toggle} disabled={this.state.deletingInProgress}>
                 Cancel
               </Button>
-              <Button color="danger" onClick={this.handleDeleteItem}>
-                Delete
+              <Button
+                color="danger"
+                onClick={this.handleDeleteItem}
+                disabled={this.state.deletingInProgress}>
+                {this.state.deletingInProgress ? 'Deleting...' : 'Delete'}
               </Button>
             </ModalFooter>
           </Modal>
