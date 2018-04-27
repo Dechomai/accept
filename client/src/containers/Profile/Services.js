@@ -9,9 +9,10 @@ import {
   selectUserServicesFor,
   selectUserServicesCount
 } from '../../selectors';
-import ProfileServices from '../../components/Profile/Services';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
+import ProfileServices from '../../components/Profile/Services';
+import Empty from '../../components/common/Empty/Empty';
 
 const DEFAULT_LIMIT = 12;
 
@@ -92,7 +93,16 @@ export default compose(
     router,
     deleteService
   }) => {
-    if ((!services || !services.data.length) && !count) return <Loader />;
+    if (!services || services.loading) return <Loader />;
+    if (services && !services.data.length) {
+      return (
+        <div className="profile-services">
+          <div className="profile-services__content">
+            <Empty type="service" />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="profile-services">
         <h6 className="profile-services__title">All services</h6>

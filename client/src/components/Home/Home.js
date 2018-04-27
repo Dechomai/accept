@@ -10,6 +10,7 @@ import BottomBanner from './BottomBanner';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
 import ItemsList from '../common/Item/List';
+import Empty from '../common/Empty/Empty';
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,16 +30,74 @@ class Home extends React.Component {
 
   getProducts() {
     const {products} = this.props;
-    if (!products || products.loading) return <Loader />;
-    if (products.data)
-      return <ItemsList type="products" list={products.data} tileSize="col-4 col-md-2" />;
+
+    if (!products || products.loading) {
+      return (
+        <div className="row home__products__row">
+          <Loader />
+        </div>
+      );
+    }
+    if (products.data && products.data.length) {
+      return (
+        <React.Fragment>
+          <div className="row home__products__row">
+            <ItemsList type="products" list={products.data} tileSize="col-4 col-md-2" />
+          </div>
+          <div className="row">
+            <div className="col-12 text-center">
+              <Link to="/products">
+                <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon">
+                  <span>See more</span>
+                  <Icon name="arrow-right" size="20" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
+    return (
+      <div className="row home__products__row">
+        <Empty type="product" />
+      </div>
+    );
   }
 
   getServices() {
     const {services} = this.props;
-    if (!services || services.loading) return <Loader />;
-    if (services.data)
-      return <ItemsList type="services" list={services.data} tileSize="col-4 col-md-2" />;
+
+    if (!services || services.loading) {
+      return (
+        <div className="row home__services__row">
+          <Loader />
+        </div>
+      );
+    }
+    if (services.data && services.data.length) {
+      return (
+        <React.Fragment>
+          <div className="row home__services__row">
+            <ItemsList type="services" list={services.data} tileSize="col-4 col-md-2" />
+          </div>
+          <div className="row">
+            <div className="col-12 text-center">
+              <Link to="/services">
+                <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon">
+                  <span>See more</span>
+                  <Icon name="arrow-right" size="20" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
+    return (
+      <div className="row home__services__row">
+        <Empty type="service" />
+      </div>
+    );
   }
 
   render() {
@@ -54,17 +113,7 @@ class Home extends React.Component {
                 <h3>Products</h3>
               </div>
             </div>
-            <div className="row home__products__row">{this.getProducts()}</div>
-            <div className="row">
-              <div className="col-12 text-center">
-                <Link to="/products">
-                  <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon">
-                    <span>See more</span>
-                    <Icon name="arrow-right" size="20" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            {this.getProducts()}
           </div>
 
           <div className="home__services">
@@ -73,17 +122,7 @@ class Home extends React.Component {
                 <h3>Services</h3>
               </div>
             </div>
-            <div className="row home__services__row">{this.getServices()}</div>
-            <div className="row">
-              <div className="col-12 text-center">
-                <Link to="/services">
-                  <Button size="sm" color="link" className="p-0 mt-4 btn-with-icon">
-                    <span>See more</span>
-                    <Icon name="arrow-right" size="20" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            {this.getServices()}
           </div>
 
           <BottomBanner />

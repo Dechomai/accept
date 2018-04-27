@@ -9,9 +9,10 @@ import {
   selectUserProductsFor,
   selectUserProductsCount
 } from '../../selectors';
-import ProfileProducts from '../../components/Profile/Products';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
+import ProfileProducts from '../../components/Profile/Products';
+import Empty from '../../components/common/Empty/Empty';
 
 const DEFAULT_LIMIT = 12;
 
@@ -92,7 +93,16 @@ export default compose(
     router,
     deleteProduct
   }) => {
-    if ((!products || !products.data.length) && !count) return <Loader />;
+    if (!products || products.loading) return <Loader />;
+    if (products && !products.data.length) {
+      return (
+        <div className="profile-products">
+          <div className="profile-products__content">
+            <Empty type="product" />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="profile-products">
         <h6 className="profile-products__title">All products</h6>
