@@ -10,8 +10,10 @@
     letter-spacing: 1px;
   }
   textarea {
-    resize: none;
+    resize: vertical;
     line-height: 18px;
+    min-height: 100px;
+    max-height: 400px;
   }
   .form-text {
     margin-bottom: 10px;
