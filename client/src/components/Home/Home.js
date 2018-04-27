@@ -73,7 +73,7 @@ class Home extends React.Component {
                 <h3>Services</h3>
               </div>
             </div>
-            <div className="row">{this.getServices()}</div>
+            <div className="row home__services__row">{this.getServices()}</div>
             <div className="row">
               <div className="col-12 text-center">
                 <Link to="/services">
