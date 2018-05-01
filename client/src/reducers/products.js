@@ -118,10 +118,12 @@ const products = (state = getInitialState(), action) => {
 const invalidateState = state => {
   const newState = {};
   for (let param in state) {
-    newState[param] = {
-      ...state[param],
-      listValid: false
-    };
+    if (param !== 'count') {
+      newState[param] = {
+        ...state[param],
+        listValid: false
+      };
+    }
   }
   return newState;
 };
