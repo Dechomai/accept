@@ -29,7 +29,9 @@ class ProductDetails extends React.Component {
         </div>
         <div className="row product-details__header">
           <div className="col-12 d-flex justify-content-between">
-            <Link className="product-details__seller" to={`/users/${product.createdBy.id}`}>
+            <Link
+              className="product-details__seller"
+              to={isOwner ? '/profile' : `/users/${product.createdBy.id}`}>
               <UserAvatar user={product.createdBy} />
               <span className="product-details__seller__username">
                 {product.createdBy.username}
