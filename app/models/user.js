@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uuidv4 = require('uuid/v4');
 const BaseSchema = require('./utils/base');
 
 /*
@@ -39,7 +40,8 @@ const userSchema = new BaseSchema(
     username: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      default: () => uuidv4() // generate unique value by default for "newreg" users
     },
     photoUrl: String,
     description: String,
