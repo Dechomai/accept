@@ -2,6 +2,7 @@ import './Profile.scss';
 
 import React from 'react';
 import {Link} from 'react-router';
+import classNames from 'classnames';
 
 import UserPanel from '../../containers/UserPanel/UserPanel';
 
@@ -23,13 +24,17 @@ const Profile = ({children, isCurrentUser, params: {userId}, productsCount, serv
             </Link>
             <Link
               to={isCurrentUser ? '/profile/products' : `/users/${userId}/products`}
-              className="user-profile__nav-item"
+              className={classNames('user-profile__nav-item', {
+                'user-profile__nav-item--disabled': !productsCount
+              })}
               activeClassName="user-profile__nav-item--active">
               {`Products ${productsCount ? `(${productsCount})` : ''}`}
             </Link>
             <Link
               to={isCurrentUser ? '/profile/services' : `/users/${userId}/services`}
-              className="user-profile__nav-item"
+              className={classNames('user-profile__nav-item', {
+                'user-profile__nav-item--disabled': !servicesCount
+              })}
               activeClassName="user-profile__nav-item--active">
               {`Services ${servicesCount ? `(${servicesCount})` : ''}`}
             </Link>

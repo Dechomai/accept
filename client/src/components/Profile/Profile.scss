@@ -37,6 +37,11 @@
         color: $gray-900;
         border-bottom: 2px solid $gray-900;
       }
+
+      &--disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+      }
     }
   }
 }
