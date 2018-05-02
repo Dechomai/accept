@@ -38,7 +38,7 @@
         border-bottom: 2px solid $gray-900;
       }
 
-      &.disabled {
+      &--disabled {
         cursor: not-allowed;
         pointer-events: none;
       }

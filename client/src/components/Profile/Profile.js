@@ -25,7 +25,7 @@ const Profile = ({children, isCurrentUser, params: {userId}, productsCount, serv
             <Link
               to={isCurrentUser ? '/profile/products' : `/users/${userId}/products`}
               className={classNames('user-profile__nav-item', {
-                disabled: !productsCount
+                'user-profile__nav-item--disabled': !productsCount
               })}
               activeClassName="user-profile__nav-item--active">
               {`Products ${productsCount ? `(${productsCount})` : ''}`}
@@ -33,7 +33,7 @@ const Profile = ({children, isCurrentUser, params: {userId}, productsCount, serv
             <Link
               to={isCurrentUser ? '/profile/services' : `/users/${userId}/services`}
               className={classNames('user-profile__nav-item', {
-                disabled: !servicesCount
+                'user-profile__nav-item--disabled': !servicesCount
               })}
               activeClassName="user-profile__nav-item--active">
               {`Services ${servicesCount ? `(${servicesCount})` : ''}`}
