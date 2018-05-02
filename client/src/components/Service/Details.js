@@ -29,7 +29,9 @@ class ServiceDetails extends React.Component {
         </div>
         <div className="row service-details__header">
           <div className="col-12 d-flex justify-content-between">
-            <Link className="service-details__seller" to={`/users/${service.createdBy.id}`}>
+            <Link
+              className="service-details__seller"
+              to={isOwner ? '/profile' : `/users/${service.createdBy.id}`}>
               <UserAvatar user={service.createdBy} />
               <span className="service-details__seller__username">
                 {service.createdBy.username}
