@@ -1,4 +1,4 @@
-import {getImageThumbnail, getProductPrimaryImage} from '../img';
+import {getImageThumbnail, getPrimaryImage} from '../img';
 
 describe('Utils > img', () => {
   describe('getImageThumbnail', () => {
@@ -28,10 +28,10 @@ describe('Utils > img', () => {
       photos: []
     };
     it('should return null if product does not contain photos', () => {
-      expect(getProductPrimaryImage(withoutPhoto)).toEqual(null);
+      expect(getPrimaryImage(withoutPhoto)).toEqual(null);
     });
     it('should return uri of primary photo', () => {
-      expect(getProductPrimaryImage(withPhoto)).toEqual('2');
+      expect(getPrimaryImage(withPhoto)).toEqual('2');
     });
   });
 });
