@@ -70,7 +70,7 @@ const api = {
     const options = getOptions();
 
     return fetch(options.API + url, {
-      method: 'POST',
+      method,
       credentials: 'same-origin',
       headers: {
         Accept: 'application/json'
