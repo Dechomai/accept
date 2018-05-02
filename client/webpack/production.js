@@ -7,5 +7,10 @@ module.exports = merge(config, {
   module: {
     rules: [loaders.babel, loaders.scss.production]
   },
-  plugins: [plugins.define.production, plugins.css.production, plugins.html.production]
+  plugins: [
+    plugins.define.production,
+    plugins.css.production,
+    plugins.html.production,
+    plugins.bundleAnalyzer.production
+  ]
 });

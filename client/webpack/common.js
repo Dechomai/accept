@@ -3,9 +3,15 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {paths} = require('./paths');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const extractScss = new MiniCssExtractPlugin({
   filename: '[name]_[hash].css'
+});
+
+const bundleAnalyzer = new BundleAnalyzerPlugin({
+  analyzerMode: 'static',
+  reportFilename: path.join(paths.reports, 'bundle/report.html')
 });
 
 const loaders = {
@@ -60,6 +66,9 @@ const plugins = {
       template: path.join(paths.src, 'index.html'),
       ENV: 'production'
     })
+  },
+  bundleAnalyzer: {
+    production: bundleAnalyzer
   }
 };
 
