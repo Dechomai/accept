@@ -72,14 +72,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
-      const {count, router, params} = this.props;
-      if (!count) {
-        if (params.userId) {
-          router.push(`/users/${params.userId}`);
-        } else {
-          router.push(`/profile`);
-        }
-      }
       refetchProducts(this.props);
     },
     // replace in React v17
