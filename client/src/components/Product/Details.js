@@ -13,7 +13,7 @@ import UserAvatar from '../UserAvatar/UserAvatar';
 
 class ProductDetails extends React.Component {
   render() {
-    const {product, isOwner} = this.props;
+    const {product, isOwner, toggleExchange} = this.props;
 
     return (
       <div className="container product-details">
@@ -75,7 +75,10 @@ class ProductDetails extends React.Component {
               {!isOwner && (
                 <div className="row d-flex align-items-center py-3">
                   <div className="col-12 product-details__exchange">
-                    <Button className="btn-with-icon btn-full-width" color="primary">
+                    <Button
+                      className="btn-with-icon btn-full-width"
+                      color="primary"
+                      onClick={toggleExchange}>
                       <Icon size="20" name="autorenew" />Exchange
                     </Button>
                   </div>
