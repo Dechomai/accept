@@ -21,9 +21,15 @@ class Details extends React.Component {
     };
   }
 
-  toggleExchange() {
+  handleExchangeClick() {
     this.setState({
-      showExchange: !this.state.showExchange
+      showExchange: true
+    });
+  }
+
+  handleExchangeCancel() {
+    this.setState({
+      showExchange: false
     });
   }
 
@@ -41,12 +47,12 @@ class Details extends React.Component {
       return (
         <div>
           {this.state.showExchange && (
-            <Exchange toggleExchange={this.toggleExchange} item={product.data} />
+            <Exchange item={product.data} onCancel={this.handleExchangeCancel} />
           )}
           <ProductDetails
             product={product.data}
             isOwner={product.data.createdBy.id === userId}
-            toggleExchange={this.toggleExchange}
+            onExchangeClick={this.handleExchangeClick}
           />
         </div>
       );
