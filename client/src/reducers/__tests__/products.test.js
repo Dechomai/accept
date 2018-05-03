@@ -51,7 +51,7 @@ describe('Reducers > products', () => {
     expect(state.user['skip=1,limit=2']).toHaveProperty('loading', true);
   });
 
-  it('should invalidate state', () => {
+  it('should not invalidate state', () => {
     state = products(
       {
         all: {
@@ -73,7 +73,7 @@ describe('Reducers > products', () => {
       },
       createProductRequest()
     );
-    expect(state.all['skip=0,limit=10']).toHaveProperty('listValid', false);
-    expect(state.user['skip=10,limit=10']).toHaveProperty('listValid', false);
+    expect(state.all['skip=0,limit=10']).toHaveProperty('listValid', true);
+    expect(state.user['skip=10,limit=10']).toHaveProperty('listValid', true);
   });
 });
