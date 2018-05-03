@@ -21,9 +21,13 @@ class ExchangeStep1 extends React.Component {
           <ModalBody>
             <div className="exchange-modal__offer">
               <h6 className="exchange-modal__content__header">Your Offer</h6>
+              <p className="exchange-modal__content__text">
+                Choose what you would like to offer to exchange <br /> for this good:
+              </p>
             </div>
             <div className="exchange-modal__item-for-exchange">
-              <h6 className="exchange-modal__content__header">{this.props.item.title}</h6>
+              <h6 className="exchange-modal__content__header">Item for exchange</h6>
+              <p>{this.props.item.title}</p>
             </div>
           </ModalBody>
           <ModalFooter>

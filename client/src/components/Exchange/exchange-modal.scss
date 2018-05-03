@@ -17,7 +17,18 @@
     padding: 1.5rem 0;
     background-image: url('/assets/img/header-modal.png');
     background-position: center center;
-    background-size: contain;
+    background-size: cover;
+  }
+  &__content {
+    &__header {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: $gray-500;
+    }
+    &__text {
+      text-align: center;
+      font-size: 14px;
+    }
   }
   &__offer {
     width: 60%;
