@@ -66,6 +66,7 @@ class Exchange extends React.Component {
 }
 
 Exchange.propTypes = {
+  item: PropTypes.any.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
