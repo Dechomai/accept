@@ -18,7 +18,7 @@ class Exchange extends React.Component {
     this.setState({
       [modal]: !this.state[modal]
     });
-    this.props.toggleExchangeContainer();
+    this.props.toggleExchange();
   }
 
   render() {
@@ -26,6 +26,7 @@ class Exchange extends React.Component {
       <div>
         <ExchangeStep1
           isOpen={this.state.modalStep1}
+          item={this.props.item}
           toggle={() => {
             this.toggle('modalStep1');
           }}

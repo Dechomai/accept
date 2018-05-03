@@ -40,7 +40,9 @@ class Details extends React.Component {
     if (path(['data'], product)) {
       return (
         <div>
-          {this.state.showExchange && <Exchange toggleExchangeContainer={this.toggleExchange} />}
+          {this.state.showExchange && (
+            <Exchange toggleExchange={this.toggleExchange} item={product.data} />
+          )}
           <ProductDetails
             product={product.data}
             isOwner={product.data.createdBy.id === userId}
