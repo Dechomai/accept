@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
-import {Button, Modal, ModalBody, ModalFooter} from 'reactstrap';
 
+import ExchangeModal from '../../components/Exchange/Modal';
 import ExchangeStep1 from '../../components/Exchange/Step1';
 // import ExchangeStep2 from '../../components/Exchange/Step2';
 
@@ -18,6 +18,10 @@ class Exchange extends React.Component {
 
   handleCancelClick() {
     this.props.onCancel();
+  }
+
+  handleNextBtnClick() {
+    this.setState({step: this.state.step + 1});
   }
 
   handleTypeSelect(type) {
@@ -49,21 +53,14 @@ class Exchange extends React.Component {
 
   render() {
     return (
-      <Modal isOpen={true} toggle={this.handleCancelClick} className="exchange-modal" size="lg">
-        <div className="exchange-modal__header">
-          <h5 className="exchange-modal__title">{this.getStepTitle()}</h5>
-          <p className="exchange-modal__subtitle">{this.getStepSubTitle()}</p>
-        </div>
-        <ModalBody>{this.getStep()}</ModalBody>
-        <ModalFooter>
-          <Button color="link" onClick={this.handleCancelClick}>
-            Cancel
-          </Button>
-          <Button color="primary" disabled={this.isNextBtnDisabled()}>
-            Next
-          </Button>
-        </ModalFooter>
-      </Modal>
+      <ExchangeModal
+        title={this.getStepTitle()}
+        subtitle={this.getStepSubTitle()}
+        nextBtnDisabled={this.isNextBtnDisabled()}
+        onCancelBtnClick={this.handleCancelClick}
+        onNextBtnClick={this.handleNextBtnClick}>
+        {this.getStep()}
+      </ExchangeModal>
     );
   }
 }

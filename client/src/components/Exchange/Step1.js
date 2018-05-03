@@ -1,11 +1,9 @@
-import './exchange-modal.scss';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
 const ExchangeStep1 = ({item}) => {
   return (
-    <div className="exchange-modal__body">
+    <React.Fragment>
       <div className="exchange-modal__offer">
         <h6 className="exchange-modal__content__header">Your Offer</h6>
         <p className="exchange-modal__content__text">
@@ -16,7 +14,7 @@ const ExchangeStep1 = ({item}) => {
         <h6 className="exchange-modal__content__header">Item for exchange</h6>
         <p>{item.title}</p>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
