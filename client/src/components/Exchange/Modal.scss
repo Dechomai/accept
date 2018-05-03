@@ -28,12 +28,27 @@
     &__text {
       text-align: center;
       font-size: 14px;
+      margin-top: 2.5rem;
     }
   }
   &__offer {
     width: 60%;
     background-color: $gray-200;
     padding: 1.5rem;
+  }
+  &__select-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+    padding-bottom: 100px;
+    .btn {
+      width: 200px;
+    }
+  }
+  &__or-label {
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
   }
   &__item-for-exchange {
     width: 40%;
