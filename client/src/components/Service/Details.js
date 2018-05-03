@@ -58,7 +58,7 @@ class ServiceDetails extends React.Component {
                 <div className="col-sm-3 col-4 service-details__property">Price</div>
                 <div className="col-sm-9 col-8 service-details__price">
                   <span className="service-details__price__value">{service.price.toFixed(2)}</span>
-                  <span className="service-details__price__per">/ hour</span>
+                  <span className="service-details__price__per"> / hour</span>
                 </div>
               </div>
               {!isOwner && (

@@ -4,7 +4,7 @@ import autobind from 'autobindr';
 
 import ExchangeModal from '../../components/Exchange/Modal';
 import ExchangeStep1 from '../../components/Exchange/Step1';
-// import ExchangeStep2 from '../../components/Exchange/Step2';
+import ExchangeStep2Container from '../../containers/Exchange/Step2';
 
 class Exchange extends React.Component {
   constructor(props) {
@@ -12,7 +12,8 @@ class Exchange extends React.Component {
     autobind(this);
 
     this.state = {
-      step: 0
+      step: 0,
+      itemType: null
     };
   }
 
@@ -25,8 +26,14 @@ class Exchange extends React.Component {
   }
 
   handleTypeSelect(type) {
-    // save to state, set step = 1
-    console.log('type selected', type);
+    this.setState({
+      itemType: type,
+      step: 1
+    });
+  }
+
+  isNextBtnVisible() {
+    return this.state.step !== 0;
   }
 
   isNextBtnDisabled() {
@@ -41,6 +48,8 @@ class Exchange extends React.Component {
     switch (this.state.step) {
       case 0:
         return 'Step 1. Set offer';
+      case 1:
+        return 'Step 1. Set offer';
     }
   }
 
@@ -48,6 +57,8 @@ class Exchange extends React.Component {
     switch (this.state.step) {
       case 0:
         return <ExchangeStep1 item={this.props.item} onTypeSelect={this.handleTypeSelect} />;
+      case 1:
+        return <ExchangeStep2Container item={this.props.item} itemType={this.state.itemType} />;
     }
   }
 
@@ -57,6 +68,7 @@ class Exchange extends React.Component {
         title={this.getStepTitle()}
         subtitle={this.getStepSubTitle()}
         nextBtnDisabled={this.isNextBtnDisabled()}
+        nextBtnVisible={this.isNextBtnVisible()}
         onCancelBtnClick={this.handleCancelClick}
         onNextBtnClick={this.handleNextBtnClick}>
         {this.getStep()}
