@@ -89,6 +89,19 @@ In the following order of precendence:
 - yarn build:client
 ```
 
+### Artifact
+
+Should contain
+
+```
+package.json
+yarn.lock
+app.js
+/app
+/config
+/public
+```
+
 ### Uploading Cognito Custom CSS
 
 Add `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` in `.env` file **OR** specify those in your environment variables
