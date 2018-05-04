@@ -11,7 +11,8 @@ const extractScss = new MiniCssExtractPlugin({
 
 const bundleAnalyzer = new BundleAnalyzerPlugin({
   analyzerMode: 'static',
-  reportFilename: path.join(paths.reports, 'bundle/report.html')
+  reportFilename: path.join(paths.reports, 'bundle/report.html'),
+  openAnalyzer: false
 });
 
 const loaders = {
