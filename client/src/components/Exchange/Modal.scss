@@ -6,6 +6,8 @@
   }
   .modal-footer {
     border-width: 2px;
+    display: flex;
+    justify-content: space-between;
   }
   .modal-body {
     display: flex;

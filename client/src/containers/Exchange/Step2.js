@@ -6,6 +6,7 @@ import {compose, withStateHandlers, lifecycle} from 'recompact';
 import {fetchProducts} from '../../actions/products';
 import {fetchServices} from '../../actions/services';
 import {withRouter} from 'react-router';
+import {getImageThumbnail, getPrimaryImage} from '../../utils/img';
 
 import {
   selectOwnProductsCount,
@@ -18,7 +19,7 @@ import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
 
-const DEFAULT_LIMIT = 2;
+const DEFAULT_LIMIT = 8;
 
 const refetchItems = props => {
   const {items} = props;
@@ -107,7 +108,24 @@ export default compose(
             onPrevClick={onPaginationPrevClick}
             onPageClick={onPaginationPageClick}
           />
-          {items.data.map(item => <div key={item.id}>{item.title}</div>)}
+          <div className="exchange-step2-list">
+            {items.data.map(item => {
+              const img = getPrimaryImage(item);
+              const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
+              return (
+                <div className="exchange-step2-list__item mb-2" key={item.id}>
+                  <div
+                    className="exchange-step2-list__item__thumbnail"
+                    style={{backgroundImage: `url(${thumbnail})`}}
+                  />
+                  <div className="exchange-step2-list__item__info">
+                    <p className="exchange-step2-list__item__title">{item.title}</p>
+                    <p className="exchange-step2-list__item__price">{item.price}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       );
     }

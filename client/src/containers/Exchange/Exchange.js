@@ -24,6 +24,12 @@ class Exchange extends React.Component {
     this.props.onCancel();
   }
 
+  handleBackBtnClick() {
+    this.setState({
+      step: this.state.step - 1
+    });
+  }
+
   handleNextBtnClick() {
     this.setState({step: this.state.step + 1});
   }
@@ -37,6 +43,10 @@ class Exchange extends React.Component {
 
   isNextBtnDisabled() {
     return true;
+  }
+
+  isBackBtnDisabled() {
+    return this.state.step === 0;
   }
 
   getStepTitle() {
@@ -58,7 +68,7 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep1 onTypeSelect={this.handleTypeSelect} />;
+              <ExchangeStep1 onTypeSelect={this.handleTypeSelect} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem item={this.props.item} />
@@ -69,7 +79,7 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep2 itemType={this.state.itemType} />;
+              <ExchangeStep2 itemType={this.state.itemType} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem item={this.props.item} />
@@ -86,8 +96,10 @@ class Exchange extends React.Component {
         title={this.getStepTitle()}
         subtitle={this.getStepSubTitle()}
         nextBtnDisabled={this.isNextBtnDisabled()}
+        backBtnDisabled={this.isBackBtnDisabled()}
         onCancelBtnClick={this.handleCancelClick}
-        onNextBtnClick={this.handleNextBtnClick}>
+        onNextBtnClick={this.handleNextBtnClick}
+        onBackBtnClick={this.handleBackBtnClick}>
         {this.getStep()}
       </ExchangeModal>
     );
