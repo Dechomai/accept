@@ -1,0 +1,61 @@
+@import '../../theme/index';
+
+.exchange-item {
+  font-size: 14px;
+
+  &__header,
+  &__label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: $gray-500;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &__image {
+      flex: 0 0 auto;
+      $size: 80px;
+      width: $size;
+      height: $size;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    &__title {
+      flex: 0 1 100%;
+      margin-left: 1rem;
+      word-break: break-word;
+    }
+  }
+
+  &__quantity,
+  &__price__single,
+  &__price__total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__quantity,
+  &__price {
+    margin-top: 1rem;
+  }
+
+  &__quantity {
+    &__input {
+      width: 90px;
+    }
+  }
+
+  &__price {
+    &__total &__value {
+      font-weight: bold;
+    }
+  }
+}

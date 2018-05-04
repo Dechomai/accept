@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'reactstrap';
 
+import ExchangeItem from './ExchangeItem';
+
 const ExchangeStep1 = ({item, onTypeSelect}) => {
   return (
     <React.Fragment>
@@ -30,10 +32,7 @@ const ExchangeStep1 = ({item, onTypeSelect}) => {
           </Button>
         </div>
       </div>
-      <div className="exchange-modal__item-for-exchange">
-        <h6 className="exchange-modal__content__header">Item for exchange</h6>
-        <p>{item.title}</p>
-      </div>
+      <ExchangeItem className="exchange-modal__item-for-exchange" item={item} />
     </React.Fragment>
   );
 };
