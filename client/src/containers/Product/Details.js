@@ -8,8 +8,31 @@ import {selectProductById, selectProfile} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
 import ProductDetails from '../../components/Product/Details';
 import Loader from '../../components/common/Loader/Loader';
+import Exchange from '../Exchange/Exchange';
+import autobind from 'autobindr';
 
 class Details extends React.Component {
+  constructor(props) {
+    super(props);
+    autobind(this);
+
+    this.state = {
+      showExchange: false
+    };
+  }
+
+  handleExchangeClick() {
+    this.setState({
+      showExchange: true
+    });
+  }
+
+  handleExchangeCancel() {
+    this.setState({
+      showExchange: false
+    });
+  }
+
   componentDidMount() {
     const {params, product} = this.props;
     if (!product && params.productId) {
@@ -22,7 +45,16 @@ class Details extends React.Component {
     const userId = path(['data', 'id'], user);
     if (path(['data'], product)) {
       return (
-        <ProductDetails product={product.data} isOwner={product.data.createdBy.id === userId} />
+        <div>
+          {this.state.showExchange && (
+            <Exchange item={product.data} onCancel={this.handleExchangeCancel} />
+          )}
+          <ProductDetails
+            product={product.data}
+            isOwner={product.data.createdBy.id === userId}
+            onExchangeClick={this.handleExchangeClick}
+          />
+        </div>
       );
     } else if (path(['loading'], product)) {
       return <Loader />;

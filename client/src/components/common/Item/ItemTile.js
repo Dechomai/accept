@@ -10,6 +10,7 @@ import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import Text from '../Text/Text';
 import Icon from '../../common/Icon/Icon';
 import {getImageThumbnail} from '../../../utils/img';
+import {formatPrice} from '../../../utils/format';
 
 class ItemTile extends React.Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class ItemTile extends React.Component {
     const imgUrl = imageUrl ? getImageThumbnail(imageUrl) : '/assets/img/placeholder.png';
     const Component = link ? Link : 'div';
     const props = link ? {to: link} : {};
-    const formattedPrice = `${currency || ''} ${price.toFixed(2)}`.trim();
+    const formattedPrice = formatPrice(price, currency);
     return (
       <Component
         {...props}
