@@ -14,6 +14,7 @@ import {
 
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
+import Empty from '../../components/common/Empty/Empty';
 import ExchangeStep2 from '../../components/Exchange/Step2';
 
 const DEFAULT_LIMIT = 2;
@@ -85,10 +86,16 @@ export default compose(
     skip,
     limit,
     count,
+    itemType,
     onPaginationNextClick,
     onPaginationPrevClick,
     onPaginationPageClick
   }) => {
+    if (!items || items.loading) return <Loader />;
+    if (items && !items.data.length) {
+      return <Empty type={itemType} />;
+    }
+
     return (
       <React.Fragment>
         <div className="exchange-modal__offer">
@@ -99,11 +106,7 @@ export default compose(
             onPrevClick={onPaginationPrevClick}
             onPageClick={onPaginationPageClick}
           />
-          {items && items.data && items.data.length ? (
-            <ExchangeStep2 items={items.data} />
-          ) : (
-            <Loader />
-          )}
+          <ExchangeStep2 items={items.data} />
         </div>
         <div className="exchange-modal__item-for-exchange">
           <h6 className="exchange-modal__content__header">Item for exchange</h6>

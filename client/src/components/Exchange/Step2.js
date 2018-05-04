@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ExchangeStep2 = ({items}) => {
-  return (
-    <React.Fragment>{items.map(item => <div key={item.id}>{item.title}</div>)}</React.Fragment>
-  );
+  return items.map(item => <div key={item.id}>{item.title}</div>);
 };
 
 ExchangeStep2.propTypes = {
