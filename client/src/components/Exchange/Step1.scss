@@ -1,0 +1,31 @@
+@import '../../theme/index';
+
+.exchange-step1 {
+  height: 100%;
+  background-color: $gray-200;
+  padding: 1.5rem;
+
+  &__header {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: $gray-500;
+  }
+
+  &__text {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 2.5rem;
+  }
+
+  &__btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+    padding-bottom: 100px;
+
+    .btn {
+      width: 200px;
+    }
+  }
+}

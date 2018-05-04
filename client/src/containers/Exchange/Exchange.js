@@ -1,3 +1,5 @@
+import './Exchange.scss';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
@@ -5,6 +7,7 @@ import autobind from 'autobindr';
 import ExchangeModal from '../../components/Exchange/Modal';
 import ExchangeStep1 from '../../components/Exchange/Step1';
 import ExchangeStep2Container from '../../containers/Exchange/Step2';
+import ExchangeItem from '../../components/Exchange/ExchangeItem';
 
 class Exchange extends React.Component {
   constructor(props) {
@@ -52,7 +55,16 @@ class Exchange extends React.Component {
   getStep() {
     switch (this.state.step) {
       case 0:
-        return <ExchangeStep1 item={this.props.item} onTypeSelect={this.handleTypeSelect} />;
+        return (
+          <div className="exchange-content">
+            <div className="exchange-content__offer">
+              <ExchangeStep1 onTypeSelect={this.handleTypeSelect} />;
+            </div>
+            <div className="exchange-content__item">
+              <ExchangeItem item={this.props.item} />
+            </div>
+          </div>
+        );
       case 1:
         return <ExchangeStep2Container item={this.props.item} itemType={this.state.itemType} />;
     }

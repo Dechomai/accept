@@ -1,0 +1,14 @@
+.exchange {
+  &-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    &__offer {
+      width: 60%;
+    }
+    &__item {
+      width: 40%;
+    }
+  }
+}
