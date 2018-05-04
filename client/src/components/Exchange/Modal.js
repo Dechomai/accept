@@ -10,7 +10,6 @@ const ExchangeModal = ({
   onNextBtnClick,
   onCancelBtnClick,
   nextBtnDisabled,
-  nextBtnVisible,
   children
 }) => (
   <Modal isOpen={true} toggle={onCancelBtnClick} className="exchange-modal" size="lg">
@@ -23,11 +22,9 @@ const ExchangeModal = ({
       <Button color="link" onClick={onCancelBtnClick}>
         Cancel
       </Button>
-      {nextBtnVisible && (
-        <Button color="primary" disabled={nextBtnDisabled} onClick={onNextBtnClick}>
-          Next
-        </Button>
-      )}
+      <Button color="primary" disabled={nextBtnDisabled} onClick={onNextBtnClick}>
+        Next
+      </Button>
     </ModalFooter>
   </Modal>
 );

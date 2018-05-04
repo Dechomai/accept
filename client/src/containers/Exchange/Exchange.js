@@ -32,10 +32,6 @@ class Exchange extends React.Component {
     });
   }
 
-  isNextBtnVisible() {
-    return this.state.step !== 0;
-  }
-
   isNextBtnDisabled() {
     return true;
   }
@@ -68,7 +64,6 @@ class Exchange extends React.Component {
         title={this.getStepTitle()}
         subtitle={this.getStepSubTitle()}
         nextBtnDisabled={this.isNextBtnDisabled()}
-        nextBtnVisible={this.isNextBtnVisible()}
         onCancelBtnClick={this.handleCancelClick}
         onNextBtnClick={this.handleNextBtnClick}>
         {this.getStep()}
