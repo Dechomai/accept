@@ -20,9 +20,9 @@ class ExchangeItem extends React.Component {
   handleQuantityChange(e) {
     const {value} = e.target;
 
-    const num = +value;
+    const num = parseInt(+value);
     if (!value || (!isNaN(num) && num >= 1 && num < 200000)) {
-      this.setState({quantity: value});
+      this.setState({quantity: num || ''});
     }
   }
 
