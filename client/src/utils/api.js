@@ -25,6 +25,7 @@ const api = {
         ...headers
       },
       credentials: 'same-origin',
+      cache: 'no-cache',
       ...getBody(method, body),
       ...props
     })
