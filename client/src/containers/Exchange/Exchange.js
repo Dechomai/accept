@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 
 import ExchangeModal from '../../components/Exchange/Modal';
-import ExchangeStep1 from '../../components/Exchange/Step1';
-import ExchangeStep2Container from '../../containers/Exchange/Step2';
+import ExchangeStep1 from '../../containers/Exchange/Step1';
+import ExchangeStep2 from '../../containers/Exchange/Step2';
 import ExchangeItem from '../../components/Exchange/ExchangeItem';
 
 class Exchange extends React.Component {
@@ -66,7 +66,17 @@ class Exchange extends React.Component {
           </div>
         );
       case 1:
-        return <ExchangeStep2Container item={this.props.item} itemType={this.state.itemType} />;
+        return (
+          <div className="exchange-content">
+            <div className="exchange-content__offer">
+              <ExchangeStep2 itemType={this.state.itemType} />;
+            </div>
+            <div className="exchange-content__item">
+              <ExchangeItem item={this.props.item} />
+            </div>
+          </div>
+        );
+      // return <ExchangeStep2Container item={this.props.item} itemType={this.state.itemType} />;
     }
   }
 

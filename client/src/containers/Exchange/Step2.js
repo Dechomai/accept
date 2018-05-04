@@ -1,3 +1,5 @@
+import './Step2.scss';
+
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose, withStateHandlers, lifecycle} from 'recompact';
@@ -15,7 +17,6 @@ import {
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
-import ExchangeStep2 from '../../components/Exchange/Step2';
 
 const DEFAULT_LIMIT = 2;
 
@@ -91,14 +92,14 @@ export default compose(
     onPaginationPrevClick,
     onPaginationPageClick
   }) => {
-    if (!items || items.loading) return <Loader />;
-    if (items && !items.data.length) {
-      return <Empty type={itemType} />;
-    }
-
-    return (
-      <React.Fragment>
-        <div className="exchange-modal__offer">
+    let content = null;
+    if (!items || items.loading) {
+      content = <Loader />;
+    } else if (items && !items.data.length) {
+      content = <Empty type={itemType} />;
+    } else {
+      content = (
+        <div className="exchange-step2__items">
           <Pagination
             totalPages={Math.ceil(count / limit)}
             currentPage={Math.floor(skip / limit)}
@@ -106,12 +107,11 @@ export default compose(
             onPrevClick={onPaginationPrevClick}
             onPageClick={onPaginationPageClick}
           />
-          <ExchangeStep2 items={items.data} />
+          {items.data.map(item => <div key={item.id}>{item.title}</div>)}
         </div>
-        <div className="exchange-modal__item-for-exchange">
-          <h6 className="exchange-modal__content__header">Item for exchange</h6>
-        </div>
-      </React.Fragment>
-    );
+      );
+    }
+
+    return <div className="exchange-step2">{content}</div>;
   }
 );
