@@ -1,0 +1,17 @@
+@import '../../theme/index';
+
+.exchange-step3 {
+  &__item {
+    .exchange-item {
+      &__wrapper {
+        background-color: $gray-200;
+        padding: 1.5rem;
+      }
+      &__info {
+        &__title {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

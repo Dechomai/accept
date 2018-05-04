@@ -89,6 +89,7 @@ export default compose(
     limit,
     count,
     itemType,
+    onItemSelect,
     onPaginationNextClick,
     onPaginationPrevClick,
     onPaginationPageClick
@@ -113,7 +114,12 @@ export default compose(
               const img = getPrimaryImage(item);
               const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
               return (
-                <div className="exchange-step2-list__item mb-2" key={item.id}>
+                <div
+                  className="exchange-step2-list__item mb-2"
+                  key={item.id}
+                  onClick={() => {
+                    onItemSelect(item);
+                  }}>
                   <div
                     className="exchange-step2-list__item__thumbnail"
                     style={{backgroundImage: `url(${thumbnail})`}}
