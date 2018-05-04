@@ -28,7 +28,7 @@ class ExchangeItem extends React.Component {
 
   render() {
     const {className, item} = this.props;
-    console.log(item);
+
     const primaryImageUrl = getPrimaryImage(item);
     const imgUrl = primaryImageUrl
       ? getImageThumbnail(primaryImageUrl)
