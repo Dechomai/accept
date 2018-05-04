@@ -6,9 +6,18 @@ import Header from '../containers/Header/Header';
 import Footer from '../components/Footer/Footer';
 
 class App extends React.Component {
+  constructor() {
+    super();
+    this.container = null;
+    this.setRef = el => (this.container = el);
+  }
+
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
+    if (this.props.location !== prevProps.location && this.container) {
+      this.container.scroll({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   }
 
@@ -16,7 +25,7 @@ class App extends React.Component {
     const {children, routes} = this.props;
     const showFooter = !routes.some(route => route.showFooter === false);
     return (
-      <div className="app-container">
+      <div className="app-container" ref={this.setRef}>
         <Header />
         <div className="app-container__content">{children}</div>
         {showFooter && <Footer />}
