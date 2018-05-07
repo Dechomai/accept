@@ -6,7 +6,7 @@ import ExchangeItem from '../../components/Exchange/ExchangeItem';
 const ExchangeStep3 = ({item}) => {
   return (
     <div className="exchange-step3">
-      <ExchangeItem item={item} title="Your offer" className="exchange-step3__item" />
+      <ExchangeItem item={item} title="Your offer" />
     </div>
   );
 };

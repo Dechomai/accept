@@ -115,7 +115,7 @@ export default compose(
               const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
               return (
                 <div
-                  className="exchange-step2-list__item mb-2"
+                  className="exchange-step2-list__item"
                   key={item.id}
                   onClick={() => {
                     onItemSelect(item);
@@ -125,8 +125,8 @@ export default compose(
                     style={{backgroundImage: `url(${thumbnail})`}}
                   />
                   <div className="exchange-step2-list__item__info">
-                    <p className="exchange-step2-list__item__title">{item.title}</p>
-                    <p className="exchange-step2-list__item__price">{item.price}</p>
+                    <div className="exchange-step2-list__item__title">{item.title}</div>
+                    <div className="exchange-step2-list__item__price">{item.price}</div>
                   </div>
                 </div>
               );
