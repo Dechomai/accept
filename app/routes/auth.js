@@ -23,7 +23,7 @@ rootRouter.get('/signup', (req, res) => {
   res.redirect(SIGNUP_URI);
 });
 
-rootRouter.get('/logout', authMiddleware, (req, res) => {
+rootRouter.get('/logout', authMiddleware(res => res.redirect('/')), (req, res) => {
   const {userId} = req;
   authController
     .userLogOut(userId)

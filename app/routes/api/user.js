@@ -46,7 +46,7 @@ userRouter
     const {userId} = req.params;
     new Promise(resolve => {
       if (userId) return resolve(userId);
-      authMiddleware(req, res, () => {
+      authMiddleware()(req, res, () => {
         resolve(req.userId);
       });
     }).then(userId => {
@@ -60,7 +60,7 @@ userRouter
     });
   })
   .post(
-    authMiddleware,
+    authMiddleware(),
     uploadMiddleware({logger, logPrefix: 'post:user'}),
     validationMiddleware(
       body('firstName')
@@ -104,7 +104,7 @@ userRouter
     }
   )
   .put(
-    authMiddleware,
+    authMiddleware(),
     validationMiddleware(
       body('description')
         .optional()
