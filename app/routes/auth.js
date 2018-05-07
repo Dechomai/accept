@@ -32,7 +32,7 @@ rootRouter.get('/logout', authMiddleware(res => res.redirect('/')), (req, res) =
       res.redirect(authController.getLogoutUri());
     })
     .catch(err => {
-      console.log(err);
+      logger.error('Unable to logout', err);
       sendError(res, {message: 'Error logging out'});
     });
 });
