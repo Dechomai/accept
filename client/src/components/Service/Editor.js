@@ -20,12 +20,21 @@ class InnerForm extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
+    this.state = {invalidPhotoProvided: false};
   }
 
   handleUploadPhoto(files) {
     const {photos, existingPhotos, onPhotosAdded} = this.props;
     const newPhotos = photos.concat(files).slice(0, 8 - existingPhotos.length);
     onPhotosAdded(newPhotos);
+  }
+
+  handleAcceptPhoto() {
+    this.setState({invalidPhotoProvided: false});
+  }
+
+  handleRejectPhoto() {
+    this.setState({invalidPhotoProvided: true});
   }
 
   renderEmptyPhotoPlaceholders() {
@@ -169,7 +178,9 @@ class InnerForm extends React.Component {
                           multiple={true}
                           showPreview={false}
                           maxSize={2.5 * 1024 * 1024} // ~2.5Mb
-                          onSelect={this.handleUploadPhoto}>
+                          onSelect={this.handleUploadPhoto}
+                          onAccept={this.handleAcceptPhoto}
+                          onReject={this.handleRejectPhoto}>
                           <div className="create-form__placeholder__caption">
                             <Icon name="upload" size="20" />
                             <small className="create-form__placeholder__upload-label">
@@ -181,6 +192,13 @@ class InnerForm extends React.Component {
                     )}
                     {this.renderEmptyPhotoPlaceholders()}
                   </div>
+                  {this.state.invalidPhotoProvided && (
+                    <div className="row">
+                      <div className="col-12 d-block invalid-feedback">
+                        The photo has an unsupported format or exceeds 2.5Mb
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

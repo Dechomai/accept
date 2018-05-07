@@ -40,6 +40,8 @@ class FileUpload extends React.Component {
           multiple={multiple}
           className={classNames('file-upload__dropzone', dropzoneClassName)}
           onDrop={this.onDrop}
+          onDropAccepted={this.props.onAccept}
+          onDropRejected={this.props.onReject}
           {...rest}>
           {showPreview && this.state.file ? (
             <div
@@ -60,7 +62,9 @@ FileUpload.propTypes = {
   dropzoneClassName: PropTypes.string,
   showPreview: PropTypes.bool,
   multiple: PropTypes.bool,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  onAccept: PropTypes.func,
+  onReject: PropTypes.func
 };
 
 FileUpload.defaultProps = {
