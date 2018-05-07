@@ -1,9 +1,12 @@
+import './Step2.scss';
+
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose, withStateHandlers, lifecycle} from 'recompact';
 import {fetchProducts} from '../../actions/products';
 import {fetchServices} from '../../actions/services';
 import {withRouter} from 'react-router';
+import {getImageThumbnail, getPrimaryImage} from '../../utils/img';
 
 import {
   selectOwnProductsCount,
@@ -14,9 +17,9 @@ import {
 
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
-import ExchangeStep2 from '../../components/Exchange/Step2';
+import Empty from '../../components/common/Empty/Empty';
 
-const DEFAULT_LIMIT = 2;
+const DEFAULT_LIMIT = 8;
 
 const refetchItems = props => {
   const {items} = props;
@@ -85,13 +88,20 @@ export default compose(
     skip,
     limit,
     count,
+    itemType,
+    onItemSelect,
     onPaginationNextClick,
     onPaginationPrevClick,
     onPaginationPageClick
   }) => {
-    return (
-      <React.Fragment>
-        <div className="exchange-modal__offer">
+    let content = null;
+    if (!items || items.loading) {
+      content = <Loader />;
+    } else if (items && !items.data.length) {
+      content = <Empty type={itemType} />;
+    } else {
+      content = (
+        <div className="exchange-step2__items">
           <Pagination
             totalPages={Math.ceil(count / limit)}
             currentPage={Math.floor(skip / limit)}
@@ -99,16 +109,33 @@ export default compose(
             onPrevClick={onPaginationPrevClick}
             onPageClick={onPaginationPageClick}
           />
-          {items && items.data && items.data.length ? (
-            <ExchangeStep2 items={items.data} />
-          ) : (
-            <Loader />
-          )}
+          <div className="exchange-step2-list">
+            {items.data.map(item => {
+              const img = getPrimaryImage(item);
+              const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
+              return (
+                <div
+                  className="exchange-step2-list__item mb-2"
+                  key={item.id}
+                  onClick={() => {
+                    onItemSelect(item);
+                  }}>
+                  <div
+                    className="exchange-step2-list__item__thumbnail"
+                    style={{backgroundImage: `url(${thumbnail})`}}
+                  />
+                  <div className="exchange-step2-list__item__info">
+                    <p className="exchange-step2-list__item__title">{item.title}</p>
+                    <p className="exchange-step2-list__item__price">{item.price}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="exchange-modal__item-for-exchange">
-          <h6 className="exchange-modal__content__header">Item for exchange</h6>
-        </div>
-      </React.Fragment>
-    );
+      );
+    }
+
+    return <div className="exchange-step2">{content}</div>;
   }
 );

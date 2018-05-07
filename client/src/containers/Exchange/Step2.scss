@@ -1,0 +1,53 @@
+@import '../../theme/index';
+
+.exchange-step2 {
+  height: 100%;
+  background-color: $gray-200;
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.exchange-step2-list {
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 1rem;
+  margin-top: 1.25rem;
+  &__item {
+    display: flex;
+    background-color: $white;
+    border: solid 1px $gray-400;
+    cursor: pointer;
+    &__thumbnail {
+      width: 72px;
+      height: 72px;
+      background-size: cover;
+      background-position: center center;
+    }
+    &__info {
+      display: flex;
+      width: calc(100% - 72px);
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+    &__title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      font-size: 14px;
+      word-break: break-all;
+    }
+    &__price {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      padding-right: 25px;
+      font-size: 18px;
+      font-weight: $font-weight-bold;
+    }
+  }
+}

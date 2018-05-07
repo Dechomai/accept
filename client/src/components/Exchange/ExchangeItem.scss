@@ -2,6 +2,7 @@
 
 .exchange-item {
   font-size: 14px;
+  padding: 1.5rem;
 
   &__header,
   &__label {
@@ -15,6 +16,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-top: 1rem;
 
     &__image {
       flex: 0 0 auto;
@@ -29,7 +31,7 @@
     &__title {
       flex: 0 1 100%;
       margin-left: 1rem;
-      word-break: break-word;
+      word-break: break-all;
     }
   }
 
@@ -50,6 +52,7 @@
   &__quantity {
     &__input {
       width: 90px;
+      text-align: right;
     }
   }
 
