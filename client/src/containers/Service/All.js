@@ -114,7 +114,7 @@ export default compose(
             )}
           </div>
         </div>
-        <Navigation />
+        <Navigation showResults showBreadcrumbs />
       </div>
     );
   }
