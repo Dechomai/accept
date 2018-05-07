@@ -33,7 +33,6 @@ class FileUpload extends React.Component {
     const {className, dropzoneClassName, showPreview, multiple, children, ...rest} = this.props;
     const pass = omit(['onSelect', 'onAccept', 'onReject'], rest);
     // TODO:
-    // 1) show error msg why photo was rejected
     // 2) use better image cropping
     return (
       <div className={classNames('file-upload', className)}>
