@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import autobind from 'autobindr';
 import classNames from 'classnames';
+import {omit} from 'ramda';
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class FileUpload extends React.Component {
 
   render() {
     const {className, dropzoneClassName, showPreview, multiple, children, ...rest} = this.props;
-
+    const pass = omit(['onSelect', 'onAccept', 'onReject'], rest);
     // TODO:
     // 1) show error msg why photo was rejected
     // 2) use better image cropping
@@ -42,7 +43,7 @@ class FileUpload extends React.Component {
           onDrop={this.onDrop}
           onDropAccepted={this.props.onAccept}
           onDropRejected={this.props.onReject}
-          {...rest}>
+          {...pass}>
           {showPreview && this.state.file ? (
             <div
               className="file-upload__preview"
