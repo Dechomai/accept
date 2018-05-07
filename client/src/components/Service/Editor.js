@@ -120,6 +120,13 @@ class InnerForm extends React.Component {
         {isSubmitting && <Loader />}
         <div className="container">
           <div className="row">
+            <div className="col-12">
+              {errors.serverError && (
+                <div className="alert alert-danger" role="alert">
+                  An unexpected error occurred, please try again later
+                </div>
+              )}
+            </div>
             <div className="col-md-3 col-sm-12">
               <div className="create-form__label">
                 <span className="create-form__label__name">Area of Expertise </span>
@@ -321,11 +328,17 @@ const ServiceEditor = withFormik({
     description: ['required', rules.minLength(10), rules.maxLength(800), 'commonText'],
     price: ['required', 'price']
   }),
-  handleSubmit: (values, {props, setSubmitting, setTouched}) => {
+  handleSubmit: (values, {props, setSubmitting, setTouched, setErrors}) => {
     const service = pick(['title', 'photos', 'video', 'description', 'price'], values);
-    props.onSubmit(service).catch(() => {
+    props.onSubmit(service).catch(err => {
       setSubmitting(false);
-      setTouched({});
+      if (err) {
+        setErrors({
+          serverError: err
+        });
+      } else {
+        setTouched({});
+      }
     });
   }
 })(InnerForm);
