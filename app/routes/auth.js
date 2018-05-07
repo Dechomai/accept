@@ -23,7 +23,7 @@ rootRouter.get('/signup', (req, res) => {
   res.redirect(SIGNUP_URI);
 });
 
-rootRouter.get('/logout', authMiddleware, (req, res) => {
+rootRouter.get('/logout', authMiddleware(res => res.redirect('/')), (req, res) => {
   const {userId} = req;
   authController
     .userLogOut(userId)
@@ -32,7 +32,7 @@ rootRouter.get('/logout', authMiddleware, (req, res) => {
       res.redirect(authController.getLogoutUri());
     })
     .catch(err => {
-      console.log(err);
+      logger.error('Unable to logout', err);
       sendError(res, {message: 'Error logging out'});
     });
 });

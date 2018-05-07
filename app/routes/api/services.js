@@ -40,7 +40,7 @@ servicesRouter
       new Promise(resolve => {
         if (!user) return resolve(null);
         if (user !== 'current') return resolve(user);
-        authMiddleware(req, res, () => {
+        authMiddleware()(req, res, () => {
           resolve(req.userId);
         });
       }).then(user => {
@@ -55,7 +55,7 @@ servicesRouter
     }
   )
   .post(
-    authMiddleware,
+    authMiddleware(),
     createArrayUploadMiddleware({field: 'photos', maxCount: 8})({
       logger,
       logPrefix: 'post:services'
@@ -108,7 +108,7 @@ servicesRouter
     );
   })
   .put(
-    authMiddleware,
+    authMiddleware(),
     createArrayUploadMiddleware({field: 'newPhotos', maxCount: 8})({
       logger,
       logPrefix: 'post:services'
@@ -170,7 +170,7 @@ servicesRouter
       }
     }
   )
-  .delete(authMiddleware, async (req, res) => {
+  .delete(authMiddleware(), async (req, res) => {
     const {userId} = req;
     const {serviceId} = req.params;
     try {

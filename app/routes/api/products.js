@@ -40,7 +40,7 @@ productsRouter
       new Promise(resolve => {
         if (!user) return resolve(null);
         if (user !== 'current') return resolve(user);
-        authMiddleware(req, res, () => {
+        authMiddleware()(req, res, () => {
           resolve(req.userId);
         });
       }).then(user => {
@@ -55,7 +55,7 @@ productsRouter
     }
   )
   .post(
-    authMiddleware,
+    authMiddleware(),
     createArrayUploadMiddleware({field: 'photos', maxCount: 8})({
       logger,
       logPrefix: 'post:products'
@@ -115,7 +115,7 @@ productsRouter
     );
   })
   .put(
-    authMiddleware,
+    authMiddleware(),
     createArrayUploadMiddleware({field: 'newPhotos', maxCount: 8})({
       logger,
       logPrefix: 'post:products'
@@ -183,7 +183,7 @@ productsRouter
       }
     }
   )
-  .delete(authMiddleware, async (req, res) => {
+  .delete(authMiddleware(), async (req, res) => {
     const {userId} = req;
     const {productId} = req.params;
     try {

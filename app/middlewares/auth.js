@@ -7,13 +7,13 @@ const {sendError} = require('../helpers/response');
 
 const logger = createLoggerWith('[MDLWR:Auth]');
 
-const sendUnauthorizedError = res => sendError(res, {message: 'Unauthorized'}, {status: 401});
+const sendUnauthorizedJSONError = res => sendError(res, {message: 'Unauthorized'}, {status: 401});
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = (errorHandler = sendUnauthorizedJSONError) => (req, res, next) => {
   const accessToken = getTokenCookie(req);
   if (!accessToken) {
     logger.debug('no token');
-    sendUnauthorizedError(res);
+    errorHandler(res);
     return;
   }
   logger.debug('got token');
@@ -30,7 +30,7 @@ const authMiddleware = (req, res, next) => {
       if (!token || !token.sub) {
         logger.error('can not decode token', accessToken);
         clearTokenCookie(res);
-        sendUnauthorizedError(res);
+        errorHandler(res);
         return;
       }
       const {sub: userId} = token;
@@ -56,19 +56,19 @@ const authMiddleware = (req, res, next) => {
             if (err === null) {
               logger.debug('refresh token not found', err);
               clearTokenCookie(res);
-              sendUnauthorizedError(res);
+              errorHandler(res);
               return;
             }
             if (err.error === 'invalid_grant') {
               logger.debug('refresh token revoked/expired', err);
               tokenStorage.removeUserToken(userId).then(() => {
                 clearTokenCookie(res);
-                sendUnauthorizedError(res);
+                errorHandler(res);
               });
             } else {
               logger.error('token refresh failed', err);
               clearTokenCookie(res);
-              sendUnauthorizedError(res);
+              errorHandler(res);
             }
           });
       } else {
@@ -77,7 +77,7 @@ const authMiddleware = (req, res, next) => {
         // "TokenNotFound", "InvalidTokenUse", "InvalidUserPool"
         logger.debug('token invalid - reason', err);
         clearTokenCookie(res);
-        sendUnauthorizedError(res);
+        errorHandler(res);
       }
     }
   );
