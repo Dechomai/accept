@@ -12,7 +12,7 @@
 .exchange-step2-list {
   max-height: 400px;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right: 1rem;
   margin-top: 1.25rem;
   &__item {

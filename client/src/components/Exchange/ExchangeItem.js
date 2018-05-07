@@ -77,7 +77,7 @@ class ExchangeItem extends React.Component {
 }
 
 ExchangeItem.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   className: PropTypes.string,
   item: PropTypes.any.isRequired
 };
