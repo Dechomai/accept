@@ -2,7 +2,13 @@ import api from '../utils/api';
 
 const userService = {
   getUser(userId = '') {
-    return api.get(`/user/${userId}`);
+    return api.get(
+      `/user/${userId}`,
+      {},
+      {
+        handleUnauthorizedError: false
+      }
+    );
   },
 
   createProfile(profile) {
