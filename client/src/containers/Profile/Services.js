@@ -135,6 +135,15 @@ export default compose(
             )}
           </div>
         </div>
+        <div className="profile-services__pagination">
+          <Pagination
+            totalPages={Math.ceil(count / limit)}
+            currentPage={Math.floor(skip / limit)}
+            onNextClick={onPaginationNextClick}
+            onPrevClick={onPaginationPrevClick}
+            onPageClick={onPaginationPageClick}
+          />
+        </div>
       </div>
     );
   }
