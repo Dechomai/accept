@@ -19,8 +19,8 @@ const MAX_PHOTOS = 8;
 class InnerForm extends React.Component {
   constructor(props) {
     super(props);
-    autobind(this);
     this.state = {invalidPhotoProvided: false};
+    autobind(this);
   }
 
   handleUploadPhoto(files) {
