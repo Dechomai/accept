@@ -2,7 +2,8 @@ const STATUS_SUCCESSFULL = 200;
 
 const API = '/api';
 const getOptions = () => ({
-  API
+  API,
+  handleUnauthorizedError: true
 });
 const getBody = (method, body) => (method === 'GET' ? {} : {body: JSON.stringify(body)});
 
@@ -16,8 +17,9 @@ const getBody = (method, body) => (method === 'GET' ? {} : {body: JSON.stringify
 // };
 
 const api = {
-  fetch(method, url, {headers = {}, body, ...props} = {}, options = getOptions()) {
-    return fetch(`${options.API}${url}`, {
+  fetch(method, url, {headers = {}, body, ...props} = {}, options = {}) {
+    const opts = {...getOptions(), ...options};
+    return fetch(`${opts.API}${url}`, {
       method,
       headers: {
         Accept: 'application/json',
@@ -30,12 +32,14 @@ const api = {
       ...props
     })
       .then(res => (res.status === STATUS_SUCCESSFULL ? res.json() : Promise.reject(res)))
-      .catch(res => this.handleError(res));
+      .catch(res => this.handleError(res, opts));
   },
-  handleError(res) {
-    // TODO: handle error
-    // especially 401 (but optionally)
+  handleError(res, options) {
     const code = res.status;
+    if (code === 401 && options.handleUnauthorizedError) {
+      window.location.replace('/');
+    }
+
     return res.json().then(err => Promise.reject({code, ...err}));
   },
 
