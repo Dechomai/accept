@@ -1,26 +1,28 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config');
 const {CognitoIdentityServiceProvider} = require('aws-sdk');
 
 const CSS_PATH = path.resolve(__dirname, '../client/cognito-ui/custom-css.css');
 const IMAGE_PATH = path.resolve(__dirname, '../client/cognito-ui/header.png');
 
-const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
-const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
-const AWS_DEFAULT_REGION = process.env.AWS_DEFAULT_REGION;
+const ACCESS_KEY_ID = process.env.AWS_COGNITO_ACCESS_KEY_ID;
+const SECRET_ACCESS_KEY = process.env.AWS_COGNITO_SECRET_ACCESS_KEY;
+const REGION = process.env.COGNITO_REGION;
+
+const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
+const COGNITO_CLIENT_ID = process.env.COGNITO_CLIENT_ID;
 
 const uploadCustomizations = (css, image) =>
   new Promise((resolve, reject) => {
     const cognitoIdentityService = new CognitoIdentityServiceProvider({
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_SECRET_ACCESS_KEY,
-      region: AWS_DEFAULT_REGION
+      accessKeyId: ACCESS_KEY_ID,
+      secretAccessKey: SECRET_ACCESS_KEY,
+      region: REGION
     });
     cognitoIdentityService.setUICustomization(
       {
-        UserPoolId: config.get('cognito.userPoolId'),
-        ClientId: config.get('cognito.clientId'),
+        UserPoolId: COGNITO_USER_POOL_ID,
+        ClientId: COGNITO_CLIENT_ID,
         CSS: css,
         ImageFile: image
       },
