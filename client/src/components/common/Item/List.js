@@ -17,9 +17,7 @@ const ItemsList = ({type, list, tileSize, editable, onEditClick, onDeleteClick})
       onEditClick={e => {
         onEditClick(e, item.id);
       }}
-      onDeleteClick={() => {
-        onDeleteClick(item.id);
-      }}
+      onDeleteClick={() => onDeleteClick(item.id)}
     />
   ));
 
