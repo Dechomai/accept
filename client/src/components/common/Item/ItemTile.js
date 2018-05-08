@@ -17,7 +17,8 @@ class ItemTile extends React.Component {
     super(props);
     this.state = {
       modal: false,
-      deletingInProgress: false
+      deletingInProgress: false,
+      deletingError: false
     };
     autobind(this);
   }
@@ -38,7 +39,12 @@ class ItemTile extends React.Component {
     this.setState({
       deletingInProgress: true
     });
-    this.props.onDeleteClick();
+    this.props.onDeleteClick().catch(() => {
+      this.setState({
+        deletingInProgress: false,
+        deletingError: true
+      });
+    });
   }
 
   render() {
@@ -92,7 +98,12 @@ class ItemTile extends React.Component {
         {editable && (
           <Modal isOpen={this.state.modal} toggle={this.toggle} className="confirmation-modal">
             <ModalHeader toggle={this.toggle}>Delete item</ModalHeader>
-            <ModalBody>Do you really want to delete {title} ?</ModalBody>
+            <ModalBody>
+              <p>Do you really want to delete {title} ?</p>
+              {this.state.deletingError && (
+                <div className="alert alert-danger">Sorry, something went wrong</div>
+              )}
+            </ModalBody>
             <ModalFooter>
               <Button color="light" onClick={this.toggle} disabled={this.state.deletingInProgress}>
                 Cancel
