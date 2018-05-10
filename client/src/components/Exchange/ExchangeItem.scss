@@ -87,7 +87,7 @@
   &__container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin: 5px 0 25px;
   }
 
   &__item {
@@ -107,6 +107,9 @@
     &--active {
       color: $white;
       background-color: $blue;
+    }
+    &--readonly {
+      cursor: default;
     }
   }
 }
