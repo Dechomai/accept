@@ -13,7 +13,9 @@ class ExchangeItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      quantity: 1
+      quantity: 1,
+      activeDays: [],
+      activeTime: []
     };
     autobind(this);
   }
@@ -27,8 +29,33 @@ class ExchangeItem extends React.Component {
     }
   }
 
+  toggleDay(day) {
+    const {activeDays} = this.state;
+    const index = activeDays.indexOf(day);
+    if (index > -1) {
+      activeDays.splice(index, 1);
+    } else {
+      activeDays.push(day);
+    }
+
+    this.setState({activeDays});
+  }
+
+  toggleTime(day) {
+    const {activeTime} = this.state;
+    const index = activeTime.indexOf(day);
+    if (index > -1) {
+      activeTime.splice(index, 1);
+    } else {
+      activeTime.push(day);
+    }
+
+    this.setState({activeTime});
+  }
+
   render() {
-    const {item, type, className, title} = this.props;
+    const {item, type, className, title, own} = this.props;
+    const {activeDays, activeTime} = this.state;
 
     const primaryImageUrl = getPrimaryImage(item);
     const imgUrl = primaryImageUrl
@@ -73,6 +100,44 @@ class ExchangeItem extends React.Component {
               </div>
             </div>
           </div>
+
+          {own &&
+            type === 'service' && (
+              <div className="exchange-item__availability">
+                <div className="weekdays__title">Weekdays:</div>
+                <div className="weekdays__description">
+                  Choose the weekdays when the service can be provided
+                </div>
+                <div className="weekdays__container">
+                  {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                    <div
+                      key={day}
+                      className={classNames('weekdays__item', {
+                        'weekdays__item--active': activeDays.includes(day)
+                      })}
+                      onClick={() => this.toggleDay(day)}>
+                      {day}
+                    </div>
+                  ))}
+                </div>
+                <div className="daytime__title">Available time:</div>
+                <div className="daytime__description">
+                  Pick the time of the day to provide the service
+                </div>
+                <div className="daytime__container">
+                  {['Morning', 'Afternoon', 'Evening', 'Night'].map(time => (
+                    <div
+                      key={time}
+                      className={classNames('daytime__item', {
+                        'daytime__item--active': activeTime.includes(time)
+                      })}
+                      onClick={() => this.toggleTime(time)}>
+                      {time}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
         </div>
       </div>
     );
@@ -83,6 +148,7 @@ ExchangeItem.propTypes = {
   item: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['product', 'service']).isRequired,
   title: PropTypes.string,
+  own: PropTypes.bool,
   className: PropTypes.string
 };
 

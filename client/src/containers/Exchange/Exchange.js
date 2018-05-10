@@ -101,7 +101,7 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep3 item={this.state.selectedItem} />
+              <ExchangeStep3 item={this.state.selectedItem} type={this.props.type} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem item={this.props.item} type={this.props.type} />
