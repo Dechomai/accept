@@ -9,6 +9,7 @@ import ExchangeStep1 from '../../containers/Exchange/Step1';
 import ExchangeStep2 from '../../containers/Exchange/Step2';
 import ExchangeStep3 from '../../containers/Exchange/Step3';
 import ExchangeItem from '../../components/Exchange/ExchangeItem';
+import ExchangeEscrow from '../../components/Exchange/Escrow';
 
 class Exchange extends React.Component {
   constructor(props) {
@@ -17,8 +18,11 @@ class Exchange extends React.Component {
 
     this.state = {
       step: 0,
-      itemType: null,
-      selectedItem: null
+      selectedType: null,
+      selectedItem: null,
+
+      ownCount: 1,
+      partnerCount: 1
     };
   }
 
@@ -38,7 +42,7 @@ class Exchange extends React.Component {
 
   handleTypeSelect(type) {
     this.setState({
-      itemType: type,
+      selectedType: type,
       step: 1
     });
   }
@@ -48,6 +52,35 @@ class Exchange extends React.Component {
       selectedItem: item,
       step: 2
     });
+  }
+
+  handleOwnItemQuantityChange(num) {
+    this.setState({ownCount: num});
+  }
+
+  handlePartnerItemQuantityChange(num) {
+    this.setState({partnerCount: num});
+  }
+
+  calculateEscrow() {
+    const ownItem = this.state.selectedItem;
+    const partnerItem = this.props.item;
+
+    return Math.min(
+      ownItem.price * this.state.ownCount,
+      partnerItem.price * this.state.partnerCount
+    );
+  }
+
+  calculateEscrowDifference() {
+    const ownItem = this.state.selectedItem;
+    const partnerItem = this.props.item;
+    const escrow = this.calculateEscrow();
+
+    return Math.max(
+      ownItem.price * this.state.ownCount - escrow,
+      partnerItem.price * this.state.partnerCount - escrow
+    );
   }
 
   isNextBtnDisabled() {
@@ -82,7 +115,12 @@ class Exchange extends React.Component {
               <ExchangeStep1 onTypeSelect={this.handleTypeSelect} />
             </div>
             <div className="exchange-content__item">
-              <ExchangeItem item={this.props.item} type={this.props.type} />
+              <ExchangeItem
+                item={this.props.item}
+                type={this.props.type}
+                quantity={this.state.partnerCount}
+                onQuantityChange={this.handlePartnerItemQuantityChange}
+              />
             </div>
           </div>
         );
@@ -90,10 +128,15 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep2 itemType={this.state.itemType} onItemSelect={this.handleItemSelect} />
+              <ExchangeStep2 type={this.state.selectedType} onItemSelect={this.handleItemSelect} />
             </div>
             <div className="exchange-content__item">
-              <ExchangeItem item={this.props.item} type={this.props.type} />
+              <ExchangeItem
+                item={this.props.item}
+                type={this.props.type}
+                quantity={this.state.partnerCount}
+                onQuantityChange={this.handlePartnerItemQuantityChange}
+              />
             </div>
           </div>
         );
@@ -101,10 +144,24 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep3 item={this.state.selectedItem} type={this.props.type} />
+              <ExchangeStep3
+                type={this.state.selectedType}
+                item={this.state.selectedItem}
+                quantity={this.state.ownCount}
+                onQuantityChange={this.handleOwnItemQuantityChange}
+              />
             </div>
             <div className="exchange-content__item">
-              <ExchangeItem item={this.props.item} type={this.props.type} />
+              <ExchangeItem
+                item={this.props.item}
+                type={this.props.type}
+                quantity={this.state.partnerCount}
+                onQuantityChange={this.handlePartnerItemQuantityChange}
+              />
+              <ExchangeEscrow
+                difference={this.calculateEscrowDifference()}
+                escrow={this.calculateEscrow()}
+              />
             </div>
           </div>
         );

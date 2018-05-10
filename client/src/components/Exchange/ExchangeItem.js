@@ -5,15 +5,17 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobindr';
 import {Input} from 'reactstrap';
+import {ifElse, contains, append, without} from 'ramda';
 
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 import {formatPrice} from '../../utils/format';
+
+const toggleElement = element => ifElse(contains(element), without([element]), append(element));
 
 class ExchangeItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      quantity: 1,
       activeDays: [],
       activeTime: []
     };
@@ -25,35 +27,23 @@ class ExchangeItem extends React.Component {
 
     const num = parseInt(+value);
     if (!value || (!isNaN(num) && num >= 1 && num < 200000)) {
-      this.setState({quantity: num || ''});
+      this.props.onQuantityChange(num || '');
     }
   }
 
   toggleDay(day) {
     if (this.props.own) {
-      const {activeDays} = this.state;
-      const index = activeDays.indexOf(day);
-      if (index > -1) {
-        activeDays.splice(index, 1);
-      } else {
-        activeDays.push(day);
-      }
-
-      this.setState({activeDays});
+      this.setState({
+        activeDays: toggleElement(day)(this.state.activeDays)
+      });
     }
   }
 
   toggleTime(time) {
     if (this.props.own) {
-      const {activeTime} = this.state;
-      const index = activeTime.indexOf(time);
-      if (index > -1) {
-        activeTime.splice(index, 1);
-      } else {
-        activeTime.push(time);
-      }
-
-      this.setState({activeTime});
+      this.setState({
+        activeTime: toggleElement(time)(this.state.activeTime)
+      });
     }
   }
 
@@ -82,10 +72,10 @@ class ExchangeItem extends React.Component {
             <div className="exchange-item__quantity__input-wrapper">
               <Input
                 className={classNames('exchange-item__quantity__input', {
-                  'is-invalid': !this.state.quantity
+                  'is-invalid': !this.props.quantity
                 })}
                 type="text"
-                value={this.state.quantity}
+                value={this.props.quantity}
                 onChange={this.handleQuantityChange}
               />
             </div>
@@ -100,7 +90,7 @@ class ExchangeItem extends React.Component {
             <div className="exchange-item__price__total">
               <div className="exchange-item__label">Total</div>
               <div className="exchange-item__price__value">
-                {formatPrice(item.price * this.state.quantity)}
+                {formatPrice(item.price * this.props.quantity)}
               </div>
             </div>
           </div>
@@ -156,9 +146,11 @@ class ExchangeItem extends React.Component {
 ExchangeItem.propTypes = {
   item: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['product', 'service']).isRequired,
+  quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   title: PropTypes.string,
   own: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onQuantityChange: PropTypes.func.isRequired
 };
 
 ExchangeItem.defaultProps = {
