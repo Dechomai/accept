@@ -24,20 +24,18 @@ const DEFAULT_LIMIT = 8;
 const refetchItems = props => {
   const {items} = props;
   if (!items || (!items.listValid && !items.loading)) {
-    props.itemType === 'product' ? props.fetchProducts() : props.fetchServices();
+    props.type === 'product' ? props.fetchProducts() : props.fetchServices();
   }
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
     items:
-      ownProps.itemType === 'product'
+      ownProps.type === 'product'
         ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
         : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
     count:
-      ownProps.itemType === 'product'
-        ? selectOwnProductsCount(state)
-        : selectOwnServicesCount(state)
+      ownProps.type === 'product' ? selectOwnProductsCount(state) : selectOwnServicesCount(state)
   };
 };
 
