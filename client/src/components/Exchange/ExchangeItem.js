@@ -41,13 +41,13 @@ class ExchangeItem extends React.Component {
     this.setState({activeDays});
   }
 
-  toggleTime(day) {
+  toggleTime(time) {
     const {activeTime} = this.state;
-    const index = activeTime.indexOf(day);
+    const index = activeTime.indexOf(time);
     if (index > -1) {
       activeTime.splice(index, 1);
     } else {
-      activeTime.push(day);
+      activeTime.push(time);
     }
 
     this.setState({activeTime});
