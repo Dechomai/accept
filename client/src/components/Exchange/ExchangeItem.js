@@ -13,10 +13,13 @@ class ExchangeItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      quantity: 1
+      quantity: 1,
+      activeDays: [],
+      activeTime: []
     };
     autobind(this);
   }
+
   handleQuantityChange(e) {
     const {value} = e.target;
 
@@ -26,8 +29,37 @@ class ExchangeItem extends React.Component {
     }
   }
 
+  toggleDay(day) {
+    if (this.props.own) {
+      const {activeDays} = this.state;
+      const index = activeDays.indexOf(day);
+      if (index > -1) {
+        activeDays.splice(index, 1);
+      } else {
+        activeDays.push(day);
+      }
+
+      this.setState({activeDays});
+    }
+  }
+
+  toggleTime(time) {
+    if (this.props.own) {
+      const {activeTime} = this.state;
+      const index = activeTime.indexOf(time);
+      if (index > -1) {
+        activeTime.splice(index, 1);
+      } else {
+        activeTime.push(time);
+      }
+
+      this.setState({activeTime});
+    }
+  }
+
   render() {
-    const {className, item, title} = this.props;
+    const {item, type, className, title, own} = this.props;
+    const {activeDays, activeTime} = this.state;
 
     const primaryImageUrl = getPrimaryImage(item);
     const imgUrl = primaryImageUrl
@@ -46,7 +78,7 @@ class ExchangeItem extends React.Component {
             <div className="exchange-item__info__title">{item.title}</div>
           </div>
           <div className="exchange-item__quantity">
-            <div className="exchange-item__label">Quantity</div>
+            <div className="exchange-item__label">{type === 'product' ? 'Quantity' : 'Hours'}</div>
             <div className="exchange-item__quantity__input-wrapper">
               <Input
                 className={classNames('exchange-item__quantity__input', {
@@ -60,7 +92,9 @@ class ExchangeItem extends React.Component {
           </div>
           <div className="exchange-item__price">
             <div className="exchange-item__price__single">
-              <div className="exchange-item__label">Price/Item</div>
+              <div className="exchange-item__label">
+                {type === 'product' ? 'Price/Item' : 'Price/Hour'}
+              </div>
               <div className="exchange-item__price__value">{formatPrice(item.price)}</div>
             </div>
             <div className="exchange-item__price__total">
@@ -70,6 +104,49 @@ class ExchangeItem extends React.Component {
               </div>
             </div>
           </div>
+
+          {type === 'service' && (
+            <div className="exchange-item__availability">
+              <div className={own ? 'weekdays__title' : 'exchange-item__label'}>Weekdays:</div>
+              {own && (
+                <div className="weekdays__description">
+                  Choose the weekdays when the service can be provided
+                </div>
+              )}
+              <div className="weekdays__container">
+                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                  <div
+                    key={day}
+                    className={classNames('weekdays__item', {
+                      'weekdays__item--readonly': !own,
+                      'weekdays__item--active': activeDays.includes(day)
+                    })}
+                    onClick={() => this.toggleDay(day)}>
+                    {day}
+                  </div>
+                ))}
+              </div>
+              <div className={own ? 'daytime__title' : 'exchange-item__label'}>Available time:</div>
+              {own && (
+                <div className="daytime__description">
+                  Pick the time of the day to provide the service
+                </div>
+              )}
+              <div className="daytime__container">
+                {['Morning', 'Afternoon', 'Evening', 'Night'].map(time => (
+                  <div
+                    key={time}
+                    className={classNames('daytime__item', {
+                      'daytime__item--readonly': !own,
+                      'daytime__item--active': activeTime.includes(time)
+                    })}
+                    onClick={() => this.toggleTime(time)}>
+                    {time}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -77,9 +154,11 @@ class ExchangeItem extends React.Component {
 }
 
 ExchangeItem.propTypes = {
+  item: PropTypes.any.isRequired,
+  type: PropTypes.oneOf(['product', 'service']).isRequired,
   title: PropTypes.string,
-  className: PropTypes.string,
-  item: PropTypes.any.isRequired
+  own: PropTypes.bool,
+  className: PropTypes.string
 };
 
 ExchangeItem.defaultProps = {

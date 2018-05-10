@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose, path} from 'ramda';
+import autobind from 'autobindr';
 
 import {selectProductById, selectProfile} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
 import ProductDetails from '../../components/Product/Details';
 import Loader from '../../components/common/Loader/Loader';
 import Exchange from '../Exchange/Exchange';
-import autobind from 'autobindr';
 
 class Details extends React.Component {
   constructor(props) {
@@ -19,6 +19,13 @@ class Details extends React.Component {
     this.state = {
       showExchange: false
     };
+  }
+
+  componentDidMount() {
+    const {params, product} = this.props;
+    if (!product && params.productId) {
+      this.props.fetchProductById(params.productId);
+    }
   }
 
   handleExchangeClick() {
@@ -33,28 +40,21 @@ class Details extends React.Component {
     });
   }
 
-  componentDidMount() {
-    const {params, product} = this.props;
-    if (!product && params.productId) {
-      this.props.fetchProductById(params.productId);
-    }
-  }
-
   render() {
     const {product, user} = this.props;
     const userId = path(['data', 'id'], user);
     if (path(['data'], product)) {
       return (
-        <div>
+        <React.Fragment>
           {this.state.showExchange && (
-            <Exchange item={product.data} onCancel={this.handleExchangeCancel} />
+            <Exchange type="product" item={product.data} onCancel={this.handleExchangeCancel} />
           )}
           <ProductDetails
             product={product.data}
             isOwner={product.data.createdBy.id === userId}
             onExchangeClick={this.handleExchangeClick}
           />
-        </div>
+        </React.Fragment>
       );
     } else if (path(['loading'], product)) {
       return <Loader />;

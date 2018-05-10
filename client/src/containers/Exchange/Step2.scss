@@ -41,9 +41,19 @@
       word-break: break-all;
     }
     &__price {
+      display: flex;
+      flex-direction: column;
       padding: 0 0.5rem 0 0;
-      font-size: 18px;
-      font-weight: $font-weight-bold;
+      text-align: right;
+
+      &__value {
+        font-size: 18px;
+        font-weight: $font-weight-bold;
+      }
+
+      &__label {
+        font-size: 10px;
+      }
     }
   }
 }

@@ -3,10 +3,7 @@ import './Step2.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose, withStateHandlers, lifecycle} from 'recompact';
-import {fetchProducts} from '../../actions/products';
-import {fetchServices} from '../../actions/services';
 import {withRouter} from 'react-router';
-import {getImageThumbnail, getPrimaryImage} from '../../utils/img';
 
 import {
   selectOwnProductsCount,
@@ -14,7 +11,10 @@ import {
   selectOwnProductsFor,
   selectOwnServicesFor
 } from '../../selectors';
-
+import {fetchProducts} from '../../actions/products';
+import {fetchServices} from '../../actions/services';
+import {getImageThumbnail, getPrimaryImage} from '../../utils/img';
+import {formatPrice} from '../../utils/format';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
@@ -126,7 +126,14 @@ export default compose(
                   />
                   <div className="exchange-step2-list__item__info">
                     <div className="exchange-step2-list__item__title">{item.title}</div>
-                    <div className="exchange-step2-list__item__price">{item.price}</div>
+                    <div className="exchange-step2-list__item__price">
+                      <span className="exchange-step2-list__item__price__value">
+                        {formatPrice(item.price)}
+                      </span>
+                      {itemType === 'service' && (
+                        <span className="exchange-step2-list__item__price__label">per hour</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               );

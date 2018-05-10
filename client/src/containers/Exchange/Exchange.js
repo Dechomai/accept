@@ -82,7 +82,7 @@ class Exchange extends React.Component {
               <ExchangeStep1 onTypeSelect={this.handleTypeSelect} />
             </div>
             <div className="exchange-content__item">
-              <ExchangeItem item={this.props.item} />
+              <ExchangeItem item={this.props.item} type={this.props.type} />
             </div>
           </div>
         );
@@ -93,7 +93,7 @@ class Exchange extends React.Component {
               <ExchangeStep2 itemType={this.state.itemType} onItemSelect={this.handleItemSelect} />
             </div>
             <div className="exchange-content__item">
-              <ExchangeItem item={this.props.item} />
+              <ExchangeItem item={this.props.item} type={this.props.type} />
             </div>
           </div>
         );
@@ -101,14 +101,13 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep3 item={this.state.selectedItem} />
+              <ExchangeStep3 item={this.state.selectedItem} type={this.props.type} />
             </div>
             <div className="exchange-content__item">
-              <ExchangeItem item={this.props.item} />
+              <ExchangeItem item={this.props.item} type={this.props.type} />
             </div>
           </div>
         );
-      // return <ExchangeStep2Container item={this.props.item} itemType={this.state.itemType} />;
     }
   }
 
@@ -130,6 +129,7 @@ class Exchange extends React.Component {
 
 Exchange.propTypes = {
   item: PropTypes.any.isRequired,
+  type: PropTypes.oneOf(['product', 'service']).isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
