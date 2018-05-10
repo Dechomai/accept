@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => ({
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(props => {
-    if (props.location.pathname === '/signup-finish') return <HeaderPlain />;
+    if (props.location.pathname === '/signup-finish' || '/signup-join-accept')
+      return <HeaderPlain />;
     return <Header {...props} />;
   })
 );

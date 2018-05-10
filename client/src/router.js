@@ -9,6 +9,7 @@ import {selectProfile} from './selectors';
 import App from './layout/App';
 import Home from './layout/Home';
 import SignUp from './layout/SignUp';
+import SignUpLastStep from './layout/SignUpLastStep';
 import Profile from './layout/UserProfile';
 import AboutMe from './containers/Profile/About';
 import AddProduct from './layout/AddProduct';
@@ -117,6 +118,7 @@ class Router extends React.Component {
           <IndexRoute component={Home} />
 
           <Route path="signup-finish" component={SignUp} showFooter={false} />
+          <Route path="signup-join-accept" component={SignUpLastStep} showFooter={false} />
 
           <Route path="profile" component={Profile}>
             <IndexRoute component={AboutMe} />
