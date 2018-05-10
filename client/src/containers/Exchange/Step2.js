@@ -88,7 +88,7 @@ export default compose(
     skip,
     limit,
     count,
-    itemType,
+    type,
     onItemSelect,
     onPaginationNextClick,
     onPaginationPrevClick,
@@ -98,7 +98,7 @@ export default compose(
     if (!items || items.loading) {
       content = <Loader />;
     } else if (items && !items.data.length) {
-      content = <Empty type={itemType} />;
+      content = <Empty type={type} />;
     } else {
       content = (
         <div className="exchange-step2__items">
@@ -130,7 +130,7 @@ export default compose(
                       <span className="exchange-step2-list__item__price__value">
                         {formatPrice(item.price)}
                       </span>
-                      {itemType === 'service' && (
+                      {type === 'service' && (
                         <span className="exchange-step2-list__item__price__label">per hour</span>
                       )}
                     </div>

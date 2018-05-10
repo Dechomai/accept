@@ -1,0 +1,33 @@
+@import '../../theme/index';
+
+.exchange-escrow {
+  background-color: $gray-100;
+  padding: 1rem;
+  margin: 1rem;
+  font-weight: $font-weight-bold;
+
+  &__difference,
+  &__escrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__difference {
+    font-size: 13px;
+  }
+
+  &__escrow {
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+
+  &__escrow &__value {
+    font-size: 22px;
+  }
+
+  &__label {
+    text-transform: uppercase;
+  }
+}
