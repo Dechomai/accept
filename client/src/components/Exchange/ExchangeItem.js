@@ -17,6 +17,7 @@ class ExchangeItem extends React.Component {
     };
     autobind(this);
   }
+
   handleQuantityChange(e) {
     const {value} = e.target;
 
@@ -27,7 +28,7 @@ class ExchangeItem extends React.Component {
   }
 
   render() {
-    const {className, item, title} = this.props;
+    const {item, type, className, title} = this.props;
 
     const primaryImageUrl = getPrimaryImage(item);
     const imgUrl = primaryImageUrl
@@ -46,7 +47,7 @@ class ExchangeItem extends React.Component {
             <div className="exchange-item__info__title">{item.title}</div>
           </div>
           <div className="exchange-item__quantity">
-            <div className="exchange-item__label">Quantity</div>
+            <div className="exchange-item__label">{type === 'product' ? 'Quantity' : 'Hours'}</div>
             <div className="exchange-item__quantity__input-wrapper">
               <Input
                 className={classNames('exchange-item__quantity__input', {
@@ -60,7 +61,9 @@ class ExchangeItem extends React.Component {
           </div>
           <div className="exchange-item__price">
             <div className="exchange-item__price__single">
-              <div className="exchange-item__label">Price/Item</div>
+              <div className="exchange-item__label">
+                {type === 'product' ? 'Price/Item' : 'Price/Hour'}
+              </div>
               <div className="exchange-item__price__value">{formatPrice(item.price)}</div>
             </div>
             <div className="exchange-item__price__total">
@@ -77,9 +80,10 @@ class ExchangeItem extends React.Component {
 }
 
 ExchangeItem.propTypes = {
+  item: PropTypes.any.isRequired,
+  type: PropTypes.oneOf(['product', 'service']).isRequired,
   title: PropTypes.string,
-  className: PropTypes.string,
-  item: PropTypes.any.isRequired
+  className: PropTypes.string
 };
 
 ExchangeItem.defaultProps = {
