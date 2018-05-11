@@ -74,13 +74,13 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
   const user = prop('data', selectProfile(state));
 
   // if user status is 'newreg' redirect to /signup-finish
-  if (pathname !== '/signup-finish' && user && user.status === 'newreg') {
-    replace('/signup-finish');
+  if (pathname !== '/signup-step2' && user && user.status === 'newreg') {
+    replace('/signup-step2');
     return cb();
   }
 
   // if user status is other that 'newreg' disable /signup-finish
-  if (pathname === '/signup-finish' && (!user || (user && user.status !== 'newreg'))) {
+  if (pathname === '/signup-step2' && (!user || (user && user.status !== 'newreg'))) {
     const prev = pathOr('/', ['location', 'pathname'], prevState);
     replace(prev);
     return cb();
@@ -117,8 +117,8 @@ class Router extends React.Component {
           onChange={this.onRootRouteChange}>
           <IndexRoute component={Home} />
 
-          <Route path="signup-finish" component={SignUp} showFooter={false} />
-          <Route path="signup-join-accept" component={SignUpLastStep} showFooter={false} />
+          <Route path="signup-step2" component={SignUp} showFooter={false} />
+          <Route path="signup-step3" component={SignUpLastStep} showFooter={false} />
 
           <Route path="profile" component={Profile}>
             <IndexRoute component={AboutMe} />
