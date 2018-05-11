@@ -7,62 +7,10 @@ import {withRouter} from 'react-router';
 import {selectProductById, selectServiceById} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
-import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 
-import UserLink from '../../components/common/UserLink/UserLink';
 import Icon from '../../components/common/Icon/Icon';
+import ExchangeItemSummary from '../../components/Exchange/ExchangeItemSummary';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
-
-const ItemSummary = ({title, item, type, count, isOwner, days, time}) => {
-  const primaryImageUrl = getPrimaryImage(item);
-  const imgUrl = primaryImageUrl
-    ? getImageThumbnail(primaryImageUrl)
-    : '/assets/img/placeholder.png';
-  const total = item.price * count;
-
-  return (
-    <div className="item-summary">
-      <div className="item-summary__header">{title}</div>
-      <div className="item-summary__owner">
-        <UserLink user={item.createdBy} isOwner={isOwner} />
-      </div>
-      <div className="item-summary__item">
-        <div className="row d-flex align-items-center justify-content-start">
-          <div className="col-3">
-            <div className="item-summary__photo" style={{backgroundImage: `url(${imgUrl})`}} />
-          </div>
-          <div className="col-9 item-summary__title">{item.title}</div>
-        </div>
-        <div className="row">
-          <div className="col-9 offset-3 item-summary__properties">
-            <div className="item-summary__quantity">
-              <div className="item-summary__label">{type === 'product' ? 'Quantity' : 'Hours'}</div>
-              <div className="item-summary__value">{count}</div>
-            </div>
-            <div className="item-summary__price">
-              <div className="item-summary__label">
-                Price/{type === 'product' ? 'Item' : 'Hour'}
-              </div>
-              <div className="item-summary__value">{item.price.toFixed(2)}</div>
-            </div>
-            <div className="item-summary__total">
-              <div className="item-summary__label">Total</div>
-              <div className="item-summary__value">{total.toFixed(2)}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {type === 'service' &&
-        days.length > 0 &&
-        time.length > 0 && (
-          <div className="item-summary__availability">
-            Availability: <strong>{days.join(', ')}</strong> in the{' '}
-            <strong>{time.join(', ')}</strong>
-          </div>
-        )}
-    </div>
-  );
-};
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -123,7 +71,7 @@ export default compose(
       <div className="exchange-step4">
         <div className="exchange-step4__sections">
           <div className="exchange-step4__section">
-            <ItemSummary
+            <ExchangeItemSummary
               title="Your offer:"
               item={ownItem.data}
               type={ownType}
@@ -160,13 +108,11 @@ export default compose(
           </div>
           <Icon className="exchange-step4__arrow" name="chevron-right" />
           <div className="exchange-step4__section">
-            <ItemSummary
+            <ExchangeItemSummary
               title="Item for exchange:"
               item={wantedItem}
               type={wantedType}
               count={wantedCount}
-              days={[]}
-              time={[]}
             />
             <ExchangeEscrow difference={difference} escrow={escrow} />
           </div>

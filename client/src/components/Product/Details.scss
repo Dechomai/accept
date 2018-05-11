@@ -61,16 +61,4 @@
     margin-top: 0.75rem;
     color: $gray-500;
   }
-  &__seller {
-    &__username {
-      margin: 0 0 0 0.5rem;
-      color: $blue;
-      font-weight: 600;
-      font-size: $font-size-sm;
-
-      &:before {
-        content: '@';
-      }
-    }
-  }
 }
