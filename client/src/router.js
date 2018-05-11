@@ -73,14 +73,27 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
   const state = store.getState();
   const user = prop('data', selectProfile(state));
 
-  // if user status is 'newreg' redirect to /signup-finish
+  // if user status is 'newreg' redirect to /signup-step2
   if (pathname !== '/signup-step2' && user && user.status === 'newreg') {
     replace('/signup-step2');
     return cb();
   }
 
-  // if user status is other that 'newreg' disable /signup-finish
+  // if user status is 'pending' redirect to /signup-step3
+  if (pathname !== '/signup-step3' && user && user.status === 'pending') {
+    replace('/signup-step3');
+    return cb();
+  }
+
+  // if user status is other that 'newreg' disable /signup-step2
   if (pathname === '/signup-step2' && (!user || (user && user.status !== 'newreg'))) {
+    const prev = pathOr('/', ['location', 'pathname'], prevState);
+    replace(prev);
+    return cb();
+  }
+
+  // if user status is other that 'pending' disable /signup-step3
+  if (pathname === '/signup-step3' && (!user || (user && user.status !== 'pending'))) {
     const prev = pathOr('/', ['location', 'pathname'], prevState);
     replace(prev);
     return cb();

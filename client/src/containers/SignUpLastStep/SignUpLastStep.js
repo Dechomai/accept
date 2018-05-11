@@ -11,7 +11,7 @@ class SignUp extends React.Component {
   }
 }
 
-const mapStateToProps = () => {};
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = () => ({});
 
