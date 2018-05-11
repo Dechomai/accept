@@ -26,7 +26,7 @@ const userController = {
   createUser(id, userData, avatar) {
     return (avatar ? mediaController.uploadUserAvatar(id, avatar) : Promise.resolve())
       .then(photo => (photo && photo.url ? assoc('photoUrl', photo.url, userData) : userData))
-      .then(assoc('status', 'active'))
+      .then(assoc('status', 'pending'))
       .then(data =>
         User.findByIdAndUpdate(id, data, {
           new: true,
@@ -47,6 +47,36 @@ const userController = {
         return Promise.reject(err);
       });
   },
+
+  confirmUser(id, {address}) {
+    return User.findById(id)
+      .then(user => (user ? user.toJSON() : Promise.reject(null)))
+      .then(user => {
+        if (user.status !== 'pending') return Promise.reject('Invalid state');
+
+        return User.findByIdAndUpdate(
+          id,
+          {
+            status: 'active',
+            bcDefaultAccountAddress: address
+          },
+          {
+            new: true,
+            select: User.projection
+          }
+        );
+      })
+      .then(user => (user ? user.toJSON() : Promise.reject(null)))
+      .catch(err => {
+        if (err === null) {
+          logger.error(':confirmUser', `user ${id} not found`);
+        } else {
+          logger.error(':confirmUser', 'error', err);
+        }
+        return Promise.reject(err);
+      });
+  },
+
   updateUser(id, userData) {
     return User.findByIdAndUpdate(id, userData, {
       new: true,

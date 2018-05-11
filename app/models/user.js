@@ -16,8 +16,9 @@ const userSchema = new BaseSchema(
     status: {
       type: String,
       enum: [
-        'newreg', // registered in Cognito
-        'active' // registered in app
+        'newreg', // registered in Cognito, no personal details
+        'pending', // user registered in Cognito, added personal details, awaiting blockchain account
+        'active' // registered in app, added blockchain account
       ],
       default: 'newreg'
     },
@@ -45,7 +46,7 @@ const userSchema = new BaseSchema(
     },
     photoUrl: String,
     description: String,
-    bcPublicKey: String
+    bcDefaultAccountAddress: String
   },
   {
     timestamps: true

@@ -40,6 +40,27 @@ userRouter.route('/unique-username').post(
   }
 );
 
+userRouter.route('/confirm').post(
+  authMiddleware(),
+  validationMiddleware(
+    body('address')
+      .exists()
+      .custom(val => /^0x[a-fA-F0-9]{40}$/.test(val))
+  ),
+  (req, res) => {
+    const {userId} = req;
+    const {address} = req.body;
+
+    userController.confirmUser(userId, {address}).then(
+      user => sendSuccess(res, {user}),
+      err => {
+        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+        sendError(res, {message: 'Error confirming user'});
+      }
+    );
+  }
+);
+
 userRouter
   .route('/:userId')
   .all(
@@ -129,18 +150,10 @@ userRouter
       const data = pick(['description'], req.body);
 
       userController.updateUser(req.userId, data).then(
-        user => {
-          res.status(200).send({
-            status: 'success',
-            user
-          });
-        },
+        user => sendSuccess(res, {user}),
         err => {
           if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
-          res.status(400).send({
-            status: 'error',
-            message: 'Unable to update user'
-          });
+          sendError(res, {message: 'Unable to update user'}, {status: 400});
         }
       );
     }
