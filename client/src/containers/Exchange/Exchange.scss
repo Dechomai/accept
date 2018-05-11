@@ -11,6 +11,10 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      .exchange-escrow {
+        margin: 1rem;
+      }
     }
   }
 }

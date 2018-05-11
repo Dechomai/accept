@@ -9,7 +9,7 @@ import {getOrderedPhotos} from '../../utils/img';
 
 import Icon from '../common/Icon/Icon';
 import Gallery from '../common/Gallery/Gallery';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import UserLink from '../common/UserLink/UserLink';
 
 const ProductDetails = ({product, isOwner, onExchangeClick}) => (
   <div className="container product-details">
@@ -25,12 +25,7 @@ const ProductDetails = ({product, isOwner, onExchangeClick}) => (
     </div>
     <div className="row product-details__header">
       <div className="col-12 d-flex justify-content-between">
-        <Link
-          className="product-details__seller"
-          to={isOwner ? '/profile' : `/users/${product.createdBy.id}`}>
-          <UserAvatar user={product.createdBy} />
-          <span className="product-details__seller__username">{product.createdBy.username}</span>
-        </Link>
+        <UserLink user={product.createdBy} isOwner={isOwner} />
         {isOwner && (
           <Link className="d-flex justify-content-end" to={`/products/${product.id}/edit`}>
             <Button size="sm" color="link" className="p-0 btn-with-icon product-details__edit">

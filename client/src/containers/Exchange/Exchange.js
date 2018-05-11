@@ -8,6 +8,7 @@ import ExchangeModal from '../../components/Exchange/Modal';
 import ExchangeStep1 from '../../containers/Exchange/Step1';
 import ExchangeStep2 from '../../containers/Exchange/Step2';
 import ExchangeStep3 from '../../containers/Exchange/Step3';
+import ExchangeStep4 from '../../containers/Exchange/Step4';
 import ExchangeItem from '../../components/Exchange/ExchangeItem';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 
@@ -62,6 +63,14 @@ class Exchange extends React.Component {
     this.setState({partnerCount: num});
   }
 
+  handleAvailabilityDaysChange(days) {
+    this.setState({ownDays: days});
+  }
+
+  handleAvailabilityTimeChange(time) {
+    this.setState({ownTime: time});
+  }
+
   calculateEscrow() {
     const ownItem = this.state.selectedItem;
     const partnerItem = this.props.item;
@@ -84,7 +93,7 @@ class Exchange extends React.Component {
   }
 
   isNextBtnDisabled() {
-    return true;
+    return this.state.step !== 2;
   }
 
   isBackBtnDisabled() {
@@ -95,14 +104,18 @@ class Exchange extends React.Component {
     return 'Offer to Exchange';
   }
 
+  getStepNextBtnCaption() {
+    return this.state.step === 3 ? 'Send Offer' : 'Next';
+  }
+
   getStepSubTitle() {
     switch (this.state.step) {
       case 0:
-        return 'Step 1. Set offer';
       case 1:
-        return 'Step 1. Set offer';
       case 2:
         return 'Step 1. Set offer';
+      case 3:
+        return 'Step 2. Smart Contract';
     }
   }
 
@@ -148,7 +161,11 @@ class Exchange extends React.Component {
                 type={this.state.selectedType}
                 item={this.state.selectedItem}
                 quantity={this.state.ownCount}
+                days={this.state.ownDays}
+                time={this.state.ownTime}
                 onQuantityChange={this.handleOwnItemQuantityChange}
+                onDaysChange={this.handleAvailabilityDaysChange}
+                onTimeChange={this.handleAvailabilityTimeChange}
               />
             </div>
             <div className="exchange-content__item">
@@ -165,6 +182,23 @@ class Exchange extends React.Component {
             </div>
           </div>
         );
+      case 3:
+        return (
+          <div className="exchange-content">
+            <ExchangeStep4
+              ownItemId={this.state.selectedItem.id}
+              ownType={this.state.selectedType}
+              ownCount={this.state.ownCount}
+              ownDays={this.state.ownDays}
+              ownTime={this.state.ownTime}
+              wantedItem={this.props.item}
+              wantedType={this.props.type}
+              wantedCount={this.state.partnerCount}
+              difference={this.calculateEscrowDifference()}
+              escrow={this.calculateEscrow()}
+            />
+          </div>
+        );
     }
   }
 
@@ -173,6 +207,7 @@ class Exchange extends React.Component {
       <ExchangeModal
         title={this.getStepTitle()}
         subtitle={this.getStepSubTitle()}
+        nextBtnCaption={this.getStepNextBtnCaption()}
         nextBtnDisabled={this.isNextBtnDisabled()}
         backBtnDisabled={this.isBackBtnDisabled()}
         onCancelBtnClick={this.handleCancelClick}

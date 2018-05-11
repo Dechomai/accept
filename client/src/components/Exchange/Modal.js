@@ -12,6 +12,7 @@ const ExchangeModal = ({
   onCancelBtnClick,
   nextBtnDisabled,
   backBtnDisabled,
+  nextBtnCaption,
   children
 }) => (
   <Modal isOpen={true} toggle={onCancelBtnClick} className="exchange-modal" size="lg">
@@ -29,7 +30,7 @@ const ExchangeModal = ({
           Cancel
         </Button>
         <Button color="primary" disabled={nextBtnDisabled} onClick={onNextBtnClick}>
-          Next
+          {nextBtnCaption}
         </Button>
       </div>
     </ModalFooter>
@@ -42,7 +43,8 @@ ExchangeModal.propTypes = {
   onCancelBtnClick: PropTypes.func.isRequired,
   onNextBtnClick: PropTypes.func.isRequired,
   onBackBtnClick: PropTypes.func.isRequired,
-  nextBtnDisabled: PropTypes.bool.isRequired
+  nextBtnDisabled: PropTypes.bool.isRequired,
+  nextBtnCaption: PropTypes.string.isRequired
 };
 
 export default ExchangeModal;
