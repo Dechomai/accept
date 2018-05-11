@@ -34,12 +34,12 @@ class SignUpStep3 extends React.Component {
   }
 
   updateNetworkStatus() {
-    metamaskService
-      .isAcceptNetwork()
-      .then(
-        () => this.setState({isAcceptNetwork: true}),
-        err => this.setState({isAcceptNetwork: err || false})
-      );
+    metamaskService.isAcceptNetwork().then(
+      () => this.setState({isAcceptNetwork: true}),
+      () => {
+        this.setState({isAcceptNetwork: 'Error retrieving network information' || false});
+      }
+    );
   }
 
   updateAccountStatus() {
@@ -47,7 +47,7 @@ class SignUpStep3 extends React.Component {
       .getActiveAccount()
       .then(
         account => this.setState({activeAccount: account}),
-        err => this.setState({activeAccount: err || false})
+        () => this.setState({activeAccount: 'Error retrieving account information' || false})
       );
   }
 
