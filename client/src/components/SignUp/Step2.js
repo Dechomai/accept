@@ -187,7 +187,7 @@ class InnerForm extends React.Component {
             onClick={handleSubmit}
             className="btn btn-primary"
             disabled={isSubmitting || !isValid}>
-            Create profile
+            Continue
           </button>
         </div>
       </div>
