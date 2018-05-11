@@ -33,23 +33,18 @@ class ExchangeItem extends React.Component {
 
   toggleDay(day) {
     if (this.props.own) {
-      this.setState({
-        activeDays: toggleElement(day)(this.state.activeDays)
-      });
+      this.props.onDaysChange(toggleElement(day)(this.props.days));
     }
   }
 
   toggleTime(time) {
     if (this.props.own) {
-      this.setState({
-        activeTime: toggleElement(time)(this.state.activeTime)
-      });
+      this.props.onTimeChange(toggleElement(time)(this.props.time));
     }
   }
 
   render() {
-    const {item, type, className, title, own} = this.props;
-    const {activeDays, activeTime} = this.state;
+    const {item, type, className, title, days, time: dayTime, own} = this.props;
 
     const primaryImageUrl = getPrimaryImage(item);
     const imgUrl = primaryImageUrl
@@ -109,7 +104,7 @@ class ExchangeItem extends React.Component {
                     key={day}
                     className={classNames('weekdays__item', {
                       'weekdays__item--readonly': !own,
-                      'weekdays__item--active': activeDays.includes(day)
+                      'weekdays__item--active': days.includes(day)
                     })}
                     onClick={() => this.toggleDay(day)}>
                     {day}
@@ -128,7 +123,7 @@ class ExchangeItem extends React.Component {
                     key={time}
                     className={classNames('daytime__item', {
                       'daytime__item--readonly': !own,
-                      'daytime__item--active': activeTime.includes(time)
+                      'daytime__item--active': dayTime.includes(time)
                     })}
                     onClick={() => this.toggleTime(time)}>
                     {time}
@@ -148,14 +143,20 @@ ExchangeItem.propTypes = {
   type: PropTypes.oneOf(['product', 'service']).isRequired,
   quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   title: PropTypes.string,
+  days: PropTypes.arrayOf(PropTypes.string),
+  time: PropTypes.arrayOf(PropTypes.string),
   own: PropTypes.bool,
   className: PropTypes.string,
-  onQuantityChange: PropTypes.func.isRequired
+  onQuantityChange: PropTypes.func.isRequired,
+  onDaysChange: PropTypes.func,
+  onTimeChange: PropTypes.func
 };
 
 ExchangeItem.defaultProps = {
   className: '',
-  title: 'Item for exchange'
+  title: 'Item for exchange',
+  days: [],
+  time: []
 };
 
 export default ExchangeItem;

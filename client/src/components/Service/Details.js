@@ -7,7 +7,7 @@ import {Button, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
 import Icon from '../common/Icon/Icon';
 import Gallery from '../common/Gallery/Gallery';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import UserLink from '../common/UserLink/UserLink';
 import {getOrderedPhotos} from '../../utils/img';
 
 const ServiceDetails = ({service, isOwner, onExchangeClick}) => (
@@ -24,12 +24,7 @@ const ServiceDetails = ({service, isOwner, onExchangeClick}) => (
     </div>
     <div className="row service-details__header">
       <div className="col-12 d-flex justify-content-between">
-        <Link
-          className="service-details__seller"
-          to={isOwner ? '/profile' : `/users/${service.createdBy.id}`}>
-          <UserAvatar user={service.createdBy} />
-          <span className="service-details__seller__username">{service.createdBy.username}</span>
-        </Link>
+        <UserLink user={service.createdBy} isOwner={isOwner} />
         {isOwner && (
           <Link className="d-flex justify-content-end" to={`/services/${service.id}/edit`}>
             <Button size="sm" color="link" className="p-0 btn-with-icon service-details__edit">

@@ -1,0 +1,17 @@
+@import '../../../theme/index';
+
+.user-link {
+  display: inline-block;
+  vertical-align: middle;
+
+  &__username {
+    margin: 0 0 0 0.5rem;
+    color: $blue;
+    font-weight: 600;
+    font-size: $font-size-sm;
+
+    &:before {
+      content: '@';
+    }
+  }
+}
