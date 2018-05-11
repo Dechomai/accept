@@ -1,5 +1,5 @@
 const express = require('express');
-const {body} = require('express-validator/check');
+const {body, param} = require('express-validator/check');
 const {pick} = require('ramda');
 const userController = require('../../controllers/api/user');
 const authMiddleware = require('../../middlewares/auth');
@@ -41,23 +41,37 @@ userRouter.route('/unique-username').post(
 );
 
 userRouter
-  .route('/:userId?')
+  .route('/:userId')
+  .all(
+    validationMiddleware(
+      param('userId')
+        .exists()
+        .isUUID()
+    )
+  )
   .get((req, res) => {
     const {userId} = req.params;
-    new Promise(resolve => {
-      if (userId) return resolve(userId);
-      authMiddleware()(req, res, () => {
-        resolve(req.userId);
-      });
-    }).then(userId => {
-      userController.getUserInfo(userId).then(
-        user => sendSuccess(res, {user}),
-        err => {
-          if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
-          sendError(res, {message: 'Error getting user'});
-        }
-      );
-    });
+
+    userController.getUserInfo(userId).then(
+      user => sendSuccess(res, {user}),
+      err => {
+        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+        sendError(res, {message: 'Error getting user'});
+      }
+    );
+  });
+
+userRouter
+  .route('/')
+  .get(authMiddleware(), (req, res) => {
+    const {userId} = req;
+    userController.getUserInfo(userId).then(
+      user => sendSuccess(res, {user}),
+      err => {
+        if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+        sendError(res, {message: 'Error getting user'});
+      }
+    );
   })
   .post(
     authMiddleware(),
