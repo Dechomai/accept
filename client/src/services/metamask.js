@@ -14,7 +14,7 @@ class MetaMask {
         () => {
           web3.version.getNetwork((err, networkId) => {
             if (err) return reject(err);
-            if (networkId !== 1011) return reject('Wrong network');
+            if (networkId !== '1011') return reject('Wrong network');
             resolve();
           });
         },
