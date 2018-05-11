@@ -3,11 +3,11 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose} from 'ramda';
 
-import SignUpLastStep from '../../components/SignUpLastStep/SignUp';
+import SignUpStep3 from '../../components/SignUp/Step3';
 
 class SignUp extends React.Component {
   render() {
-    return <SignUpLastStep />;
+    return <SignUpStep3 />;
   }
 }
 

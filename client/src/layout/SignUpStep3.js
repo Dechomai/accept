@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SignUpContainer from '../containers/SignUpLastStep/SignUpLastStep';
+import SignUpStep3Container from '../containers/SignUp/Step3';
 
-const SignUpLastStep = () => {
+const SignUpStep3 = () => {
   return (
     <div className="sign-up__page ">
       <div className="container">
@@ -15,9 +15,9 @@ const SignUpLastStep = () => {
           </div>
         </div>
       </div>
-      <SignUpContainer />
+      <SignUpStep3Container />
     </div>
   );
 };
 
-export default SignUpLastStep;
+export default SignUpStep3;

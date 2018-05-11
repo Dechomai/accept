@@ -1,4 +1,4 @@
-import './SingUpForm.scss';
+import './Step2.scss';
 
 import React from 'react';
 import {isEmpty, pick} from 'ramda';

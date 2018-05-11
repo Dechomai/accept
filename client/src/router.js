@@ -8,8 +8,8 @@ import {selectProfile} from './selectors';
 
 import App from './layout/App';
 import Home from './layout/Home';
-import SignUp from './layout/SignUp';
-import SignUpLastStep from './layout/SignUpLastStep';
+import SignUpStep2 from './layout/SignUpStep2';
+import SignUpStep3 from './layout/SignUpStep3';
 import Profile from './layout/UserProfile';
 import AboutMe from './containers/Profile/About';
 import AddProduct from './layout/AddProduct';
@@ -130,8 +130,8 @@ class Router extends React.Component {
           onChange={this.onRootRouteChange}>
           <IndexRoute component={Home} />
 
-          <Route path="signup-step2" component={SignUp} showFooter={false} />
-          <Route path="signup-step3" component={SignUpLastStep} showFooter={false} />
+          <Route path="signup-step2" component={SignUpStep2} showFooter={false} />
+          <Route path="signup-step3" component={SignUpStep3} showFooter={false} />
 
           <Route path="profile" component={Profile}>
             <IndexRoute component={AboutMe} />
