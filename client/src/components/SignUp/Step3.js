@@ -1,13 +1,16 @@
 import './Step3.scss';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import autobind from 'autobindr';
 import {Button, Alert} from 'reactstrap';
-import Icon from '../common/Icon/Icon';
 
 import metamaskService from '../../services/metamask';
-import {networkUrl} from '../../config/index';
+import clipboard from '../../services/clipboard';
+import {bcNetworkUrl} from '../../config/index';
+import Icon from '../common/Icon/Icon';
+import Loader from '../common/Loader/Loader';
 
 const ACCOUNT_REGEX = /^0x[a-fA-F0-9]{40}$/;
 
@@ -23,11 +26,9 @@ class SignUpStep3 extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('load', () => {
-      this.updatePluginStatus();
-      this.updateNetworkStatus();
-      this.updateAccountStatus();
-    });
+    this.updatePluginStatus();
+    this.updateNetworkStatus();
+    this.updateAccountStatus();
   }
 
   reloadPage() {
@@ -35,7 +36,7 @@ class SignUpStep3 extends React.Component {
   }
 
   copyNetworkUrlToClipboard() {
-    navigator.clipboard.writeText(networkUrl);
+    clipboard.write(bcNetworkUrl);
   }
 
   updatePluginStatus() {
@@ -129,10 +130,10 @@ class SignUpStep3 extends React.Component {
               <div className="form-group">
                 <label>Account address</label>
                 <p className="sign-up-step3__description">
-                  {this.state.activeAccount || 'Error retrieving network information'}
+                  {this.state.activeAccount || 'Error retrieving account information'}
                 </p>
               </div>
-              <Button outline color="primary" onClick={this.reloadPage}>
+              <Button outline color="primary" onClick={this.updateAccountStatus}>
                 Refresh
               </Button>
             </div>
@@ -167,14 +168,19 @@ class SignUpStep3 extends React.Component {
               <p className="sign-up-step3__description">
                 Please, connect to custom RPC and insert following URL
               </p>
-              <Alert color="warning">
-                <Icon name="alert" size="16" />
-                <div>Once you connect Account, you couldn’t change it.</div>
-              </Alert>
+              {!this.state.isAcceptNetwork && (
+                <Alert color="warning">
+                  <Icon name="alert" size="16" />
+                  <div>
+                    You have to be in Accept Pay Network to proceed with exchanges or other
+                    transactions
+                  </div>
+                </Alert>
+              )}
               <div className="form-group">
                 <label>Accept Pay Network URL</label>
                 <div className="sign-up-step3__network-url">
-                  {networkUrl}
+                  {bcNetworkUrl}
                   <Button color="copy" onClick={this.copyNetworkUrlToClipboard}>
                     Copy
                   </Button>
@@ -200,14 +206,19 @@ class SignUpStep3 extends React.Component {
   }
 
   render() {
-    const {onSubmit} = this.props;
+    const {onSubmit, loading} = this.props;
 
+    // TODO: show error
     return (
       <div className="sign-up">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-11 col-md-10 col-lg-10 col-xl-8">
-              <div className="sign-up-step3 mt-5">
+              {loading && <Loader />}
+              <div
+                className={classNames('sign-up-step3', {
+                  'sign-up-step3--loading': loading
+                })}>
                 {this.renderCheckPlugin()}
                 {this.renderCheckAccount()}
                 {this.renderCheckNetwork()}
@@ -236,6 +247,10 @@ class SignUpStep3 extends React.Component {
   }
 }
 
-SignUpStep3.propTypes = {};
+SignUpStep3.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.any,
+  onSubmit: PropTypes.func.isRequired
+};
 
 export default SignUpStep3;

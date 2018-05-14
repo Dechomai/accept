@@ -1,7 +1,26 @@
 @import '../../theme/index';
 
 .sign-up-step3 {
-  margin-bottom: 1.5rem;
+  position: relative;
+  margin: 3rem 0 1.5rem;
+
+  &--loading {
+    pointer-events: none;
+    user-select: none;
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: $white;
+      z-index: 1;
+      opacity: 0.5;
+    }
+  }
+
   &__block {
     padding: 45px 45px 35px 115px;
     background-color: white;

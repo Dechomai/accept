@@ -1,1 +1,3 @@
-export const networkUrl = 'http://network.accept.io:8545/';
+export default {
+  bcNetworkUrl: 'http://network.accept.io:8545/'
+};
