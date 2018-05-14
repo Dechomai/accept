@@ -21,7 +21,16 @@
       margin-right: 6px;
     }
   }
+  &__account-address {
+    font-size: 13px;
+    color: $gray-500;
+  }
   &__description {
+    font-size: 13px;
+    color: $gray-500;
+  }
+  &__network-url {
+    display: flex;
     font-size: 13px;
     color: $gray-500;
   }
@@ -37,13 +46,13 @@
     &--completed {
       &:before {
         content: '\F5E0';
-        color: $red;
+        color: $green;
       }
     }
     &--failed {
       &:before {
         content: '\F159';
-        color: $green;
+        color: $red;
       }
     }
   }
@@ -60,5 +69,8 @@
     .form-control {
       border: 1px solid $gray-500;
     }
+  }
+  .btn-copy {
+    margin-left: 20px;
   }
 }
