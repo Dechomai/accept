@@ -7,30 +7,34 @@ const getOptions = () => ({
 });
 const getBody = (method, body) => (method === 'GET' ? {} : {body: JSON.stringify(body)});
 
-// export const MIN_LOADING_TIME = 2000;
-// const waitFor = promise => {
-//   const timeout = new Promise(resolve => {
-//     setTimeout(resolve, MIN_LOADING_TIME);
-//   });
+// use 1 second delay in dev mode
+const MIN_LOADING_TIME = ENV === 'develop' ? 1000 : 0;
 
-//   return Promise.all([promise, timeout]).then(([arg]) => arg);
-// };
+const waitFor = promise => {
+  const timeout = new Promise(resolve => {
+    setTimeout(resolve, MIN_LOADING_TIME);
+  });
+
+  return Promise.all([promise, timeout]).then(([arg]) => arg);
+};
 
 const api = {
   fetch(method, url, {headers = {}, body, ...props} = {}, options = {}) {
     const opts = {...getOptions(), ...options};
-    return fetch(`${opts.API}${url}`, {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        ...headers
-      },
-      credentials: 'same-origin',
-      cache: 'no-cache',
-      ...getBody(method, body),
-      ...props
-    })
+    return waitFor(
+      fetch(`${opts.API}${url}`, {
+        method,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          ...headers
+        },
+        credentials: 'same-origin',
+        cache: 'no-cache',
+        ...getBody(method, body),
+        ...props
+      })
+    )
       .then(res => (res.status === STATUS_SUCCESSFULL ? res.json() : Promise.reject(res)))
       .catch(res => this.handleError(res, opts));
   },
