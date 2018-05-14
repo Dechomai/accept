@@ -99,7 +99,7 @@ class ItemTile extends React.Component {
           <Modal isOpen={this.state.modal} toggle={this.toggle} className="confirmation-modal">
             <ModalHeader toggle={this.toggle}>Delete item</ModalHeader>
             <ModalBody>
-              <p>Do you really want to delete {title} ?</p>
+              <p>Are you sure you want to delete this item? This can not be undone.</p>
               {this.state.deletingError && (
                 <div className="alert alert-danger">Sorry, something went wrong</div>
               )}
