@@ -1,0 +1,48 @@
+@import '../../theme/index';
+
+.connection-check-modal {
+  font-size: 13px;
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__sub-title {
+    margin: 24px 0 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  &__description {
+    margin-top: 24px;
+    color: lighten($black, 50);
+  }
+
+  &__steps {
+    margin: 32px 10px 0;
+  }
+}
+
+.connection-step {
+  display: flex;
+  padding: 25px;
+  margin-bottom: -1px;
+  border: 1px solid $gray-100;
+
+  &__status {
+    margin-right: 17px;
+
+    &--success {
+      color: $green;
+    }
+
+    &--failure {
+      color: $red;
+    }
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
