@@ -5,6 +5,9 @@ import {
   CREATE_PROFILE_REQUEST,
   CREATE_PROFILE_SUCCESS,
   CREATE_PROFILE_FAILURE,
+  CONFIRM_PROFILE_REQUEST,
+  CONFIRM_PROFILE_SUCCESS,
+  CONFIRM_PROFILE_FAILURE,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE
@@ -55,6 +58,28 @@ const user = (state = getInitialState(), action) => {
       };
     }
     case CREATE_PROFILE_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        data: null,
+        error: action.payload.error
+      };
+    }
+    case CONFIRM_PROFILE_REQUEST: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case CONFIRM_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        data: action.payload.user,
+        error: null
+      };
+    }
+    case CONFIRM_PROFILE_FAILURE: {
       return {
         ...state,
         loading: false,

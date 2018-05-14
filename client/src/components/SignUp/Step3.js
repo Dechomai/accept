@@ -180,7 +180,7 @@ class SignUpStep3 extends React.Component {
                   </Button>
                 </div>
               </div>
-              <Button outline color="primary">
+              <Button outline color="primary" onClick={this.updateNetworkStatus}>
                 Check connection
               </Button>
             </div>
@@ -200,6 +200,8 @@ class SignUpStep3 extends React.Component {
   }
 
   render() {
+    const {onSubmit} = this.props;
+
     return (
       <div className="sign-up">
         <div className="container">
@@ -216,6 +218,11 @@ class SignUpStep3 extends React.Component {
         <div className="sign-up__footer">
           <Button
             color="primary"
+            onClick={() => {
+              onSubmit({
+                address: this.state.activeAccount
+              });
+            }}
             disabled={
               !this.state.isPluginInstalled ||
               !this.state.activeAccount ||

@@ -15,6 +15,12 @@ const userService = {
     return api.postForm('/user', profile);
   },
 
+  confirmProfile(data) {
+    return api.post('/user/confirm', {
+      body: data
+    });
+  },
+
   updateProfile(profile) {
     return api.put('/user', {
       body: profile
