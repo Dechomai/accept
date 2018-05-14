@@ -8,7 +8,7 @@ import {Button, Alert} from 'reactstrap';
 
 import metamaskService from '../../services/metamask';
 import clipboard from '../../services/clipboard';
-import {bcNetworkUrl} from '../../config/index';
+import config from '../../config/index';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
 
@@ -36,7 +36,7 @@ class SignUpStep3 extends React.Component {
   }
 
   copyNetworkUrlToClipboard() {
-    clipboard.write(bcNetworkUrl);
+    clipboard.write(config.bcNetworkUrl);
   }
 
   updatePluginStatus() {
@@ -180,7 +180,7 @@ class SignUpStep3 extends React.Component {
               <div className="form-group">
                 <label>Accept Pay Network URL</label>
                 <div className="sign-up-step3__network-url">
-                  {bcNetworkUrl}
+                  {config.bcNetworkUrl}
                   <Button color="copy" onClick={this.copyNetworkUrlToClipboard}>
                     Copy
                   </Button>

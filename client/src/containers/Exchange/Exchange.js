@@ -12,7 +12,6 @@ import ExchangeStep4 from '../../containers/Exchange/Step4';
 import ExchangeItem from '../../components/Exchange/ExchangeItem';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
-import metamaskService from '../../services/metamask';
 
 const Steps = {
   TYPE_SELECTION: 0,
@@ -33,7 +32,7 @@ class Exchange extends React.Component {
       selectedItem: null,
       ownCount: 1,
       partnerCount: 1,
-      connectionStep: null
+      isConnectionCheckCancelled: false
     };
   }
 
@@ -48,29 +47,7 @@ class Exchange extends React.Component {
   }
 
   handleNextBtnClick() {
-    if (this.state.step === Steps.SUMMARY) {
-      this.updateConnectionStatus();
-    }
     this.setState({step: this.state.step + 1});
-  }
-
-  updateConnectionStatus() {
-    let connectionStep = 0;
-    metamaskService
-      .isPluginInstalled()
-      .then(() => {
-        connectionStep++;
-        return metamaskService.getActiveAccount();
-      })
-      .then(() => {
-        connectionStep++;
-        return metamaskService.isAcceptNetwork();
-      })
-      .then(() => connectionStep++)
-      .finally(() => {
-        
-        this.setState({connectionStep});
-      });
   }
 
   handleTypeSelect(type) {
@@ -233,11 +210,10 @@ class Exchange extends React.Component {
         );
       case Steps.CONNECTION_CHECK:
         return (
-          this.state.connectionStep !== null &&
-          this.state.connectionStep < 3 && (
+          !this.state.isConnectionCheckCancelled && (
             <ConnectionCheckModal
               step={this.state.connectionStep}
-              onProceedBtnClick={this.updateConnectionStatus}
+              onCancelBtnClick={() => this.setState({isConnectionCheckCancelled: true})}
             />
           )
         );
