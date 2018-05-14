@@ -8,7 +8,8 @@ import {selectProfile} from './selectors';
 
 import App from './layout/App';
 import Home from './layout/Home';
-import SignUp from './layout/SignUp';
+import SignUpStep2 from './layout/SignUpStep2';
+import SignUpStep3 from './layout/SignUpStep3';
 import Profile from './layout/UserProfile';
 import AboutMe from './containers/Profile/About';
 import AddProduct from './layout/AddProduct';
@@ -72,14 +73,27 @@ export const redirect = (prevState, nextState, store, replace, cb) => {
   const state = store.getState();
   const user = prop('data', selectProfile(state));
 
-  // if user status is 'newreg' redirect to /signup-finish
-  if (pathname !== '/signup-finish' && user && user.status === 'newreg') {
-    replace('/signup-finish');
+  // if user status is 'newreg' redirect to /signup-step2
+  if (pathname !== '/signup-step2' && user && user.status === 'newreg') {
+    replace('/signup-step2');
     return cb();
   }
 
-  // if user status is other that 'newreg' disable /signup-finish
-  if (pathname === '/signup-finish' && (!user || (user && user.status !== 'newreg'))) {
+  // if user status is 'pending' redirect to /signup-step3
+  if (pathname !== '/signup-step3' && user && user.status === 'pending') {
+    replace('/signup-step3');
+    return cb();
+  }
+
+  // if user status is other that 'newreg' disable /signup-step2
+  if (pathname === '/signup-step2' && (!user || (user && user.status !== 'newreg'))) {
+    const prev = pathOr('/', ['location', 'pathname'], prevState);
+    replace(prev);
+    return cb();
+  }
+
+  // if user status is other that 'pending' disable /signup-step3
+  if (pathname === '/signup-step3' && (!user || (user && user.status !== 'pending'))) {
     const prev = pathOr('/', ['location', 'pathname'], prevState);
     replace(prev);
     return cb();
@@ -116,7 +130,8 @@ class Router extends React.Component {
           onChange={this.onRootRouteChange}>
           <IndexRoute component={Home} />
 
-          <Route path="signup-finish" component={SignUp} showFooter={false} />
+          <Route path="signup-step2" component={SignUpStep2} showFooter={false} />
+          <Route path="signup-step3" component={SignUpStep3} showFooter={false} />
 
           <Route path="profile" component={Profile}>
             <IndexRoute component={AboutMe} />

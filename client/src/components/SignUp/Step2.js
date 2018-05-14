@@ -1,4 +1,4 @@
-import './SingUpForm.scss';
+import './Step2.scss';
 
 import React from 'react';
 import {isEmpty, pick} from 'ramda';
@@ -187,7 +187,7 @@ class InnerForm extends React.Component {
             onClick={handleSubmit}
             className="btn btn-primary"
             disabled={isSubmitting || !isValid}>
-            Create profile
+            Continue
           </button>
         </div>
       </div>

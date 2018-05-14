@@ -7,7 +7,7 @@ import autobind from 'autobindr';
 
 import {createProfile} from '../../actions/user';
 import {selectProfile} from '../../selectors';
-import SignUpForm from '../../components/SignUpForm/SignUpForm';
+import SignUpStep2 from '../../components/SignUp/Step2';
 
 class SignUp extends React.Component {
   constructor() {
@@ -34,7 +34,7 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <SignUpForm
+      <SignUpStep2
         loading={this.props.status.loading}
         error={this.props.status.error}
         onSubmit={this.handleFormSubmit}
