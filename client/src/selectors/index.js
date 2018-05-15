@@ -74,3 +74,8 @@ export const selectServiceById = (state, serviceId) => selectServiceDetails(stat
 export const selectAllServicesCount = createSelector(selectAllServices, services => services.count);
 
 export const selectExchangeItemType = state => selectExchange(state).selectedType;
+export const selectExchangeItem = state => selectExchange(state).selectedItem;
+export const selectExchangeOwnCount = state => selectExchange(state).ownCount;
+export const selectExchangePartnerCount = state => selectExchange(state).partnerCount;
+export const selectExchangeOwnDays = state => selectExchange(state).ownDays;
+export const selectExchangeOwnTime = state => selectExchange(state).ownTime;
