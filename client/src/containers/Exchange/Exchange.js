@@ -1,6 +1,7 @@
 import './Exchange.scss';
 
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import {withRouter} from 'react-router';
@@ -14,6 +15,8 @@ import ExchangeStep4 from '../../containers/Exchange/Step4';
 import ExchangeItem from '../../components/Exchange/ExchangeItem';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
+import {selectExchangeItemType} from '../../selectors';
+import {selectItemType} from '../../actions/exchange';
 
 const Steps = {
   TYPE_SELECTION: 0,
@@ -29,7 +32,6 @@ class Exchange extends React.Component {
     autobind(this);
 
     this.state = {
-      selectedType: null,
       selectedItem: null,
       ownCount: 1,
       partnerCount: 1,
@@ -60,9 +62,7 @@ class Exchange extends React.Component {
   }
 
   handleTypeSelect(type) {
-    this.setState({
-      selectedType: type
-    });
+    this.props.selectItemType(type);
     this.setStepQuery(Steps.ITEM_SELECTION);
   }
 
@@ -178,10 +178,11 @@ class Exchange extends React.Component {
           </div>
         );
       case Steps.ITEM_SELECTION:
+        console.log(this.props);
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep2 type={this.state.selectedType} onItemSelect={this.handleItemSelect} />
+              <ExchangeStep2 type={this.props.selectedType} onItemSelect={this.handleItemSelect} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem
@@ -198,7 +199,7 @@ class Exchange extends React.Component {
           <div className="exchange-content">
             <div className="exchange-content__offer">
               <ExchangeStep3
-                type={this.state.selectedType}
+                type={this.props.selectedType}
                 item={this.state.selectedItem}
                 quantity={this.state.ownCount}
                 days={this.state.ownDays}
@@ -227,7 +228,7 @@ class Exchange extends React.Component {
           <div className="exchange-content">
             <ExchangeStep4
               ownItemId={this.state.selectedItem.id}
-              ownType={this.state.selectedType}
+              ownType={this.props.selectedType}
               ownCount={this.state.ownCount}
               ownDays={this.state.ownDays}
               ownTime={this.state.ownTime}
@@ -275,4 +276,14 @@ Exchange.propTypes = {
   onCancel: PropTypes.func.isRequired
 };
 
-export default compose(withRouter)(Exchange);
+const mapStateToProps = state => ({
+  selectedType: selectExchangeItemType(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  selectItemType(type) {
+    return dispatch(selectItemType(type));
+  }
+});
+
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Exchange);
