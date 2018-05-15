@@ -3,6 +3,8 @@ import './Exchange.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
+import {withRouter} from 'react-router';
+import {compose} from 'ramda';
 
 import ExchangeModal from '../../components/Exchange/Modal';
 import ExchangeStep1 from '../../containers/Exchange/Step1';
@@ -27,13 +29,20 @@ class Exchange extends React.Component {
     autobind(this);
 
     this.state = {
-      step: Steps.TYPE_SELECTION,
       selectedType: null,
       selectedItem: null,
       ownCount: 1,
       partnerCount: 1,
       isConnectionCheckCancelled: false
     };
+
+    const step = this.getStepFromQuery();
+
+    if (step) {
+      this.setStepQuery(step);
+    } else {
+      this.setStepQuery(Steps.TYPE_SELECTION);
+    }
   }
 
   handleCancelClick() {
@@ -41,27 +50,27 @@ class Exchange extends React.Component {
   }
 
   handleBackBtnClick() {
-    this.setState({
-      step: this.state.step - 1
-    });
+    const step = this.getStepFromQuery();
+    this.setStepQuery(step - 1);
   }
 
   handleNextBtnClick() {
-    this.setState({step: this.state.step + 1});
+    const step = this.getStepFromQuery();
+    this.setStepQuery(step + 1);
   }
 
   handleTypeSelect(type) {
     this.setState({
-      selectedType: type,
-      step: Steps.ITEM_SELECTION
+      selectedType: type
     });
+    this.setStepQuery(Steps.ITEM_SELECTION);
   }
 
   handleItemSelect(item) {
     this.setState({
-      selectedItem: item,
-      step: Steps.DETAILS_SPECIFICATION
+      selectedItem: item
     });
+    this.setStepQuery(Steps.DETAILS_SPECIFICATION);
   }
 
   handleOwnItemQuantityChange(num) {
@@ -102,11 +111,29 @@ class Exchange extends React.Component {
   }
 
   isNextBtnDisabled() {
-    return this.state.step < Steps.DETAILS_SPECIFICATION;
+    const step = this.getStepFromQuery();
+    return step < Steps.DETAILS_SPECIFICATION;
   }
 
   isBackBtnDisabled() {
-    return this.state.step === Steps.TYPE_SELECTION;
+    const step = this.getStepFromQuery();
+    return step === Steps.TYPE_SELECTION;
+  }
+
+  getStepFromQuery() {
+    const {step} = this.props.router.location.query;
+    return step ? parseInt(step) : 0;
+  }
+
+  setStepQuery(step) {
+    const {router} = this.props;
+
+    router.push({
+      pathname: router.location.pathname,
+      query: {
+        step
+      }
+    });
   }
 
   getStepTitle() {
@@ -114,11 +141,13 @@ class Exchange extends React.Component {
   }
 
   getStepNextBtnCaption() {
-    return this.state.step === Steps.SUMMARY ? 'Send Offer' : 'Next';
+    const step = this.getStepFromQuery();
+    return step === Steps.SUMMARY ? 'Send Offer' : 'Next';
   }
 
   getStepSubTitle() {
-    switch (this.state.step) {
+    const step = this.getStepFromQuery();
+    switch (step) {
       case Steps.TYPE_SELECTION:
       case Steps.ITEM_SELECTION:
       case Steps.DETAILS_SPECIFICATION:
@@ -129,7 +158,9 @@ class Exchange extends React.Component {
   }
 
   getStep() {
-    switch (this.state.step) {
+    const step = this.getStepFromQuery();
+
+    switch (step) {
       case Steps.TYPE_SELECTION:
         return (
           <div className="exchange-content">
@@ -240,7 +271,8 @@ class Exchange extends React.Component {
 Exchange.propTypes = {
   item: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['product', 'service']).isRequired,
+  currentStep: PropTypes.any,
   onCancel: PropTypes.func.isRequired
 };
 
-export default Exchange;
+export default compose(withRouter)(Exchange);
