@@ -11,6 +11,15 @@ import ExchangeStep3 from '../../containers/Exchange/Step3';
 import ExchangeStep4 from '../../containers/Exchange/Step4';
 import ExchangeItem from '../../components/Exchange/ExchangeItem';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
+import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
+
+const Steps = {
+  TYPE_SELECTION: 0,
+  ITEM_SELECTION: 1,
+  DETAILS_SPECIFICATION: 2,
+  SUMMARY: 3,
+  CONNECTION_CHECK: 4
+};
 
 class Exchange extends React.Component {
   constructor(props) {
@@ -18,12 +27,12 @@ class Exchange extends React.Component {
     autobind(this);
 
     this.state = {
-      step: 0,
+      step: Steps.TYPE_SELECTION,
       selectedType: null,
       selectedItem: null,
-
       ownCount: 1,
-      partnerCount: 1
+      partnerCount: 1,
+      isConnectionCheckCancelled: false
     };
   }
 
@@ -44,14 +53,14 @@ class Exchange extends React.Component {
   handleTypeSelect(type) {
     this.setState({
       selectedType: type,
-      step: 1
+      step: Steps.ITEM_SELECTION
     });
   }
 
   handleItemSelect(item) {
     this.setState({
       selectedItem: item,
-      step: 2
+      step: Steps.DETAILS_SPECIFICATION
     });
   }
 
@@ -93,11 +102,11 @@ class Exchange extends React.Component {
   }
 
   isNextBtnDisabled() {
-    return this.state.step !== 2;
+    return this.state.step < Steps.DETAILS_SPECIFICATION;
   }
 
   isBackBtnDisabled() {
-    return this.state.step === 0;
+    return this.state.step === Steps.TYPE_SELECTION;
   }
 
   getStepTitle() {
@@ -105,23 +114,23 @@ class Exchange extends React.Component {
   }
 
   getStepNextBtnCaption() {
-    return this.state.step === 3 ? 'Send Offer' : 'Next';
+    return this.state.step === Steps.SUMMARY ? 'Send Offer' : 'Next';
   }
 
   getStepSubTitle() {
     switch (this.state.step) {
-      case 0:
-      case 1:
-      case 2:
+      case Steps.TYPE_SELECTION:
+      case Steps.ITEM_SELECTION:
+      case Steps.DETAILS_SPECIFICATION:
         return 'Step 1. Set offer';
-      case 3:
+      case Steps.SUMMARY:
         return 'Step 2. Smart Contract';
     }
   }
 
   getStep() {
     switch (this.state.step) {
-      case 0:
+      case Steps.TYPE_SELECTION:
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
@@ -137,7 +146,7 @@ class Exchange extends React.Component {
             </div>
           </div>
         );
-      case 1:
+      case Steps.ITEM_SELECTION:
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
@@ -153,7 +162,7 @@ class Exchange extends React.Component {
             </div>
           </div>
         );
-      case 2:
+      case Steps.DETAILS_SPECIFICATION:
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
@@ -182,7 +191,7 @@ class Exchange extends React.Component {
             </div>
           </div>
         );
-      case 3:
+      case Steps.SUMMARY:
         return (
           <div className="exchange-content">
             <ExchangeStep4
@@ -198,6 +207,15 @@ class Exchange extends React.Component {
               escrow={this.calculateEscrow()}
             />
           </div>
+        );
+      case Steps.CONNECTION_CHECK:
+        return (
+          !this.state.isConnectionCheckCancelled && (
+            <ConnectionCheckModal
+              step={this.state.connectionStep}
+              onCancelBtnClick={() => this.setState({isConnectionCheckCancelled: true})}
+            />
+          )
         );
     }
   }
