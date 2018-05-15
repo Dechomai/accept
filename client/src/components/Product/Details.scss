@@ -31,6 +31,7 @@
     font-size: 24px;
     margin-bottom: 2rem;
     word-break: break-all;
+    word-break: break-word;
   }
   &__property {
     font-size: 12px;
@@ -58,6 +59,7 @@
   }
   &__description {
     word-break: break-all;
+    word-break: break-word;
     margin-top: 0.75rem;
     color: $gray-500;
   }
