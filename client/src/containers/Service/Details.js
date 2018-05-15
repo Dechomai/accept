@@ -22,9 +22,15 @@ class Details extends React.Component {
   }
 
   componentDidMount() {
-    const {params, service} = this.props;
+    const {params, service, router} = this.props;
     if (!service && params.serviceId) {
       this.props.fetchServiceById(params.serviceId);
+    }
+
+    if (router.location.query.step) {
+      this.setState({
+        showExchange: true
+      });
     }
   }
 
@@ -35,8 +41,15 @@ class Details extends React.Component {
   }
 
   handleExchangeCancel() {
+    const {router} = this.props;
+
     this.setState({
       showExchange: false
+    });
+
+    router.push({
+      pathname: router.location.pathname,
+      query: {}
     });
   }
 

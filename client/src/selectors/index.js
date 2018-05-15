@@ -5,6 +5,7 @@ const selectUsers = state => state.users;
 const selectProducts = state => state.products;
 const selectProductDetails = state => state.productDetails;
 const selectServices = state => state.services;
+const selectExchange = state => state.exchange;
 const selectServiceDetails = state => state.serviceDetails;
 
 export const selectProfile = state => state.user;
@@ -71,3 +72,10 @@ export const selectAllServicesFor = createSelector(
 
 export const selectServiceById = (state, serviceId) => selectServiceDetails(state)[serviceId];
 export const selectAllServicesCount = createSelector(selectAllServices, services => services.count);
+
+export const selectExchangeItemType = state => selectExchange(state).selectedType;
+export const selectExchangeItem = state => selectExchange(state).selectedItem;
+export const selectExchangeOwnCount = state => selectExchange(state).ownCount;
+export const selectExchangePartnerCount = state => selectExchange(state).partnerCount;
+export const selectExchangeOwnDays = state => selectExchange(state).ownDays;
+export const selectExchangeOwnTime = state => selectExchange(state).ownTime;
