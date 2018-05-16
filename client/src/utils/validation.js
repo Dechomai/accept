@@ -14,6 +14,10 @@ export const rules = {
     predicate: val => val && !/^[0-9_.-]*$/.test(val),
     message: 'Please, use digits only'
   },
+  alphanumeric: {
+    predicate: val => val && !/^[a-zA-Z0-9]*$/.test(val),
+    message: 'Please, use letters and digits only'
+  },
   lettersAndDigits: {
     predicate: val => val && !/^[a-zA-Z0-9_.-]*$/.test(val),
     message: 'Please, use letters and digits only'
