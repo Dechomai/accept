@@ -15,7 +15,7 @@ export const selectItemType = type => ({
 export const selectItem = item => ({
   type: SELECT_EXCHANGE_ITEM,
   payload: {
-    selectedItem: item
+    selectedItemId: item.id
   }
 });
 
