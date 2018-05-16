@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {compose, withStateHandlers, lifecycle} from 'recompact';
+import {compose, withProps, lifecycle} from 'recompact';
 import {fetchProducts, deleteProduct} from '../../actions/products';
 import {
   selectOwnProductsFor,
@@ -51,24 +51,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default compose(
-  withStateHandlers(
-    props => ({
-      skip: 0,
-      limit: props.params.userId ? DEFAULT_LIMIT : DEFAULT_LIMIT - 1
-    }),
-    {
-      onPaginationNextClick: ({skip, limit}) => () => ({
-        skip: skip + limit
-      }),
-      onPaginationPrevClick: ({skip, limit}) => () => ({
-        skip: skip - limit
-      }),
-      onPaginationPageClick: ({limit}) => pageIndex => ({
-        skip: pageIndex * limit
-      })
-    }
-  ),
   withRouter,
+  withProps(({location}) => ({
+    skip: (parseInt(location.query.page) - 1 || 0) * DEFAULT_LIMIT,
+    limit: DEFAULT_LIMIT
+  })),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
@@ -80,71 +67,46 @@ export default compose(
       refetchProducts(nextProps);
     }
   })
-)(
-  ({
-    products,
-    count,
-    editable,
-    skip,
-    limit,
-    onPaginationNextClick,
-    onPaginationPrevClick,
-    onPaginationPageClick,
-    router,
-    deleteProduct
-  }) => {
-    if (!products || products.loading) return <Loader />;
-    if (products && !products.data.length) {
-      return (
-        <div className="profile-products">
-          <div className="profile-products__content">
-            <Empty type="product" />
-          </div>
-        </div>
-      );
-    }
+)(({products, count, editable, skip, limit, router, deleteProduct}) => {
+  if (!products || products.loading) return <Loader />;
+  if (products && !products.data.length) {
     return (
       <div className="profile-products">
-        <h6 className="profile-products__title">All products</h6>
-
-        <div className="profile-products__pagination">
-          <Pagination
-            totalPages={Math.ceil(count / limit)}
-            currentPage={Math.floor(skip / limit)}
-            onNextClick={onPaginationNextClick}
-            onPrevClick={onPaginationPrevClick}
-            onPageClick={onPaginationPageClick}
-          />
-        </div>
-
         <div className="profile-products__content">
-          <div className="row">
-            {products && products.data && products.data.length ? (
-              <ProfileProducts
-                products={products.data}
-                onEditClick={(e, productId) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  router.push(`/products/${productId}/edit`);
-                }}
-                onDeleteClick={deleteProduct}
-                editable={editable}
-              />
-            ) : (
-              <Loader />
-            )}
-          </div>
-        </div>
-        <div className="profile-products__pagination">
-          <Pagination
-            totalPages={Math.ceil(count / limit)}
-            currentPage={Math.floor(skip / limit)}
-            onNextClick={onPaginationNextClick}
-            onPrevClick={onPaginationPrevClick}
-            onPageClick={onPaginationPageClick}
-          />
+          <Empty type="product" />
         </div>
       </div>
     );
   }
-);
+  return (
+    <div className="profile-products">
+      <h6 className="profile-products__title">All products</h6>
+
+      <div className="profile-products__pagination">
+        <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
+      </div>
+
+      <div className="profile-products__content">
+        <div className="row">
+          {products && products.data && products.data.length ? (
+            <ProfileProducts
+              products={products.data}
+              onEditClick={(e, productId) => {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push(`/products/${productId}/edit`);
+              }}
+              onDeleteClick={deleteProduct}
+              editable={editable}
+            />
+          ) : (
+            <Loader />
+          )}
+        </div>
+      </div>
+      <div className="profile-products__pagination">
+        <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
+      </div>
+    </div>
+  );
+});
