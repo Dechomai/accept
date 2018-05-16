@@ -1,20 +1,12 @@
 import './Exchange.scss';
 
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import autobind from 'autobindr';
 import {withRouter} from 'react-router';
-import {compose} from 'ramda';
+import {connect} from 'react-redux';
+import autobind from 'autobindr';
+import {compose, path} from 'ramda';
 
-import ExchangeModal from '../../components/Exchange/Modal';
-import ExchangeStep1 from '../../containers/Exchange/Step1';
-import ExchangeStep2 from '../../containers/Exchange/Step2';
-import ExchangeStep3 from '../../containers/Exchange/Step3';
-import ExchangeStep4 from '../../containers/Exchange/Step4';
-import ExchangeItem from '../../components/Exchange/ExchangeItem';
-import ExchangeEscrow from '../../components/Exchange/Escrow';
-import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
 import {
   selectExchangeItemType,
   selectExchangeItem,
@@ -31,13 +23,25 @@ import {
   changeOwnDays,
   changeOwnTime
 } from '../../actions/exchange';
+import {selectProfile} from '../../selectors';
+import ExchangeModal from '../../components/Exchange/Modal';
+import ExchangeStep1 from '../../containers/Exchange/Step1';
+import ExchangeStep2 from '../../containers/Exchange/Step2';
+import ExchangeStep3 from '../../containers/Exchange/Step3';
+import ExchangeStep4 from '../../containers/Exchange/Step4';
+import ExchangeStepConfirm from '../../containers/Exchange/StepConfirm';
+import ExchangeItem from '../../components/Exchange/ExchangeItem';
+import ExchangeEscrow from '../../components/Exchange/Escrow';
+import ConnectionCheck from '../../components/Exchange/ConnectionCheck';
 
 const Steps = {
   TYPE_SELECTION: 0,
   ITEM_SELECTION: 1,
   DETAILS_SPECIFICATION: 2,
   SUMMARY: 3,
-  CONNECTION_CHECK: 4
+  CONNECTION_CHECK: 4,
+  TRANSACTION_CONFIRM: 5,
+  TRANSACTION_RESULT: 6
 };
 
 class Exchange extends React.Component {
@@ -46,16 +50,17 @@ class Exchange extends React.Component {
     autobind(this);
 
     this.state = {
-      isConnectionCheckCancelled: false
+      selectedType: null,
+      selectedItem: null,
+      ownCount: 1,
+      partnerCount: 1,
+      isConnectionValid: false
     };
 
-    const step = this.getStepFromQuery();
-
-    if (step) {
-      this.setStepQuery(step);
-    } else {
-      this.setStepQuery(Steps.TYPE_SELECTION);
-    }
+    let step = this.getStepFromQuery();
+    if (step > Steps.SUMMARY) step = Steps.SUMMARY;
+    this.setStepQuery(step || Steps.TYPE_SELECTION);
+    this.connectionCheck = null;
   }
 
   handleCancelClick() {
@@ -69,7 +74,13 @@ class Exchange extends React.Component {
 
   handleNextBtnClick() {
     const step = this.getStepFromQuery();
-    this.setStepQuery(step + 1);
+    if (step === Steps.CONNECTION_CHECK) {
+      this.connectionCheck && this.connectionCheck.updateConnectionStatus();
+    } else if (step === Steps.TRANSACTION_RESULT) {
+      this.props.onCancel();
+    } else {
+      this.setStepQuery(step + 1);
+    }
   }
 
   handleTypeSelect(type) {
@@ -98,6 +109,33 @@ class Exchange extends React.Component {
     this.props.changeOwnTime(time);
   }
 
+  handleConnectionCheckSuccess() {
+    const step = this.getStepFromQuery();
+    this.setStepQuery(step + 1);
+
+    /* eslint-disable */
+
+    //  dispatch
+    // TRANSACTION_REQUEST
+
+    // register window.onbeforeunload callback
+    // to prevent losing transaction callback if page refreshes or browser closes
+
+    // TEMP
+    web3.eth.sendTransaction(
+      {
+        from: this.props.address,
+        to: '0x0f610b0a888734c4b329dd106f963b0F6848D7f8',
+        value: web3.toWei('0.005', 'ether')
+      },
+      (err, transactionHash) => {
+        this.setState({transactionStatus: err ? 'rejected' : 'accepted'});
+        const step = this.getStepFromQuery();
+        this.setStepQuery(step + 1);
+      }
+    );
+  }
+
   calculateEscrow() {
     const ownItem = this.props.selectedItem;
     const partnerItem = this.props.item;
@@ -119,14 +157,33 @@ class Exchange extends React.Component {
     );
   }
 
+  isBackBtnDisabled() {
+    const step = this.getStepFromQuery();
+    return step === Steps.TYPE_SELECTION || step === Steps.TRANSACTION_CONFIRM;
+  }
+
+  isCancelBtnDisabled() {
+    const step = this.getStepFromQuery();
+    return step === Steps.TRANSACTION_CONFIRM;
+  }
+
   isNextBtnDisabled() {
     const step = this.getStepFromQuery();
     return step < Steps.DETAILS_SPECIFICATION;
   }
 
-  isBackBtnDisabled() {
+  isBackBtnShown() {
     const step = this.getStepFromQuery();
-    return step === Steps.TYPE_SELECTION;
+    return step !== Steps.TRANSACTION_RESULT;
+  }
+
+  isCancelBtnShown() {
+    const step = this.getStepFromQuery();
+    return step !== Steps.TRANSACTION_RESULT;
+  }
+
+  isNextBtnShown() {
+    return true;
   }
 
   getStepFromQuery() {
@@ -145,13 +202,28 @@ class Exchange extends React.Component {
     });
   }
 
+  isFooterShown() {
+    const step = this.getStepFromQuery();
+    return step !== Steps.TRANSACTION_CONFIRM;
+  }
+
   getStepTitle() {
     return 'Offer to Exchange';
   }
 
   getStepNextBtnCaption() {
     const step = this.getStepFromQuery();
-    return step === Steps.SUMMARY ? 'Send Offer' : 'Next';
+
+    switch (step) {
+      case Steps.SUMMARY:
+        return 'Send Offer';
+      case Steps.CONNECTION_CHECK:
+        return 'Refresh';
+      case Steps.TRANSACTION_RESULT:
+        return 'Ok';
+      default:
+        return 'Next';
+    }
   }
 
   getStepSubTitle() {
@@ -163,6 +235,11 @@ class Exchange extends React.Component {
         return 'Step 1. Set offer';
       case Steps.SUMMARY:
         return 'Step 2. Smart Contract';
+      case Steps.CONNECTION_CHECK:
+        return 'Step 3. Check Connection';
+      case Steps.TRANSACTION_CONFIRM:
+      case Steps.TRANSACTION_RESULT:
+        return 'Step 4: Confirm Transaction';
     }
   }
 
@@ -248,15 +325,22 @@ class Exchange extends React.Component {
             />
           </div>
         );
-      case Steps.CONNECTION_CHECK:
+      case Steps.CONNECTION_CHECK: {
+        const address = path(['user', 'data', 'bcDefaultAccountAddress'], this.props);
         return (
-          !this.state.isConnectionCheckCancelled && (
-            <ConnectionCheckModal
-              step={this.state.connectionStep}
-              onCancelBtnClick={() => this.setState({isConnectionCheckCancelled: true})}
-            />
-          )
+          <ConnectionCheck
+            onSuccess={this.handleConnectionCheckSuccess}
+            address={address}
+            ref={el => {
+              this.connectionCheck = el;
+            }}
+          />
         );
+      }
+      case Steps.TRANSACTION_CONFIRM:
+        return <ExchangeStepConfirm state="waiting" />;
+      case Steps.TRANSACTION_RESULT:
+        return <ExchangeStepConfirm state={this.state.transactionStatus} />;
     }
   }
 
@@ -265,12 +349,17 @@ class Exchange extends React.Component {
       <ExchangeModal
         title={this.getStepTitle()}
         subtitle={this.getStepSubTitle()}
-        nextBtnCaption={this.getStepNextBtnCaption()}
-        nextBtnDisabled={this.isNextBtnDisabled()}
+        showBackBtn={this.isBackBtnShown()}
+        showCancelBtn={this.isCancelBtnShown()}
+        showNextBtn={this.isNextBtnShown()}
         backBtnDisabled={this.isBackBtnDisabled()}
+        cancelBtnDisabled={this.isCancelBtnDisabled()}
+        nextBtnDisabled={this.isNextBtnDisabled()}
+        nextBtnCaption={this.getStepNextBtnCaption()}
+        onBackBtnClick={this.handleBackBtnClick}
         onCancelBtnClick={this.handleCancelClick}
         onNextBtnClick={this.handleNextBtnClick}
-        onBackBtnClick={this.handleBackBtnClick}>
+        showFooter={this.isFooterShown()}>
         {this.getStep()}
       </ExchangeModal>
     );
@@ -280,7 +369,6 @@ class Exchange extends React.Component {
 Exchange.propTypes = {
   item: PropTypes.any.isRequired,
   type: PropTypes.oneOf(['product', 'service']).isRequired,
-  currentStep: PropTypes.any,
   onCancel: PropTypes.func.isRequired,
   selectedType: PropTypes.string,
   selectedItem: PropTypes.object,
@@ -291,10 +379,13 @@ Exchange.propTypes = {
   selectItemType: PropTypes.func,
   selectItem: PropTypes.func,
   changeOwnCount: PropTypes.func,
-  changePartnerCount: PropTypes.func
+  changePartnerCount: PropTypes.func,
+  changeOwnTime: PropTypes.func,
+  changeOwnDays: PropTypes.func
 };
 
 const mapStateToProps = state => ({
+  user: selectProfile(state),
   selectedType: selectExchangeItemType(state),
   selectedItem: selectExchangeItem(state),
   ownCount: selectExchangeOwnCount(state),

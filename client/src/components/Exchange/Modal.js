@@ -12,6 +12,9 @@ const ExchangeModal = ({
   cancelBtnDisabled,
   nextBtnDisabled,
   nextBtnCaption,
+  showBackBtn,
+  showCancelBtn,
+  showNextBtn,
   onNextBtnClick,
   onBackBtnClick,
   onCancelBtnClick,
@@ -30,16 +33,24 @@ const ExchangeModal = ({
     <ModalBody>{children}</ModalBody>
     {showFooter && (
       <ModalFooter>
-        <Button color="link" disabled={backBtnDisabled} onClick={onBackBtnClick}>
-          Back
-        </Button>
+        {showBackBtn ? (
+          <Button color="link" disabled={backBtnDisabled} onClick={onBackBtnClick}>
+            Back
+          </Button>
+        ) : (
+          <span />
+        )}
         <div>
-          <Button color="link" disabled={cancelBtnDisabled} onClick={onCancelBtnClick}>
-            Cancel
-          </Button>
-          <Button color="primary" disabled={nextBtnDisabled} onClick={onNextBtnClick}>
-            {nextBtnCaption}
-          </Button>
+          {showCancelBtn && (
+            <Button color="link" disabled={cancelBtnDisabled} onClick={onCancelBtnClick}>
+              Cancel
+            </Button>
+          )}
+          {showNextBtn && (
+            <Button color="primary" disabled={nextBtnDisabled} onClick={onNextBtnClick}>
+              {nextBtnCaption}
+            </Button>
+          )}
         </div>
       </ModalFooter>
     )}
@@ -50,6 +61,9 @@ ExchangeModal.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
   showFooter: PropTypes.bool.isRequired,
+  showBackBtn: PropTypes.bool.isRequired,
+  showCancelBtn: PropTypes.bool.isRequired,
+  showNextBtn: PropTypes.bool.isRequired,
   backBtnDisabled: PropTypes.bool.isRequired,
   cancelBtnDisabled: PropTypes.bool.isRequired,
   nextBtnDisabled: PropTypes.bool.isRequired,
