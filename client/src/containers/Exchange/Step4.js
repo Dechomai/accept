@@ -94,15 +94,14 @@ export default compose(
                 escrowed by both parties.
               </p>
               <p>
-                Your <strong>escrowed funds will be returned</strong>
-                to your Accept wallet <strong>after both parties validate</strong> that the
-                transaction has successfully completed, and feedback has been provided.
+                Your <strong>escrowed funds will be returned</strong> to your Accept wallet{' '}
+                <strong>after both parties validate</strong> that the transaction has successfully
+                completed, and feedback has been provided.
               </p>
               <p>
-                If either buyer or seller
-                <strong>does not the validate the transaction</strong>, a transaction dispute will
-                be initiated, and the funds will remain in escrow pending the decision of an Accept
-                Star Council.
+                If either buyer or seller <strong>does not the validate the transaction</strong>, a
+                transaction dispute will be initiated, and the funds will remain in escrow pending
+                the decision of an Accept Star Council.
               </p>
             </div>
           </div>
