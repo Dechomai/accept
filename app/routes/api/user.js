@@ -107,8 +107,8 @@ userRouter
         .isLength({min: 1, max: 50}) // science
         .trim(),
       body('address')
-        .optional()
-        .isLength({min: 1, max: 100})
+        .exists()
+        .isLength({min: 5, max: 100})
         .trim(),
       body('phone')
         .optional()
