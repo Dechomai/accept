@@ -1,7 +1,7 @@
 import './Step2.scss';
 
 import React from 'react';
-import {isEmpty, pick} from 'ramda';
+import {isEmpty, pick, compose, not, filter} from 'ramda';
 import {withFormik} from 'formik';
 import classNames from 'classnames';
 import autobind from 'autobindr';
@@ -207,11 +207,14 @@ const SignUpForm = withFormik({
     firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
     lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
     phone: [rules.minLength(3), rules.maxLength(20), 'digits'],
-    address: [rules.minLength(5), rules.maxLength(100), 'commonText'],
+    address: ['required', rules.minLength(5), rules.maxLength(100), 'commonText'],
     username: ['required', rules.minLength(3), rules.maxLength(40), 'lettersAndDigits']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched, setErrors}) => {
-    const profile = pick(['firstName', 'lastName', 'phone', 'address', 'username'], values);
+    const profile = compose(
+      filter(compose(not, isEmpty)),
+      pick(['firstName', 'lastName', 'phone', 'address', 'username'])
+    )(values);
     userService.isUsernameUnique(values.username).then(data => {
       if (!data.unique) {
         setErrors({username: 'Username is not unique'});
