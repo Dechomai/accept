@@ -29,6 +29,8 @@ import {
 import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
 
+import metamaskService from '../../services/metamask';
+
 import ExchangeStep1 from './Step1';
 import ExchangeStep2 from './Step2';
 import ExchangeStep3 from './Step3';
@@ -101,24 +103,44 @@ class Exchange extends React.Component {
     // register window.onbeforeunload callback
     // to prevent losing transaction callback if page refreshes or browser closes
 
-    // TEMP
-    web3.eth.sendTransaction(
-      {
-        from: this.props.address,
-        to: '0x0f610b0a888734c4b329dd106f963b0F6848D7f8',
-        value: web3.toWei('0.005', 'ether')
-      },
-      (err, transactionHash) => {
-        this.setState({transactionStatus: err ? 'rejected' : 'accepted'});
+    const partnerAddress = path(['createdBy', 'bcDefaultAccountAddress'], this.props.item);
+
+    const partnerItem = this.props.partnerItem.data;
+    const selectedItem = this.props.selectedItem.data;
+    const {ownCount, partnerCount} = this.props;
+
+    metamaskService
+      .createExchangeContract({
+        initiatorItemName: selectedItem.title,
+        initiatorItemQuantity: ownCount,
+        partnerItemName: partnerItem.title,
+        partnerItemQuantity: partnerCount,
+        partnerAddress,
+        price: this.calculateEscrow()
+      })
+      .then(
+        ([transactionHash, contractAddress]) => {
+          this.setState({transactionStatus: 'accepted'});
+
+          // publish to server
+          console.log('tx', transactionHash);
+
+          contractAddress.then(address => {
+            // publish address to server
+            console.log('contract address', address);
+          });
+        },
+        err => this.setState({transactionStatus: 'rejected'})
+      )
+      .then(() => {
         const step = this.getStepFromQuery();
         this.setStepQuery(step + 1);
-      }
-    );
+      });
   }
 
   calculateEscrow() {
     const ownItem = this.props.selectedItem.data;
-    const partnerItem = this.props.parnerItem.data;
+    const partnerItem = this.props.partnerItem.data;
 
     return Math.min(
       ownItem.price * this.props.ownCount,
@@ -128,13 +150,10 @@ class Exchange extends React.Component {
 
   calculateEscrowDifference() {
     const ownItem = this.props.selectedItem.data;
-    const partnerItem = this.props.parnerItem.data;
+    const partnerItem = this.props.partnerItem.data;
+    const {ownCount, partnerCount} = this.props;
     const escrow = this.calculateEscrow();
-
-    return Math.max(
-      ownItem.price * this.props.ownCount - escrow,
-      partnerItem.price * this.props.partnerCount - escrow
-    );
+    return Math.max(ownItem.price * ownCount - escrow, partnerItem.price * partnerCount - escrow);
   }
 
   isBackBtnDisabled() {
@@ -265,7 +284,7 @@ class Exchange extends React.Component {
         );
       case Steps.DETAILS_SPECIFICATION: {
         const showEscrow =
-          path(['data'], this.props.selectedItem) && path(['data'], this.props.parnerItem);
+          path(['data'], this.props.selectedItem) && path(['data'], this.props.partnerItem);
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
@@ -376,7 +395,7 @@ const mapStateToProps = (state, {type, itemId}) => {
       : selectServiceById(state, selectedItemId);
 
   return {
-    parnerItem:
+    partnerItem:
       type === 'product' ? selectProductById(state, itemId) : selectServiceById(state, itemId),
     user: selectProfile(state),
     selectedType,
