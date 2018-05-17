@@ -64,8 +64,8 @@ export default compose(
     wantedItem,
     wantedType,
     wantedCount,
-    difference,
-    escrow
+    calculateEscrowDifference,
+    calculateEscrow
   }) => {
     return ownItem && !ownItem.loading && !ownItem.error ? (
       <div className="exchange-step4">
@@ -114,7 +114,7 @@ export default compose(
               type={wantedType}
               count={wantedCount}
             />
-            <ExchangeEscrow difference={difference} escrow={escrow} />
+            <ExchangeEscrow difference={calculateEscrowDifference()} escrow={calculateEscrow()} />
           </div>
         </div>
         <div className="exchange-step4__disclaimer">
