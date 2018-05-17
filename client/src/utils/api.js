@@ -8,7 +8,7 @@ const getOptions = () => ({
 const getBody = (method, body) => (method === 'GET' ? {} : {body: JSON.stringify(body)});
 
 // use 1 second delay in dev mode
-const MIN_LOADING_TIME = ENV === 'develop' ? 1000 : 0;
+const MIN_LOADING_TIME = ENV === 'development' ? 1000 : 0;
 
 const waitFor = promise => {
   const timeout = new Promise(resolve => {
