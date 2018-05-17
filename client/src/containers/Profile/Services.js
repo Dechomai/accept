@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {compose, withProps, lifecycle} from 'recompact';
+import {compose, lifecycle} from 'recompact';
 import {fetchServices, deleteService} from '../../actions/services';
 import {
   selectOwnServicesFor,
@@ -10,6 +10,8 @@ import {
   selectUserServicesCount
 } from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
+import withPage from '../../hoc/pagination/withPage';
+import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance';
 import Loader from '../../components/common/Loader/Loader';
 import ProfileServices from '../../components/Profile/Services';
 import Empty from '../../components/common/Empty/Empty';
@@ -52,11 +54,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default compose(
   withRouter,
-  withProps(({location}) => ({
-    skip: (parseInt(location.query.page) - 1 || 0) * DEFAULT_LIMIT,
-    limit: DEFAULT_LIMIT
-  })),
+  withPage(DEFAULT_LIMIT),
   connect(mapStateToProps, mapDispatchToProps),
+  withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT),
   lifecycle({
     componentDidMount() {
       refetchServices(this.props);
