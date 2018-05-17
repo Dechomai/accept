@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {compose, withStateHandlers, lifecycle} from 'recompact';
+import {compose, withProps, lifecycle} from 'recompact';
 import {fetchServices, deleteService} from '../../actions/services';
 import {
   selectOwnServicesFor,
@@ -51,24 +51,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default compose(
-  withStateHandlers(
-    props => ({
-      skip: 0,
-      limit: props.params.userId ? DEFAULT_LIMIT : DEFAULT_LIMIT - 1
-    }),
-    {
-      onPaginationNextClick: ({skip, limit}) => () => ({
-        skip: skip + limit
-      }),
-      onPaginationPrevClick: ({skip, limit}) => () => ({
-        skip: skip - limit
-      }),
-      onPaginationPageClick: ({limit}) => pageIndex => ({
-        skip: pageIndex * limit
-      })
-    }
-  ),
   withRouter,
+  withProps(({location}) => ({
+    skip: (parseInt(location.query.page) - 1 || 0) * DEFAULT_LIMIT,
+    limit: DEFAULT_LIMIT
+  })),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
@@ -80,71 +67,46 @@ export default compose(
       refetchServices(nextProps);
     }
   })
-)(
-  ({
-    services,
-    count,
-    editable,
-    skip,
-    limit,
-    onPaginationNextClick,
-    onPaginationPrevClick,
-    onPaginationPageClick,
-    router,
-    deleteService
-  }) => {
-    if (!services || services.loading) return <Loader />;
-    if (services && !services.data.length) {
-      return (
-        <div className="profile-services">
-          <div className="profile-services__content">
-            <Empty type="service" />
-          </div>
-        </div>
-      );
-    }
+)(({services, count, editable, skip, limit, router, deleteService}) => {
+  if (!services || services.loading) return <Loader />;
+  if (services && !services.data.length) {
     return (
       <div className="profile-services">
-        <h6 className="profile-services__title">All services</h6>
-
-        <div className="profile-services__pagination">
-          <Pagination
-            totalPages={Math.ceil(count / limit)}
-            currentPage={Math.floor(skip / limit)}
-            onNextClick={onPaginationNextClick}
-            onPrevClick={onPaginationPrevClick}
-            onPageClick={onPaginationPageClick}
-          />
-        </div>
-
         <div className="profile-services__content">
-          <div className="row">
-            {services && services.data && services.data.length ? (
-              <ProfileServices
-                services={services.data}
-                onEditClick={(e, serviceId) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  router.push(`/services/${serviceId}/edit`);
-                }}
-                onDeleteClick={deleteService}
-                editable={editable}
-              />
-            ) : (
-              <Loader />
-            )}
-          </div>
-        </div>
-        <div className="profile-services__pagination">
-          <Pagination
-            totalPages={Math.ceil(count / limit)}
-            currentPage={Math.floor(skip / limit)}
-            onNextClick={onPaginationNextClick}
-            onPrevClick={onPaginationPrevClick}
-            onPageClick={onPaginationPageClick}
-          />
+          <Empty type="service" />
         </div>
       </div>
     );
   }
-);
+  return (
+    <div className="profile-services">
+      <h6 className="profile-services__title">All services</h6>
+
+      <div className="profile-services__pagination">
+        <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
+      </div>
+
+      <div className="profile-services__content">
+        <div className="row">
+          {services && services.data && services.data.length ? (
+            <ProfileServices
+              services={services.data}
+              onEditClick={(e, serviceId) => {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push(`/services/${serviceId}/edit`);
+              }}
+              onDeleteClick={deleteService}
+              editable={editable}
+            />
+          ) : (
+            <Loader />
+          )}
+        </div>
+      </div>
+      <div className="profile-services__pagination">
+        <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
+      </div>
+    </div>
+  );
+});

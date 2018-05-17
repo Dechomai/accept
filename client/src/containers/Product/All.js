@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
-import {compose, withStateHandlers, lifecycle} from 'recompact';
+import {compose, withProps, lifecycle} from 'recompact';
 import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
 import {fetchProducts} from '../../actions/products';
@@ -34,24 +34,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 export default compose(
-  withStateHandlers(
-    () => ({
-      skip: 0,
-      limit: DEFAULT_LIMIT
-    }),
-    {
-      onPaginationNextClick: ({skip, limit}) => () => ({
-        skip: skip + limit
-      }),
-      onPaginationPrevClick: ({skip, limit}) => () => ({
-        skip: skip - limit
-      }),
-      onPaginationPageClick: ({limit}) => pageIndex => ({
-        skip: pageIndex * limit
-      })
-    }
-  ),
   withRouter,
+  withProps(({location}) => ({
+    skip: (parseInt(location.query.page) - 1 || 0) * DEFAULT_LIMIT,
+    limit: DEFAULT_LIMIT
+  })),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
@@ -63,59 +50,43 @@ export default compose(
       refetchProducts(nextProps);
     }
   })
-)(
-  ({
-    products,
-    count,
-    skip,
-    limit,
-    onPaginationNextClick,
-    onPaginationPrevClick,
-    onPaginationPageClick
-  }) => {
-    const Navigation = ({showResults, showBreadcrumbs}) => (
-      <div className="d-flex justify-content-between align-items-center my-3">
-        <div>
-          {showBreadcrumbs && (
-            <Breadcrumb tag="nav">
-              <BreadcrumbItem>
-                <Link to="/">Home</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem active tag="span">
-                Products
-              </BreadcrumbItem>
-            </Breadcrumb>
+)(({products, count, skip, limit}) => {
+  const Navigation = ({showResults, showBreadcrumbs}) => (
+    <div className="d-flex justify-content-between align-items-center my-3">
+      <div>
+        {showBreadcrumbs && (
+          <Breadcrumb tag="nav">
+            <BreadcrumbItem>
+              <Link to="/">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active tag="span">
+              Products
+            </BreadcrumbItem>
+          </Breadcrumb>
+        )}
+      </div>
+
+      {showResults && <small className="all-products__count">{count} results</small>}
+
+      <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
+    </div>
+  );
+
+  if (!products || products.loading) return <Loader />;
+  if (products && !products.data.length) return <Empty type="product" />;
+  return (
+    <div className="all-products">
+      <Navigation showResults showBreadcrumbs />
+      <div className="all-products__content">
+        <div className="row">
+          {products && products.data && products.data.length ? (
+            <ItemsList type="products" list={products.data} tileSize="col-6 col-sm-3" />
+          ) : (
+            <Loader />
           )}
         </div>
-
-        {showResults && <small className="all-products__count">{count} results</small>}
-
-        <Pagination
-          totalPages={Math.ceil(count / limit)}
-          currentPage={Math.floor(skip / limit)}
-          onNextClick={onPaginationNextClick}
-          onPrevClick={onPaginationPrevClick}
-          onPageClick={onPaginationPageClick}
-        />
       </div>
-    );
-
-    if (!products || products.loading) return <Loader />;
-    if (products && !products.data.length) return <Empty type="product" />;
-    return (
-      <div className="all-products">
-        <Navigation showResults showBreadcrumbs />
-        <div className="all-products__content">
-          <div className="row">
-            {products && products.data && products.data.length ? (
-              <ItemsList type="products" list={products.data} tileSize="col-6 col-sm-3" />
-            ) : (
-              <Loader />
-            )}
-          </div>
-        </div>
-        <Navigation showResults showBreadcrumbs />
-      </div>
-    );
-  }
-);
+      <Navigation showResults showBreadcrumbs />
+    </div>
+  );
+});
