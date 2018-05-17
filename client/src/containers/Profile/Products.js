@@ -10,8 +10,8 @@ import {
   selectUserProductsCount
 } from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
-import withPage from '../../components/common/Pagination/withPage';
-import withValidPageEnsurance from '../../components/common/Pagination/withValidPageEnsurance';
+import withPage from '../../hoc/pagination/withPage';
+import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance';
 import Loader from '../../components/common/Loader/Loader';
 import ProfileProducts from '../../components/Profile/Products';
 import Empty from '../../components/common/Empty/Empty';
