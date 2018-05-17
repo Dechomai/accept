@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
-import {compose, withProps, lifecycle} from 'recompact';
+import {compose, lifecycle} from 'recompact';
 import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 
 import {fetchProducts} from '../../actions/products';
 import {selectAllProductsFor, selectAllProductsCount} from '../../selectors';
 import Pagination from '../../components/common/Pagination/Pagination';
+import withPage from '../../components/common/Pagination/withPage';
+import withValidPageEnsurance from '../../components/common/Pagination/withValidPageEnsurance';
 import Loader from '../../components/common/Loader/Loader';
 import ItemsList from '../../components/common/Item/List';
 import Empty from '../../components/common/Empty/Empty';
@@ -35,11 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 export default compose(
   withRouter,
-  withProps(({location}) => ({
-    skip: (parseInt(location.query.page) - 1 || 0) * DEFAULT_LIMIT,
-    limit: DEFAULT_LIMIT
-  })),
+  withPage(DEFAULT_LIMIT),
   connect(mapStateToProps, mapDispatchToProps),
+  withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT),
   lifecycle({
     componentDidMount() {
       refetchProducts(this.props);
