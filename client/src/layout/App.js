@@ -1,6 +1,7 @@
 import './App.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {ToastContainer} from 'react-toastify';
 
 import Header from '../containers/Header/Header';
 import Footer from '../components/Footer/Footer';
@@ -27,6 +28,7 @@ class App extends React.Component {
     return (
       <div className="app-container" ref={this.setRef}>
         <Header />
+        <ToastContainer position="top-right" hideProgressBar />
         <div className="app-container__content">{children}</div>
         {showFooter && <Footer />}
       </div>
