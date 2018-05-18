@@ -60,7 +60,11 @@ class Details extends React.Component {
       return (
         <React.Fragment>
           {this.state.showExchange && (
-            <Exchange type="product" item={product} onCancel={this.handleExchangeCancel} />
+            <Exchange
+              type="product"
+              itemId={product.data.id}
+              onCancel={this.handleExchangeCancel}
+            />
           )}
           <ProductDetails
             product={product.data}

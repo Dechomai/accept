@@ -4,7 +4,7 @@
   height: 100%;
   padding: 1.5rem;
   border-right: solid 2px $gray-200;
-  padding-bottom: 130px;
+
   .exchange-item {
     padding: 0;
 
@@ -20,11 +20,5 @@
         font-size: 16px;
       }
     }
-  }
-  .exchange-escrow {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 40%;
   }
 }

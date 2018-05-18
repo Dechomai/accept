@@ -9,35 +9,47 @@ import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
 
 import Icon from '../../components/common/Icon/Icon';
+import Loader from '../../components/common/Loader/Loader';
 import ExchangeItemSummary from '../../components/Exchange/ExchangeItemSummary';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
+import {shouldRefetchItem, isItemLoading} from '../../utils/refetch';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, {ownItemId, ownItemType, partnerItemId, partnerItemType}) => {
   return {
     ownItem:
-      ownProps.ownType === 'product'
-        ? selectProductById(state, ownProps.ownItemId)
-        : selectServiceById(state, ownProps.ownItemId)
+      ownItemType === 'product'
+        ? selectProductById(state, ownItemId)
+        : selectServiceById(state, ownItemId),
+
+    partnerItem:
+      partnerItemType === 'product'
+        ? selectProductById(state, partnerItemId)
+        : selectServiceById(state, partnerItemId)
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
-    fetchItem() {
-      return dispatch(
-        ownProps.ownType === 'product'
-          ? fetchProductById(ownProps.ownItemId)
-          : fetchServiceById(ownProps.ownItemId)
-      );
+    fetchItem(type, id) {
+      return dispatch(type === 'product' ? fetchProductById(id) : fetchServiceById(id));
     }
   };
 };
 
-const refetchItem = props => {
-  const {ownItem, fetchItem} = props;
-
-  if (!ownItem || (ownItem.error && !ownItem.loading)) {
-    fetchItem();
+const refetchItem = ({
+  ownItem,
+  ownItemId,
+  ownItemType,
+  partnerItem,
+  partnerItemId,
+  partnerItemType,
+  fetchItem
+}) => {
+  if (shouldRefetchItem(ownItem)) {
+    fetchItem(ownItemType, ownItemId);
+  }
+  if (shouldRefetchItem(partnerItem)) {
+    fetchItem(partnerItemType, partnerItemId);
   }
 };
 
@@ -57,24 +69,31 @@ export default compose(
 )(
   ({
     ownItem,
-    ownType,
+    ownItemType,
     ownCount,
     ownDays,
     ownTime,
-    wantedItem,
-    wantedType,
-    wantedCount,
+    partnerItem,
+    partnerItemType,
+    partnerCount,
     calculateEscrowDifference,
     calculateEscrow
   }) => {
-    return ownItem && !ownItem.loading && !ownItem.error ? (
+    if (isItemLoading(ownItem) || isItemLoading(partnerItem)) {
+      return (
+        <div className="exchange-step4">
+          <Loader />
+        </div>
+      );
+    }
+    return (
       <div className="exchange-step4">
         <div className="exchange-step4__sections">
           <div className="exchange-step4__section">
             <ExchangeItemSummary
               title="Your offer:"
               item={ownItem.data}
-              type={ownType}
+              type={ownItemType}
               count={ownCount}
               days={ownDays}
               time={ownTime}
@@ -110,9 +129,9 @@ export default compose(
           <div className="exchange-step4__section">
             <ExchangeItemSummary
               title="Item for exchange:"
-              item={wantedItem}
-              type={wantedType}
-              count={wantedCount}
+              item={partnerItem.data}
+              type={partnerItemType}
+              count={partnerCount}
             />
             <ExchangeEscrow difference={calculateEscrowDifference()} escrow={calculateEscrow()} />
           </div>
@@ -126,6 +145,6 @@ export default compose(
           </span>
         </div>
       </div>
-    ) : null;
+    );
   }
 );

@@ -6,7 +6,7 @@ import {Button} from 'reactstrap';
 import {connect} from 'react-redux';
 import {selectItemType} from '../../actions/exchange';
 
-const ExchangeStep1 = ({selectItemType, stepChanged}) => {
+const ExchangeStep1 = ({selectItemType, onSelect}) => {
   return (
     <div className="exchange-step1">
       <h6 className="exchange-step1__header">Your Offer</h6>
@@ -19,7 +19,7 @@ const ExchangeStep1 = ({selectItemType, stepChanged}) => {
           color="secondary"
           onClick={() => {
             selectItemType('product');
-            stepChanged('ITEM_SELECTION');
+            onSelect('ITEM_SELECTION');
           }}>
           Select Good
         </Button>
@@ -28,8 +28,8 @@ const ExchangeStep1 = ({selectItemType, stepChanged}) => {
           outline
           color="secondary"
           onClick={() => {
-            selectItemType('product');
-            stepChanged('ITEM_SELECTION');
+            selectItemType('service');
+            onSelect('ITEM_SELECTION');
           }}>
           Select Service
         </Button>
@@ -39,7 +39,8 @@ const ExchangeStep1 = ({selectItemType, stepChanged}) => {
 };
 
 ExchangeStep1.propTypes = {
-  stepChanged: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  selectItemType: PropTypes.func.isRequired
 };
 
 const mapStateToProps = () => ({});

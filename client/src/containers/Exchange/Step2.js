@@ -24,9 +24,9 @@ import {selectItem} from '../../actions/exchange';
 const DEFAULT_LIMIT = 8;
 
 const refetchItems = props => {
-  const {items} = props;
+  const {items, type, fetchProducts, fetchServices} = props;
   if (!items || (!items.listValid && !items.loading)) {
-    props.type === 'product' ? props.fetchProducts() : props.fetchServices();
+    type === 'product' ? fetchProducts() : fetchServices();
   }
 };
 
