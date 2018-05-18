@@ -1,5 +1,6 @@
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import {toast} from 'react-toastify';
 import {compose, withHandlers} from 'recompact';
 import {pick} from 'ramda';
 
@@ -28,9 +29,12 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
     onSubmit: ({confirmProfile, router}) => data => {
-      return confirmProfile(data).then(() => {
-        router.push('/');
-      });
+      return confirmProfile(data).then(
+        () => {
+          router.push('/');
+        },
+        () => toast.error('Sorry, something went wrong')
+      );
     }
   })
 )(SignUpStep3);
