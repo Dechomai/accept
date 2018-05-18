@@ -1,0 +1,12 @@
+@import '../theme/_index.scss';
+
+.Toastify {
+  &__toast {
+    &--success {
+      background-color: $green;
+    }
+    &--errro {
+      background-color: $red;
+    }
+  }
+}

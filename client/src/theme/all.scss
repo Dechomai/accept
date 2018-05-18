@@ -16,9 +16,11 @@ $mdi-font-path: '/assets/mdi';
 // $mdi-version:          "1.9.32" !default;
 
 @import '~mdi/scss/materialdesignicons';
+@import '~react-toastify/dist/ReactToastify.css';
 
 @import 'links';
 @import 'forms';
 @import 'icons';
 @import 'loader';
 @import 'modal';
+@import 'toaster';

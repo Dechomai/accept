@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {compose, lifecycle} from 'recompact';
+import {toast} from 'react-toastify';
 import {fetchServices, deleteService} from '../../actions/services';
 import {
   selectOwnServicesFor,
@@ -47,7 +48,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       );
     },
     deleteService(serviceId) {
-      return dispatch(deleteService(serviceId));
+      return dispatch(deleteService(serviceId)).then(() => {
+        toast.success('Service removed successfully');
+      });
     }
   };
 };
