@@ -60,7 +60,7 @@ class InnerForm extends React.Component {
                 {error &&
                   isEmpty(touched) && (
                     <div className="alert alert-danger" role="alert">
-                      Form is invalid
+                      Sorry, something went wrong. Please, check all fields and try again later.
                     </div>
                   )}
                 <FileUpload
