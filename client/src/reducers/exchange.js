@@ -9,7 +9,7 @@ import {
 
 const getInitialState = () => ({
   selectedType: null,
-  selectedItem: null,
+  selectedItemId: null,
   ownCount: 1,
   partnerCount: 1,
   ownDays: [],
@@ -27,7 +27,7 @@ const exchange = (state = getInitialState(), action) => {
     case SELECT_EXCHANGE_ITEM: {
       return {
         ...state,
-        selectedItem: action.payload.selectedItem
+        selectedItemId: action.payload.selectedItemId
       };
     }
     case CHANGE_EXCHANGE_OWN_COUNT: {

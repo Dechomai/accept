@@ -44,7 +44,8 @@ class ExchangeItem extends React.Component {
   }
 
   render() {
-    const {item, type, className, title, days, time: dayTime, own} = this.props;
+    const {type, className, title, days, time: dayTime, own} = this.props;
+    const item = this.props.item;
 
     const primaryImageUrl = getPrimaryImage(item);
     const imgUrl = primaryImageUrl

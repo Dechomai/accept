@@ -9,7 +9,8 @@ import {
   selectOwnProductsCount,
   selectOwnServicesCount,
   selectOwnProductsFor,
-  selectOwnServicesFor
+  selectOwnServicesFor,
+  selectExchangeItemType
 } from '../../selectors';
 import {fetchProducts} from '../../actions/products';
 import {fetchServices} from '../../actions/services';
@@ -18,29 +19,36 @@ import {formatPrice} from '../../utils/format';
 import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
+import {selectItem} from '../../actions/exchange';
 
 const DEFAULT_LIMIT = 8;
 
 const refetchItems = props => {
-  const {items} = props;
+  const {items, type, fetchProducts, fetchServices} = props;
   if (!items || (!items.listValid && !items.loading)) {
-    props.type === 'product' ? props.fetchProducts() : props.fetchServices();
+    type === 'product' ? fetchProducts() : fetchServices();
   }
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    type: selectExchangeItemType(state),
     items:
-      ownProps.type === 'product'
+      selectExchangeItemType(state) === 'product'
         ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
         : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
     count:
-      ownProps.type === 'product' ? selectOwnProductsCount(state) : selectOwnServicesCount(state)
+      selectExchangeItemType(state) === 'product'
+        ? selectOwnProductsCount(state)
+        : selectOwnServicesCount(state)
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    onItemSelect(item) {
+      return dispatch(selectItem(item));
+    },
     fetchProducts() {
       return dispatch(fetchProducts({scope: 'user', skip: ownProps.skip, limit: ownProps.limit}));
     },
@@ -88,6 +96,7 @@ export default compose(
     count,
     type,
     onItemSelect,
+    stepChanged,
     onPaginationNextClick,
     onPaginationPrevClick,
     onPaginationPageClick
@@ -117,6 +126,7 @@ export default compose(
                   key={item.id}
                   onClick={() => {
                     onItemSelect(item);
+                    stepChanged('DETAILS_SPECIFICATION');
                   }}>
                   <div
                     className="exchange-step2-list__item__thumbnail"

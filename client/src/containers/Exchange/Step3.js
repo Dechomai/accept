@@ -1,14 +1,34 @@
 import './Step3.scss';
 
 import React from 'react';
-import ExchangeItem from '../../components/Exchange/ExchangeItem';
+import {connect} from 'react-redux';
 
-const ExchangeStep3 = ({...props}) => {
-  return (
-    <div className="exchange-step3">
-      <ExchangeItem title="Your offer" own {...props} />
-    </div>
-  );
-};
+import {
+  selectExchangeOwnCount,
+  selectExchangeOwnDays,
+  selectExchangeOwnTime
+} from '../../selectors';
+import {changeOwnCount, changeOwnDays, changeOwnTime} from '../../actions/exchange';
+import ExchangeItem from '../../containers/Exchange/ExchangeItem';
 
-export default ExchangeStep3;
+const mapStateToProps = state => ({
+  quantity: selectExchangeOwnCount(state),
+  days: selectExchangeOwnDays(state),
+  time: selectExchangeOwnTime(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  onQuantityChange(count) {
+    return dispatch(changeOwnCount(count));
+  },
+  onDaysChange(days) {
+    return dispatch(changeOwnDays(days));
+  },
+  onTimeChange(time) {
+    return dispatch(changeOwnTime(time));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(({itemId, ...props}) => (
+  <ExchangeItem {...props} itemId={itemId} title="Your offer" own className="exchange-step3" />
+));

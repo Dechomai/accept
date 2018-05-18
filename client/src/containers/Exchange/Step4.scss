@@ -3,6 +3,7 @@
 .exchange-step4 {
   width: 100%;
   padding: 20px;
+  min-height: 80px; // ensure loader
 
   &__sections {
     display: flex;

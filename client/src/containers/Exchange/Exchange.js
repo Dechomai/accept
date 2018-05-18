@@ -8,12 +8,15 @@ import autobind from 'autobindr';
 import {compose, path} from 'ramda';
 
 import {
+  selectProfile,
   selectExchangeItemType,
-  selectExchangeItem,
+  selectExchangeItemId,
   selectExchangeOwnCount,
   selectExchangePartnerCount,
   selectExchangeOwnDays,
-  selectExchangeOwnTime
+  selectExchangeOwnTime,
+  selectServiceById,
+  selectProductById
 } from '../../selectors';
 import {
   selectItemType,
@@ -23,16 +26,19 @@ import {
   changeOwnDays,
   changeOwnTime
 } from '../../actions/exchange';
-import {selectProfile} from '../../selectors';
+import {fetchProductById} from '../../actions/products';
+import {fetchServiceById} from '../../actions/services';
+
+import ExchangeStep1 from './Step1';
+import ExchangeStep2 from './Step2';
+import ExchangeStep3 from './Step3';
+import ExchangeStep4 from './Step4';
+import ExchangeStepConfirm from './StepConfirm';
+import ExchangeItem from './ExchangeItem';
+
 import ExchangeModal from '../../components/Exchange/Modal';
-import ExchangeStep1 from '../../containers/Exchange/Step1';
-import ExchangeStep2 from '../../containers/Exchange/Step2';
-import ExchangeStep3 from '../../containers/Exchange/Step3';
-import ExchangeStep4 from '../../containers/Exchange/Step4';
-import ExchangeStepConfirm from '../../containers/Exchange/StepConfirm';
-import ExchangeItem from '../../components/Exchange/ExchangeItem';
-import ExchangeEscrow from '../../components/Exchange/Escrow';
 import ConnectionCheck from '../../components/Exchange/ConnectionCheck';
+import ExchangeEscrow from '../../components/Exchange/Escrow';
 
 const Steps = {
   TYPE_SELECTION: 0,
@@ -50,10 +56,6 @@ class Exchange extends React.Component {
     autobind(this);
 
     this.state = {
-      selectedType: null,
-      selectedItem: null,
-      ownCount: 1,
-      partnerCount: 1,
       isConnectionValid: false
     };
 
@@ -83,30 +85,8 @@ class Exchange extends React.Component {
     }
   }
 
-  handleTypeSelect(type) {
-    this.props.selectItemType(type);
-    this.setStepQuery(Steps.ITEM_SELECTION);
-  }
-
-  handleItemSelect(item) {
-    this.props.selectItem(item);
-    this.setStepQuery(Steps.DETAILS_SPECIFICATION);
-  }
-
-  handleOwnItemQuantityChange(num) {
-    this.props.changeOwnCount(num);
-  }
-
   handlePartnerItemQuantityChange(num) {
     this.props.changePartnerCount(num);
-  }
-
-  handleAvailabilityDaysChange(days) {
-    this.props.changeOwnDays(days);
-  }
-
-  handleAvailabilityTimeChange(time) {
-    this.props.changeOwnTime(time);
   }
 
   handleConnectionCheckSuccess() {
@@ -137,8 +117,8 @@ class Exchange extends React.Component {
   }
 
   calculateEscrow() {
-    const ownItem = this.props.selectedItem;
-    const partnerItem = this.props.item;
+    const ownItem = this.props.selectedItem.data;
+    const partnerItem = this.props.parnerItem.data;
 
     return Math.min(
       ownItem.price * this.props.ownCount,
@@ -147,8 +127,8 @@ class Exchange extends React.Component {
   }
 
   calculateEscrowDifference() {
-    const ownItem = this.props.selectedItem;
-    const partnerItem = this.props.item;
+    const ownItem = this.props.selectedItem.data;
+    const partnerItem = this.props.parnerItem.data;
     const escrow = this.calculateEscrow();
 
     return Math.max(
@@ -202,6 +182,10 @@ class Exchange extends React.Component {
     });
   }
 
+  handleStepChange(stepName) {
+    this.setStepQuery(Steps[stepName]);
+  }
+
   isFooterShown() {
     const step = this.getStepFromQuery();
     return step !== Steps.TRANSACTION_CONFIRM;
@@ -251,11 +235,11 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep1 onTypeSelect={this.handleTypeSelect} />
+              <ExchangeStep1 onSelect={this.handleStepChange} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem
-                item={this.props.item}
+                itemId={this.props.itemId}
                 type={this.props.type}
                 quantity={this.props.partnerCount}
                 onQuantityChange={this.handlePartnerItemQuantityChange}
@@ -267,11 +251,11 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep2 type={this.props.selectedType} onItemSelect={this.handleItemSelect} />
+              <ExchangeStep2 stepChanged={this.handleStepChange} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem
-                item={this.props.item}
+                itemId={this.props.itemId}
                 type={this.props.type}
                 quantity={this.props.partnerCount}
                 onQuantityChange={this.handlePartnerItemQuantityChange}
@@ -279,49 +263,48 @@ class Exchange extends React.Component {
             </div>
           </div>
         );
-      case Steps.DETAILS_SPECIFICATION:
+      case Steps.DETAILS_SPECIFICATION: {
+        const showEscrow =
+          path(['data'], this.props.selectedItem) && path(['data'], this.props.parnerItem);
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep3
-                type={this.props.selectedType}
-                item={this.props.selectedItem}
-                quantity={this.props.ownCount}
-                days={this.props.ownDays}
-                time={this.props.ownTime}
-                onQuantityChange={this.handleOwnItemQuantityChange}
-                onDaysChange={this.handleAvailabilityDaysChange}
-                onTimeChange={this.handleAvailabilityTimeChange}
-              />
+              <ExchangeStep3 type={this.props.selectedType} itemId={this.props.selectedItemId} />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem
-                item={this.props.item}
+                itemId={this.props.itemId}
                 type={this.props.type}
                 quantity={this.props.partnerCount}
                 onQuantityChange={this.handlePartnerItemQuantityChange}
               />
-              <ExchangeEscrow
-                difference={this.calculateEscrowDifference()}
-                escrow={this.calculateEscrow()}
-              />
+              {showEscrow && (
+                <ExchangeEscrow
+                  difference={this.calculateEscrowDifference()}
+                  escrow={this.calculateEscrow()}
+                />
+              )}
             </div>
           </div>
         );
+      }
       case Steps.SUMMARY:
         return (
           <div className="exchange-content">
             <ExchangeStep4
-              ownItemId={this.props.selectedItem.id}
-              ownType={this.props.selectedType}
+              ownItemId={this.props.selectedItemId}
+              ownItemType={this.props.selectedType}
+              partnerItemId={this.props.itemId}
+              partnerItemType={this.props.type}
               ownCount={this.props.ownCount}
               ownDays={this.props.ownDays}
               ownTime={this.props.ownTime}
-              wantedItem={this.props.item}
-              wantedType={this.props.type}
-              wantedCount={this.props.partnerCount}
-              difference={this.calculateEscrowDifference()}
-              escrow={this.calculateEscrow()}
+              partnerCount={this.props.partnerCount}
+              // TODO: to be added
+              // partnerDays={this.props.partnerDays}
+              // partnerTime={this.props.partnerTime}
+              calculateEscrowDifference={this.calculateEscrowDifference}
+              calculateEscrow={this.calculateEscrow}
             />
           </div>
         );
@@ -367,13 +350,13 @@ class Exchange extends React.Component {
 }
 
 Exchange.propTypes = {
-  item: PropTypes.any.isRequired,
+  itemId: PropTypes.string.isRequired, // partner
   type: PropTypes.oneOf(['product', 'service']).isRequired,
   onCancel: PropTypes.func.isRequired,
   selectedType: PropTypes.string,
   selectedItem: PropTypes.object,
-  ownCount: PropTypes.number,
-  partnerCount: PropTypes.number,
+  ownCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  partnerCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   ownDays: PropTypes.array,
   ownTime: PropTypes.array,
   selectItemType: PropTypes.func,
@@ -384,15 +367,27 @@ Exchange.propTypes = {
   changeOwnDays: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  user: selectProfile(state),
-  selectedType: selectExchangeItemType(state),
-  selectedItem: selectExchangeItem(state),
-  ownCount: selectExchangeOwnCount(state),
-  partnerCount: selectExchangePartnerCount(state),
-  ownDays: selectExchangeOwnDays(state),
-  ownTime: selectExchangeOwnTime(state)
-});
+const mapStateToProps = (state, {type, itemId}) => {
+  const selectedType = selectExchangeItemType(state);
+  const selectedItemId = selectExchangeItemId(state);
+  const selectedItem =
+    selectedType === 'product'
+      ? selectProductById(state, selectedItemId)
+      : selectServiceById(state, selectedItemId);
+
+  return {
+    parnerItem:
+      type === 'product' ? selectProductById(state, itemId) : selectServiceById(state, itemId),
+    user: selectProfile(state),
+    selectedType,
+    selectedItemId,
+    selectedItem,
+    ownCount: selectExchangeOwnCount(state),
+    partnerCount: selectExchangePartnerCount(state),
+    ownDays: selectExchangeOwnDays(state),
+    ownTime: selectExchangeOwnTime(state)
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   selectItemType(type) {
@@ -412,6 +407,12 @@ const mapDispatchToProps = dispatch => ({
   },
   changeOwnTime(time) {
     return dispatch(changeOwnTime(time));
+  },
+  fetchProduct(id) {
+    return dispatch(fetchProductById(id));
+  },
+  fetchService(id) {
+    return dispatch(fetchServiceById(id));
   }
 });
 

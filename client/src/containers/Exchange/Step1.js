@@ -3,8 +3,10 @@ import './Step1.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'reactstrap';
+import {connect} from 'react-redux';
+import {selectItemType} from '../../actions/exchange';
 
-const ExchangeStep1 = ({onTypeSelect}) => {
+const ExchangeStep1 = ({selectItemType, onSelect}) => {
   return (
     <div className="exchange-step1">
       <h6 className="exchange-step1__header">Your Offer</h6>
@@ -16,7 +18,8 @@ const ExchangeStep1 = ({onTypeSelect}) => {
           outline
           color="secondary"
           onClick={() => {
-            onTypeSelect('product');
+            selectItemType('product');
+            onSelect('ITEM_SELECTION');
           }}>
           Select Good
         </Button>
@@ -25,7 +28,8 @@ const ExchangeStep1 = ({onTypeSelect}) => {
           outline
           color="secondary"
           onClick={() => {
-            onTypeSelect('service');
+            selectItemType('service');
+            onSelect('ITEM_SELECTION');
           }}>
           Select Service
         </Button>
@@ -35,7 +39,16 @@ const ExchangeStep1 = ({onTypeSelect}) => {
 };
 
 ExchangeStep1.propTypes = {
-  onTypeSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  selectItemType: PropTypes.func.isRequired
 };
 
-export default ExchangeStep1;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  selectItemType(type) {
+    return dispatch(selectItemType(type));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeStep1);
