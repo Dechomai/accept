@@ -29,6 +29,7 @@
     "react-redux": "^5.0.7",
     "react-router": "3",
     "react-router-dom": "^4.2.2",
+    "react-toastify": "^4.0.1",
     "reactstrap": "^5.0.0-beta.3",
     "recompact": "^3.3.0",
     "redux": "^3.7.2",
