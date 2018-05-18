@@ -28,13 +28,13 @@ import {
 } from '../../actions/exchange';
 import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
-
-import metamaskService from '../../services/metamask';
+import {calculateEscrow, calculateEscrowDifference} from '../../utils/exchange';
 
 import ExchangeStep1 from './Step1';
 import ExchangeStep2 from './Step2';
 import ExchangeStep3 from './Step3';
 import ExchangeStep4 from './Step4';
+import ExchangeStep5 from './Step5';
 import ExchangeStepConfirm from './StepConfirm';
 import ExchangeItem from './ExchangeItem';
 
@@ -62,7 +62,7 @@ class Exchange extends React.Component {
     };
 
     let step = this.getStepFromQuery();
-    if (step > Steps.SUMMARY) step = Steps.SUMMARY;
+    if (step > Steps.TRANSACTION_CONFIRM) step = Steps.TRANSACTION_CONFIRM;
     this.setStepQuery(step || Steps.TYPE_SELECTION);
     this.connectionCheck = null;
   }
@@ -94,66 +94,30 @@ class Exchange extends React.Component {
   handleConnectionCheckSuccess() {
     const step = this.getStepFromQuery();
     this.setStepQuery(step + 1);
-
-    /* eslint-disable */
-
-    //  dispatch
-    // TRANSACTION_REQUEST
-
-    // register window.onbeforeunload callback
-    // to prevent losing transaction callback if page refreshes or browser closes
-
-    const partnerAddress = path(['createdBy', 'bcDefaultAccountAddress'], this.props.item);
-
-    const partnerItem = this.props.partnerItem.data;
-    const selectedItem = this.props.selectedItem.data;
-    const {ownCount, partnerCount} = this.props;
-
-    metamaskService
-      .createExchangeContract({
-        initiatorItemName: selectedItem.title,
-        initiatorItemQuantity: ownCount,
-        partnerItemName: partnerItem.title,
-        partnerItemQuantity: partnerCount,
-        partnerAddress,
-        price: this.calculateEscrow()
-      })
-      .then(
-        ([transactionHash, contractAddress]) => {
-          this.setState({transactionStatus: 'accepted'});
-
-          // publish to server
-          console.log('tx', transactionHash);
-
-          contractAddress.then(address => {
-            // publish address to server
-            console.log('contract address', address);
-          });
-        },
-        err => this.setState({transactionStatus: 'rejected'})
-      )
-      .then(() => {
-        const step = this.getStepFromQuery();
-        this.setStepQuery(step + 1);
-      });
   }
 
   calculateEscrow() {
     const ownItem = this.props.selectedItem.data;
     const partnerItem = this.props.partnerItem.data;
 
-    return Math.min(
-      ownItem.price * this.props.ownCount,
-      partnerItem.price * this.props.partnerCount
+    return calculateEscrow(
+      ownItem.price,
+      this.props.ownCount,
+      partnerItem.price,
+      this.props.partnerCount
     );
   }
 
   calculateEscrowDifference() {
     const ownItem = this.props.selectedItem.data;
     const partnerItem = this.props.partnerItem.data;
-    const {ownCount, partnerCount} = this.props;
-    const escrow = this.calculateEscrow();
-    return Math.max(ownItem.price * ownCount - escrow, partnerItem.price * partnerCount - escrow);
+
+    return calculateEscrowDifference(
+      ownItem.price,
+      this.props.ownCount,
+      partnerItem.price,
+      this.props.partnerCount
+    );
   }
 
   isBackBtnDisabled() {
@@ -340,7 +304,15 @@ class Exchange extends React.Component {
         );
       }
       case Steps.TRANSACTION_CONFIRM:
-        return <ExchangeStepConfirm state="waiting" />;
+        return (
+          <ExchangeStep5
+            partnerItemId={this.props.itemId}
+            partnerItemType={this.props.type}
+            onComplete={() => {
+              console.log('complete');
+            }}
+          />
+        );
       case Steps.TRANSACTION_RESULT:
         return <ExchangeStepConfirm state={this.state.transactionStatus} />;
     }
