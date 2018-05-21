@@ -16,7 +16,9 @@ import {
   selectExchangeOwnDays,
   selectExchangeOwnTime,
   selectServiceById,
-  selectProductById
+  selectProductById,
+  selectExchangePartnerDays,
+  selectExchangePartnerTime
 } from '../../selectors';
 import {
   selectItemType,
@@ -24,7 +26,9 @@ import {
   changeOwnCount,
   changePartnerCount,
   changeOwnDays,
-  changeOwnTime
+  changeOwnTime,
+  changePartnerTime,
+  changePartnerDays
 } from '../../actions/exchange';
 import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
@@ -283,9 +287,8 @@ class Exchange extends React.Component {
               ownDays={this.props.ownDays}
               ownTime={this.props.ownTime}
               partnerCount={this.props.partnerCount}
-              // TODO: to be added
-              // partnerDays={this.props.partnerDays}
-              // partnerTime={this.props.partnerTime}
+              partnerDays={this.props.partnerDays}
+              partnerTime={this.props.partnerTime}
               calculateEscrowDifference={this.calculateEscrowDifference}
               calculateEscrow={this.calculateEscrow}
             />
@@ -350,6 +353,8 @@ Exchange.propTypes = {
   partnerCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   ownDays: PropTypes.array,
   ownTime: PropTypes.array,
+  partnerDays: PropTypes.array,
+  partnerTime: PropTypes.array,
   selectItemType: PropTypes.func,
   selectItem: PropTypes.func,
   changeOwnCount: PropTypes.func,
@@ -376,7 +381,9 @@ const mapStateToProps = (state, {type, itemId}) => {
     ownCount: selectExchangeOwnCount(state),
     partnerCount: selectExchangePartnerCount(state),
     ownDays: selectExchangeOwnDays(state),
-    ownTime: selectExchangeOwnTime(state)
+    ownTime: selectExchangeOwnTime(state),
+    partnerDays: selectExchangePartnerDays(state),
+    partnerTime: selectExchangePartnerTime(state)
   };
 };
 
@@ -398,6 +405,12 @@ const mapDispatchToProps = dispatch => ({
   },
   changeOwnTime(time) {
     return dispatch(changeOwnTime(time));
+  },
+  onPartnerDaysChange(days) {
+    return dispatch(changePartnerDays(days));
+  },
+  onPartnerTimeChange(time) {
+    return dispatch(changePartnerTime(time));
   },
   fetchProduct(id) {
     return dispatch(fetchProductById(id));

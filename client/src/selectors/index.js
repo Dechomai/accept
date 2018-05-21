@@ -79,3 +79,5 @@ export const selectExchangeOwnCount = state => selectExchange(state).ownCount;
 export const selectExchangePartnerCount = state => selectExchange(state).partnerCount;
 export const selectExchangeOwnDays = state => selectExchange(state).ownDays;
 export const selectExchangeOwnTime = state => selectExchange(state).ownTime;
+export const selectExchangePartnerDays = state => selectExchange(state).partnerDays;
+export const selectExchangePartnerTime = state => selectExchange(state).partnerTime;

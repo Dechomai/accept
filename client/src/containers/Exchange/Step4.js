@@ -73,6 +73,8 @@ export default compose(
     ownCount,
     ownDays,
     ownTime,
+    partnerDays,
+    partnerTime,
     partnerItem,
     partnerItemType,
     partnerCount,
@@ -132,6 +134,8 @@ export default compose(
               item={partnerItem.data}
               type={partnerItemType}
               count={partnerCount}
+              days={partnerDays}
+              time={partnerTime}
             />
             <ExchangeEscrow difference={calculateEscrowDifference()} escrow={calculateEscrow()} />
           </div>

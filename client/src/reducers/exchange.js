@@ -4,7 +4,9 @@ import {
   CHANGE_EXCHANGE_OWN_COUNT,
   CHANGE_EXCHANGE_PARTNER_COUNT,
   CHANGE_EXCHANGE_OWN_DAYS,
-  CHANGE_EXCHANGE_OWN_TIME
+  CHANGE_EXCHANGE_OWN_TIME,
+  CHANGE_EXCHANGE_PARTNER_DAYS,
+  CHANGE_EXCHANGE_PARTNER_TIME
 } from '../actions/exchange';
 
 const getInitialState = () => ({
@@ -13,7 +15,9 @@ const getInitialState = () => ({
   ownCount: 1,
   partnerCount: 1,
   ownDays: [],
-  ownTime: []
+  ownTime: [],
+  partnerDays: [],
+  partnerTime: []
 });
 
 const exchange = (state = getInitialState(), action) => {
@@ -52,6 +56,18 @@ const exchange = (state = getInitialState(), action) => {
       return {
         ...state,
         ownTime: action.payload.ownTime
+      };
+    }
+    case CHANGE_EXCHANGE_PARTNER_DAYS: {
+      return {
+        ...state,
+        partnerDays: action.payload.partnerDays
+      };
+    }
+    case CHANGE_EXCHANGE_PARTNER_TIME: {
+      return {
+        ...state,
+        partnerTime: action.payload.partnerTime
       };
     }
     default: {

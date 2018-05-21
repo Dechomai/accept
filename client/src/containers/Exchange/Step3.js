@@ -21,10 +21,10 @@ const mapDispatchToProps = dispatch => ({
   onQuantityChange(count) {
     return dispatch(changeOwnCount(count));
   },
-  onDaysChange(days) {
+  onOwnDaysChange(days) {
     return dispatch(changeOwnDays(days));
   },
-  onTimeChange(time) {
+  onOwnTimeChange(time) {
     return dispatch(changeOwnTime(time));
   }
 });
