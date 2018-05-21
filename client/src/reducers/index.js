@@ -5,6 +5,7 @@ import productDetails from './productDetails';
 import services from './services';
 import serviceDetails from './serviceDetails';
 import exchange from './exchange';
+import exchanges from './exchanges';
 
 export default {
   user,
@@ -13,5 +14,6 @@ export default {
   productDetails,
   services,
   serviceDetails,
-  exchange
+  exchange,
+  exchanges
 };

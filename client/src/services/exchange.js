@@ -25,6 +25,10 @@ const exchangeService = {
         bcTransactionHash
       }
     });
+  },
+
+  getExchanges({state, skip, limit}) {
+    return api.get(`/exchanges?state=${state}&skip=${skip}&limit=${limit}`);
   }
 };
 
