@@ -56,7 +56,7 @@ const ExchangeOffer = () => {
         <div className="row">
           <div className="col-7">
             <div className="exchange-offer__info-alert">
-              <Icon size={20} name="information-outline" />
+              <Icon size="20" name="information-outline" />
               <div className="exchange-offer__info-alert__text">
                 By accepting this offer, I agree to the Accept.IO marketplace rules, and in the
                 event of a transaction dispute, I agree to be bound by the Accept Star Council rules
