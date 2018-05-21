@@ -1,39 +1,36 @@
 import './ExchangeOfferItem.scss';
 
 import React from 'react';
-import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-const ExchangeOfferItem = ({isOwner}) => {
+import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
+import {formatPrice} from '../../utils/format';
+
+const ExchangeOfferItem = ({item, quantity}) => {
+  const primaryImgUrl = getPrimaryImage(item);
+  const imgUrl = primaryImgUrl ? getImageThumbnail(primaryImgUrl) : '/assets/img/placeholder.png';
+
   return (
-    <div
-      className={classNames('exchange-offer-item', {
-        'exchange-offer-item--is-owner': isOwner,
-        'exchange-offer-item--is-partner': !isOwner
-      })}>
+    <div className="exchange-offer-item">
       <div className="row">
         <div className="col-3">
-          <div
-            className="exchange-offer-item__photo"
-            style={{backgroundImage: `url('/assets/img/acc-connection.png')`}}
-          />
+          <div className="exchange-offer-item__photo" style={{backgroundImage: `url(${imgUrl})`}} />
         </div>
         <div className="col-9">
           <div className="exchange-offer-item__wrapper">
-            <h6 className="exchange-offer-item__name">
-              220V 7 Speed Electric Stand Mixer Hand Countertop Kitchen Homemade Cakes Muffins
-            </h6>
+            <h6 className="exchange-offer-item__name">{item.title}</h6>
             <div className="exchange-offer-item__details">
               <span className="exchange-offer-item__details__name">Quantity</span>
-              <span className="exchange-offer-item__details__count">1</span>
+              <span className="exchange-offer-item__details__count">{quantity}</span>
             </div>
             <div className="exchange-offer-item__details">
               <span className="exchange-offer-item__details__name">Price/Item</span>
-              <span className="exchange-offer-item__details__count">29.00</span>
+              <span className="exchange-offer-item__details__count">{formatPrice(item.price)}</span>
             </div>
             <div className="exchange-offer-item__details">
               <span className="exchange-offer-item__details__name">Total</span>
               <span className="exchange-offer-item__details__count exchange-offer-item__details__count--total">
-                30.00
+                {formatPrice(item.price * quantity)}
               </span>
             </div>
           </div>
@@ -41,6 +38,11 @@ const ExchangeOfferItem = ({isOwner}) => {
       </div>
     </div>
   );
+};
+
+ExchangeOfferItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  quantity: PropTypes.number.isRequired
 };
 
 export default ExchangeOfferItem;

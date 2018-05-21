@@ -4,28 +4,37 @@
   background-color: $white;
   margin-bottom: 10px;
   padding: 14px;
+
   &:first-child {
     margin-top: 2px;
   }
+
   &__items-wrapper {
     display: flex;
   }
+
   &__section {
     margin-right: 20px;
     flex-grow: 1;
+
     &:last-child {
       margin-left: 20px;
       margin-right: 0;
     }
+
     .user-link {
       padding: 0.5rem 1rem;
     }
-    &--is-owner {
+
+    &--initiator {
+      background: $gray-300;
+
       .user-link {
-        background-color: $gray-300;
+        border-bottom: solid 1px $white;
       }
     }
-    &--is-partner {
+
+    &--partner {
       .user-link {
         border-bottom: 1px solid $gray-300;
       }
@@ -34,6 +43,7 @@
   &__user-section {
     position: relative;
   }
+
   &__status {
     position: absolute;
     right: 0;
@@ -44,40 +54,54 @@
     border: 1px solid;
     border-radius: 3px;
     padding: 1px 3px;
+
+    &--offer-sent {
+      color: #4592ff; // MOVE TO VARS!!!
+      border-color: #4592ff;
+    }
+
     &--accepted {
       color: $green;
       border-color: $green;
     }
+
     &--awaiting-validation {
       color: $blue;
       border-color: $green;
     }
+
     &--in-disput {
       color: $red;
       border-color: $red;
     }
+
     &--calcelled {
       color: $dark;
       border-color: $dark;
     }
+
     &--completed {
       color: $green;
       border-color: $green;
     }
+
     &--rejected {
       color: $red;
       border-color: $red;
     }
   }
+
   &__hint {
     font-size: 13px;
     color: $black;
     margin-left: 50px;
     margin-top: 30px;
   }
+
   &__escrow-wrapper {
     border-bottom: 1px solid $gray-300;
   }
+
   &__escrow {
     color: $blue;
     text-transform: uppercase;
@@ -86,6 +110,7 @@
     font-weight: $font-weight-bold;
     padding-top: 35px;
   }
+
   &__info-alert {
     color: $blue;
     display: flex;
@@ -97,8 +122,10 @@
       margin-left: 15px;
     }
   }
+
   &__actions {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 25px;
   }

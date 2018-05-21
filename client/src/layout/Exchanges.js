@@ -1,5 +1,3 @@
-import './exchanges.scss';
-
 import React from 'react';
 
 import ExchangesNavigation from '../components/Exchanges/Navigation';
@@ -15,8 +13,8 @@ const Exchanges = ({children}) => {
             <ExchangesNavigation />
           </div>
           <div className="col-9">
-            <h5 className="exchanges-page__title">Active exchanges</h5>
-            <h6 className="exchanges-page__subtitle">Exchange offer</h6>
+            {/* <h5 className="exchanges-page__title">Active exchanges</h5>
+            <h6 className="exchanges-page__subtitle">Exchange offer</h6> */}
             {children}
           </div>
         </div>

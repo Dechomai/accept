@@ -5,8 +5,9 @@ import {compose, lifecycle} from 'recompact';
 
 import {fetchExchanges} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangesFor} from '../../selectors';
+import {selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
+import ExchangesList from '../../components/Exchanges/List';
 
 const DEFAULT_LIMIT = 20;
 
@@ -22,7 +23,8 @@ const mapStateToProps = (state, ownProps) => ({
     state: 'outcoming',
     skip: ownProps.skip,
     limit: ownProps.limit
-  })
+  }),
+  user: selectProfile(state)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -47,14 +49,28 @@ export default compose(
       refetchProducts(nextProps);
     }
   })
-)(({exchanges}) => {
+)(({exchanges, user}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
   if (exchanges && !exchanges.data.length) return <h6>There are no exchanges yet</h6>;
   if (exchanges && exchanges.data.length)
-    return exchanges.data.map(exchange => (
-      <div key={exchange.id}>
-        <pre>{JSON.stringify(exchange, null, 2)}</pre>
-      </div>
-    ));
+    return (
+      <ExchangesList
+        type="outcoming"
+        title="Outcoming Offers"
+        exchanges={exchanges.data}
+        showEscrow={false}
+        buttons={[
+          {
+            title: 'Cancel',
+            color: 'light',
+            onClick() {
+              console.log('cancel contract');
+            },
+            disabled: true
+          }
+        ]}
+        user={user}
+      />
+    );
   return null;
 });
