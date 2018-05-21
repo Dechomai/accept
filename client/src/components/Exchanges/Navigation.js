@@ -5,46 +5,27 @@ import {Link} from 'react-router';
 
 import Icon from '../common/Icon/Icon';
 
-const ExchangesNavigation = () => {
-  return (
-    <div className="exchanges-navigation">
+const LINKS = [
+  {to: '/exchanges/incoming', text: 'Incoming Offers'},
+  {to: '/exchanges/outcoming', text: 'Outcoming Offers'},
+  {to: '/exchanges/pending', text: 'Offers in Progress'},
+  {to: '/exchanges/reported', text: 'Offers with Issues'},
+  {to: '/exchanges/archive', text: 'Archive'}
+];
+
+const ExchangesNavigation = () => (
+  <div className="exchanges-navigation">
+    {LINKS.map(({to, text}) => (
       <Link
-        to="/exchanges/incoming"
+        key={to}
+        to={to}
         className="exchanges-navigation__item"
         activeClassName="exchanges-navigation__item--active">
-        <span className="exchanges-navigation__item__text">Incoming Offers</span>
+        <span className="exchanges-navigation__item__text">{text}</span>
         <Icon className="exchanges-navigation__item__icon" name="chevron-right" />
       </Link>
-      <Link
-        to="/exchanges/outcoming"
-        className="exchanges-navigation__item"
-        activeClassName="exchanges-navigation__item--active">
-        <span className="exchanges-navigation__item__text">Outcoming Offers</span>
-        <Icon className="exchanges-navigation__item__icon" name="chevron-right" />
-      </Link>
-      <Link
-        to="/exchanges/pending"
-        className="exchanges-navigation__item"
-        activeClassName="exchanges-navigation__item--active">
-        <span className="exchanges-navigation__item__text">Offers in Progress</span>
-        <Icon className="exchanges-navigation__item__icon" name="chevron-right" />
-      </Link>
-      <Link
-        to="/exchanges/reported"
-        className="exchanges-navigation__item"
-        activeClassName="exchanges-navigation__item--active">
-        <span className="exchanges-navigation__item__text">Offers with Issues</span>
-        <Icon className="exchanges-navigation__item__icon" name="chevron-right" />
-      </Link>
-      <Link
-        to="/exchanges/archive"
-        className="exchanges-navigation__item"
-        activeClassName="exchanges-navigation__item--active">
-        <span className="exchanges-navigation__item__text">Archive</span>
-        <Icon className="exchanges-navigation__item__icon" name="chevron-right" />
-      </Link>
-    </div>
-  );
-};
+    ))}
+  </div>
+);
 
 export default ExchangesNavigation;
