@@ -9,6 +9,8 @@ export const CHANGE_EXCHANGE_OWN_COUNT = 'CHANGE_EXCHANGE_OWN_COUNT';
 export const CHANGE_EXCHANGE_PARTNER_COUNT = 'CHANGE_EXCHANGE_PARTNER_COUNT';
 export const CHANGE_EXCHANGE_OWN_DAYS = 'CHANGE_EXCHANGE_OWN_DAYS';
 export const CHANGE_EXCHANGE_OWN_TIME = 'CHANGE_EXCHANGE_OWN_TIME';
+export const CHANGE_EXCHANGE_PARTNER_DAYS = 'CHANGE_EXCHANGE_PARTNER_DAYS';
+export const CHANGE_EXCHANGE_PARTNER_TIME = 'CHANGE_EXCHANGE_PARTNER_TIME';
 export const CREATE_EXCHANGE_CONTRACT_REQUEST = 'CREATE_EXCHANGE_CONTRACT_REQUEST';
 export const CREATE_EXCHANGE_CONTRACT_SUCCESS = 'CREATE_EXCHANGE_CONTRACT_SUCCESS';
 export const CREATE_EXCHANGE_CONTRACT_FAILURE = 'CREATE_EXCHANGE_CONTRACT_FAILURE';
@@ -52,6 +54,20 @@ export const changeOwnTime = ownTime => ({
   type: CHANGE_EXCHANGE_OWN_TIME,
   payload: {
     ownTime
+  }
+});
+
+export const changePartnerDays = partnerDays => ({
+  type: CHANGE_EXCHANGE_PARTNER_DAYS,
+  payload: {
+    partnerDays
+  }
+});
+
+export const changePartnerTime = partnerTime => ({
+  type: CHANGE_EXCHANGE_PARTNER_TIME,
+  payload: {
+    partnerTime
   }
 });
 

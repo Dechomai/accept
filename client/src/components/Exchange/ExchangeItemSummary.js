@@ -53,7 +53,7 @@ const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) =>
         days.length > 0 &&
         time.length > 0 && (
           <div className="exchange-item-summary__availability">
-            Availability: <strong>{days.join(', ')}</strong> in the{' '}
+            {isOwner ? 'Availability' : 'Preferred'}: <strong>{days.join(', ')}</strong> in the{' '}
             <strong>{time.join(', ')}</strong>
           </div>
         )}

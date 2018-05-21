@@ -15,10 +15,6 @@ const toggleElement = element => ifElse(contains(element), without([element]), a
 class ExchangeItem extends React.Component {
   constructor() {
     super();
-    this.state = {
-      activeDays: [],
-      activeTime: []
-    };
     autobind(this);
   }
 
@@ -33,18 +29,22 @@ class ExchangeItem extends React.Component {
 
   toggleDay(day) {
     if (this.props.own) {
-      this.props.onDaysChange(toggleElement(day)(this.props.days));
+      this.props.onOwnDaysChange(toggleElement(day)(this.props.days));
+    } else {
+      this.props.onPartnerDaysChange(toggleElement(day)(this.props.partnerDays));
     }
   }
 
   toggleTime(time) {
     if (this.props.own) {
-      this.props.onTimeChange(toggleElement(time)(this.props.time));
+      this.props.onOwnTimeChange(toggleElement(time)(this.props.time));
+    } else {
+      this.props.onPartnerTimeChange(toggleElement(time)(this.props.partnerTime));
     }
   }
 
   render() {
-    const {type, className, title, days, time: dayTime, own} = this.props;
+    const {type, className, title, days, time: dayTime, partnerDays, partnerTime, own} = this.props;
     const item = this.props.item;
 
     const primaryImageUrl = getPrimaryImage(item);
@@ -104,8 +104,7 @@ class ExchangeItem extends React.Component {
                   <div
                     key={day}
                     className={classNames('weekdays__item', {
-                      'weekdays__item--readonly': !own,
-                      'weekdays__item--active': days.includes(day)
+                      'weekdays__item--active': own ? days.includes(day) : partnerDays.includes(day)
                     })}
                     onClick={() => this.toggleDay(day)}>
                     {day}
@@ -123,8 +122,9 @@ class ExchangeItem extends React.Component {
                   <div
                     key={time}
                     className={classNames('daytime__item', {
-                      'daytime__item--readonly': !own,
-                      'daytime__item--active': dayTime.includes(time)
+                      'daytime__item--active': own
+                        ? dayTime.includes(time)
+                        : partnerTime.includes(time)
                     })}
                     onClick={() => this.toggleTime(time)}>
                     {time}
@@ -146,11 +146,15 @@ ExchangeItem.propTypes = {
   title: PropTypes.string,
   days: PropTypes.arrayOf(PropTypes.string),
   time: PropTypes.arrayOf(PropTypes.string),
+  partnerDays: PropTypes.arrayOf(PropTypes.string),
+  partnerTime: PropTypes.arrayOf(PropTypes.string),
   own: PropTypes.bool,
   className: PropTypes.string,
   onQuantityChange: PropTypes.func.isRequired,
-  onDaysChange: PropTypes.func,
-  onTimeChange: PropTypes.func
+  onOwnDaysChange: PropTypes.func,
+  onOwnTimeChange: PropTypes.func,
+  onPartnerDaysChange: PropTypes.func,
+  onPartnerTimeChange: PropTypes.func
 };
 
 ExchangeItem.defaultProps = {
