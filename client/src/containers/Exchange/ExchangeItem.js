@@ -48,7 +48,6 @@ export default compose(
     }
   })
 )(({item, ...props}) => {
-  console.log(props);
   if (isItemLoading(item)) return <Loader />;
   return <ExchangeItem item={item.data} {...props} />;
 });
