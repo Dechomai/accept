@@ -139,6 +139,15 @@ const config = convict({
       arg: 'cloudinaryApiSecret',
       env: 'CLOUDINARY_API_SECRET'
     }
+  },
+  blockchain: {
+    address: {
+      doc: 'Blockchain address',
+      format: String,
+      default: null,
+      arg: 'blockchainAddress',
+      env: 'BLOCKCHAIN_ADDRESS'
+    }
   }
 });
 
