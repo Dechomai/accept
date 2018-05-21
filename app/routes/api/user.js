@@ -7,6 +7,7 @@ const {createSingleUploadMiddleware} = require('../../middlewares/upload');
 const validationMiddleware = require('../../middlewares/validation');
 const {sendSuccess, sendError} = require('../../helpers/response');
 const {createLoggerWith} = require('../../logger');
+const {ADDRESS_REGEX} = require('../../utils/blockchain');
 
 const logger = createLoggerWith('[RTR]:User');
 
@@ -45,7 +46,7 @@ userRouter.route('/confirm').post(
   validationMiddleware(
     body('address')
       .exists()
-      .custom(val => /^0x[a-fA-F0-9]{40}$/.test(val))
+      .custom(val => ADDRESS_REGEX.test(val))
   ),
   (req, res) => {
     const {userId} = req;
