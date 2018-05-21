@@ -1,11 +1,10 @@
 @import '../../../theme/index';
 
 .user-link {
-  display: inline-block;
-  vertical-align: middle;
-
+  display: flex;
+  align-items: center;
   &__username {
-    margin: 0 0 0 1.2rem;
+    margin: -5px 0 0 1.2rem;
     color: $blue;
     font-weight: 600;
     font-size: $font-size-sm;
