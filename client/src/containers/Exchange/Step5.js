@@ -21,10 +21,14 @@ import Confirmation from '../../components/Exchange/Confirmation';
 
 const tryContractDeploy = ({
   selectedItem,
+  selectedItemType,
   selectedItemCount,
   partnerItem,
+  partnerItemType,
   partnerItemCount,
-  createExchangeContract
+  createExchangeContract,
+
+  onComplete
 }) => {
   if (
     !shouldRefetchItem(selectedItem) &&
@@ -34,10 +38,12 @@ const tryContractDeploy = ({
   ) {
     createExchangeContract({
       partnerItem,
+      partnerItemType,
       partnerItemCount,
       selectedItem,
+      selectedItemType,
       selectedItemCount
-    });
+    }).then(() => onComplete('accepted'), err => onComplete(err || 'error'));
   }
 };
 

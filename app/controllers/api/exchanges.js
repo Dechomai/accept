@@ -76,6 +76,7 @@ const exchangesController = {
             initiatorItem.price * initiatorItemQuantity,
             partnerItem.price * partnerItemQuantity
           );
+
           if (parseFloat(price, 10).toFixed(2) !== validPrice.toFixed(2)) {
             logger.error('Invalid price provided');
             return Promise.reject('Invalid price provided');
@@ -94,7 +95,7 @@ const exchangesController = {
             partnerItemType,
             partnerItemQuantity,
             partnerItem, // whole JSON
-            price: parseFloat(price, 10),
+            price: parseFloat(price.toFixed(2), 10),
             bcInitiatorTransactionHash: bcTransactionHash
           });
         })

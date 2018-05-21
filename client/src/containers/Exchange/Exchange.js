@@ -100,6 +100,14 @@ class Exchange extends React.Component {
     this.setStepQuery(step + 1);
   }
 
+  handleTransactionStatusChange(status) {
+    this.setState({
+      transactionStatus: status
+    });
+    const step = this.getStepFromQuery();
+    this.setStepQuery(step + 1);
+  }
+
   calculateEscrow() {
     const ownItem = this.props.selectedItem.data;
     const partnerItem = this.props.partnerItem.data;
@@ -311,9 +319,7 @@ class Exchange extends React.Component {
           <ExchangeStep5
             partnerItemId={this.props.itemId}
             partnerItemType={this.props.type}
-            onComplete={() => {
-              console.log('complete');
-            }}
+            onComplete={this.handleTransactionStatusChange}
           />
         );
       case Steps.TRANSACTION_RESULT:

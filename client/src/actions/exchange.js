@@ -1,7 +1,8 @@
 import {path} from 'ramda';
 
-import metamaskService from '../services/metamask';
 import {calculateEscrow} from '../utils/exchange';
+import metamaskService from '../services/metamask';
+import exchangeService from '../services/exchange';
 
 export const SELECT_EXCHANGE_ITEM_TYPE = 'SELECT_EXCHANGE_ITEM_TYPE';
 export const SELECT_EXCHANGE_ITEM = 'SELECT_EXCHANGE_ITEM';
@@ -81,15 +82,19 @@ export const createExchangeContractSuccess = () => ({
   payload: {}
 });
 
-export const createExchangeContractFailure = () => ({
+export const createExchangeContractFailure = err => ({
   type: CREATE_EXCHANGE_CONTRACT_FAILURE,
-  payload: {}
+  payload: {
+    error: err
+  }
 });
 
 export const createExchangeContract = ({
   partnerItem,
+  partnerItemType,
   partnerItemCount,
   selectedItem,
+  selectedItemType,
   selectedItemCount
 }) => dispatch => {
   dispatch(createExchangeContractRequest());
@@ -97,17 +102,20 @@ export const createExchangeContract = ({
   // register window.onbeforeunload callback
   // to prevent losing transaction callback if page refreshes or browser closes
 
-  const partnerAddress = path(['createdBy', 'bcDefaultAccountAddress'], partnerItem);
   const partnerItemData = partnerItem.data;
   const selectedItemData = selectedItem.data;
-  const price = calculateEscrow(
-    selectedItemData.price,
-    selectedItemCount,
-    partnerItemData.price,
-    partnerItemCount
+  const partnerAddress = path(['createdBy', 'bcDefaultAccountAddress'], partnerItemData);
+  const price = parseFloat(
+    calculateEscrow(
+      selectedItemData.price,
+      selectedItemCount,
+      partnerItemData.price,
+      partnerItemCount
+    ).toFixed(2),
+    10
   );
 
-  metamaskService
+  return metamaskService
     .createExchangeContract({
       initiatorItemName: selectedItemData.title,
       initiatorItemQuantity: selectedItemCount,
@@ -117,24 +125,40 @@ export const createExchangeContract = ({
       price
     })
     .then(
-      ([transactionHash, contractAddressPromise]) => {
-        // this.setState({transactionStatus: 'accepted'});
+      ([transactionHash /* contractAddressPromise */]) => {
+        return exchangeService
+          .createExchange({
+            initiatorItemId: selectedItemData.id,
+            initiatorItemType: selectedItemType,
+            initiatorItemQuantity: selectedItemCount,
+            partnerItemId: partnerItemData.id,
+            partnerItemType: partnerItemType,
+            partnerItemQuantity: partnerItemCount,
+            partner: partnerItemData.createdBy.id,
+            bcTransactionHash: transactionHash,
+            price
+          })
+          .then(
+            exchange => dispatch(createExchangeContractSuccess(exchange)),
+            err => {
+              dispatch(createExchangeContractFailure(err));
+              return Promise.reject(err);
+            }
+          );
 
-        // publish to server
-        console.log('tx', transactionHash);
-
-        contractAddressPromise.then(address => {
-          // publish address to server
-          console.log('contract address', address);
-        });
+        // // can wait for contract address promise
+        // contractAddressPromise.then(address => {
+        //   // publish address to server
+        //   console.log('contract address', address);
+        // });
       },
       err => {
-        console.log('err', err);
-        // this.setState({transactionStatus: 'rejected'})
+        let error = err;
+        if (/User\sdenied/.test(err)) {
+          error = 'rejected';
+        }
+        dispatch(createExchangeContractFailure(error));
+        return Promise.reject(error);
       }
-    )
-    .then(() => {
-      // const step = this.getStepFromQuery();
-      // this.setStepQuery(step + 1);
-    });
+    );
 };
