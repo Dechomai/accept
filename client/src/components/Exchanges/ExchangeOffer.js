@@ -46,6 +46,10 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
           </div>
         </div>
 
+        <div className="exchange-offer__arrow">
+          <Icon name="chevron-right" size="24" />
+        </div>
+
         {/* Partner */}
         <div className="exchange-offer__section exchange-offer__section--partner">
           <div className="exchange-offer__user-section">
