@@ -34,7 +34,7 @@ class BlockchainService {
               );
               return resolve(block.contractAddress);
             }
-            logger(
+            logger.error(
               'Error retrieving contract address from block, block might not have been mined yet'
             );
             return reject(null);
