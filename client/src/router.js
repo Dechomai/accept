@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Router as ReactRouter, IndexRoute, Route, Redirect, browserHistory} from 'react-router';
+import {
+  Router as ReactRouter,
+  IndexRoute,
+  Route,
+  Redirect,
+  IndexRedirect,
+  browserHistory
+} from 'react-router';
 import autobind from 'autobindr';
 import {prop, pathOr} from 'ramda';
 
@@ -22,6 +29,8 @@ import ProfileProducts from './containers/Profile/Products';
 import ProfileServices from './containers/Profile/Services';
 import ProductDetails from './containers/Product/Details';
 import ServiceDetails from './containers/Service/Details';
+import Exchanges from './layout/Exchanges';
+import ExchangesOutcoming from './containers/Exchanges/Outcoming';
 
 /*
 
@@ -158,6 +167,15 @@ class Router extends React.Component {
             <Route path="add" component={AddService} />
             <Route path=":serviceId" component={ServiceDetails} />
             <Route path=":serviceId/edit" component={EditService} />
+          </Route>
+
+          <Route path="exchanges" component={Exchanges}>
+            <IndexRedirect to="incoming" />
+            <Route path="incoming" component={() => null} />
+            <Route path="outcoming" component={ExchangesOutcoming} />
+            <Route path="pending" component={() => null} />
+            <Route path="reported" component={() => null} />
+            <Route path="archive" component={() => null} />
           </Route>
         </Route>
         <Redirect from="*" to="/" />

@@ -1,0 +1,28 @@
+@import '../../theme/index';
+
+.exchanges-header {
+  border-bottom: solid 1px $gray-500;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    margin: 1.5rem 0;
+  }
+
+  &__link {
+    height: 100%;
+    padding: 1.5rem 1rem;
+    color: $blue;
+    font-size: 14px;
+    border-bottom: solid 2px $blue;
+
+    &__text {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}

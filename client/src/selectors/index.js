@@ -7,6 +7,7 @@ const selectProductDetails = state => state.productDetails;
 const selectServices = state => state.services;
 const selectExchange = state => state.exchange;
 const selectServiceDetails = state => state.serviceDetails;
+const selectExchanges = state => state.exchanges;
 
 export const selectProfile = state => state.user;
 
@@ -81,3 +82,8 @@ export const selectExchangeOwnDays = state => selectExchange(state).ownDays;
 export const selectExchangeOwnTime = state => selectExchange(state).ownTime;
 export const selectExchangePartnerDays = state => selectExchange(state).partnerDays;
 export const selectExchangePartnerTime = state => selectExchange(state).partnerTime;
+
+export const selectExchangesFor = createSelector(
+  [selectExchanges, (_, {state, skip, limit}) => ({state, skip, limit})],
+  (exchanges, {state, skip, limit}) => path([state, `skip=${skip},limit=${limit}`], exchanges)
+);

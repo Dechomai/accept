@@ -1,0 +1,139 @@
+@import '../../theme/index';
+
+.exchange-offer {
+  background-color: $white;
+  margin-bottom: 10px;
+  padding: 14px;
+
+  $s: &;
+
+  &:first-child {
+    margin-top: 2px;
+  }
+
+  &__items-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &__arrow {
+    flex: 1 1 auto;
+    color: $gray-500;
+  }
+
+  &__user-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__section {
+    flex: 0 1 50%;
+    min-width: 40%;
+    overflow: hidden;
+
+    .user-link {
+      display: inline-flex;
+      flex: 0 1 auto;
+      padding: 0.5rem 1rem;
+    }
+
+    &--initiator {
+      background: $gray-300;
+
+      #{$s}__user-section {
+        border-bottom: solid 1px $white;
+      }
+    }
+
+    &--partner {
+      #{$s}__user-section {
+        border-bottom: 1px solid $gray-300;
+      }
+    }
+  }
+
+  &__status {
+    flex: 0 0 auto;
+    font-size: 9px;
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 1px 3px;
+
+    &--offer-sent {
+      color: #4592ff; // MOVE TO VARS!!!
+      border-color: #4592ff;
+    }
+
+    &--accepted {
+      color: $green;
+      border-color: $green;
+    }
+
+    &--awaiting-validation {
+      color: $blue;
+      border-color: $green;
+    }
+
+    &--in-disput {
+      color: $red;
+      border-color: $red;
+    }
+
+    &--calcelled {
+      color: $dark;
+      border-color: $dark;
+    }
+
+    &--completed {
+      color: $green;
+      border-color: $green;
+    }
+
+    &--rejected {
+      color: $red;
+      border-color: $red;
+    }
+  }
+
+  &__hint {
+    font-size: 13px;
+    color: $black;
+    margin-left: 50px;
+    margin-top: 30px;
+  }
+
+  &__escrow-wrapper {
+    border-bottom: 1px solid $gray-300;
+  }
+
+  &__escrow {
+    color: $blue;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-around;
+    font-weight: $font-weight-bold;
+    padding-top: 35px;
+  }
+
+  &__info-alert {
+    color: $blue;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    &__text {
+      font-size: 11px;
+      color: $gray-400;
+      margin-left: 15px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 25px;
+  }
+}

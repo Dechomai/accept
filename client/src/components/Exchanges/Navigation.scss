@@ -1,0 +1,35 @@
+@import '../../theme/index';
+
+.exchanges-navigation {
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $white;
+    margin-bottom: 1px;
+    padding: 1rem 1rem 1rem 1.5rem;
+    font-size: 14px;
+
+    &--active {
+      color: $black;
+    }
+
+    &__text {
+      color: $black;
+      font-weight: $headings-font-weight;
+      opacity: 0.5;
+    }
+
+    &__icon {
+      visibility: hidden;
+    }
+
+    &--active &__icon {
+      visibility: visible;
+    }
+
+    &--active &__text {
+      opacity: 1;
+    }
+  }
+}
