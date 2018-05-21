@@ -33,15 +33,27 @@ class Pagination extends React.Component {
   }
 
   onPrevClick() {
-    this.updatePage(page => --page);
+    if (this.props.onPrevClick) {
+      this.props.onPrevClick();
+    } else {
+      this.updatePage(page => --page);
+    }
   }
 
   onNextClick() {
-    this.updatePage(page => ++page);
+    if (this.props.onNextClick) {
+      this.props.onNextClick();
+    } else {
+      this.updatePage(page => ++page);
+    }
   }
 
   onPageClick(pageIndex) {
-    this.updatePage(() => pageIndex + 1);
+    if (this.props.onPageClick) {
+      this.props.onPageClick(pageIndex);
+    } else {
+      this.updatePage(() => pageIndex + 1);
+    }
   }
 
   render() {
