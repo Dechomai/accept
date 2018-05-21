@@ -74,10 +74,11 @@ class ItemTile extends React.Component {
         <div className="item-tile__photo" style={{backgroundImage: `url(${imgUrl})`}}>
           {editable && (
             <div className="item-tile__actions">
-              <span onClick={onEditClick}>
+              <span className="item-tile__actions__btn" onClick={onEditClick}>
                 <Icon name="pencil" />
               </span>
               <span
+                className="item-tile__actions__btn"
                 onClick={e => {
                   this.openConfirmationModal(e);
                 }}>
