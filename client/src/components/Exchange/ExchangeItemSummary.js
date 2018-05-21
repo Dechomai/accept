@@ -1,6 +1,7 @@
 import './ExchangeItemSummary.scss';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 import UserLink from '../../components/common/UserLink/UserLink';
@@ -13,7 +14,10 @@ const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) =>
   const total = item.price * count;
 
   return (
-    <div className="exchange-item-summary">
+    <div
+      className={classNames('exchange-item-summary', {
+        'exchange-item-summary--wanted-item': !isOwner
+      })}>
       <div className="exchange-item-summary__header">{title}</div>
       <div className="exchange-item-summary__owner">
         <UserLink user={item.createdBy} isOwner={isOwner} />
