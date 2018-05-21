@@ -65,10 +65,14 @@
     font-size: 13px;
   }
 
-  &__availability {
+  &__availability,
+  &__preferred-time {
     padding: 10px 0;
     font-size: 12px;
     text-align: center;
+  }
+
+  &__availability {
     background-color: darken($white, 3%);
   }
 

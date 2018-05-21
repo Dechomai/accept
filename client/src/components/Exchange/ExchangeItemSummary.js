@@ -12,6 +12,8 @@ const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) =>
     ? getImageThumbnail(primaryImageUrl)
     : '/assets/img/placeholder.png';
   const total = item.price * count;
+  const daysSpecified = days.length > 0;
+  const timeSpecified = time.length > 0;
 
   return (
     <div
@@ -54,10 +56,15 @@ const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) =>
         </div>
       </div>
       {type === 'service' &&
-        days.length > 0 &&
-        time.length > 0 && (
-          <div className="exchange-item-summary__availability">
-            {isOwner ? 'Availability' : 'Preferred'}: <strong>{days.join(', ')}</strong> in the{' '}
+        (daysSpecified || timeSpecified) && (
+          <div
+            className={classNames(
+              isOwner
+                ? 'exchange-item-summary__availability'
+                : 'exchange-item-summary__preferred-time'
+            )}>
+            {isOwner ? 'Availability' : 'Preferred'}: <strong>{days.join(', ')}</strong>
+            {daysSpecified && timeSpecified ? ' in the ' : ''}
             <strong>{time.join(', ')}</strong>
           </div>
         )}

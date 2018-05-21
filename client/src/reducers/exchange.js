@@ -1,4 +1,5 @@
 import {
+  START_NEW_EXCHANGE,
   SELECT_EXCHANGE_ITEM_TYPE,
   SELECT_EXCHANGE_ITEM,
   CHANGE_EXCHANGE_OWN_COUNT,
@@ -22,6 +23,9 @@ const getInitialState = () => ({
 
 const exchange = (state = getInitialState(), action) => {
   switch (action.type) {
+    case START_NEW_EXCHANGE: {
+      return getInitialState();
+    }
     case SELECT_EXCHANGE_ITEM_TYPE: {
       return {
         ...state,
