@@ -2,7 +2,7 @@ import './Step2.scss';
 
 import React from 'react';
 import {connect} from 'react-redux';
-import {compose, lifecycle} from 'recompact';
+import {compose, withStateHandlers, lifecycle} from 'recompact';
 import {withRouter} from 'react-router';
 
 import {
@@ -16,8 +16,6 @@ import {fetchServices} from '../../actions/services';
 import {getImageThumbnail, getPrimaryImage} from '../../utils/img';
 import {formatPrice} from '../../utils/format';
 import Pagination from '../../components/common/Pagination/Pagination';
-import withPage from '../../hoc/pagination/withPage';
-import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
 
@@ -53,10 +51,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default compose(
+  withStateHandlers(
+    () => ({
+      skip: 0,
+      limit: DEFAULT_LIMIT
+    }),
+    {
+      onPaginationNextClick: ({skip, limit}) => () => ({
+        skip: skip + limit
+      }),
+      onPaginationPrevClick: ({skip, limit}) => () => ({
+        skip: skip - limit
+      }),
+      onPaginationPageClick: ({limit}) => pageIndex => ({
+        skip: pageIndex * limit
+      })
+    }
+  ),
   withRouter,
-  withPage(DEFAULT_LIMIT),
   connect(mapStateToProps, mapDispatchToProps),
-  withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT),
   lifecycle({
     componentDidMount() {
       refetchItems(this.props);
@@ -67,49 +80,67 @@ export default compose(
       refetchItems(nextProps);
     }
   })
-)(({items, skip, limit, count, type, onItemSelect}) => {
-  let content = null;
-  if (!items || items.loading) {
-    content = <Loader />;
-  } else if (items && !items.data.length) {
-    content = <Empty type={type} />;
-  } else {
-    content = (
-      <div className="exchange-step2__items">
-        <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
-        <div className="exchange-step2-list">
-          {items.data.map(item => {
-            const img = getPrimaryImage(item);
-            const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
-            return (
-              <div
-                className="exchange-step2-list__item"
-                key={item.id}
-                onClick={() => {
-                  onItemSelect(item);
-                }}>
+)(
+  ({
+    items,
+    skip,
+    limit,
+    count,
+    type,
+    onItemSelect,
+    onPaginationNextClick,
+    onPaginationPrevClick,
+    onPaginationPageClick
+  }) => {
+    let content = null;
+    if (!items || items.loading) {
+      content = <Loader />;
+    } else if (items && !items.data.length) {
+      content = <Empty type={type} />;
+    } else {
+      content = (
+        <div className="exchange-step2__items">
+          <Pagination
+            totalPages={Math.ceil(count / limit)}
+            currentPage={Math.floor(skip / limit)}
+            onNextClick={onPaginationNextClick}
+            onPrevClick={onPaginationPrevClick}
+            onPageClick={onPaginationPageClick}
+          />
+          <div className="exchange-step2-list">
+            {items.data.map(item => {
+              const img = getPrimaryImage(item);
+              const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
+              return (
                 <div
-                  className="exchange-step2-list__item__thumbnail"
-                  style={{backgroundImage: `url(${thumbnail})`}}
-                />
-                <div className="exchange-step2-list__item__info">
-                  <div className="exchange-step2-list__item__title">{item.title}</div>
-                  <div className="exchange-step2-list__item__price">
-                    <span className="exchange-step2-list__item__price__value">
-                      {formatPrice(item.price)}
-                    </span>
-                    {type === 'service' && (
-                      <span className="exchange-step2-list__item__price__label">per hour</span>
-                    )}
+                  className="exchange-step2-list__item"
+                  key={item.id}
+                  onClick={() => {
+                    onItemSelect(item);
+                  }}>
+                  <div
+                    className="exchange-step2-list__item__thumbnail"
+                    style={{backgroundImage: `url(${thumbnail})`}}
+                  />
+                  <div className="exchange-step2-list__item__info">
+                    <div className="exchange-step2-list__item__title">{item.title}</div>
+                    <div className="exchange-step2-list__item__price">
+                      <span className="exchange-step2-list__item__price__value">
+                        {formatPrice(item.price)}
+                      </span>
+                      {type === 'service' && (
+                        <span className="exchange-step2-list__item__price__label">per hour</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  return <div className="exchange-step2">{content}</div>;
-});
+    return <div className="exchange-step2">{content}</div>;
+  }
+);
