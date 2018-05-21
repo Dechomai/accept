@@ -23,9 +23,11 @@ const exchangesController = {
     initiatorItemId,
     initiatorItemType,
     initiatorItemQuantity,
+    initiatorBcAddress,
     partnerItemId,
     partnerItemType,
     partnerItemQuantity,
+    partnerBcAddress,
     price,
     bcTransactionHash
   }) {
@@ -49,6 +51,18 @@ const exchangesController = {
           if (partnerItem === null) {
             logger.error(`${partnerItemType} ${partnerItemId} not found`);
             return Promise.reject('Can not find product/service');
+          }
+          if (initiatorUser.bcDefaultAccountAddress !== initiatorBcAddress) {
+            logger.error(
+              `Provided initiator address ${initiatorBcAddress} differs from one stored in DB`
+            );
+            return Promise.reject('Invalid initiator account address provided');
+          }
+          if (partnerUser.bcDefaultAccountAddress !== partnerBcAddress) {
+            logger.error(
+              `Provided partner address ${partnerBcAddress} differs from one stored in DB`
+            );
+            return Promise.reject('Invalid partner account address provided');
           }
           return [
             initiatorUser.toJSON(),

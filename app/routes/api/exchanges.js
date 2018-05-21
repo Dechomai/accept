@@ -7,7 +7,7 @@ const {sendSuccess, sendError} = require('../../helpers/response');
 const exchangesController = require('../../controllers/api/exchanges');
 const authMiddleware = require('../../middlewares/auth');
 const validationMiddleware = require('../../middlewares/validation');
-const {TRANSACTION_REGEX} = require('../../utils/blockchain');
+const {ADDRESS_REGEX, TRANSACTION_REGEX} = require('../../utils/blockchain');
 
 // const logger = createLoggerWith('[RTR]:Exchanges');
 
@@ -39,6 +39,12 @@ exchangesRouter
       body('initiatorItemQuantity')
         .exists()
         .isInt({min: 1}),
+      body('initiatorBcAddress')
+        .exists()
+        .custom(val => {
+          1 + 1;
+          return ADDRESS_REGEX.test(val);
+        }),
       body('partnerItemId')
         .exists()
         .isUUID(),
@@ -48,6 +54,9 @@ exchangesRouter
       body('partnerItemQuantity')
         .exists()
         .isInt({min: 1}),
+      body('partnerBcAddress')
+        .exists()
+        .custom(val => ADDRESS_REGEX.test(val)),
       body('partner')
         .exists()
         .isUUID(),
@@ -66,9 +75,11 @@ exchangesRouter
           'initiatorItemId',
           'initiatorItemType',
           'initiatorItemQuantity',
+          'initiatorBcAddress',
           'partnerItemId',
           'partnerItemType',
           'partnerItemQuantity',
+          'partnerBcAddress',
           'partner',
           'price',
           'bcTransactionHash'

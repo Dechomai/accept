@@ -104,7 +104,9 @@ export const createExchangeContract = ({
 
   const partnerItemData = partnerItem.data;
   const selectedItemData = selectedItem.data;
-  const partnerAddress = path(['createdBy', 'bcDefaultAccountAddress'], partnerItemData);
+  const getBcAddress = path(['createdBy', 'bcDefaultAccountAddress']);
+  const initiatorAddress = getBcAddress(selectedItemData);
+  const partnerAddress = getBcAddress(partnerItemData);
   const price = parseFloat(
     calculateEscrow(
       selectedItemData.price,
@@ -131,9 +133,11 @@ export const createExchangeContract = ({
             initiatorItemId: selectedItemData.id,
             initiatorItemType: selectedItemType,
             initiatorItemQuantity: selectedItemCount,
+            initiatorBcAddress: initiatorAddress,
             partnerItemId: partnerItemData.id,
             partnerItemType: partnerItemType,
             partnerItemQuantity: partnerItemCount,
+            partnerBcAddress: partnerAddress,
             partner: partnerItemData.createdBy.id,
             bcTransactionHash: transactionHash,
             price
