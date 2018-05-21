@@ -140,7 +140,9 @@ const exchangesController = {
             skip,
             limit,
             sort: DEFAULT_SORT
-          }),
+          })
+            .populate('initiator', User.projection)
+            .populate('partner', User.projection),
           Exchange.count(query)
         ])
       )
