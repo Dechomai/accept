@@ -1,0 +1,41 @@
+@import '../../theme/index';
+
+.exchange-offer-item {
+  margin-top: 2px;
+  padding: 14px;
+  &__wrapper {
+    margin-left: 10px;
+  }
+  &--is-owner {
+    background-color: $gray-300;
+  }
+  &--is-partner {
+    border-bottom: 1px solid $gray-300;
+  }
+  &__photo {
+    width: 72px;
+    height: 72px;
+    background-position: center center;
+    background-size: cover;
+  }
+  &__name {
+    font-size: 14px;
+  }
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    &__name {
+      text-transform: uppercase;
+      font-size: 10px;
+      color: $gray-500;
+    }
+    &__count {
+      text-transform: uppercase;
+      font-size: 10px;
+      color: $black;
+      &--total {
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+}

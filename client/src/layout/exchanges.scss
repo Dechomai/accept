@@ -1,0 +1,23 @@
+@import '../theme/index';
+
+.exchanges-page {
+  &__header {
+    margin: 25px 0;
+    &__wrapper {
+      border-bottom: 1px solid $gray-400;
+    }
+  }
+  &__title {
+    margin-top: 50px;
+    font-weight: $font-weight-bold;
+    padding-left: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  &__subtitle {
+    background-color: $white;
+    font-size: 10px;
+    color: $gray-500;
+    text-transform: uppercase;
+    padding: 1rem 0 0.7rem 0.75rem;
+  }
+}
