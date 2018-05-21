@@ -41,10 +41,7 @@ exchangesRouter
         .isInt({min: 1}),
       body('initiatorBcAddress')
         .exists()
-        .custom(val => {
-          1 + 1;
-          return ADDRESS_REGEX.test(val);
-        }),
+        .custom(val => ADDRESS_REGEX.test(val)),
       body('partnerItemId')
         .exists()
         .isUUID(),
