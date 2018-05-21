@@ -30,7 +30,7 @@
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 2rem;
-    word-break: break-all;
+    overflow-wrap: break-word;
     word-break: break-word;
   }
   &__property {
@@ -56,7 +56,7 @@
     text-transform: capitalize;
   }
   &__description {
-    word-break: break-all;
+    overflow-wrap: break-word;
     word-break: break-word;
     margin-top: 0.75rem;
     color: $gray-500;

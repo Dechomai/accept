@@ -31,7 +31,7 @@
     &__title {
       flex: 0 1 100%;
       margin-left: 1rem;
-      word-break: break-all;
+      overflow-wrap: break-word;
       word-break: break-word;
     }
   }

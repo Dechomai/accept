@@ -38,7 +38,7 @@
       margin-bottom: 0;
       padding: 0 1rem;
       font-size: 14px;
-      word-break: break-all;
+      overflow-wrap: break-word;
       word-break: break-word;
     }
     &__price {
