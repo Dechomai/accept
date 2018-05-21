@@ -5,9 +5,11 @@ const exchangeService = {
     initiatorItemId,
     initiatorItemType,
     initiatorItemQuantity,
+    initiatorBcAddress,
     partnerItemId,
     partnerItemType,
     partnerItemQuantity,
+    partnerBcAddress,
     partner,
     price,
     bcTransactionHash
@@ -17,9 +19,11 @@ const exchangeService = {
         initiatorItemId,
         initiatorItemType,
         initiatorItemQuantity,
+        initiatorBcAddress,
         partnerItemId,
         partnerItemType,
         partnerItemQuantity,
+        partnerBcAddress,
         partner,
         price,
         bcTransactionHash
