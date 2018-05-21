@@ -6,7 +6,7 @@ const ExchagesIncoming = () => {
   return (
     <div className="exchanges">
       <ExchangeOffer isOwner={true} />
-      <ExchangeOffer isOwner={false} />
+      <ExchangeOffer isOwner={true} />
     </div>
   );
 };
