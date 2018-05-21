@@ -197,7 +197,7 @@ class Exchange extends React.Component {
       case Steps.SUMMARY:
         return 'Send Offer';
       case Steps.CONNECTION_CHECK:
-        return 'Refresh';
+        return 'Try Again';
       case Steps.TRANSACTION_RESULT:
         return 'Ok';
       default:
@@ -215,10 +215,10 @@ class Exchange extends React.Component {
       case Steps.SUMMARY:
         return 'Step 2. Smart Contract';
       case Steps.CONNECTION_CHECK:
-        return 'Step 3. Check Connection';
+        return 'Check Connection';
       case Steps.TRANSACTION_CONFIRM:
       case Steps.TRANSACTION_RESULT:
-        return 'Step 4: Confirm Transaction';
+        return 'Confirm Transaction';
     }
   }
 
