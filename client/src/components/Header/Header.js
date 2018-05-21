@@ -62,6 +62,12 @@ class Header extends React.Component {
                 <small className="text-muted">Profile</small>
               </DropdownItem>
             </Link>
+            <Link to="/exchanges" className="header__user-info__dropdown__link">
+              <DropdownItem>
+                <Icon name="chart-line-variant" size="20" />
+                <small className="text-muted">Account Activities</small>
+              </DropdownItem>
+            </Link>
             <DropdownItem divider />
             <DropdownItem href="/logout" className="header__user-info__dropdown__link">
               <Icon name="logout" size="20" />

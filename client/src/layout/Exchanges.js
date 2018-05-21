@@ -3,20 +3,13 @@ import './exchanges.scss';
 import React from 'react';
 
 import ExchangesNavigation from '../components/Exchanges/Navigation';
+import ExchangesHeader from '../components/Exchanges/Header';
 
 const Exchanges = ({children}) => {
   return (
     <div className="exchanges-page">
-      <div className="exchanges-page__header__wrapper">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h4 className="exchanges-page__header">Account activity</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="container">
+      <ExchangesHeader />
+      <div className="container mt-4">
         <div className="row">
           <div className="col-3">
             <ExchangesNavigation />
