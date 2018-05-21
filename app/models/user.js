@@ -62,7 +62,8 @@ userSchema.statics.projection = {
   phone: 1,
   username: 1,
   photoUrl: 1,
-  description: 1
+  description: 1,
+  bcDefaultAccountAddress: 1
 };
 
 userSchema.statics.publicProjection = {
@@ -70,7 +71,8 @@ userSchema.statics.publicProjection = {
   lastName: 1,
   username: 1,
   photoUrl: 1,
-  description: 1
+  description: 1,
+  bcDefaultAccountAddress: 1
 };
 
 userSchema.statics.findOneOrCreate = function(id, email) {

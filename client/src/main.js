@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 
 import createStore from './store';
 import Router from './router';
+import exchangeCache from './services/exchangeCache';
 
 import {fetchProfile} from './actions/user';
 
@@ -17,7 +18,9 @@ Promise.all([
   // or initial state
 ])
   .then(() => {
-    const initialState = {}; // or populate from loaded data
+    const initialState = {};
+    const exchange = exchangeCache.get();
+    if (exchange) initialState.exchange = exchange;
 
     return createStore(initialState);
   })

@@ -22,9 +22,15 @@ class Details extends React.Component {
   }
 
   componentDidMount() {
-    const {params, product} = this.props;
+    const {params, product, router} = this.props;
     if (!product && params.productId) {
       this.props.fetchProductById(params.productId);
+    }
+
+    if (router.location.query.step) {
+      this.setState({
+        showExchange: true
+      });
     }
   }
 
@@ -35,8 +41,15 @@ class Details extends React.Component {
   }
 
   handleExchangeCancel() {
+    const {router} = this.props;
+
     this.setState({
       showExchange: false
+    });
+
+    router.push({
+      pathname: router.location.pathname,
+      query: {}
     });
   }
 
@@ -47,7 +60,11 @@ class Details extends React.Component {
       return (
         <React.Fragment>
           {this.state.showExchange && (
-            <Exchange type="product" item={product.data} onCancel={this.handleExchangeCancel} />
+            <Exchange
+              type="product"
+              itemId={product.data.id}
+              onCancel={this.handleExchangeCancel}
+            />
           )}
           <ProductDetails
             product={product.data}
