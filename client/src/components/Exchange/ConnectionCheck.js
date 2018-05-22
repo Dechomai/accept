@@ -3,7 +3,7 @@ import './ConnectionCheck.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {compose, lifecycle} from 'recompact';
+import {compose} from 'recompact';
 import autobind from 'autobindr';
 import classNames from 'classnames';
 import {Button} from 'reactstrap';
@@ -19,6 +19,7 @@ import metamaskService from '../../services/metamask';
 import clipboard from '../../services/clipboard';
 import config from '../../config';
 import Icon from '../common/Icon/Icon';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const Step = ({title, success, children}) => (
   <div className="connection-step">
@@ -170,13 +171,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  lifecycle({
-    componentWillMount() {
-      if (this.props.dataAbsent) {
-        this.props.onDataAbsent();
-      }
-    }
-  })
-)(ConnectionCheck);
+export default compose(connect(mapStateToProps), withDataEnsurance())(ConnectionCheck);

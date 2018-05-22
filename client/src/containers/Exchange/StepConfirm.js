@@ -2,7 +2,7 @@ import './StepConfirm.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {lifecycle} from 'recompact';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const STATES = ['waiting', 'accepted', 'rejected', 'error'];
 
@@ -33,10 +33,4 @@ StepConfirm.propTypes = {
   state: PropTypes.oneOf(STATES)
 };
 
-export default lifecycle({
-  componentWillMount() {
-    if (!STATES.includes(this.props.state)) {
-      this.props.onDataAbsent();
-    }
-  }
-})(StepConfirm);
+export default withDataEnsurance(({state}) => !STATES.includes(state))(StepConfirm);

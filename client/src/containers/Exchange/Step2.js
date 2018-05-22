@@ -20,6 +20,7 @@ import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
 import {selectItem} from '../../actions/exchange';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const DEFAULT_LIMIT = 8;
 
@@ -82,12 +83,8 @@ export default compose(
   ),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
+  withDataEnsurance(),
   lifecycle({
-    componentWillMount() {
-      if (this.props.dataAbsent) {
-        this.props.onDataAbsent();
-      }
-    },
     componentDidMount() {
       if (!this.props.dataAbsent) {
         refetchItems(this.props);

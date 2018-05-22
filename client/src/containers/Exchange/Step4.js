@@ -13,6 +13,7 @@ import Loader from '../../components/common/Loader/Loader';
 import ExchangeItemSummary from '../../components/Exchange/ExchangeItemSummary';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 import {shouldRefetchItem, isItemLoading} from '../../utils/refetch';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const mapStateToProps = (state, {ownItemId, ownItemType, partnerItemId, partnerItemType}) => {
   return ['product', 'service'].includes(ownItemType) && ownItemId
@@ -58,23 +59,15 @@ const refetchItem = ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
+  withDataEnsurance(),
   lifecycle({
-    componentWillMount() {
-      if (this.props.dataAbsent) {
-        this.props.onDataAbsent();
-      }
-    },
     componentDidMount() {
-      if (!this.props.dataAbsent) {
-        refetchItem(this.props);
-      }
+      refetchItem(this.props);
     },
     // TODO: Replace in React v17 with:
     // static getDerivedStateFromProps(nextProps, prevState)
     componentWillUpdate(nextProps) {
-      if (!this.props.dataAbsent) {
-        refetchItem(nextProps);
-      }
+      refetchItem(nextProps);
     }
   })
 )(

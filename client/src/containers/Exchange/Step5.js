@@ -19,6 +19,7 @@ import {createExchangeContract} from '../../actions/exchange';
 import {shouldRefetchItem, isItemLoading} from '../../utils/refetch';
 import Loader from '../../components/common/Loader/Loader';
 import Confirmation from '../../components/Exchange/Confirmation';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const tryContractDeploy = ({
   selectedItem,
@@ -108,22 +109,14 @@ const refetch = ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withDataEnsurance(),
   lifecycle({
-    componentWillMount() {
-      if (this.props.dataAbsent) {
-        this.props.onDataAbsent();
-      }
-    },
     componentDidMount() {
-      if (!this.props.dataAbsent) {
-        refetch(this.props);
-      }
+      refetch(this.props);
       tryContractDeploy(this.props);
     },
     componentWillReceiveProps(nextProps) {
-      if (!nextProps.dataAbsent) {
-        refetch(nextProps);
-      }
+      refetch(nextProps);
     },
     componentDidUpdate() {
       tryContractDeploy(this.props);
