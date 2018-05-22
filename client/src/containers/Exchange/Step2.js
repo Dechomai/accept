@@ -31,23 +31,17 @@ const refetchItems = props => {
   }
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const type = selectExchangeItemType(state);
-
-  return [('product', 'service')].includes(type)
-    ? {
-        type,
-        items:
-          selectExchangeItemType(state) === 'product'
-            ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
-            : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
-        count:
-          selectExchangeItemType(state) === 'product'
-            ? selectOwnProductsCount(state)
-            : selectOwnServicesCount(state)
-      }
-    : {dataAbsent: true};
-};
+const mapStateToProps = (state, ownProps) => ({
+  type: selectExchangeItemType(state),
+  items:
+    selectExchangeItemType(state) === 'product'
+      ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
+      : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
+  count:
+    selectExchangeItemType(state) === 'product'
+      ? selectOwnProductsCount(state)
+      : selectOwnServicesCount(state)
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -83,7 +77,7 @@ export default compose(
   ),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-  withDataEnsurance(),
+  withDataEnsurance(['initiatorItemType']),
   lifecycle({
     componentDidMount() {
       refetchItems(this.props);

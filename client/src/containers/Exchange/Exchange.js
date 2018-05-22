@@ -39,11 +39,11 @@ import ExchangeStep2 from './Step2';
 import ExchangeStep3 from './Step3';
 import ExchangeStep4 from './Step4';
 import ExchangeStep5 from './Step5';
+import ExchangeStep6 from './Step6';
 import ExchangeStepConfirm from './StepConfirm';
 import ExchangeItem from './ExchangeItem';
 
 import ExchangeModal from '../../components/Exchange/Modal';
-import ConnectionCheck from '../../components/Exchange/ConnectionCheck';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 
 const Steps = {
@@ -317,11 +317,11 @@ class Exchange extends React.Component {
       case Steps.CONNECTION_CHECK: {
         const address = path(['user', 'data', 'bcDefaultAccountAddress'], this.props);
         return (
-          <ConnectionCheck
+          <ExchangeStep5
             onSuccess={this.handleConnectionCheckSuccess}
             onDataAbsent={this.handleDataAbsence}
             address={address}
-            ref={el => {
+            getRef={el => {
               this.connectionCheck = el;
             }}
           />
@@ -329,7 +329,7 @@ class Exchange extends React.Component {
       }
       case Steps.TRANSACTION_CONFIRM:
         return (
-          <ExchangeStep5
+          <ExchangeStep6
             partnerItemId={this.props.itemId}
             partnerItemType={this.props.type}
             onComplete={this.handleTransactionStatusChange}

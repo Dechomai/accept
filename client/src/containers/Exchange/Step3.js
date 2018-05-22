@@ -31,9 +31,8 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withDataEnsurance(({itemId}) => !itemId)
-)(({itemId, ...props}) => (
-  <ExchangeItem {...props} itemId={itemId} title="Your offer" own className="exchange-step3" />
-));
+export default compose(connect(mapStateToProps, mapDispatchToProps), withDataEnsurance(['itemId']))(
+  ({itemId, ...props}) => (
+    <ExchangeItem {...props} itemId={itemId} title="Your offer" own className="exchange-step3" />
+  )
+);

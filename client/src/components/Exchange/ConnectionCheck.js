@@ -2,24 +2,15 @@ import './ConnectionCheck.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {compose} from 'recompact';
 import autobind from 'autobindr';
 import classNames from 'classnames';
 import {Button} from 'reactstrap';
-import {equals, allPass} from 'ramda';
+import {equals} from 'ramda';
 
-import {
-  selectExchangeItemType,
-  selectExchangeItemId,
-  selectExchangeOwnCount,
-  selectExchangePartnerCount
-} from '../../selectors';
 import metamaskService from '../../services/metamask';
 import clipboard from '../../services/clipboard';
 import config from '../../config';
 import Icon from '../common/Icon/Icon';
-import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const Step = ({title, success, children}) => (
   <div className="connection-step">
@@ -160,15 +151,4 @@ ConnectionCheck.propTypes = {
   onSuccess: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    dataAbsent: !allPass([
-      selectExchangeItemType,
-      selectExchangeItemId,
-      selectExchangeOwnCount,
-      selectExchangePartnerCount
-    ])(state)
-  };
-};
-
-export default compose(connect(mapStateToProps), withDataEnsurance())(ConnectionCheck);
+export default ConnectionCheck;

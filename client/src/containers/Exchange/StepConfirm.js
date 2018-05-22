@@ -4,8 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
-const STATES = ['waiting', 'accepted', 'rejected', 'error'];
-
 const TITLES = {
   waiting: 'Waiting for transaction acceptance',
   rejected: 'Transaction Rejected',
@@ -30,7 +28,7 @@ const StepConfirm = ({state}) => {
 };
 
 StepConfirm.propTypes = {
-  state: PropTypes.oneOf(STATES)
+  state: PropTypes.oneOf(['waiting', 'accepted', 'rejected', 'error'])
 };
 
-export default withDataEnsurance(({state}) => !STATES.includes(state))(StepConfirm);
+export default withDataEnsurance(['state'])(StepConfirm);

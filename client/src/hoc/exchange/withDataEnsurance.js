@@ -1,13 +1,30 @@
+import {connect} from 'react-redux';
 import {compose, lifecycle, branch, renderNothing} from 'recompact';
+import {
+  selectExchangeItemType,
+  selectExchangeItemId,
+  selectExchangeOwnCount,
+  selectExchangePartnerCount
+} from '../../selectors';
+import {all} from 'ramda';
 
-export default (absencePredicateFn = props => props.dataAbsent) =>
-  compose(
+export default requiredProps => {
+  const isDataAbsent = props => !all(prop => props[prop])(requiredProps);
+
+  return compose(
+    connect(state => ({
+      initiatorItemType: selectExchangeItemType(state),
+      initiatorItemId: selectExchangeItemId(state),
+      initiatorItemCount: selectExchangeOwnCount(state),
+      partnerItemCount: selectExchangePartnerCount(state)
+    })),
     lifecycle({
       componentWillMount() {
-        if (absencePredicateFn(this.props)) {
+        if (isDataAbsent(this.props)) {
           this.props.onDataAbsent();
         }
       }
     }),
-    branch(absencePredicateFn, renderNothing)
+    branch(isDataAbsent, renderNothing)
   );
+};
