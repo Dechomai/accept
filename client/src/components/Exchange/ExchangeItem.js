@@ -161,7 +161,9 @@ ExchangeItem.defaultProps = {
   className: '',
   title: 'Item for exchange',
   days: [],
-  time: []
+  time: [],
+  partnerDays: [],
+  partnerTime: []
 };
 
 export default ExchangeItem;
