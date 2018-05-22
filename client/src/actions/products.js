@@ -1,4 +1,5 @@
 import productService from '../services/product';
+import {toast} from 'react-toastify';
 
 export const CREATE_PRODUCT_REQUEST = 'CREATE_PRODUCT_REQUEST';
 export const CREATE_PRODUCT_SUCCESS = 'CREATE_PRODUCT_SUCCESS';
@@ -195,10 +196,11 @@ export const deleteProductFailure = error => ({
 export const deleteProduct = productId => dispatch => {
   dispatch(deleteProductRequest());
 
-  return productService
-    .deleteProduct(productId)
-    .then(
-      () => dispatch(deleteProductSuccess(productId)),
-      err => Promise.reject(dispatch(deleteProductFailure(err)))
-    );
+  return productService.deleteProduct(productId).then(
+    () => {
+      toast.success('Product removed successfully');
+      return dispatch(deleteProductSuccess(productId));
+    },
+    err => Promise.reject(dispatch(deleteProductFailure(err)))
+  );
 };

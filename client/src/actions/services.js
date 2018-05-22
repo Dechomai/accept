@@ -1,4 +1,5 @@
 import serviceService from '../services/service';
+import {toast} from 'react-toastify';
 
 export const CREATE_SERVICE_REQUEST = 'CREATE_SERVICE_REQUEST';
 export const CREATE_SERVICE_SUCCESS = 'CREATE_SERVICE_SUCCESS';
@@ -195,10 +196,11 @@ export const deleteServiceFailure = error => ({
 export const deleteService = serviceId => dispatch => {
   dispatch(deleteServiceRequest());
 
-  return serviceService
-    .deleteService(serviceId)
-    .then(
-      () => dispatch(deleteServiceSuccess(serviceId)),
-      err => Promise.reject(dispatch(deleteServiceFailure(err)))
-    );
+  return serviceService.deleteService(serviceId).then(
+    () => {
+      toast.success('Service removed successfully');
+      return dispatch(deleteServiceSuccess(serviceId));
+    },
+    err => Promise.reject(dispatch(deleteServiceFailure(err)))
+  );
 };
