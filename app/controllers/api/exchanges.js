@@ -128,13 +128,30 @@ const exchangesController = {
       if (!exchanges.length) return Promise.resolve();
       return exchanges.reduce((promise, exchange) => {
         return promise.then(() => {
-          return blockchainService
-            .getContractAddress(exchange.bcInitiatorTransactionHash)
-            .then(address => {
+          return blockchainService.getContractAddress(exchange.bcInitiatorTransactionHash).then(
+            address => {
               exchange.bcContractAddress = address;
               exchange.status = 'new';
               return exchange.save();
-            });
+            },
+            err => {
+              if (err === null) {
+                logger.error(
+                  ':ensureContractAddresses',
+                  'contract address not found for tx:',
+                  exchange.bcInitiatorTransactionHash
+                );
+              } else {
+                logger.error(
+                  ':ensureContractAddresses',
+                  'error retirieving contract address for tx:',
+                  exchange.bcInitiatorTransactionHash,
+                  'error',
+                  err
+                );
+              }
+            }
+          );
         });
       }, Promise.resolve());
       // TODO: add catch, add catch for each exchange
