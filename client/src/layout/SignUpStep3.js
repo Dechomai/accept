@@ -11,7 +11,7 @@ const SignUpStep3 = () => {
             <h4 className="sign-up__header mt-5">
               Step 3. Complete your registration. Join Accept pay network
             </h4>
-            <h6 className="sign-up__subheader mt-4">Please fill in all the required fields</h6>
+            <h6 className="sign-up__subheader mt-4">Please, complete the list below</h6>
           </div>
         </div>
       </div>
