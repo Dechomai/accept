@@ -99,10 +99,10 @@ const refetch = ({
   partnerItemId,
   fetchItem
 }) => {
-  if (!this.props.dataAbsent && shouldRefetchItem(selectedItem)) {
+  if (shouldRefetchItem(selectedItem)) {
     fetchItem(selectedItemType, selectedItemId);
   }
-  if (!this.props.dataAbsent && shouldRefetchItem(partnerItem)) {
+  if (shouldRefetchItem(partnerItem)) {
     fetchItem(partnerItemType, partnerItemId);
   }
 };

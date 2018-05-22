@@ -86,16 +86,12 @@ export default compose(
   withDataEnsurance(),
   lifecycle({
     componentDidMount() {
-      if (!this.props.dataAbsent) {
-        refetchItems(this.props);
-      }
+      refetchItems(this.props);
     },
     // replace in React v17
     // static getDerivedStateFromProps(nextProps, prevState)
     componentWillUpdate(nextProps) {
-      if (!nextProps.dataAbsent) {
-        refetchItems(nextProps);
-      }
+      refetchItems(nextProps);
     }
   })
 )(
