@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {compose, lifecycle} from 'recompact';
+import {compose, lifecycle, branch, renderNothing} from 'recompact';
 
 import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
@@ -41,6 +41,7 @@ const refetchItem = ({item, fetchItem}) => {
 };
 
 export default compose(
+  branch(({itemId, type}) => !itemId || !type, renderNothing),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {

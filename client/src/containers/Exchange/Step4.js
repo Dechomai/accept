@@ -15,17 +15,19 @@ import ExchangeEscrow from '../../components/Exchange/Escrow';
 import {shouldRefetchItem, isItemLoading} from '../../utils/refetch';
 
 const mapStateToProps = (state, {ownItemId, ownItemType, partnerItemId, partnerItemType}) => {
-  return {
-    ownItem:
-      ownItemType === 'product'
-        ? selectProductById(state, ownItemId)
-        : selectServiceById(state, ownItemId),
+  return ['product', 'service'].includes(ownItemType) && ownItemId
+    ? {
+        ownItem:
+          ownItemType === 'product'
+            ? selectProductById(state, ownItemId)
+            : selectServiceById(state, ownItemId),
 
-    partnerItem:
-      partnerItemType === 'product'
-        ? selectProductById(state, partnerItemId)
-        : selectServiceById(state, partnerItemId)
-  };
+        partnerItem:
+          partnerItemType === 'product'
+            ? selectProductById(state, partnerItemId)
+            : selectServiceById(state, partnerItemId)
+      }
+    : {dataAbsent: true};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -57,13 +59,22 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
+    componentWillMount() {
+      if (this.props.dataAbsent) {
+        this.props.onDataAbsent();
+      }
+    },
     componentDidMount() {
-      refetchItem(this.props);
+      if (!this.props.dataAbsent) {
+        refetchItem(this.props);
+      }
     },
     // TODO: Replace in React v17 with:
     // static getDerivedStateFromProps(nextProps, prevState)
     componentWillUpdate(nextProps) {
-      refetchItem(nextProps);
+      if (!this.props.dataAbsent) {
+        refetchItem(nextProps);
+      }
     }
   })
 )(

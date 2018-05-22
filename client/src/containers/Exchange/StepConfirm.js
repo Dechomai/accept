@@ -2,6 +2,9 @@ import './StepConfirm.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {lifecycle} from 'recompact';
+
+const STATES = ['waiting', 'accepted', 'rejected', 'error'];
 
 const TITLES = {
   waiting: 'Waiting for transaction acceptance',
@@ -27,7 +30,13 @@ const StepConfirm = ({state}) => {
 };
 
 StepConfirm.propTypes = {
-  state: PropTypes.oneOf(['waiting', 'accepted', 'rejected', 'error'])
+  state: PropTypes.oneOf(STATES)
 };
 
-export default StepConfirm;
+export default lifecycle({
+  componentWillMount() {
+    if (!STATES.includes(this.props.state)) {
+      this.props.onDataAbsent();
+    }
+  }
+})(StepConfirm);

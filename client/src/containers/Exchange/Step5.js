@@ -3,6 +3,7 @@ import './Step5.scss';
 import React from 'react';
 import {connect} from 'react-redux';
 import {compose, lifecycle, withProps} from 'recompact';
+import {all, identity} from 'ramda';
 
 import {
   selectExchangeItemId,
@@ -50,21 +51,33 @@ const tryContractDeploy = ({
 const mapStateToProps = (state, {partnerItemId, partnerItemType}) => {
   const selectedItemType = selectExchangeItemType(state);
   const selectedItemId = selectExchangeItemId(state);
-  return {
-    selectedItemId,
-    selectedItemType,
-    selectedItemCount: selectExchangeOwnCount(state),
-    selectedItem:
-      selectedItemType === 'product'
-        ? selectProductById(state, selectedItemId)
-        : selectServiceById(state, selectedItemId),
+  const selectedItemCount = selectExchangeOwnCount(state);
+  const partnerItemCount = selectExchangePartnerCount(state);
 
-    partnerItemCount: selectExchangePartnerCount(state),
-    partnerItem:
-      partnerItemType === 'product'
-        ? selectProductById(state, partnerItemId)
-        : selectServiceById(state, partnerItemId)
-  };
+  return all(identity, [
+    selectedItemType,
+    selectedItemId,
+    selectedItemCount,
+    partnerItemType,
+    partnerItemId,
+    partnerItemCount
+  ])
+    ? {
+        selectedItemId,
+        selectedItemType,
+        selectedItemCount,
+        selectedItem:
+          selectedItemType === 'product'
+            ? selectProductById(state, selectedItemId)
+            : selectServiceById(state, selectedItemId),
+
+        partnerItemCount,
+        partnerItem:
+          partnerItemType === 'product'
+            ? selectProductById(state, partnerItemId)
+            : selectServiceById(state, partnerItemId)
+      }
+    : {dataAbsent: true};
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -85,10 +98,10 @@ const refetch = ({
   partnerItemId,
   fetchItem
 }) => {
-  if (shouldRefetchItem(selectedItem)) {
+  if (!this.props.dataAbsent && shouldRefetchItem(selectedItem)) {
     fetchItem(selectedItemType, selectedItemId);
   }
-  if (shouldRefetchItem(partnerItem)) {
+  if (!this.props.dataAbsent && shouldRefetchItem(partnerItem)) {
     fetchItem(partnerItemType, partnerItemId);
   }
 };
@@ -96,12 +109,21 @@ const refetch = ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
+    componentWillMount() {
+      if (this.props.dataAbsent) {
+        this.props.onDataAbsent();
+      }
+    },
     componentDidMount() {
-      refetch(this.props);
+      if (!this.props.dataAbsent) {
+        refetch(this.props);
+      }
       tryContractDeploy(this.props);
     },
     componentWillReceiveProps(nextProps) {
-      refetch(nextProps);
+      if (!nextProps.dataAbsent) {
+        refetch(nextProps);
+      }
     },
     componentDidUpdate() {
       tryContractDeploy(this.props);

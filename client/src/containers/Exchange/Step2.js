@@ -31,17 +31,21 @@ const refetchItems = props => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    type: selectExchangeItemType(state),
-    items:
-      selectExchangeItemType(state) === 'product'
-        ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
-        : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
-    count:
-      selectExchangeItemType(state) === 'product'
-        ? selectOwnProductsCount(state)
-        : selectOwnServicesCount(state)
-  };
+  const type = selectExchangeItemType(state);
+
+  return [('product', 'service')].includes(type)
+    ? {
+        type,
+        items:
+          selectExchangeItemType(state) === 'product'
+            ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
+            : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
+        count:
+          selectExchangeItemType(state) === 'product'
+            ? selectOwnProductsCount(state)
+            : selectOwnServicesCount(state)
+      }
+    : {dataAbsent: true};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -79,13 +83,22 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
+    componentWillMount() {
+      if (this.props.dataAbsent) {
+        this.props.onDataAbsent();
+      }
+    },
     componentDidMount() {
-      refetchItems(this.props);
+      if (!this.props.dataAbsent) {
+        refetchItems(this.props);
+      }
     },
     // replace in React v17
     // static getDerivedStateFromProps(nextProps, prevState)
     componentWillUpdate(nextProps) {
-      refetchItems(nextProps);
+      if (!nextProps.dataAbsent) {
+        refetchItems(nextProps);
+      }
     }
   })
 )(

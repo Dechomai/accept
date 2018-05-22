@@ -2,11 +2,19 @@ import './ConnectionCheck.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {compose, lifecycle} from 'recompact';
 import autobind from 'autobindr';
 import classNames from 'classnames';
 import {Button} from 'reactstrap';
-import {equals} from 'ramda';
+import {equals, allPass} from 'ramda';
 
+import {
+  selectExchangeItemType,
+  selectExchangeItemId,
+  selectExchangeOwnCount,
+  selectExchangePartnerCount
+} from '../../selectors';
 import metamaskService from '../../services/metamask';
 import clipboard from '../../services/clipboard';
 import config from '../../config';
@@ -151,4 +159,24 @@ ConnectionCheck.propTypes = {
   onSuccess: PropTypes.func.isRequired
 };
 
-export default ConnectionCheck;
+const mapStateToProps = state => {
+  return {
+    dataAbsent: !allPass([
+      selectExchangeItemType,
+      selectExchangeItemId,
+      selectExchangeOwnCount,
+      selectExchangePartnerCount
+    ])(state)
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  lifecycle({
+    componentWillMount() {
+      if (this.props.dataAbsent) {
+        this.props.onDataAbsent();
+      }
+    }
+  })
+)(ConnectionCheck);
