@@ -22,8 +22,11 @@ const HELPER_TEXT = {
 };
 
 const getStatus = (exchange, user) => {
-  if (exchange.status === 'new' && user.data.id === exchange.initiator.id)
+  if (exchange.status === 'new' && user.data.id === exchange.initiator.id) {
     return {title: 'Offer Sent', modifier: 'offer-sent'};
+  } else if (exchange.status === 'new' && user.data.id !== exchange.initiator.id) {
+    return {title: 'New offer', modifier: 'new-offer'};
+  }
   return {title: '', modifier: ''};
 };
 
