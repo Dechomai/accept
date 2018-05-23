@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {toast} from 'react-toastify';
 import {compose, lifecycle} from 'recompact';
 import {fetchProducts, deleteProduct} from '../../actions/products';
 import {
@@ -48,9 +47,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       );
     },
     deleteProduct(productId) {
-      return dispatch(deleteProduct(productId)).then(() => {
-        toast.success('Product removed successfully');
-      });
+      return dispatch(deleteProduct(productId));
     }
   };
 };
