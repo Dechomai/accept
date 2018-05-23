@@ -97,6 +97,24 @@ class MetaMask {
         });
       });
   }
+
+  getExchangeContract(contractAddress) {
+    return this.getWeb3().then(web3 =>
+      web3.eth.contract(exchangeContractData.abi).at(contractAddress)
+    );
+  }
+
+  cancelExchangeContract({exchange, user}) {
+    return this.getExchangeContract(exchange.bcContractAddress).then(
+      contract =>
+        new Promise((resolve, reject) => {
+          contract.cancel({from: user.bcDefaultAccountAddress}, (err, txHash) => {
+            if (err) return reject(err);
+            resolve(txHash);
+          });
+        })
+    );
+  }
 }
 
 const metamaskService = new MetaMask();
