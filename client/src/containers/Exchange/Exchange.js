@@ -221,8 +221,9 @@ class Exchange extends React.Component {
       case Steps.CONNECTION_CHECK:
         return 'Check Connection';
       case Steps.TRANSACTION_CONFIRM:
+        return 'Processing...';
       case Steps.TRANSACTION_RESULT:
-        return 'Confirm Transaction';
+        return 'Result';
     }
   }
 
