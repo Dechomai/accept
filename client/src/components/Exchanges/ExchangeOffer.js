@@ -120,7 +120,7 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
                   key={title}
                   color={color || 'primary'}
                   size="sm"
-                  onClick={onClick}
+                  onClick={() => onClick(exchange)}
                   {...rest}>
                   {title}
                 </Button>

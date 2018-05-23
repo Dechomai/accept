@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {compose, lifecycle} from 'recompact';
 
-import {fetchExchanges} from '../../actions/exchanges';
+import {fetchExchanges, cancelExchange} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
 import {selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
@@ -32,6 +32,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     return dispatch(
       fetchExchanges({state: 'outcoming', skip: ownProps.skip, limit: ownProps.limit})
     );
+  },
+  cancelExchange(...args) {
+    return dispatch(cancelExchange(...args));
   }
 });
 
@@ -49,7 +52,7 @@ export default compose(
       refetchProducts(nextProps);
     }
   })
-)(({exchanges, user}) => {
+)(({exchanges, user, cancelExchange}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
   if (exchanges && !exchanges.data.length) return <h6>There are no exchanges yet</h6>;
   if (exchanges && exchanges.data.length)
@@ -63,10 +66,9 @@ export default compose(
           {
             title: 'Cancel',
             color: 'light',
-            onClick() {
-              console.log('cancel contract');
-            },
-            disabled: true
+            onClick(exchange) {
+              cancelExchange({exchange, user: user.data});
+            }
           }
         ]}
         user={user}
