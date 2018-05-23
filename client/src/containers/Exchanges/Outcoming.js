@@ -11,7 +11,7 @@ import ExchangesList from '../../components/Exchanges/List';
 
 const DEFAULT_LIMIT = 20;
 
-const refetchProducts = props => {
+const refetchExchages = props => {
   const {exchanges} = props;
   if (!exchanges || (!exchanges.listValid && !exchanges.loading)) {
     props.fetchExchanges();
@@ -41,12 +41,12 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
-      refetchProducts(this.props);
+      refetchExchages(this.props);
     },
     // replace in React v17
     // static getDerivedStateFromProps(nextProps, prevState)
     componentWillUpdate(nextProps) {
-      refetchProducts(nextProps);
+      refetchExchages(nextProps);
     }
   })
 )(({exchanges, user}) => {

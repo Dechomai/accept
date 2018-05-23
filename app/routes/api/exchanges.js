@@ -122,6 +122,16 @@ exchangesRouter
           );
           break;
         }
+        case States.INCOMING: {
+          exchangesController.getIncomingExchanges({userId, limit, skip}).then(
+            ({exchanges, count}) => sendSuccess(res, {exchanges, count}),
+            err => {
+              if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+              sendError(res, {message: 'Error retrieving exchanges'});
+            }
+          );
+          break;
+        }
         default: {
           sendError(res, {message: `${state} state not yet implemented`});
         }

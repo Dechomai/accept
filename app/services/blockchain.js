@@ -4,7 +4,7 @@ const {createLoggerWith} = require('../logger');
 
 const BLOCKCHAIN_ADDRESS = config.get('blockchain.address');
 
-const logger = createLoggerWith('[SVC]:Blockchain');
+const logger = createLoggerWith('[SVC:Blockchain]');
 
 class BlockchainService {
   constructor() {
@@ -27,7 +27,7 @@ class BlockchainService {
               return reject(err);
             }
             if (block && block.contractAddress) {
-              logger.verbose(
+              logger.info(
                 'Got contract address from txHash',
                 block.contractAddress,
                 transactionHash
