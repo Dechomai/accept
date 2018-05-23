@@ -73,12 +73,16 @@ class ConnectionCheck extends React.Component {
   }
 
   updatePluginStatus() {
-    metamaskService
-      .isPluginInstalled()
-      .then(
-        () => this.setState({isPluginInstalled: true}),
-        () => this.setState({isPluginInstalled: false})
-      );
+    if (this.state.isPluginInstalled === false) {
+      location.reload();
+    } else {
+      metamaskService
+        .isPluginInstalled()
+        .then(
+          () => this.setState({isPluginInstalled: true}),
+          () => this.setState({isPluginInstalled: false})
+        );
+    }
   }
 
   updateNetworkStatus() {
