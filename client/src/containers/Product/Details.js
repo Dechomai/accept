@@ -11,7 +11,6 @@ import {startNewExchange} from '../../actions/exchange';
 import ProductDetails from '../../components/Product/Details';
 import Loader from '../../components/common/Loader/Loader';
 import Exchange from '../Exchange/Exchange';
-import exchangeCache from '../../services/exchangeCache';
 
 class Details extends React.Component {
   constructor(props) {
@@ -37,7 +36,6 @@ class Details extends React.Component {
   }
 
   handleExchangeClick() {
-    exchangeCache.reset();
     this.props.startNewExchange();
     this.setState({
       showExchange: true
