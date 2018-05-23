@@ -2,6 +2,7 @@ import './Step3.scss';
 
 import React from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'recompact';
 
 import {
   selectExchangeOwnCount,
@@ -10,6 +11,7 @@ import {
 } from '../../selectors';
 import {changeOwnCount, changeOwnDays, changeOwnTime} from '../../actions/exchange';
 import ExchangeItem from '../../containers/Exchange/ExchangeItem';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const mapStateToProps = state => ({
   quantity: selectExchangeOwnCount(state),
@@ -29,6 +31,8 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(({itemId, ...props}) => (
-  <ExchangeItem {...props} itemId={itemId} title="Your offer" own className="exchange-step3" />
-));
+export default compose(connect(mapStateToProps, mapDispatchToProps), withDataEnsurance(['itemId']))(
+  ({itemId, ...props}) => (
+    <ExchangeItem {...props} itemId={itemId} title="Your offer" own className="exchange-step3" />
+  )
+);

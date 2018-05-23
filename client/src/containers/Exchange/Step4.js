@@ -13,20 +13,19 @@ import Loader from '../../components/common/Loader/Loader';
 import ExchangeItemSummary from '../../components/Exchange/ExchangeItemSummary';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 import {shouldRefetchItem, isItemLoading} from '../../utils/refetch';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
-const mapStateToProps = (state, {ownItemId, ownItemType, partnerItemId, partnerItemType}) => {
-  return {
-    ownItem:
-      ownItemType === 'product'
-        ? selectProductById(state, ownItemId)
-        : selectServiceById(state, ownItemId),
+const mapStateToProps = (state, {ownItemId, ownItemType, partnerItemId, partnerItemType}) => ({
+  ownItem:
+    ownItemType === 'product'
+      ? selectProductById(state, ownItemId)
+      : selectServiceById(state, ownItemId),
 
-    partnerItem:
-      partnerItemType === 'product'
-        ? selectProductById(state, partnerItemId)
-        : selectServiceById(state, partnerItemId)
-  };
-};
+  partnerItem:
+    partnerItemType === 'product'
+      ? selectProductById(state, partnerItemId)
+      : selectServiceById(state, partnerItemId)
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -54,6 +53,7 @@ const refetchItem = ({
 };
 
 export default compose(
+  withDataEnsurance(['ownItemId', 'ownItemType', 'partnerItemId', 'partnerItemType']),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({

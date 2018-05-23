@@ -39,11 +39,11 @@ import ExchangeStep2 from './Step2';
 import ExchangeStep3 from './Step3';
 import ExchangeStep4 from './Step4';
 import ExchangeStep5 from './Step5';
+import ExchangeStep6 from './Step6';
 import ExchangeStepConfirm from './StepConfirm';
 import ExchangeItem from './ExchangeItem';
 
 import ExchangeModal from '../../components/Exchange/Modal';
-import ConnectionCheck from '../../components/Exchange/ConnectionCheck';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 
 const Steps = {
@@ -66,7 +66,7 @@ class Exchange extends React.Component {
     };
 
     let step = this.getStepFromQuery();
-    if (step > Steps.TRANSACTION_CONFIRM) step = Steps.TRANSACTION_CONFIRM;
+    if (step > Steps.CONNECTION_CHECK) step = Steps.SUMMARY;
     this.setStepQuery(step || Steps.TYPE_SELECTION);
     this.connectionCheck = null;
   }
@@ -163,7 +163,7 @@ class Exchange extends React.Component {
 
   getStepFromQuery() {
     const {step} = this.props.router.location.query;
-    return step ? parseInt(step) : 0;
+    return step ? parseInt(step) : Steps.TYPE_SELECTION;
   }
 
   setStepQuery(step) {
@@ -179,6 +179,10 @@ class Exchange extends React.Component {
 
   handleStepChange(stepName) {
     this.setStepQuery(Steps[stepName]);
+  }
+
+  handleDataAbsence() {
+    this.setStepQuery(Steps.TYPE_SELECTION);
   }
 
   isFooterShown() {
@@ -246,7 +250,10 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep2 stepChanged={this.handleStepChange} />
+              <ExchangeStep2
+                stepChanged={this.handleStepChange}
+                onDataAbsent={this.handleDataAbsence}
+              />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem
@@ -264,7 +271,11 @@ class Exchange extends React.Component {
         return (
           <div className="exchange-content">
             <div className="exchange-content__offer">
-              <ExchangeStep3 type={this.props.selectedType} itemId={this.props.selectedItemId} />
+              <ExchangeStep3
+                type={this.props.selectedType}
+                itemId={this.props.selectedItemId}
+                onDataAbsent={this.handleDataAbsence}
+              />
             </div>
             <div className="exchange-content__item">
               <ExchangeItem
@@ -299,16 +310,18 @@ class Exchange extends React.Component {
               partnerTime={this.props.partnerTime}
               calculateEscrowDifference={this.calculateEscrowDifference}
               calculateEscrow={this.calculateEscrow}
+              onDataAbsent={this.handleDataAbsence}
             />
           </div>
         );
       case Steps.CONNECTION_CHECK: {
         const address = path(['user', 'data', 'bcDefaultAccountAddress'], this.props);
         return (
-          <ConnectionCheck
+          <ExchangeStep5
             onSuccess={this.handleConnectionCheckSuccess}
+            onDataAbsent={this.handleDataAbsence}
             address={address}
-            ref={el => {
+            getRef={el => {
               this.connectionCheck = el;
             }}
           />
@@ -316,14 +329,22 @@ class Exchange extends React.Component {
       }
       case Steps.TRANSACTION_CONFIRM:
         return (
-          <ExchangeStep5
+          <ExchangeStep6
             partnerItemId={this.props.itemId}
             partnerItemType={this.props.type}
             onComplete={this.handleTransactionStatusChange}
+            onDataAbsent={this.handleDataAbsence}
           />
         );
       case Steps.TRANSACTION_RESULT:
-        return <ExchangeStepConfirm state={this.state.transactionStatus} />;
+        return (
+          <ExchangeStepConfirm
+            state={this.state.transactionStatus}
+            onDataAbsent={this.handleDataAbsence}
+          />
+        );
+      default:
+        this.setStepQuery(Steps.TYPE_SELECTION);
     }
   }
 

@@ -20,6 +20,7 @@ import Pagination from '../../components/common/Pagination/Pagination';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
 import {selectItem} from '../../actions/exchange';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const DEFAULT_LIMIT = 8;
 
@@ -30,19 +31,17 @@ const refetchItems = props => {
   }
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    type: selectExchangeItemType(state),
-    items:
-      selectExchangeItemType(state) === 'product'
-        ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
-        : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
-    count:
-      selectExchangeItemType(state) === 'product'
-        ? selectOwnProductsCount(state)
-        : selectOwnServicesCount(state)
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  type: selectExchangeItemType(state),
+  items:
+    selectExchangeItemType(state) === 'product'
+      ? selectOwnProductsFor(state, {skip: ownProps.skip, limit: ownProps.limit})
+      : selectOwnServicesFor(state, {skip: ownProps.skip, limit: ownProps.limit}),
+  count:
+    selectExchangeItemType(state) === 'product'
+      ? selectOwnProductsCount(state)
+      : selectOwnServicesCount(state)
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -78,6 +77,7 @@ export default compose(
   ),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
+  withDataEnsurance(['initiatorItemType']),
   lifecycle({
     componentDidMount() {
       refetchItems(this.props);

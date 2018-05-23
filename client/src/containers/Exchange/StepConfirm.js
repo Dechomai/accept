@@ -2,6 +2,7 @@ import './StepConfirm.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 
 const TITLES = {
   waiting: 'Waiting for transaction acceptance',
@@ -30,4 +31,4 @@ StepConfirm.propTypes = {
   state: PropTypes.oneOf(['waiting', 'accepted', 'rejected', 'error'])
 };
 
-export default StepConfirm;
+export default withDataEnsurance(['state'])(StepConfirm);
