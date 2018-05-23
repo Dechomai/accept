@@ -9,17 +9,19 @@ const TITLES = {
   accepted: 'Transaction Complete'
 };
 
-const DETAILS = {};
+const DETAILS = {
+  waiting: "Please don't leave this page untill transaction is completed."
+};
 
 const StepConfirm = ({state}) => {
   return (
     <div className="exchange-step-confirm">
-      <h4 className="exchange-step-confirm__title">{TITLES[state]}</h4>
       <img
         className="exchange-step-confirm__image"
         src={`/assets/img/exchange-transaction-${state}.png`}
         alt={state}
       />
+      <h4 className="exchange-step-confirm__title">{TITLES[state]}</h4>
       <p className="exchange-step-confirm__details">{DETAILS[state]}</p>
     </div>
   );
