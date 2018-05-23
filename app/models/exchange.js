@@ -77,7 +77,7 @@ const ExchangeSchema = new BaseSchema(
       required: true
     },
 
-    bcInitiatorTransactionHash: {
+    bcPendingTransactionHash: {
       type: String,
       required: true
     },
@@ -89,7 +89,7 @@ const ExchangeSchema = new BaseSchema(
 );
 
 ExchangeSchema.statics.projection = {
-  bcInitiatorTransactionHash: false
+  bcPendingTransactionHash: false
 };
 
 const Exchange = mongoose.model('Exchange', ExchangeSchema);
