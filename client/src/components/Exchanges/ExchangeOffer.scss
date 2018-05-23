@@ -63,8 +63,13 @@
     padding: 1px 3px;
 
     &--offer-sent {
-      color: #4592ff; // MOVE TO VARS!!!
-      border-color: #4592ff;
+      color: $cyan;
+      border-color: $cyan;
+    }
+
+    &--new-offer {
+      color: $orange;
+      border-color: $orange;
     }
 
     &--accepted {
