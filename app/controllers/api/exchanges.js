@@ -110,7 +110,7 @@ const exchangesController = {
             partnerItemQuantity,
             partnerItem, // whole JSON
             price: parseFloat(price.toFixed(2), 10),
-            bcInitiatorTransactionHash: bcTransactionHash
+            bcPendingTransactionHash: bcTransactionHash
           });
         })
         .then(exchange => exchange.toJSON())
@@ -126,9 +126,10 @@ const exchangesController = {
       status: 'submitted'
     }).then(exchanges => {
       if (!exchanges.length) return Promise.resolve();
-      return exchanges.reduce((promise, exchange) => {
-        return promise.then(() => {
-          return blockchainService.getContractAddress(exchange.bcInitiatorTransactionHash).then(
+
+      return Promise.all(
+        exchanges.map(exchange =>
+          blockchainService.getContractAddress(exchange.bcPendingTransactionHash).then(
             address => {
               exchange.bcContractAddress = address;
               exchange.status = 'new';
@@ -139,21 +140,22 @@ const exchangesController = {
                 logger.error(
                   ':ensureContractAddresses',
                   'contract address not found for tx:',
-                  exchange.bcInitiatorTransactionHash
+                  exchange.bcPendingTransactionHash
                 );
               } else {
                 logger.error(
                   ':ensureContractAddresses',
                   'error retirieving contract address for tx:',
-                  exchange.bcInitiatorTransactionHash,
+                  exchange.bcPendingTransactionHash,
                   'error',
                   err
                 );
               }
             }
-          );
-        });
-      }, Promise.resolve());
+          )
+        )
+      );
+
       // TODO: add catch, add catch for each exchange
     });
   },
@@ -188,6 +190,44 @@ const exchangesController = {
       .catch(err => {
         logger.error(
           ':getOutcomingExchanges',
+          `(limit:${limit},skip:${skip}) error`,
+          userId && `for user ${userId}`,
+          err
+        );
+        return Promise.reject(err);
+      });
+  },
+
+  getIncomingExchanges({userId, skip, limit}) {
+    const query = {
+      partner: userId,
+      status: 'new'
+    };
+
+    return this.ensureContractAddresses('partner', userId)
+      .then(() =>
+        Promise.all([
+          Exchange.find(query, Exchange.projection, {
+            skip,
+            limit,
+            sort: DEFAULT_SORT
+          })
+            .populate('initiator', User.projection)
+            .populate('partner', User.projection),
+          Exchange.count(query)
+        ])
+      )
+      .then(([exchanges, count = 0]) => {
+        logger.info(
+          ':getIncomingExchanges',
+          `(limit:${limit},skip:${skip}) found ${exchanges.length}, total ${count}`,
+          userId && `for user ${userId}`
+        );
+        return {exchanges, count};
+      })
+      .catch(err => {
+        logger.error(
+          ':getIncomingExchanges',
           `(limit:${limit},skip:${skip}) error`,
           userId && `for user ${userId}`,
           err

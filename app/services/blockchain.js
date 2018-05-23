@@ -27,7 +27,7 @@ class BlockchainService {
               return reject(err);
             }
             if (block && block.contractAddress) {
-              logger.verbose(
+              logger.info(
                 'Got contract address from txHash',
                 block.contractAddress,
                 transactionHash
