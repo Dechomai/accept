@@ -8,6 +8,9 @@ const exchangeCache = {
   },
   set(val) {
     return cacheStorage.setItem(CACHE_KEY, val);
+  },
+  reset() {
+    return cacheStorage.removeItem(CACHE_KEY);
   }
 };
 

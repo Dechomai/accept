@@ -7,6 +7,7 @@ import autobind from 'autobindr';
 
 import {selectServiceById, selectProfile} from '../../selectors';
 import {fetchServiceById} from '../../actions/services';
+import {startNewExchange} from '../../actions/exchange';
 import ServiceDetails from '../../components/Service/Details';
 import Loader from '../../components/common/Loader/Loader';
 import Exchange from '../Exchange/Exchange';
@@ -35,6 +36,7 @@ class Details extends React.Component {
   }
 
   handleExchangeClick() {
+    this.props.startNewExchange();
     this.setState({
       showExchange: true
     });
@@ -94,6 +96,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchServiceById(serviceId) {
     return dispatch(fetchServiceById(serviceId));
+  },
+  startNewExchange() {
+    return dispatch(startNewExchange());
   }
 });
 

@@ -4,6 +4,7 @@ import {calculateEscrow} from '../utils/exchange';
 import metamaskService from '../services/metamask';
 import exchangeService from '../services/exchange';
 
+export const START_NEW_EXCHANGE = 'START_NEW_EXCHANGE';
 export const SELECT_EXCHANGE_ITEM_TYPE = 'SELECT_EXCHANGE_ITEM_TYPE';
 export const SELECT_EXCHANGE_ITEM = 'SELECT_EXCHANGE_ITEM';
 export const CHANGE_EXCHANGE_OWN_COUNT = 'CHANGE_EXCHANGE_OWN_COUNT';
@@ -15,6 +16,11 @@ export const CHANGE_EXCHANGE_PARTNER_TIME = 'CHANGE_EXCHANGE_PARTNER_TIME';
 export const CREATE_EXCHANGE_CONTRACT_REQUEST = 'CREATE_EXCHANGE_CONTRACT_REQUEST';
 export const CREATE_EXCHANGE_CONTRACT_SUCCESS = 'CREATE_EXCHANGE_CONTRACT_SUCCESS';
 export const CREATE_EXCHANGE_CONTRACT_FAILURE = 'CREATE_EXCHANGE_CONTRACT_FAILURE';
+
+export const startNewExchange = () => ({
+  type: START_NEW_EXCHANGE,
+  payload: {}
+});
 
 export const selectItemType = type => ({
   type: SELECT_EXCHANGE_ITEM_TYPE,
