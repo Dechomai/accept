@@ -11,7 +11,7 @@ export const rules = {
     message: 'Please, enter valid number'
   },
   digits: {
-    predicate: val => val && !/^[0-9_.-]*$/.test(val),
+    predicate: val => val && !/^[0-9-]*$/.test(val),
     message: 'Please, use digits only'
   },
   alphanumeric: {
