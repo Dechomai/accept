@@ -8,6 +8,7 @@ import withPage from '../../hoc/pagination/withPage';
 import {selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
+import Empty from '../../components/Exchanges/Empty';
 
 const DEFAULT_LIMIT = 20;
 
@@ -51,7 +52,7 @@ export default compose(
   })
 )(({exchanges, user}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
-  if (exchanges && !exchanges.data.length) return <h6>There are no exchanges yet</h6>;
+  if (exchanges && !exchanges.data.length) return <Empty />;
   if (exchanges && exchanges.data.length)
     return (
       <ExchangesList
