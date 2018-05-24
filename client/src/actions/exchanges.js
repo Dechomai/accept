@@ -82,7 +82,7 @@ export const cancelExchange = ({exchange, user}) => dispatch => {
           .cancelExchange({exchangeId: exchange.id, bcTransactionHash: txHash})
           .then(
             () => dispatch(cancelExchangeSuccess(id)),
-            err => dispatch(cancelExchangeFailure(id, err))
+            err => dispatch(cancelExchangeFailure(err, id))
           ),
       err => dispatch(cancelExchangeFailure(err))
     );
