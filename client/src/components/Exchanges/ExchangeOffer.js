@@ -84,7 +84,7 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
 
       {/* Show Escrow */}
       {showEscrow && (
-        <div className="container exchange-offer__escrow-wrapper">
+        <div className="exchange-offer__escrow-wrapper">
           <div className="row">
             <div className="col-6">
               <p className="exchange-offer__hint">
@@ -112,35 +112,29 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
       )}
 
       {/* Helper Text and Action Buttons */}
-      <div className="container">
-        <div className="row">
-          <div className="col-7">
-            {HELPER_TEXT[type] && (
-              <div className="exchange-offer__info-alert">
-                <Icon size="20" name="information-outline" />
-                <div className="exchange-offer__info-alert__text">{HELPER_TEXT[type]}</div>
-              </div>
-            )}
+      <div className="exchange-offer__footer">
+        {HELPER_TEXT[type] && (
+          <div className="exchange-offer__info-alert">
+            <Icon size="20" name="information-outline" />
+            <div className="exchange-offer__info-alert__text">{HELPER_TEXT[type]}</div>
           </div>
-          <div className="col-5">
-            <div className="exchange-offer__actions">
-              {showDetailsBtn && (
-                <Button color="link" size="sm" disabled>
-                  View Details
-                </Button>
-              )}
-              {buttons.map(({title, color, onClick, ...rest}) => (
-                <Button
-                  key={title}
-                  color={color || 'primary'}
-                  size="sm"
-                  onClick={() => onClick(exchange)}
-                  {...rest}>
-                  {title}
-                </Button>
-              ))}
-            </div>
-          </div>
+        )}
+        <div className="exchange-offer__actions">
+          {showDetailsBtn && (
+            <Button color="link" size="sm" disabled>
+              View Details
+            </Button>
+          )}
+          {buttons.map(({title, color, onClick, ...rest}) => (
+            <Button
+              key={title}
+              color={color || 'primary'}
+              size="sm"
+              onClick={() => onClick(exchange)}
+              {...rest}>
+              {title}
+            </Button>
+          ))}
         </div>
       </div>
     </div>
