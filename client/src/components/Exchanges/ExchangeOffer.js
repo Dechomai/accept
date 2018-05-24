@@ -86,13 +86,13 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
       {showEscrow && (
         <div className="container exchange-offer__escrow-wrapper">
           <div className="row">
-            <div className="col-7">
+            <div className="col-6">
               <p className="exchange-offer__hint">
                 The value of your exchange will be deducted from your Accept wallet and escrowed in
                 the transaction’s smart contract wallet {exchange.bcContractAddress}.
               </p>
             </div>
-            <div className="col-5">
+            <div className="col-6">
               <div className="exchange-offer__escrow">
                 <span className="exchange-offer__escrow__label">Escrow</span>
                 <span className="exchange-offer__escrow__count">
