@@ -1,7 +1,9 @@
 import {
   START_NEW_EXCHANGE,
+  CANCEL_EXCHANGE,
   SELECT_EXCHANGE_ITEM_TYPE,
   SELECT_EXCHANGE_ITEM,
+  CHANGE_EXCHANGE_STEP,
   CHANGE_EXCHANGE_OWN_COUNT,
   CHANGE_EXCHANGE_PARTNER_COUNT,
   CHANGE_EXCHANGE_OWN_DAYS,
@@ -11,6 +13,7 @@ import {
 } from '../actions/exchange';
 
 const getInitialState = () => ({
+  step: -1,
   selectedType: null,
   selectedItemId: null,
   ownCount: 1,
@@ -24,6 +27,9 @@ const getInitialState = () => ({
 const exchange = (state = getInitialState(), action) => {
   switch (action.type) {
     case START_NEW_EXCHANGE: {
+      return {...getInitialState(), step: 0};
+    }
+    case CANCEL_EXCHANGE: {
       return getInitialState();
     }
     case SELECT_EXCHANGE_ITEM_TYPE: {
@@ -36,6 +42,12 @@ const exchange = (state = getInitialState(), action) => {
       return {
         ...state,
         selectedItemId: action.payload.selectedItemId
+      };
+    }
+    case CHANGE_EXCHANGE_STEP: {
+      return {
+        ...state,
+        step: action.payload.step
       };
     }
     case CHANGE_EXCHANGE_OWN_COUNT: {

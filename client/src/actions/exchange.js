@@ -5,8 +5,10 @@ import metamaskService from '../services/metamask';
 import exchangeService from '../services/exchange';
 
 export const START_NEW_EXCHANGE = 'START_NEW_EXCHANGE';
+export const CANCEL_EXCHANGE = 'CANCEL_EXCHANGE';
 export const SELECT_EXCHANGE_ITEM_TYPE = 'SELECT_EXCHANGE_ITEM_TYPE';
 export const SELECT_EXCHANGE_ITEM = 'SELECT_EXCHANGE_ITEM';
+export const CHANGE_EXCHANGE_STEP = 'CHANGE_EXCHANGE_STEP';
 export const CHANGE_EXCHANGE_OWN_COUNT = 'CHANGE_EXCHANGE_OWN_COUNT';
 export const CHANGE_EXCHANGE_PARTNER_COUNT = 'CHANGE_EXCHANGE_PARTNER_COUNT';
 export const CHANGE_EXCHANGE_OWN_DAYS = 'CHANGE_EXCHANGE_OWN_DAYS';
@@ -22,6 +24,11 @@ export const startNewExchange = () => ({
   payload: {}
 });
 
+export const cancelExchange = () => ({
+  type: CANCEL_EXCHANGE,
+  payload: {}
+});
+
 export const selectItemType = type => ({
   type: SELECT_EXCHANGE_ITEM_TYPE,
   payload: {
@@ -33,6 +40,13 @@ export const selectItem = item => ({
   type: SELECT_EXCHANGE_ITEM,
   payload: {
     selectedItemId: item.id
+  }
+});
+
+export const changeStep = step => ({
+  type: CHANGE_EXCHANGE_STEP,
+  payload: {
+    step
   }
 });
 

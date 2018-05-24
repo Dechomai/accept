@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose, path} from 'ramda';
 import autobind from 'autobindr';
 
-import {selectServiceById, selectProfile} from '../../selectors';
+import {selectServiceById, selectProfile, selectExchangeStep} from '../../selectors';
 import {fetchServiceById} from '../../actions/services';
-import {startNewExchange} from '../../actions/exchange';
+import {startNewExchange, cancelExchange} from '../../actions/exchange';
 import ServiceDetails from '../../components/Service/Details';
 import Loader from '../../components/common/Loader/Loader';
 import Exchange from '../Exchange/Exchange';
@@ -16,43 +15,21 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.state = {
-      showExchange: false
-    };
   }
 
   componentDidMount() {
-    const {params, service, router} = this.props;
+    const {params, service} = this.props;
     if (!service && params.serviceId) {
       this.props.fetchServiceById(params.serviceId);
-    }
-
-    if (router.location.query.step) {
-      this.setState({
-        showExchange: true
-      });
     }
   }
 
   handleExchangeClick() {
     this.props.startNewExchange();
-    this.setState({
-      showExchange: true
-    });
   }
 
   handleExchangeCancel() {
-    const {router} = this.props;
-
-    this.setState({
-      showExchange: false
-    });
-
-    router.push({
-      pathname: router.location.pathname,
-      query: {}
-    });
+    this.props.cancelExchange();
   }
 
   render() {
@@ -61,7 +38,7 @@ class Details extends React.Component {
     if (path(['data'], service)) {
       return (
         <React.Fragment>
-          {this.state.showExchange && (
+          {this.props.exchangeStep >= 0 && (
             <Exchange
               type="service"
               itemId={service.data.id}
@@ -85,12 +62,14 @@ class Details extends React.Component {
 
 Details.propTypes = {
   service: PropTypes.any,
-  user: PropTypes.any
+  user: PropTypes.any,
+  exchangeStep: PropTypes.number
 };
 
 const mapStateToProps = (state, ownProps) => ({
   user: selectProfile(state),
-  service: selectServiceById(state, ownProps.params.serviceId)
+  service: selectServiceById(state, ownProps.params.serviceId),
+  exchangeStep: selectExchangeStep(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -99,7 +78,10 @@ const mapDispatchToProps = dispatch => ({
   },
   startNewExchange() {
     return dispatch(startNewExchange());
+  },
+  cancelExchange() {
+    return dispatch(cancelExchange());
   }
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Details);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Details);

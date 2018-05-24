@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose, path} from 'ramda';
 import autobind from 'autobindr';
 
-import {selectProductById, selectProfile} from '../../selectors';
+import {selectProductById, selectProfile, selectExchangeStep} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
-import {startNewExchange} from '../../actions/exchange';
+import {startNewExchange, cancelExchange} from '../../actions/exchange';
 import ProductDetails from '../../components/Product/Details';
 import Loader from '../../components/common/Loader/Loader';
 import Exchange from '../Exchange/Exchange';
@@ -16,43 +15,21 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.state = {
-      showExchange: false
-    };
   }
 
   componentDidMount() {
-    const {params, product, router} = this.props;
+    const {params, product} = this.props;
     if (!product && params.productId) {
       this.props.fetchProductById(params.productId);
-    }
-
-    if (router.location.query.step) {
-      this.setState({
-        showExchange: true
-      });
     }
   }
 
   handleExchangeClick() {
     this.props.startNewExchange();
-    this.setState({
-      showExchange: true
-    });
   }
 
   handleExchangeCancel() {
-    const {router} = this.props;
-
-    this.setState({
-      showExchange: false
-    });
-
-    router.push({
-      pathname: router.location.pathname,
-      query: {}
-    });
+    this.props.cancelExchange();
   }
 
   render() {
@@ -61,7 +38,7 @@ class Details extends React.Component {
     if (path(['data'], product)) {
       return (
         <React.Fragment>
-          {this.state.showExchange && (
+          {this.props.exchangeStep >= 0 && (
             <Exchange
               type="product"
               itemId={product.data.id}
@@ -85,12 +62,14 @@ class Details extends React.Component {
 
 Details.propTypes = {
   product: PropTypes.any,
-  user: PropTypes.any
+  user: PropTypes.any,
+  exchangeStep: PropTypes.number
 };
 
 const mapStateToProps = (state, ownProps) => ({
   user: selectProfile(state),
-  product: selectProductById(state, ownProps.params.productId)
+  product: selectProductById(state, ownProps.params.productId),
+  exchangeStep: selectExchangeStep(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -99,7 +78,10 @@ const mapDispatchToProps = dispatch => ({
   },
   startNewExchange() {
     return dispatch(startNewExchange());
+  },
+  cancelExchange() {
+    return dispatch(cancelExchange());
   }
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Details);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Details);
