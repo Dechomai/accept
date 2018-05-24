@@ -121,12 +121,16 @@ exchangesRouter
       let getExchanges;
 
       switch (state) {
+        case States.INCOMING: {
+          getExchanges = exchangesController.getIncomingExchanges({userId, limit, skip});
+          break;
+        }
         case States.OUTCOMING: {
           getExchanges = exchangesController.getOutcomingExchanges({userId, limit, skip});
           break;
         }
-        case States.INCOMING: {
-          getExchanges = exchangesController.getIncomingExchanges({userId, limit, skip});
+        case States.PENDING: {
+          getExchanges = exchangesController.getPendingExchanges({userId, limit, skip});
           break;
         }
         case States.ARCHIVED: {
