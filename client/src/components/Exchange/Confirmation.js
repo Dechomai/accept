@@ -29,7 +29,7 @@ const StepConfirm = ({state}) => {
 };
 
 StepConfirm.propTypes = {
-  state: PropTypes.oneOf(['waiting', 'accepted', 'rejected'])
+  state: PropTypes.oneOf(['waiting', 'accepted', 'rejected', 'cancelling'])
 };
 
 export default StepConfirm;
