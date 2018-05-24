@@ -155,18 +155,11 @@ const exchangesController = {
           )
         )
       );
-
-      // TODO: add catch, add catch for each exchange
     });
   },
 
-  getOutcomingExchanges({userId, skip, limit}) {
-    const query = {
-      initiator: userId,
-      status: 'new'
-    };
-
-    return this.ensureContractAddresses('initiator', userId)
+  getExchanges(query, waitPromise = Promise.resolve(), {userId}, {skip, limit, loggerPrefix}) {
+    return waitPromise
       .then(() =>
         Promise.all([
           Exchange.find(query, Exchange.projection, {
@@ -181,7 +174,7 @@ const exchangesController = {
       )
       .then(([exchanges, count = 0]) => {
         logger.info(
-          ':getOutcomingExchanges',
+          loggerPrefix,
           `(limit:${limit},skip:${skip}) found ${exchanges.length}, total ${count}`,
           userId && `for user ${userId}`
         );
@@ -189,7 +182,7 @@ const exchangesController = {
       })
       .catch(err => {
         logger.error(
-          ':getOutcomingExchanges',
+          loggerPrefix,
           `(limit:${limit},skip:${skip}) error`,
           userId && `for user ${userId}`,
           err
@@ -198,41 +191,86 @@ const exchangesController = {
       });
   },
 
+  getOutcomingExchanges({userId, skip, limit}) {
+    const query = {
+      initiator: userId,
+      status: 'new'
+    };
+
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('initiator', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getOutcomingExchanges'}
+    );
+  },
+
   getIncomingExchanges({userId, skip, limit}) {
     const query = {
       partner: userId,
       status: 'new'
     };
 
-    return this.ensureContractAddresses('partner', userId)
-      .then(() =>
-        Promise.all([
-          Exchange.find(query, Exchange.projection, {
-            skip,
-            limit,
-            sort: DEFAULT_SORT
-          })
-            .populate('initiator', User.projection)
-            .populate('partner', User.projection),
-          Exchange.count(query)
-        ])
-      )
-      .then(([exchanges, count = 0]) => {
-        logger.info(
-          ':getIncomingExchanges',
-          `(limit:${limit},skip:${skip}) found ${exchanges.length}, total ${count}`,
-          userId && `for user ${userId}`
-        );
-        return {exchanges, count};
-      })
-      .catch(err => {
-        logger.error(
-          ':getIncomingExchanges',
-          `(limit:${limit},skip:${skip}) error`,
-          userId && `for user ${userId}`,
-          err
-        );
-        return Promise.reject(err);
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('partner', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getIncomingExchanges'}
+    );
+  },
+
+  getPending(/* {userId, skip, limit} */) {
+    return Promise.reject(null);
+  },
+
+  getReported(/* {userId, skip, limit} */) {
+    return Promise.reject(null);
+  },
+
+  getArchivedExchanges({userId, skip, limit}) {
+    const query = {
+      $or: [
+        // canceled by initiator
+        {initiator: userId, status: 'canceled'},
+
+        // is rejected or completed
+        {
+          $and: [
+            {
+              $or: [{initiator: userId}, {partner: userId}]
+            },
+            {
+              $or: [{status: 'rejected'}, {status: 'completed'}]
+            }
+          ]
+        }
+      ]
+    };
+
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('partner', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getIncomingExchanges'}
+    );
+  },
+
+  cancelExchange({userId, exchangeId, txHash}) {
+    return this.ensureContractAddresses('initiator', userId)
+      .then(() => Exchange.findById(exchangeId))
+      .then(exchange => (exchange ? exchange : Promise.reject(null)))
+      .then(exchange => {
+        if (exchange.status !== 'new') {
+          logger.error(`Exchange ${exchangeId} does not have status new`);
+          return Promise.reject('Exchange can not be canceled');
+        }
+        if (exchange.initiator !== userId) {
+          logger.error(`User ${userId} is not initiator of exchange ${exchangeId}`);
+          return Promise.reject('User can not cancel exchange');
+        }
+        exchange.set('status', 'canceled');
+        exchange.set('bcPendingTransactionHash', txHash);
+        return exchange.save();
       });
   }
 };
