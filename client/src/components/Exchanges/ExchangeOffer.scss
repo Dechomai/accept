@@ -19,6 +19,9 @@
   &__arrow {
     flex: 1 1 auto;
     color: $gray-500;
+    .icon {
+      margin-top: 13px;
+    }
   }
 
   &__user-section {
