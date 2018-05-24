@@ -62,10 +62,18 @@ export default compose(
         showEscrow={true}
         buttons={[
           {
-            title: 'Cancel',
+            title: 'Reject',
             color: 'light',
             onClick() {
-              console.log('cancel contract');
+              console.log('reject contract');
+            },
+            disabled: true
+          },
+          {
+            title: 'Accept',
+            color: 'primary',
+            onClick() {
+              console.log('accept contract');
             },
             disabled: true
           }
