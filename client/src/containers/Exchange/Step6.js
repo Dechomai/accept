@@ -44,7 +44,10 @@ const tryContractDeploy = ({
       selectedItem,
       selectedItemType,
       selectedItemCount
-    }).then(() => onComplete('accepted'), err => onComplete(err || 'error'));
+    }).then(
+      () => onComplete('accepted'),
+      err => onComplete(err === 'rejected' ? 'rejected' : 'error')
+    );
   }
 };
 
