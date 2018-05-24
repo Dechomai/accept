@@ -34,6 +34,7 @@ const getStatus = (exchange, user) => {
 };
 
 const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, buttons}) => {
+  console.log(exchange);
   const currentUserId = user.data.id;
   const status = getStatus(exchange, user);
   return (
@@ -47,6 +48,7 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
           <div className="exchange-offer__item-section">
             <ExchangeOfferItem
               item={exchange.initiatorItem}
+              itemType={exchange.initiatorItemType}
               quantity={exchange.initiatorItemQuantity}
             />
           </div>
@@ -70,6 +72,7 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
           <div className="exchange-offer__item-section">
             <ExchangeOfferItem
               item={exchange.partnerItem}
+              itemType={exchange.partnerItemType}
               quantity={exchange.partnerItemQuantity}
             />
           </div>

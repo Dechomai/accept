@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 import {formatPrice} from '../../utils/format';
 
-const ExchangeOfferItem = ({item, quantity}) => {
+const ExchangeOfferItem = ({item, itemType, quantity}) => {
   const primaryImgUrl = getPrimaryImage(item);
   const imgUrl = primaryImgUrl ? getImageThumbnail(primaryImgUrl) : '/assets/img/placeholder.png';
 
@@ -24,7 +24,9 @@ const ExchangeOfferItem = ({item, quantity}) => {
               <span className="exchange-offer-item__details__count">{quantity}</span>
             </div>
             <div className="exchange-offer-item__details">
-              <span className="exchange-offer-item__details__name">Price/Item</span>
+              <span className="exchange-offer-item__details__name">
+                {itemType === 'product' ? 'Price/Item' : 'Price/Hour'}
+              </span>
               <span className="exchange-offer-item__details__count">{formatPrice(item.price)}</span>
             </div>
             <div className="exchange-offer-item__details">
@@ -42,6 +44,7 @@ const ExchangeOfferItem = ({item, quantity}) => {
 
 ExchangeOfferItem.propTypes = {
   item: PropTypes.object.isRequired,
+  itemType: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired
 };
 
