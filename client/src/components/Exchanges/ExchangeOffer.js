@@ -30,10 +30,14 @@ const getStatus = (exchange, user) => {
     return {title: 'New offer', modifier: 'new-offer'};
   }
 
+  if (exchange.status === 'canceled' && user.data.id === exchange.initiator.id) {
+    return {title: 'Canceled', modifier: 'canceled-offer'};
+  }
+
   return {title: '', modifier: ''};
 };
 
-const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, buttons}) => {
+const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, buttons = []}) => {
   const currentUserId = user.data.id;
   const status = getStatus(exchange, user);
   return (
@@ -111,10 +115,12 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
       <div className="container">
         <div className="row">
           <div className="col-7">
-            <div className="exchange-offer__info-alert">
-              <Icon size="20" name="information-outline" />
-              <div className="exchange-offer__info-alert__text">{HELPER_TEXT[type]}</div>
-            </div>
+            {HELPER_TEXT[type] && (
+              <div className="exchange-offer__info-alert">
+                <Icon size="20" name="information-outline" />
+                <div className="exchange-offer__info-alert__text">{HELPER_TEXT[type]}</div>
+              </div>
+            )}
           </div>
           <div className="col-5">
             <div className="exchange-offer__actions">
@@ -151,7 +157,7 @@ ExchangeOffer.propTypes = {
       onClick: PropTypes.func.isRequired,
       color: PropTypes.string
     })
-  ).isRequired,
+  ),
   showDetailsBtn: PropTypes.bool,
   showEscrow: PropTypes.bool
 };
