@@ -6,7 +6,7 @@ import services from './services';
 import serviceDetails from './serviceDetails';
 import exchange from './exchange';
 import exchanges from './exchanges';
-import exchangeDetails from './exchangeDetails';
+import exchangeCancellation from './exchangeCancellation';
 
 export default {
   user,
@@ -17,5 +17,5 @@ export default {
   serviceDetails,
   exchange,
   exchanges,
-  exchangeDetails
+  exchangeCancellation
 };
