@@ -64,13 +64,18 @@ export const cancelExchangeFailure = () => ({
   payload: {}
 });
 
-export const cancelExchange = (exchange, user) => dispatch => {
+export const cancelExchange = ({exchange, user}) => dispatch => {
   dispatch(cancelExchangeRequest());
-
-  metamaskService.cancelExchangeContract(exchange, user).then(
-    txHash => {
-      console.log(txHash);
-    },
-    () => dispatch(cancelExchangeFailure())
-  );
+  metamaskService
+    .cancelExchangeContract({exchange, user})
+    .then(
+      txHash =>
+        exchangesService
+          .cancelExchange({exchangeId: exchange.id, bcTransactionHash: txHash})
+          .then(
+            exchange => dispatch(cancelExchangeSuccess(exchange)),
+            err => dispatch(cancelExchangeFailure(err))
+          ),
+      err => dispatch(cancelExchangeFailure(err))
+    );
 };
