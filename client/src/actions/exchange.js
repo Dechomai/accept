@@ -178,7 +178,8 @@ export const createExchangeContract = ({
       },
       err => {
         let error = err;
-        if (/User\sdenied/.test(err)) {
+
+        if (/(User\sdenied|cancelTransaction)/.test(err)) {
           error = 'rejected';
         }
         dispatch(createExchangeContractFailure(error));
