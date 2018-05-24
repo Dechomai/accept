@@ -8,6 +8,7 @@ const selectServices = state => state.services;
 const selectExchange = state => state.exchange;
 const selectServiceDetails = state => state.serviceDetails;
 const selectExchanges = state => state.exchanges;
+export const selectExchangeProcessing = state => state.exchangeProcessing;
 
 export const selectProfile = state => state.user;
 

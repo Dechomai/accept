@@ -10,7 +10,7 @@ const TITLES = {
 };
 
 const DETAILS = {
-  waiting: "Please don't leave this page untill transaction is completed."
+  waiting: "Please don't leave this page until transaction is completed."
 };
 
 const StepConfirm = ({state}) => {

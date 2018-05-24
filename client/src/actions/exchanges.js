@@ -49,23 +49,31 @@ export const fetchExchanges = ({state, skip, limit}) => dispatch => {
     );
 };
 
-export const cancelExchangeRequest = () => ({
+export const cancelExchangeRequest = exchangeId => ({
   type: CANCEL_EXCHANGE_REQUEST,
-  payload: {}
+  payload: {
+    exchangeId
+  }
 });
 
-export const cancelExchangeSuccess = () => ({
+export const cancelExchangeSuccess = exchangeId => ({
   type: CANCEL_EXCHANGE_SUCCESS,
-  payload: {}
+  payload: {
+    exchangeId
+  }
 });
 
-export const cancelExchangeFailure = () => ({
+export const cancelExchangeFailure = (err, exchangeId) => ({
   type: CANCEL_EXCHANGE_FAILURE,
-  payload: {}
+  payload: {
+    err,
+    exchangeId
+  }
 });
 
 export const cancelExchange = ({exchange, user}) => dispatch => {
-  dispatch(cancelExchangeRequest());
+  const {id} = exchange;
+  dispatch(cancelExchangeRequest(id));
   metamaskService
     .cancelExchangeContract({exchange, user})
     .then(
@@ -73,8 +81,8 @@ export const cancelExchange = ({exchange, user}) => dispatch => {
         exchangesService
           .cancelExchange({exchangeId: exchange.id, bcTransactionHash: txHash})
           .then(
-            exchange => dispatch(cancelExchangeSuccess(exchange)),
-            err => dispatch(cancelExchangeFailure(err))
+            () => dispatch(cancelExchangeSuccess(id)),
+            err => dispatch(cancelExchangeFailure(err, id))
           ),
       err => dispatch(cancelExchangeFailure(err))
     );

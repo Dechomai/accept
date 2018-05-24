@@ -5,9 +5,11 @@ import {compose, lifecycle} from 'recompact';
 
 import {fetchExchanges, cancelExchange} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangesFor, selectProfile} from '../../selectors';
+import {selectExchangeProcessing, selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
+import ExchangesModal from '../../components/Exchanges/Modal';
+import Confirmation from '../../components/Exchange/Confirmation';
 import Empty from '../../components/Exchanges/Empty';
 
 const DEFAULT_LIMIT = 20;
@@ -25,6 +27,7 @@ const mapStateToProps = (state, ownProps) => ({
     skip: ownProps.skip,
     limit: ownProps.limit
   }),
+  exchangeProcessing: selectExchangeProcessing(state),
   user: selectProfile(state)
 });
 
@@ -53,27 +56,35 @@ export default compose(
       refetchExchages(nextProps);
     }
   })
-)(({exchanges, user, cancelExchange}) => {
+)(({exchanges, user, cancelExchange, exchangeProcessing}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
   if (exchanges && !exchanges.data.length) return <Empty />;
   if (exchanges && exchanges.data.length)
     return (
-      <ExchangesList
-        type="outcoming"
-        title="Outcoming Offers"
-        exchanges={exchanges.data}
-        showEscrow={false}
-        buttons={[
-          {
-            title: 'Cancel',
-            color: 'light',
-            onClick(exchange) {
-              cancelExchange({exchange, user: user.data});
+      <React.Fragment>
+        {exchangeProcessing &&
+          exchangeProcessing.loading && (
+            <ExchangesModal>
+              <Confirmation state="waiting" />
+            </ExchangesModal>
+          )}
+        <ExchangesList
+          type="outcoming"
+          title="Outcoming Offers"
+          exchanges={exchanges.data}
+          showEscrow={false}
+          buttons={[
+            {
+              title: 'Cancel',
+              color: 'light',
+              onClick(exchange) {
+                cancelExchange({exchange, user: user.data});
+              }
             }
-          }
-        ]}
-        user={user}
-      />
+          ]}
+          user={user}
+        />
+      </React.Fragment>
     );
   return null;
 });
