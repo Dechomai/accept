@@ -9,9 +9,7 @@ const ExchangesEmpty = () => {
         alt="No Exchanges"
         className="exchanges-empty__image"
       />
-      <p className="exchanges-empty__text">
-        Looks like you don’t have any offer <br /> on the this step
-      </p>
+      <p className="exchanges-empty__text">No Offers</p>
     </div>
   );
 };
