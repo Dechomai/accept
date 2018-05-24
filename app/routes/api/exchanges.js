@@ -157,7 +157,7 @@ exchangesRouter.post(
       .isMongoId(),
     body('action')
       .exists()
-      .isIn([Object.values(Actions)]),
+      .isIn(Object.values(Actions)),
     body('bcTransactionHash')
       .exists()
       .custom(val => TRANSACTION_REGEX.test(val))
