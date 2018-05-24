@@ -45,17 +45,6 @@ const getHelperText = (exchange, user) => {
   }
 };
 
-// 'submitted', // submitted by `initiator`
-// 'new', // got contract address
-// 'canceled', // canceled by `initiator`
-// 'accepted', // accepted by `partner`
-// 'rejected', // rejected by `partner`
-// 'validatedByInitiator', // validated by `initiator`
-// 'validatedByPartner', // validated by `partner`
-// 'reportedByInitiator', // reported by `initiator`
-// 'reportedByPartner', // reported by `partner`
-// 'completed' // validated by both parties
-
 const getStatus = (exchange, user) => {
   if (exchange.status === 'new' && user.data.id === exchange.initiator.id) {
     return {title: 'Offer Sent', modifier: 'offer-sent'};
