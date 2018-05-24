@@ -32,6 +32,7 @@ import ServiceDetails from './containers/Service/Details';
 import Exchanges from './layout/Exchanges';
 import ExchangesOutcoming from './containers/Exchanges/Outcoming';
 import ExchangesIncoming from './containers/Exchanges/Incoming';
+import ExchangesArchived from './containers/Exchanges/Archived';
 
 /*
 
@@ -176,7 +177,7 @@ class Router extends React.Component {
             <Route path="outcoming" component={ExchangesOutcoming} />
             <Route path="pending" component={() => null} />
             <Route path="reported" component={() => null} />
-            <Route path="archive" component={() => null} />
+            <Route path="archive" component={ExchangesArchived} />
           </Route>
         </Route>
         <Redirect from="*" to="/" />
