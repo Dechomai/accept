@@ -34,7 +34,6 @@ const getStatus = (exchange, user) => {
 };
 
 const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, buttons}) => {
-  console.log(exchange);
   const currentUserId = user.data.id;
   const status = getStatus(exchange, user);
   return (
