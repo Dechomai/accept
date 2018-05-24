@@ -131,9 +131,21 @@ const exchangesController = {
         exchanges.map(exchange =>
           blockchainService.getContractAddress(exchange.bcPendingTransactionHash).then(
             address => {
-              exchange.bcContractAddress = address;
-              exchange.status = 'new';
-              return exchange.save();
+              logger.info(
+                ':ensureContractAddresses',
+                'contract address found',
+                address,
+                'for txHash',
+                exchange.bcPendingTransactionHash
+              );
+              return Exchange.updateOne(
+                {_id: exchange.id},
+                {
+                  status: 'new',
+                  bcContractAddress: address,
+                  $unset: {bcPendingTransactionHash: true}
+                }
+              );
             },
             err => {
               if (err === null) {
@@ -145,6 +157,54 @@ const exchangesController = {
               } else {
                 logger.error(
                   ':ensureContractAddresses',
+                  'error retirieving contract address for tx:',
+                  exchange.bcPendingTransactionHash,
+                  'error',
+                  err
+                );
+              }
+            }
+          )
+        )
+      );
+    });
+  },
+
+  resolvePendingTransactions(userType, userId) {
+    if (userType !== 'initiator' && userType !== 'partner')
+      return Promise.reject('Invalid user type');
+
+    return Exchange.find({
+      [userType]: userId,
+      bcPendingTransactionHash: {$exists: true}
+    }).then(exchanges => {
+      if (!exchanges.length) return Promise.resolve();
+
+      return Promise.all(
+        exchanges.map(exchange =>
+          blockchainService.getTransaction(exchange.bcPendingTransactionHash).then(
+            (/* transactionReceipt */) => {
+              logger.info(':resolvePendingTransactions', '');
+              logger.info(
+                ':resolvePendingTransactions',
+                'transaction found for txHash',
+                exchange.bcPendingTransactionHash
+              );
+              return Exchange.updateOne(
+                {_id: exchange.id},
+                {$unset: {bcPendingTransactionHash: true}}
+              );
+            },
+            err => {
+              if (err === null) {
+                logger.error(
+                  ':resolvePendingTransactions',
+                  'contract address not found for tx:',
+                  exchange.bcPendingTransactionHash
+                );
+              } else {
+                logger.error(
+                  ':resolvePendingTransactions',
                   'error retirieving contract address for tx:',
                   exchange.bcPendingTransactionHash,
                   'error',
@@ -251,12 +311,15 @@ const exchangesController = {
       query,
       this.ensureContractAddresses('partner', userId),
       {userId},
-      {skip, limit, loggerPrefix: ':getIncomingExchanges'}
+      {skip, limit, loggerPrefix: ':getArchivedExchanges'}
     );
   },
 
   cancelExchange({userId, exchangeId, txHash}) {
-    return this.ensureContractAddresses('initiator', userId)
+    return Promise.all([
+      this.ensureContractAddresses('initiator', userId),
+      this.resolvePendingTransactions('initiator', userId)
+    ])
       .then(() => Exchange.findById(exchangeId))
       .then(exchange => (exchange ? exchange : Promise.reject(null)))
       .then(exchange => {

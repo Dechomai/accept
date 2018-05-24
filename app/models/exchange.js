@@ -77,10 +77,7 @@ const ExchangeSchema = new BaseSchema(
       required: true
     },
 
-    bcPendingTransactionHash: {
-      type: String,
-      required: true
-    },
+    bcPendingTransactionHash: String,
     bcContractAddress: String
   },
   {
