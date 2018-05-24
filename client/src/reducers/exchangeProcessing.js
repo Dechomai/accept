@@ -4,7 +4,12 @@ import {
   CANCEL_EXCHANGE_FAILURE
 } from '../actions/exchanges';
 
-const exchangeProcessing = (state = {}, action) => {
+const getInitialState = () => ({
+  loading: false,
+  error: null
+});
+
+const exchangeProcessing = (state = getInitialState(), action) => {
   switch (action.type) {
     case CANCEL_EXCHANGE_REQUEST: {
       return {

@@ -17,5 +17,5 @@ export default {
   serviceDetails,
   exchange,
   exchanges,
-  exchangeProcessing: exchangeProcessing
+  exchangeProcessing
 };
