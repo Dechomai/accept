@@ -13,7 +13,7 @@ import {
 } from '../actions/exchange';
 
 const getInitialState = () => ({
-  step: 0,
+  step: -1,
   selectedType: null,
   selectedItemId: null,
   ownCount: 1,
@@ -27,10 +27,10 @@ const getInitialState = () => ({
 const exchange = (state = getInitialState(), action) => {
   switch (action.type) {
     case START_NEW_EXCHANGE: {
-      return getInitialState();
+      return {...getInitialState(), step: 0};
     }
     case CANCEL_EXCHANGE: {
-      return {};
+      return getInitialState();
     }
     case SELECT_EXCHANGE_ITEM_TYPE: {
       return {
