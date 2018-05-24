@@ -137,11 +137,20 @@
     }
   }
 
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+
   &__info-alert {
+    flex: 1 1 auto;
     color: $blue;
     display: flex;
     align-items: center;
-    margin-top: 20px;
+
     &__text {
       font-size: 11px;
       color: $gray-400;
@@ -150,9 +159,9 @@
   }
 
   &__actions {
+    flex: 1 0 auto;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 25px;
   }
 }
