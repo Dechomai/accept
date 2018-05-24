@@ -6,12 +6,11 @@ import PropTypes from 'prop-types';
 const TITLES = {
   waiting: 'Waiting for transaction acceptance',
   rejected: 'Transaction Rejected',
-  accepted: 'Transaction Complete',
-  cancelling: 'Transaction Cancelling...'
+  accepted: 'Transaction Complete'
 };
 
 const DETAILS = {
-  waiting: "Please don't leave this page untill transaction is completed."
+  waiting: "Please don't leave this page until transaction is completed."
 };
 
 const StepConfirm = ({state}) => {
@@ -29,7 +28,7 @@ const StepConfirm = ({state}) => {
 };
 
 StepConfirm.propTypes = {
-  state: PropTypes.oneOf(['waiting', 'accepted', 'rejected', 'cancelling'])
+  state: PropTypes.oneOf(['waiting', 'accepted', 'rejected'])
 };
 
 export default StepConfirm;

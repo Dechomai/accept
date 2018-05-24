@@ -5,7 +5,7 @@ import {compose, lifecycle} from 'recompact';
 
 import {fetchExchanges, cancelExchange} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangeCancellation, selectExchangesFor, selectProfile} from '../../selectors';
+import {selectExchangeProcessing, selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
 import ExchangesModal from '../../components/Exchanges/Modal';
@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => ({
     skip: ownProps.skip,
     limit: ownProps.limit
   }),
-  exchangeCancellation: selectExchangeCancellation(state),
+  exchangeProcessing: selectExchangeProcessing(state),
   user: selectProfile(state)
 });
 
@@ -56,16 +56,16 @@ export default compose(
       refetchExchages(nextProps);
     }
   })
-)(({exchanges, user, cancelExchange, exchangeCancellation}) => {
+)(({exchanges, user, cancelExchange, exchangeProcessing}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
   if (exchanges && !exchanges.data.length) return <Empty />;
   if (exchanges && exchanges.data.length)
     return (
       <React.Fragment>
-        {exchangeCancellation &&
-          exchangeCancellation.loading && (
+        {exchangeProcessing &&
+          exchangeProcessing.loading && (
             <ExchangesModal>
-              <Confirmation state="cancelling" />
+              <Confirmation state="waiting" />
             </ExchangesModal>
           )}
         <ExchangesList

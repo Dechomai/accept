@@ -4,7 +4,7 @@ import {
   CANCEL_EXCHANGE_FAILURE
 } from '../actions/exchanges';
 
-const exchangeCancellation = (state = {}, action) => {
+const exchangeProcessing = (state = {}, action) => {
   switch (action.type) {
     case CANCEL_EXCHANGE_REQUEST: {
       return {
@@ -33,4 +33,4 @@ const exchangeCancellation = (state = {}, action) => {
   }
 };
 
-export default exchangeCancellation;
+export default exchangeProcessing;
