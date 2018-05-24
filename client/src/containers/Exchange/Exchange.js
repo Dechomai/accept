@@ -2,13 +2,14 @@ import './Exchange.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import {compose, lifecycle} from 'recompact';
 import autobind from 'autobindr';
-import {compose, path} from 'ramda';
+import {path} from 'ramda';
 
 import {
   selectProfile,
+  selectExchangeStep,
   selectExchangeItemType,
   selectExchangeItemId,
   selectExchangeOwnCount,
@@ -23,6 +24,7 @@ import {
 import {
   selectItemType,
   selectItem,
+  changeStep,
   changeOwnCount,
   changePartnerCount,
   changeOwnDays,
@@ -64,10 +66,6 @@ class Exchange extends React.Component {
     this.state = {
       isConnectionValid: false
     };
-
-    let step = this.getStepFromQuery();
-    if (step > Steps.CONNECTION_CHECK) step = Steps.SUMMARY;
-    this.setStepQuery(step || Steps.TYPE_SELECTION);
     this.connectionCheck = null;
   }
 
@@ -76,18 +74,18 @@ class Exchange extends React.Component {
   }
 
   handleBackBtnClick() {
-    const step = this.getStepFromQuery();
-    this.setStepQuery(step - 1);
+    const {step, changeStep} = this.props;
+    changeStep(step - 1);
   }
 
   handleNextBtnClick() {
-    const step = this.getStepFromQuery();
+    const {step, changeStep} = this.props;
     if (step === Steps.CONNECTION_CHECK) {
       this.connectionCheck && this.connectionCheck.updateConnectionStatus();
     } else if (step === Steps.TRANSACTION_RESULT) {
       this.props.onCancel();
     } else {
-      this.setStepQuery(step + 1);
+      changeStep(step + 1);
     }
   }
 
@@ -96,16 +94,16 @@ class Exchange extends React.Component {
   }
 
   handleConnectionCheckSuccess() {
-    const step = this.getStepFromQuery();
-    this.setStepQuery(step + 1);
+    const {changeStep} = this.props;
+    changeStep(Steps.TRANSACTION_CONFIRM);
   }
 
   handleTransactionStatusChange(status) {
     this.setState({
       transactionStatus: status
     });
-    const step = this.getStepFromQuery();
-    this.setStepQuery(step + 1);
+    const {changeStep} = this.props;
+    changeStep(Steps.TRANSACTION_RESULT);
   }
 
   calculateEscrow() {
@@ -133,27 +131,27 @@ class Exchange extends React.Component {
   }
 
   isBackBtnDisabled() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     return step === Steps.TYPE_SELECTION || step === Steps.TRANSACTION_CONFIRM;
   }
 
   isCancelBtnDisabled() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     return step === Steps.TRANSACTION_CONFIRM;
   }
 
   isNextBtnDisabled() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     return step < Steps.DETAILS_SPECIFICATION;
   }
 
   isBackBtnShown() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     return step !== Steps.TRANSACTION_RESULT;
   }
 
   isCancelBtnShown() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     return step !== Steps.TRANSACTION_RESULT;
   }
 
@@ -161,32 +159,16 @@ class Exchange extends React.Component {
     return true;
   }
 
-  getStepFromQuery() {
-    const {step} = this.props.router.location.query;
-    return step ? parseInt(step) : Steps.TYPE_SELECTION;
-  }
-
-  setStepQuery(step) {
-    const {router} = this.props;
-
-    router.push({
-      pathname: router.location.pathname,
-      query: {
-        step
-      }
-    });
-  }
-
   handleStepChange(stepName) {
-    this.setStepQuery(Steps[stepName]);
+    this.props.changeStep(Steps[stepName]);
   }
 
   handleDataAbsence() {
-    this.setStepQuery(Steps.TYPE_SELECTION);
+    this.props.changeStep(Steps.TYPE_SELECTION);
   }
 
   isFooterShown() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     return step !== Steps.TRANSACTION_CONFIRM;
   }
 
@@ -195,7 +177,7 @@ class Exchange extends React.Component {
   }
 
   getStepNextBtnCaption() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
 
     switch (step) {
       case Steps.SUMMARY:
@@ -210,7 +192,7 @@ class Exchange extends React.Component {
   }
 
   getStepSubTitle() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
     switch (step) {
       case Steps.TYPE_SELECTION:
       case Steps.ITEM_SELECTION:
@@ -228,7 +210,7 @@ class Exchange extends React.Component {
   }
 
   getStep() {
-    const step = this.getStepFromQuery();
+    const {step} = this.props;
 
     switch (step) {
       case Steps.TYPE_SELECTION:
@@ -345,7 +327,7 @@ class Exchange extends React.Component {
           />
         );
       default:
-        this.setStepQuery(Steps.TYPE_SELECTION);
+        this.props.changeStep(Steps.TYPE_SELECTION);
     }
   }
 
@@ -400,6 +382,7 @@ const mapStateToProps = (state, {type, itemId}) => {
       : selectServiceById(state, selectedItemId);
 
   return {
+    step: selectExchangeStep(state),
     partnerItem:
       type === 'product' ? selectProductById(state, itemId) : selectServiceById(state, itemId),
     user: selectProfile(state),
@@ -421,6 +404,9 @@ const mapDispatchToProps = dispatch => ({
   },
   selectItem(item) {
     return dispatch(selectItem(item));
+  },
+  changeStep(step) {
+    return dispatch(changeStep(step));
   },
   changeOwnCount(count) {
     return dispatch(changeOwnCount(count));
@@ -448,4 +434,12 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Exchange);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentWillMount() {
+      const {step, changeStep} = this.props;
+      if (step > Steps.CONNECTION_CHECK) changeStep(Steps.SUMMARY);
+    }
+  })
+)(Exchange);
