@@ -42,6 +42,27 @@ class BlockchainService {
         })
     );
   }
+
+  getTransaction(transactionHash) {
+    return this.getWeb3().then(
+      web3 =>
+        new Promise((resolve, reject) => {
+          web3.eth.getTransactionReceipt(transactionHash, (err, transactionReceipt) => {
+            if (err) {
+              logger.error('Error retrieving block by txHash', transactionHash);
+              return reject(err);
+            }
+            if (transactionReceipt === null) {
+              logger.error(
+                'Error retrieving transaction receipt, block might not have been mined yet'
+              );
+              return reject(null);
+            }
+            return resolve(transactionReceipt);
+          });
+        })
+    );
+  }
 }
 
 const blockchainService = new BlockchainService();

@@ -33,6 +33,19 @@ const exchangeService = {
 
   getExchanges({state, skip, limit}) {
     return api.get(`/exchanges?state=${state}&skip=${skip}&limit=${limit}`);
+  },
+
+  exchangeAction(action, {exchangeId, bcTransactionHash}) {
+    return api.post(`/exchanges/${exchangeId}`, {
+      body: {
+        action,
+        bcTransactionHash
+      }
+    });
+  },
+
+  cancelExchange({exchangeId, bcTransactionHash}) {
+    return this.exchangeAction('cancel', {exchangeId, bcTransactionHash});
   }
 };
 

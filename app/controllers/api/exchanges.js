@@ -131,9 +131,21 @@ const exchangesController = {
         exchanges.map(exchange =>
           blockchainService.getContractAddress(exchange.bcPendingTransactionHash).then(
             address => {
-              exchange.bcContractAddress = address;
-              exchange.status = 'new';
-              return exchange.save();
+              logger.info(
+                ':ensureContractAddresses',
+                'contract address found',
+                address,
+                'for txHash',
+                exchange.bcPendingTransactionHash
+              );
+              return Exchange.updateOne(
+                {_id: exchange.id},
+                {
+                  status: 'new',
+                  bcContractAddress: address,
+                  $unset: {bcPendingTransactionHash: true}
+                }
+              );
             },
             err => {
               if (err === null) {
@@ -155,18 +167,59 @@ const exchangesController = {
           )
         )
       );
-
-      // TODO: add catch, add catch for each exchange
     });
   },
 
-  getOutcomingExchanges({userId, skip, limit}) {
-    const query = {
-      initiator: userId,
-      status: 'new'
-    };
+  resolvePendingTransactions(userType, userId) {
+    if (userType !== 'initiator' && userType !== 'partner')
+      return Promise.reject('Invalid user type');
 
-    return this.ensureContractAddresses('initiator', userId)
+    return Exchange.find({
+      [userType]: userId,
+      bcPendingTransactionHash: {$exists: true}
+    }).then(exchanges => {
+      if (!exchanges.length) return Promise.resolve();
+
+      return Promise.all(
+        exchanges.map(exchange =>
+          blockchainService.getTransaction(exchange.bcPendingTransactionHash).then(
+            (/* transactionReceipt */) => {
+              logger.info(':resolvePendingTransactions', '');
+              logger.info(
+                ':resolvePendingTransactions',
+                'transaction found for txHash',
+                exchange.bcPendingTransactionHash
+              );
+              return Exchange.updateOne(
+                {_id: exchange.id},
+                {$unset: {bcPendingTransactionHash: true}}
+              );
+            },
+            err => {
+              if (err === null) {
+                logger.error(
+                  ':resolvePendingTransactions',
+                  'contract address not found for tx:',
+                  exchange.bcPendingTransactionHash
+                );
+              } else {
+                logger.error(
+                  ':resolvePendingTransactions',
+                  'error retirieving contract address for tx:',
+                  exchange.bcPendingTransactionHash,
+                  'error',
+                  err
+                );
+              }
+            }
+          )
+        )
+      );
+    });
+  },
+
+  getExchanges(query, waitPromise = Promise.resolve(), {userId}, {skip, limit, loggerPrefix}) {
+    return waitPromise
       .then(() =>
         Promise.all([
           Exchange.find(query, Exchange.projection, {
@@ -181,7 +234,7 @@ const exchangesController = {
       )
       .then(([exchanges, count = 0]) => {
         logger.info(
-          ':getOutcomingExchanges',
+          loggerPrefix,
           `(limit:${limit},skip:${skip}) found ${exchanges.length}, total ${count}`,
           userId && `for user ${userId}`
         );
@@ -189,7 +242,7 @@ const exchangesController = {
       })
       .catch(err => {
         logger.error(
-          ':getOutcomingExchanges',
+          loggerPrefix,
           `(limit:${limit},skip:${skip}) error`,
           userId && `for user ${userId}`,
           err
@@ -198,41 +251,89 @@ const exchangesController = {
       });
   },
 
+  getOutcomingExchanges({userId, skip, limit}) {
+    const query = {
+      initiator: userId,
+      status: 'new'
+    };
+
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('initiator', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getOutcomingExchanges'}
+    );
+  },
+
   getIncomingExchanges({userId, skip, limit}) {
     const query = {
       partner: userId,
       status: 'new'
     };
 
-    return this.ensureContractAddresses('partner', userId)
-      .then(() =>
-        Promise.all([
-          Exchange.find(query, Exchange.projection, {
-            skip,
-            limit,
-            sort: DEFAULT_SORT
-          })
-            .populate('initiator', User.projection)
-            .populate('partner', User.projection),
-          Exchange.count(query)
-        ])
-      )
-      .then(([exchanges, count = 0]) => {
-        logger.info(
-          ':getIncomingExchanges',
-          `(limit:${limit},skip:${skip}) found ${exchanges.length}, total ${count}`,
-          userId && `for user ${userId}`
-        );
-        return {exchanges, count};
-      })
-      .catch(err => {
-        logger.error(
-          ':getIncomingExchanges',
-          `(limit:${limit},skip:${skip}) error`,
-          userId && `for user ${userId}`,
-          err
-        );
-        return Promise.reject(err);
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('partner', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getIncomingExchanges'}
+    );
+  },
+
+  getPending(/* {userId, skip, limit} */) {
+    return Promise.reject(null);
+  },
+
+  getReported(/* {userId, skip, limit} */) {
+    return Promise.reject(null);
+  },
+
+  getArchivedExchanges({userId, skip, limit}) {
+    const query = {
+      $or: [
+        // canceled by initiator
+        {initiator: userId, status: 'canceled'},
+
+        // is rejected or completed
+        {
+          $and: [
+            {
+              $or: [{initiator: userId}, {partner: userId}]
+            },
+            {
+              $or: [{status: 'rejected'}, {status: 'completed'}]
+            }
+          ]
+        }
+      ]
+    };
+
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('partner', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getArchivedExchanges'}
+    );
+  },
+
+  cancelExchange({userId, exchangeId, txHash}) {
+    return Promise.all([
+      this.ensureContractAddresses('initiator', userId),
+      this.resolvePendingTransactions('initiator', userId)
+    ])
+      .then(() => Exchange.findById(exchangeId))
+      .then(exchange => (exchange ? exchange : Promise.reject(null)))
+      .then(exchange => {
+        if (exchange.status !== 'new') {
+          logger.error(`Exchange ${exchangeId} does not have status new`);
+          return Promise.reject('Exchange can not be canceled');
+        }
+        if (exchange.initiator !== userId) {
+          logger.error(`User ${userId} is not initiator of exchange ${exchangeId}`);
+          return Promise.reject('User can not cancel exchange');
+        }
+        exchange.set('status', 'canceled');
+        exchange.set('bcPendingTransactionHash', txHash);
+        return exchange.save();
       });
   }
 };

@@ -1,5 +1,5 @@
 const express = require('express');
-const {body, query} = require('express-validator/check');
+const {body, query, param} = require('express-validator/check');
 const {compose, assoc, pick} = require('ramda');
 
 // const {createLoggerWith} = require('../../logger');
@@ -21,6 +21,14 @@ const States = {
   PENDING: 'pending',
   REPORTED: 'reported',
   ARCHIVED: 'archived'
+};
+
+const Actions = {
+  CANCEL: 'cancel',
+  ACCEPT: 'accept',
+  REJECT: 'reject',
+  VALIDATE: 'validate',
+  REPORT: 'report'
 };
 
 const exchangesRouter = express.Router();
@@ -110,34 +118,72 @@ exchangesRouter
     (req, res) => {
       const {userId} = req;
       const {state, limit = DEFAULT_LIMIT, skip = 0} = req.query;
+      let getExchanges;
 
       switch (state) {
         case States.OUTCOMING: {
-          exchangesController.getOutcomingExchanges({userId, limit, skip}).then(
-            ({exchanges, count}) => sendSuccess(res, {exchanges, count}),
-            err => {
-              if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
-              sendError(res, {message: 'Error retrieving exchanges'});
-            }
-          );
+          getExchanges = exchangesController.getOutcomingExchanges({userId, limit, skip});
           break;
         }
         case States.INCOMING: {
-          exchangesController.getIncomingExchanges({userId, limit, skip}).then(
-            ({exchanges, count}) => sendSuccess(res, {exchanges, count}),
-            err => {
-              if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
-              sendError(res, {message: 'Error retrieving exchanges'});
-            }
-          );
+          getExchanges = exchangesController.getIncomingExchanges({userId, limit, skip});
+          break;
+        }
+        case States.ARCHIVED: {
+          getExchanges = exchangesController.getArchivedExchanges({userId, limit, skip});
           break;
         }
         default: {
-          sendError(res, {message: `${state} state not yet implemented`});
+          return sendError(res, {message: `${state} state not yet implemented`});
         }
       }
+
+      getExchanges.then(
+        ({exchanges, count}) => sendSuccess(res, {exchanges, count}),
+        err => {
+          if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+          sendError(res, {message: 'Error retrieving exchanges'});
+        }
+      );
     }
   );
+
+exchangesRouter.post(
+  '/:exchangeId',
+  authMiddleware(),
+  validationMiddleware(
+    param('exchangeId')
+      .exists()
+      .isMongoId(),
+    body('action')
+      .exists()
+      .isIn(Object.values(Actions)),
+    body('bcTransactionHash')
+      .exists()
+      .custom(val => TRANSACTION_REGEX.test(val))
+  ),
+  (req, res) => {
+    const {userId} = req;
+    const {exchangeId} = req.params;
+    const {action, bcTransactionHash} = req.body;
+
+    switch (action) {
+      case Actions.CANCEL: {
+        exchangesController.cancelExchange({userId, exchangeId, txHash: bcTransactionHash}).then(
+          exchange => sendSuccess(res, {exchange}),
+          err => {
+            if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+            sendError(res, {message: 'Error canceling exchange'});
+          }
+        );
+        break;
+      }
+      default: {
+        return sendError(res, {message: `${action} action not yet implemented`});
+      }
+    }
+  }
+);
 
 module.exports = app => {
   app.use(PATH, exchangesRouter);
