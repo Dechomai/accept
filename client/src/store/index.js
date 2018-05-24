@@ -7,13 +7,12 @@ const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 
 const rootReducer = combineReducers(reducers);
 
-const createAppStore = (initialState = {}) =>
-  createStoreWithMiddleware(
-    rootReducer,
-    initialState,
-    ENV === 'development' &&
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
+const createAppStore = (initialState = {}) => {
+  const args = [rootReducer, initialState];
+  if (ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__)
+    args.push(window.__REDUX_DEVTOOLS_EXTENSION__());
+
+  return createStoreWithMiddleware(...args);
+};
 
 export default createAppStore;
