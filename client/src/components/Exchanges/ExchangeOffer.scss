@@ -45,14 +45,15 @@
       background: $gray-300;
 
       #{$s}__user-section {
-        border-bottom: solid 1px $white;
+        border-bottom: solid 2px $white;
       }
     }
 
     &--partner {
       #{$s}__user-section {
-        border-bottom: 1px solid $gray-300;
+        border-bottom: solid 2px $gray-300;
       }
+      border-bottom: solid 2px $gray-300;
     }
   }
 
@@ -61,7 +62,7 @@
     font-size: 9px;
     text-transform: uppercase;
     font-weight: $font-weight-bold;
-    border: 1px solid;
+    border: solid 1px;
     border-radius: 3px;
     padding: 1px 3px;
 
@@ -107,30 +108,49 @@
   }
 
   &__hint {
-    font-size: 13px;
-    color: $black;
-    margin-left: 50px;
+    font-size: 12px;
+    font-weight: 500;
+    color: $gray-800;
+    margin-left: 35px;
     margin-top: 30px;
   }
 
   &__escrow-wrapper {
-    border-bottom: 1px solid $gray-300;
+    border-bottom: solid 2px $gray-300;
   }
 
   &__escrow {
+    height: 100%;
     color: $blue;
     text-transform: uppercase;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     font-weight: $font-weight-bold;
-    padding-top: 35px;
+
+    &__label {
+      font-size: 12px;
+    }
+
+    &__count {
+      font-size: 18px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding-top: 1rem;
   }
 
   &__info-alert {
+    flex: 1 1 auto;
     color: $blue;
     display: flex;
     align-items: center;
-    margin-top: 20px;
+
     &__text {
       font-size: 11px;
       color: $gray-400;
@@ -139,9 +159,9 @@
   }
 
   &__actions {
+    flex: 1 0 auto;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 25px;
   }
 }

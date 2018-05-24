@@ -25,13 +25,15 @@
 
     &__name {
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 12px;
+      font-weight: 500;
       color: $gray-500;
     }
 
     &__count {
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 14px;
+      font-weight: 500;
       color: $black;
 
       &--total {
