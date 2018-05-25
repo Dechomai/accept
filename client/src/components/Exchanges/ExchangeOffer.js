@@ -11,6 +11,7 @@ import UserLink from '../../components/common/UserLink/UserLink';
 import ExchangeOfferItem from './ExchangeOfferItem';
 import {formatPrice} from '../../utils/format';
 import {calculateEscrow} from '../../utils/exchange';
+import ExchangeAvailability from '../Exchange/ExchangeAvailability';
 
 const HELPER_TEXT = {
   incoming:
@@ -100,6 +101,13 @@ const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []
               quantity={exchange.initiatorItemQuantity}
             />
           </div>
+          {exchange.initiatorItemType === 'service' && (
+            <ExchangeAvailability
+              className="exchange-offer__availability-section"
+              days={exchange.initiatorItemDays}
+              time={exchange.initiatorItemTime}
+            />
+          )}
         </div>
 
         <div className="exchange-offer__arrow">
@@ -117,6 +125,7 @@ const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []
               {status.title}
             </div>
           </div>
+
           <div className="exchange-offer__item-section">
             <ExchangeOfferItem
               item={exchange.partnerItem}
@@ -124,6 +133,15 @@ const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []
               quantity={exchange.partnerItemQuantity}
             />
           </div>
+
+          {exchange.partnerItemType === 'service' && (
+            <ExchangeAvailability
+              className="exchange-offer__availability-section"
+              days={exchange.partnerItemDays}
+              time={exchange.partnerItemTime}
+              prefered
+            />
+          )}
         </div>
       </div>
 
