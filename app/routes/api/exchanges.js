@@ -133,6 +133,10 @@ exchangesRouter
           getExchanges = exchangesController.getPendingExchanges({userId, limit, skip});
           break;
         }
+        case States.REPORTED: {
+          getExchanges = exchangesController.getReportedExchanges({userId, limit, skip});
+          break;
+        }
         case States.ARCHIVED: {
           getExchanges = exchangesController.getArchivedExchanges({userId, limit, skip});
           break;

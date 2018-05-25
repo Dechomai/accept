@@ -56,7 +56,6 @@ export default compose(
   if (exchanges && exchanges.data.length)
     return (
       <ExchangesList
-        type="archive"
         title="Archived Offers"
         exchanges={exchanges.data}
         showEscrow={false}

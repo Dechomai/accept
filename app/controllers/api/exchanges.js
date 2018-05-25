@@ -307,8 +307,28 @@ const exchangesController = {
     );
   },
 
-  getReported(/* {userId, skip, limit} */) {
-    return Promise.reject(null);
+  getReportedExchanges({userId, skip, limit}) {
+    const query = {
+      $or: [
+        {
+          $and: [
+            {
+              $or: [{initiator: userId}, {partner: userId}]
+            },
+            {
+              $or: [{status: 'reportedByInitiator'}, {status: 'reportedByPartner'}]
+            }
+          ]
+        }
+      ]
+    };
+
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('partner', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getPendingExchanges'}
+    );
   },
 
   getArchivedExchanges({userId, skip, limit}) {

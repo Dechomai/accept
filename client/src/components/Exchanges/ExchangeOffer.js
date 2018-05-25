@@ -40,6 +40,9 @@ const getHelperText = (exchange, user) => {
       return exchange.partner.id === user.data.id
         ? HELPER_TEXT.validatedByCurrentUser
         : HELPER_TEXT.validatedByOtherUser;
+    case 'reportedByInitiator':
+    case 'reportedByPartner':
+      return HELPER_TEXT.reported;
     default:
       return null;
   }
@@ -68,6 +71,10 @@ const getStatus = (exchange, user) => {
 
   if (exchange.status === 'validatedByInitiator' || exchange.status === 'validatedByPartner') {
     return {title: 'Awaiting validation', modifier: 'awaiting-validation'};
+  }
+
+  if (exchange.status === 'reportedByInitiator' || exchange.status === 'reportedByPartner') {
+    return {title: 'In dispute', modifier: 'in-dispute'};
   }
 
   return {title: '', modifier: ''};

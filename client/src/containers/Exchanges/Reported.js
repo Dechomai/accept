@@ -3,13 +3,11 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {compose, lifecycle} from 'recompact';
 
-import {fetchExchanges, cancelExchange} from '../../actions/exchanges';
+import {fetchExchanges} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangeProcessing, selectExchangesFor, selectProfile} from '../../selectors';
+import {selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
-import ExchangesModal from '../../components/Exchanges/Modal';
-import Confirmation from '../../components/Exchange/Confirmation';
 import Empty from '../../components/Exchanges/Empty';
 
 const DEFAULT_LIMIT = 20;
@@ -23,22 +21,18 @@ const refetchExchages = props => {
 
 const mapStateToProps = (state, ownProps) => ({
   exchanges: selectExchangesFor(state, {
-    state: 'outcoming',
+    state: 'reported',
     skip: ownProps.skip,
     limit: ownProps.limit
   }),
-  exchangeProcessing: selectExchangeProcessing(state),
   user: selectProfile(state)
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchExchanges() {
     return dispatch(
-      fetchExchanges({state: 'outcoming', skip: ownProps.skip, limit: ownProps.limit})
+      fetchExchanges({state: 'reported', skip: ownProps.skip, limit: ownProps.limit})
     );
-  },
-  cancelExchange(...args) {
-    return dispatch(cancelExchange(...args));
   }
 });
 
@@ -56,34 +50,17 @@ export default compose(
       refetchExchages(nextProps);
     }
   })
-)(({exchanges, user, cancelExchange, exchangeProcessing}) => {
+)(({exchanges, user}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
   if (exchanges && !exchanges.data.length) return <Empty />;
   if (exchanges && exchanges.data.length)
     return (
-      <React.Fragment>
-        {exchangeProcessing &&
-          exchangeProcessing.loading && (
-            <ExchangesModal>
-              <Confirmation state="waiting" />
-            </ExchangesModal>
-          )}
-        <ExchangesList
-          title="Outcoming Offers"
-          exchanges={exchanges.data}
-          showEscrow={false}
-          buttons={[
-            {
-              title: 'Cancel',
-              color: 'light',
-              onClick(exchange) {
-                cancelExchange({exchange, user: user.data});
-              }
-            }
-          ]}
-          user={user}
-        />
-      </React.Fragment>
+      <ExchangesList
+        title="Offers With Issues"
+        exchanges={exchanges.data}
+        showEscrow={false}
+        user={user}
+      />
     );
   return null;
 });
