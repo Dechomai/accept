@@ -23,10 +23,14 @@ const exchangesController = {
     initiatorItemId,
     initiatorItemType,
     initiatorItemQuantity,
+    initiatorItemDays,
+    initiatorItemTime,
     initiatorBcAddress,
     partnerItemId,
     partnerItemType,
     partnerItemQuantity,
+    partnerItemDays,
+    partnerItemTime,
     partnerBcAddress,
     price,
     bcTransactionHash
@@ -105,9 +109,13 @@ const exchangesController = {
             partner: partner.id,
             initiatorItemType,
             initiatorItemQuantity,
+            initiatorItemDays,
+            initiatorItemTime,
             initiatorItem, // whole JSON
             partnerItemType,
             partnerItemQuantity,
+            partnerItemDays,
+            partnerItemTime,
             partnerItem, // whole JSON
             price: parseFloat(price.toFixed(2), 10),
             bcPendingTransactionHash: bcTransactionHash

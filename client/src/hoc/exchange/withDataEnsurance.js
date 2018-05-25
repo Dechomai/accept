@@ -4,7 +4,11 @@ import {
   selectExchangeItemType,
   selectExchangeItemId,
   selectExchangeOwnCount,
-  selectExchangePartnerCount
+  selectExchangeOwnDays,
+  selectExchangeOwnTime,
+  selectExchangePartnerCount,
+  selectExchangePartnerDays,
+  selectExchangePartnerTime
 } from '../../selectors';
 import {all} from 'ramda';
 
@@ -16,7 +20,11 @@ export default requiredProps => {
       initiatorItemType: selectExchangeItemType(state),
       initiatorItemId: selectExchangeItemId(state),
       initiatorItemCount: selectExchangeOwnCount(state),
-      partnerItemCount: selectExchangePartnerCount(state)
+      initiatorItemDays: selectExchangeOwnDays(state),
+      initiatorItemTime: selectExchangeOwnTime(state),
+      partnerItemCount: selectExchangePartnerCount(state),
+      partnerItemDays: selectExchangePartnerDays(state),
+      partnerItemTime: selectExchangePartnerTime(state)
     })),
     lifecycle({
       componentWillMount() {

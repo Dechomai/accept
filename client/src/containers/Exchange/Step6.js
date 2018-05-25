@@ -8,7 +8,11 @@ import {
   selectExchangeItemId,
   selectExchangeItemType,
   selectExchangeOwnCount,
+  selectExchangeOwnDays,
+  selectExchangeOwnTime,
   selectExchangePartnerCount,
+  selectExchangePartnerDays,
+  selectExchangePartnerTime,
   selectProductById,
   selectServiceById
 } from '../../selectors';
@@ -24,9 +28,13 @@ const tryContractDeploy = ({
   selectedItem,
   selectedItemType,
   selectedItemCount,
+  selectedItemDays,
+  selectedItemTime,
   partnerItem,
   partnerItemType,
   partnerItemCount,
+  partnerItemDays,
+  partnerItemTime,
   createExchangeContract,
 
   onComplete
@@ -41,9 +49,13 @@ const tryContractDeploy = ({
       partnerItem,
       partnerItemType,
       partnerItemCount,
+      partnerItemDays,
+      partnerItemTime,
       selectedItem,
       selectedItemType,
-      selectedItemCount
+      selectedItemCount,
+      selectedItemDays,
+      selectedItemTime
     }).then(
       () => onComplete('accepted'),
       err => onComplete(err === 'rejected' ? 'rejected' : 'error')
@@ -55,18 +67,26 @@ const mapStateToProps = (state, {partnerItemId, partnerItemType}) => {
   const selectedItemType = selectExchangeItemType(state);
   const selectedItemId = selectExchangeItemId(state);
   const selectedItemCount = selectExchangeOwnCount(state);
+  const selectedItemDays = selectExchangeOwnDays(state);
+  const selectedItemTime = selectExchangeOwnTime(state);
   const partnerItemCount = selectExchangePartnerCount(state);
+  const partnerItemDays = selectExchangePartnerDays(state);
+  const partnerItemTime = selectExchangePartnerTime(state);
 
   return {
     selectedItemId,
     selectedItemType,
     selectedItemCount,
+    selectedItemDays,
+    selectedItemTime,
     selectedItem:
       selectedItemType === 'product'
         ? selectProductById(state, selectedItemId)
         : selectServiceById(state, selectedItemId),
 
     partnerItemCount,
+    partnerItemDays,
+    partnerItemTime,
     partnerItem:
       partnerItemType === 'product'
         ? selectProductById(state, partnerItemId)
@@ -105,9 +125,13 @@ export default compose(
     'initiatorItemType',
     'initiatorItemId',
     'initiatorItemCount',
+    'initiatorItemDays',
+    'initiatorItemTime',
     'partnerItemType',
     'partnerItemId',
-    'partnerItemCount'
+    'partnerItemCount',
+    'partnerItemDays',
+    'partnerItemTime'
   ]),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({

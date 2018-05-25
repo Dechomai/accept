@@ -113,9 +113,13 @@ export const createExchangeContract = ({
   partnerItem,
   partnerItemType,
   partnerItemCount,
+  partnerItemDays,
+  partnerItemTime,
   selectedItem,
   selectedItemType,
-  selectedItemCount
+  selectedItemCount,
+  selectedItemDays,
+  selectedItemTime
 }) => dispatch => {
   dispatch(createExchangeContractRequest());
 
@@ -153,10 +157,14 @@ export const createExchangeContract = ({
             initiatorItemId: selectedItemData.id,
             initiatorItemType: selectedItemType,
             initiatorItemQuantity: selectedItemCount,
+            initiatorItemDays: selectedItemDays,
+            initiatorItemTime: selectedItemTime,
             initiatorBcAddress: initiatorAddress,
             partnerItemId: partnerItemData.id,
             partnerItemType: partnerItemType,
             partnerItemQuantity: partnerItemCount,
+            partnerItemDays: partnerItemDays,
+            partnerItemTime: partnerItemTime,
             partnerBcAddress: partnerAddress,
             partner: partnerItemData.createdBy.id,
             bcTransactionHash: transactionHash,
