@@ -74,7 +74,8 @@ export const cancelExchangeFailure = (err, exchangeId) => ({
 export const cancelExchange = ({exchange, user}) => dispatch => {
   const {id} = exchange;
   dispatch(cancelExchangeRequest(id));
-  metamaskService
+
+  return metamaskService
     .cancelExchangeContract({exchange, user})
     .then(
       txHash =>
