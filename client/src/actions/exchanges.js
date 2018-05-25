@@ -9,6 +9,22 @@ export const CANCEL_EXCHANGE_REQUEST = 'CANCEL_EXCHANGE_REQUEST';
 export const CANCEL_EXCHANGE_SUCCESS = 'CANCEL_EXCHANGE_SUCCESS';
 export const CANCEL_EXCHANGE_FAILURE = 'CANCEL_EXCHANGE_FAILURE';
 
+export const ACCEPT_EXCHANGE_REQUEST = 'ACCEPT_EXCHANGE_REQUEST';
+export const ACCEPT_EXCHANGE_SUCCESS = 'ACCEPT_EXCHANGE_SUCCESS';
+export const ACCEPT_EXCHANGE_FAILURE = 'ACCEPT_EXCHANGE_FAILURE';
+
+export const REJECT_EXCHANGE_REQUEST = 'REJECT_EXCHANGE_REQUEST';
+export const REJECT_EXCHANGE_SUCCESS = 'REJECT_EXCHANGE_SUCCESS';
+export const REJECT_EXCHANGE_FAILURE = 'REJECT_EXCHANGE_FAILURE';
+
+export const VALIDATE_EXCHANGE_REQUEST = 'VALIDATE_EXCHANGE_REQUEST';
+export const VALIDATE_EXCHANGE_SUCCESS = 'VALIDATE_EXCHANGE_SUCCESS';
+export const VALIDATE_EXCHANGE_FAILURE = 'VALIDATE_EXCHANGE_FAILURE';
+
+export const REPORT_EXCHANGE_REQUEST = 'REPORT_EXCHANGE_REQUEST';
+export const REPORT_EXCHANGE_SUCCESS = 'REPORT_EXCHANGE_SUCCESS';
+export const REPORT_EXCHANGE_FAILURE = 'REPORT_EXCHANGE_FAILURE';
+
 export const fetchExchangesRequest = ({state, skip, limit}) => ({
   type: FETCH_EXCHANGES_REQUEST,
   state,
@@ -63,7 +79,7 @@ export const cancelExchangeSuccess = exchangeId => ({
   }
 });
 
-export const cancelExchangeFailure = (err, exchangeId) => ({
+export const cancelExchangeFailure = (exchangeId, err) => ({
   type: CANCEL_EXCHANGE_FAILURE,
   payload: {
     err,
@@ -80,11 +96,51 @@ export const cancelExchange = ({exchange, user}) => dispatch => {
     .then(
       txHash =>
         exchangesService
-          .cancelExchange({exchangeId: exchange.id, bcTransactionHash: txHash})
+          .cancelExchange({exchangeId: id, bcTransactionHash: txHash})
           .then(
             () => dispatch(cancelExchangeSuccess(id)),
-            err => dispatch(cancelExchangeFailure(err, id))
+            err => dispatch(cancelExchangeFailure(id, err))
           ),
-      err => dispatch(cancelExchangeFailure(err))
+      err => dispatch(cancelExchangeFailure(id, err))
+    );
+};
+
+export const acceptExchangeRequest = exchangeId => ({
+  type: ACCEPT_EXCHANGE_REQUEST,
+  payload: {
+    exchangeId
+  }
+});
+
+export const acceptExchangeSuccess = exchangeId => ({
+  type: ACCEPT_EXCHANGE_SUCCESS,
+  payload: {
+    exchangeId
+  }
+});
+
+export const acceptExchangeFailure = (exchangeId, err) => ({
+  type: ACCEPT_EXCHANGE_FAILURE,
+  payload: {
+    err,
+    exchangeId
+  }
+});
+
+export const acceptExchange = ({exchange, user}) => dispatch => {
+  const {id} = exchange;
+  dispatch(acceptExchangeRequest(id));
+
+  return metamaskService
+    .acceptExchangeContract({exchange, user})
+    .then(
+      txHash =>
+        exchangesService
+          .acceptExchange({exchangeId: id, bcTransactionHash: txHash})
+          .then(
+            () => dispatch(acceptExchangeSuccess(id)),
+            err => dispatch(acceptExchangeFailure(id, err))
+          ),
+      err => dispatch(acceptExchangeFailure(id, err))
     );
 };

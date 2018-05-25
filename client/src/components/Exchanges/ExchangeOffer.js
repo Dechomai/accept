@@ -4,6 +4,7 @@ import React from 'react';
 import {Button} from 'reactstrap';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {omit} from 'ramda';
 
 import Icon from '../common/Icon/Icon';
 import UserLink from '../../components/common/UserLink/UserLink';
@@ -177,7 +178,7 @@ const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []
                 color={color || 'primary'}
                 size="sm"
                 onClick={() => onClick(exchange)}
-                {...rest}>
+                {...omit(['visible'], rest)}>
                 {title}
               </Button>
             ))}

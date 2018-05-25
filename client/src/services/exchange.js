@@ -46,6 +46,10 @@ const exchangeService = {
 
   cancelExchange({exchangeId, bcTransactionHash}) {
     return this.exchangeAction('cancel', {exchangeId, bcTransactionHash});
+  },
+
+  acceptExchange({exchangeId, bcTransactionHash}) {
+    return this.exchangeAction('accept', {exchangeId, bcTransactionHash});
   }
 };
 
