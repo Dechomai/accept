@@ -218,6 +218,26 @@ exchangesRouter.post(
         );
         break;
       }
+      case Actions.ACCEPT: {
+        exchangesController.acceptExchange({userId, exchangeId, txHash: bcTransactionHash}).then(
+          exchange => sendSuccess(res, {exchange}),
+          err => {
+            if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+            sendError(res, {message: 'Error accepting exchange'});
+          }
+        );
+        break;
+      }
+      case Actions.REJECT: {
+        exchangesController.rejectExchange({userId, exchangeId, txHash: bcTransactionHash}).then(
+          exchange => sendSuccess(res, {exchange}),
+          err => {
+            if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});
+            sendError(res, {message: 'Error accepting exchange'});
+          }
+        );
+        break;
+      }
       default: {
         return sendError(res, {message: `${action} action not yet implemented`});
       }

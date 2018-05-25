@@ -115,6 +115,25 @@ class MetaMask {
         })
     );
   }
+
+  acceptExchangeContract({exchange, user}) {
+    const value = web3.toWei(exchange.price, 'ether');
+    return this.getExchangeContract(exchange.bcContractAddress).then(
+      contract =>
+        new Promise((resolve, reject) => {
+          contract.accept(
+            {
+              from: user.bcDefaultAccountAddress,
+              value
+            },
+            (err, txHash) => {
+              if (err) return reject(err);
+              resolve(txHash);
+            }
+          );
+        })
+    );
+  }
 }
 
 const metamaskService = new MetaMask();
