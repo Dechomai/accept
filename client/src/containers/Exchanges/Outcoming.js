@@ -37,16 +37,15 @@ class OutcomingExchanges extends React.Component {
   }
 
   handleConnectionCheckSuccess() {
+    const {activeEchange} = this.state;
     this.setState({
       showConnectionCheck: false,
       activeEchange: null,
       showPendingTransaction: true
     });
-    this.props
-      .cancelExchange({exchange: this.state.activeEchange, user: this.props.user.data})
-      .then(() => {
-        this.setState({showPendingTransaction: false});
-      });
+    this.props.cancelExchange({exchange: activeEchange, user: this.props.user.data}).then(() => {
+      this.setState({showPendingTransaction: false});
+    });
   }
 
   handleConnectionCheckCancel() {
