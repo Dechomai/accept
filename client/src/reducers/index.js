@@ -6,7 +6,6 @@ import services from './services';
 import serviceDetails from './serviceDetails';
 import exchange from './exchange';
 import exchanges from './exchanges';
-import exchangeProcessing from './exchangeProcessing';
 
 export default {
   user,
@@ -16,6 +15,5 @@ export default {
   services,
   serviceDetails,
   exchange,
-  exchanges,
-  exchangeProcessing
+  exchanges
 };
