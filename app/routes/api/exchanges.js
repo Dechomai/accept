@@ -47,6 +47,20 @@ exchangesRouter
       body('initiatorItemQuantity')
         .exists()
         .isInt({min: 1}),
+      body('initiatorItemDays')
+        .exists()
+        .isArray()
+        .custom(days => days.length <= 7),
+      body('initiatorItemDays.*')
+        .optional()
+        .isInt({min: 0, max: 6}),
+      body('initiatorItemTime')
+        .exists()
+        .isArray()
+        .custom(time => time.length <= 4),
+      body('initiatorItemTime.*')
+        .optional()
+        .isInt({min: 0, max: 3}),
       body('initiatorBcAddress')
         .exists()
         .custom(val => ADDRESS_REGEX.test(val)),
@@ -59,6 +73,20 @@ exchangesRouter
       body('partnerItemQuantity')
         .exists()
         .isInt({min: 1}),
+      body('partnerItemDays')
+        .exists()
+        .isArray()
+        .custom(days => days.length <= 7),
+      body('partnerItemDays.*')
+        .optional()
+        .isInt({min: 0, max: 6}),
+      body('partnerItemTime')
+        .exists()
+        .isArray()
+        .custom(time => time.length <= 4),
+      body('partnerItemTime.*')
+        .optional()
+        .isInt({min: 0, max: 3}),
       body('partnerBcAddress')
         .exists()
         .custom(val => ADDRESS_REGEX.test(val)),
@@ -80,10 +108,14 @@ exchangesRouter
           'initiatorItemId',
           'initiatorItemType',
           'initiatorItemQuantity',
+          'initiatorItemDays',
+          'initiatorItemTime',
           'initiatorBcAddress',
           'partnerItemId',
           'partnerItemType',
           'partnerItemQuantity',
+          'partnerItemDays',
+          'partnerItemTime',
           'partnerBcAddress',
           'partner',
           'price',

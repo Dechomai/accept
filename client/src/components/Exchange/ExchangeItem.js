@@ -9,6 +9,7 @@ import {ifElse, contains, append, without} from 'ramda';
 
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 import {formatPrice} from '../../utils/format';
+import {Days, Time} from '../../constants/exchange';
 
 const toggleElement = element => ifElse(contains(element), without([element]), append(element));
 
@@ -100,13 +101,15 @@ class ExchangeItem extends React.Component {
                 </div>
               )}
               <div className="weekdays__container">
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                {Days.map((day, index) => (
                   <div
-                    key={day}
+                    key={index}
                     className={classNames('weekdays__item', {
-                      'weekdays__item--active': own ? days.includes(day) : partnerDays.includes(day)
+                      'weekdays__item--active': own
+                        ? days.includes(index)
+                        : partnerDays.includes(index)
                     })}
-                    onClick={() => this.toggleDay(day)}>
+                    onClick={() => this.toggleDay(index)}>
                     {day}
                   </div>
                 ))}
@@ -118,15 +121,15 @@ class ExchangeItem extends React.Component {
                 </div>
               )}
               <div className="daytime__container">
-                {['Morning', 'Afternoon', 'Evening', 'Night'].map(time => (
+                {Time.map((time, index) => (
                   <div
-                    key={time}
+                    key={index}
                     className={classNames('daytime__item', {
                       'daytime__item--active': own
-                        ? dayTime.includes(time)
-                        : partnerTime.includes(time)
+                        ? dayTime.includes(index)
+                        : partnerTime.includes(index)
                     })}
-                    onClick={() => this.toggleTime(time)}>
+                    onClick={() => this.toggleTime(index)}>
                     {time}
                   </div>
                 ))}
@@ -144,10 +147,10 @@ ExchangeItem.propTypes = {
   type: PropTypes.oneOf(['product', 'service']).isRequired,
   quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   title: PropTypes.string,
-  days: PropTypes.arrayOf(PropTypes.string),
-  time: PropTypes.arrayOf(PropTypes.string),
-  partnerDays: PropTypes.arrayOf(PropTypes.string),
-  partnerTime: PropTypes.arrayOf(PropTypes.string),
+  days: PropTypes.arrayOf(PropTypes.number),
+  time: PropTypes.arrayOf(PropTypes.number),
+  partnerDays: PropTypes.arrayOf(PropTypes.number),
+  partnerTime: PropTypes.arrayOf(PropTypes.number),
   own: PropTypes.bool,
   className: PropTypes.string,
   onQuantityChange: PropTypes.func.isRequired,
