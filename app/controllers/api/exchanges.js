@@ -367,6 +367,12 @@ const exchangesController = {
       .then(() => Exchange.findById(exchangeId))
       .then(exchange => (exchange ? exchange : Promise.reject(null)))
       .then(exchange => {
+        if (exchange.bcPendingTransactionHash) {
+          logger.error(
+            `Exchange ${exchangeId} has pending transaction ${exchange.bcPendingTransactionHash}`
+          );
+          return Promise.reject('Exchange has pending transaction');
+        }
         if (exchange.status !== 'new') {
           logger.error(`Exchange ${exchangeId} does not have status new`);
           return Promise.reject('Exchange can not be canceled');
@@ -376,6 +382,62 @@ const exchangesController = {
           return Promise.reject('User can not cancel exchange');
         }
         exchange.set('status', 'canceled');
+        exchange.set('bcPendingTransactionHash', txHash);
+        return exchange.save();
+      });
+  },
+
+  acceptExchange({userId, exchangeId, txHash}) {
+    return Promise.all([
+      this.ensureContractAddresses('partner', userId),
+      this.resolvePendingTransactions('partner', userId)
+    ])
+      .then(() => Exchange.findById(exchangeId))
+      .then(exchange => (exchange ? exchange : Promise.reject(null)))
+      .then(exchange => {
+        if (exchange.bcPendingTransactionHash) {
+          logger.error(
+            `Exchange ${exchangeId} has pending transaction ${exchange.bcPendingTransactionHash}`
+          );
+          return Promise.reject('Exchange has pending transaction');
+        }
+        if (exchange.status !== 'new') {
+          logger.error(`Exchange ${exchangeId} does not have status new`);
+          return Promise.reject('Exchange can not be accepted');
+        }
+        if (exchange.partner !== userId) {
+          logger.error(`User ${userId} is not partner of exchange ${exchangeId}`);
+          return Promise.reject('User can not cancel exchange');
+        }
+        exchange.set('status', 'accepted');
+        exchange.set('bcPendingTransactionHash', txHash);
+        return exchange.save();
+      });
+  },
+
+  rejectExchange({userId, exchangeId, txHash}) {
+    return Promise.all([
+      this.ensureContractAddresses('partner', userId),
+      this.resolvePendingTransactions('partner', userId)
+    ])
+      .then(() => Exchange.findById(exchangeId))
+      .then(exchange => (exchange ? exchange : Promise.reject(null)))
+      .then(exchange => {
+        if (exchange.bcPendingTransactionHash) {
+          logger.error(
+            `Exchange ${exchangeId} has pending transaction ${exchange.bcPendingTransactionHash}`
+          );
+          return Promise.reject('Exchange has pending transaction');
+        }
+        if (exchange.status !== 'new') {
+          logger.error(`Exchange ${exchangeId} does not have status new`);
+          return Promise.reject('Exchange can not be rejected');
+        }
+        if (exchange.partner !== userId) {
+          logger.error(`User ${userId} is not partner of exchange ${exchangeId}`);
+          return Promise.reject('User can not reject exchange');
+        }
+        exchange.set('status', 'rejected');
         exchange.set('bcPendingTransactionHash', txHash);
         return exchange.save();
       });
