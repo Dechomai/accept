@@ -1,14 +1,23 @@
 @import '../../theme/index';
 
 .exchange-offer-item {
-  margin-top: 2px;
-  padding: 14px;
+  padding: 1rem;
 
-  &__wrapper {
-    margin-left: 10px;
+  &__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &__conditions {
+    margin-left: 88px; // 72px + 1rem;
   }
 
   &__photo {
+    flex: 0 0 auto;
+    align-self: flex-start;
     width: 72px;
     height: 72px;
     background-position: center center;
@@ -16,7 +25,10 @@
   }
 
   &__name {
+    flex: 1 1 100%;
     font-size: 14px;
+    margin: 0;
+    margin-left: 1rem;
   }
 
   &__details {
