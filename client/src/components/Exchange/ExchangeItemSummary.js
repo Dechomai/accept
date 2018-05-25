@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 import UserLink from '../../components/common/UserLink/UserLink';
+import ExchangeAvailability from './ExchangeAvailability';
 
 const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) => {
   const primaryImageUrl = getPrimaryImage(item);
@@ -12,8 +13,6 @@ const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) =>
     ? getImageThumbnail(primaryImageUrl)
     : '/assets/img/placeholder.png';
   const total = item.price * count;
-  const daysSpecified = days.length > 0;
-  const timeSpecified = time.length > 0;
 
   return (
     <div
@@ -55,19 +54,14 @@ const ExchangeItemSummary = ({title, item, type, count, isOwner, days, time}) =>
           </div>
         </div>
       </div>
-      {type === 'service' &&
-        (daysSpecified || timeSpecified) && (
-          <div
-            className={classNames(
-              isOwner
-                ? 'exchange-item-summary__availability'
-                : 'exchange-item-summary__preferred-time'
-            )}>
-            {isOwner ? 'Availability' : 'Preferred'}: <strong>{days.join(', ')}</strong>
-            {daysSpecified && timeSpecified ? ' in the ' : ''}
-            <strong>{time.join(', ')}</strong>
-          </div>
-        )}
+      {type === 'service' && (
+        <ExchangeAvailability
+          className={isOwner && 'exchange-item-summary__availability'}
+          days={days}
+          time={time}
+          prefered={!isOwner}
+        />
+      )}
     </div>
   );
 };

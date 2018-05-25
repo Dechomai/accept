@@ -48,11 +48,18 @@ $light-blue: lighten(#0045cf, 30%);
       #{$s}__user-section {
         border-bottom: solid 2px $white;
       }
+
+      #{$s}__availability-section {
+        border-top: solid 2px $white;
+      }
     }
 
     &--partner {
       #{$s}__user-section {
         border-bottom: solid 2px $gray-300;
+      }
+      #{$s}__availability-section {
+        border-top: solid 2px $gray-300;
       }
       border-bottom: solid 2px $gray-300;
     }
