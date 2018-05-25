@@ -33,6 +33,7 @@ import Exchanges from './layout/Exchanges';
 import ExchangesOutcoming from './containers/Exchanges/Outcoming';
 import ExchangesIncoming from './containers/Exchanges/Incoming';
 import ExchangesArchived from './containers/Exchanges/Archived';
+import ExchangesPending from './containers/Exchanges/Pending';
 
 /*
 
@@ -175,7 +176,7 @@ class Router extends React.Component {
             <IndexRedirect to="incoming" />
             <Route path="incoming" component={ExchangesIncoming} />
             <Route path="outcoming" component={ExchangesOutcoming} />
-            <Route path="pending" component={() => null} />
+            <Route path="pending" component={ExchangesPending} />
             <Route path="reported" component={() => null} />
             <Route path="archive" component={ExchangesArchived} />
           </Route>

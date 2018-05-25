@@ -16,9 +16,33 @@ const HELPER_TEXT = {
     'By accepting this offer, I agree to the Accept.IO marketplace rules, and in the event of a transaction dispute, I agree to be bound by the Accept Star Council rules of arbitration and any decision made as a result of this arbitration process.',
   outcoming:
     'The seller can accept your offer, decline your offer, or make a counter-offer. If your offer is accepted by the seller, you and the seller are required to complete the transaction.',
-  pending: '',
+  accepted: 'Please validate the transaction once it has been successfully completed.',
+
+  validatedByCurrentUser:
+    'Once the other party has validated this transaction, the smart contract funds will be released',
+  validatedByOtherUser:
+    'Once you have validated this transaction, the smart contract funds will be released.',
   reported:
     'This transaction has been escalated to the Accept Star Council for arbitration. Further updates will follow. Use the Accept Arbitration DApp to receive detailed up-to-date information.'
+};
+
+const getHelperText = (exchange, user) => {
+  switch (exchange.status) {
+    case 'new':
+      return user.data.id === exchange.partner.id ? HELPER_TEXT.incoming : HELPER_TEXT.outcoming;
+    case 'accepted':
+      return HELPER_TEXT.accepted;
+    case 'validatedByInitiator':
+      return exchange.initiator.id === user.data.id
+        ? HELPER_TEXT.validatedByCurrentUser
+        : HELPER_TEXT.validatedByOtherUser;
+    case 'validatedByPartner':
+      return exchange.partner.id === user.data.id
+        ? HELPER_TEXT.validatedByCurrentUser
+        : HELPER_TEXT.validatedByOtherUser;
+    default:
+      return null;
+  }
 };
 
 const getStatus = (exchange, user) => {
@@ -30,16 +54,29 @@ const getStatus = (exchange, user) => {
     return {title: 'New offer', modifier: 'new-offer'};
   }
 
-  if (exchange.status === 'canceled' && user.data.id === exchange.initiator.id) {
-    return {title: 'Canceled', modifier: 'canceled-offer'};
+  if (exchange.status === 'canceled') {
+    return {title: 'Canceled', modifier: 'canceled'};
+  }
+
+  if (exchange.status === 'accepted') {
+    return {title: 'Accepted', modifier: 'accepted'};
+  }
+
+  if (exchange.status === 'rejected') {
+    return {title: 'Rejected', modifier: 'rejected'};
+  }
+
+  if (exchange.status === 'validatedByInitiator' || exchange.status === 'validatedByPartner') {
+    return {title: 'Awaiting validation', modifier: 'awaiting-validation'};
   }
 
   return {title: '', modifier: ''};
 };
 
-const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, buttons = []}) => {
+const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []}) => {
   const currentUserId = user.data.id;
   const status = getStatus(exchange, user);
+  const helpText = getHelperText(exchange, user);
   return (
     <div className="exchange-offer">
       <div className="exchange-offer__items-wrapper">
@@ -113,10 +150,10 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
 
       {/* Helper Text and Action Buttons */}
       <div className="exchange-offer__footer">
-        {HELPER_TEXT[type] && (
+        {helpText && (
           <div className="exchange-offer__info-alert">
             <Icon size="20" name="information-outline" />
-            <div className="exchange-offer__info-alert__text">{HELPER_TEXT[type]}</div>
+            <div className="exchange-offer__info-alert__text">{helpText}</div>
           </div>
         )}
         <div className="exchange-offer__actions">
@@ -125,16 +162,18 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
               View Details
             </Button>
           )}
-          {buttons.map(({title, color, onClick, ...rest}) => (
-            <Button
-              key={title}
-              color={color || 'primary'}
-              size="sm"
-              onClick={() => onClick(exchange)}
-              {...rest}>
-              {title}
-            </Button>
-          ))}
+          {buttons
+            .filter(({visible}) => !visible || visible(exchange, user))
+            .map(({title, color, onClick, ...rest}) => (
+              <Button
+                key={title}
+                color={color || 'primary'}
+                size="sm"
+                onClick={() => onClick(exchange)}
+                {...rest}>
+                {title}
+              </Button>
+            ))}
         </div>
       </div>
     </div>
@@ -144,7 +183,6 @@ const ExchangeOffer = ({exchange, user, type, showEscrow, showDetailsBtn, button
 ExchangeOffer.propTypes = {
   exchange: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  type: PropTypes.oneOf(['incoming', 'outcoming', 'pending', 'rejected', 'archive']).isRequired,
   buttons: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,

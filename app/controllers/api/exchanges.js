@@ -279,8 +279,32 @@ const exchangesController = {
     );
   },
 
-  getPending(/* {userId, skip, limit} */) {
-    return Promise.reject(null);
+  getPendingExchanges({userId, skip, limit}) {
+    const query = {
+      $or: [
+        {
+          $and: [
+            {
+              $or: [{initiator: userId}, {partner: userId}]
+            },
+            {
+              $or: [
+                {status: 'accepted'},
+                {status: 'validatedByInitiator'},
+                {status: 'validatedByPartner'}
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    return this.getExchanges(
+      query,
+      this.ensureContractAddresses('partner', userId),
+      {userId},
+      {skip, limit, loggerPrefix: ':getPendingExchanges'}
+    );
   },
 
   getReported(/* {userId, skip, limit} */) {
