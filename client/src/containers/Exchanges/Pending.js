@@ -54,7 +54,6 @@ export default compose(
   if (exchanges && exchanges.data.length)
     return (
       <ExchangesList
-        type="pending"
         title="Active Exchanges"
         exchanges={exchanges.data}
         showEscrow={true}
