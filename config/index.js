@@ -147,6 +147,27 @@ const config = convict({
       default: null,
       arg: 'blockchainAddress',
       env: 'BLOCKCHAIN_ADDRESS'
+    },
+    tokenContractAddress: {
+      doc: 'Token contract address',
+      format: String,
+      default: null,
+      arg: 'tokenContractAddress',
+      env: 'BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS'
+    },
+    tokenSponsorAddress: {
+      doc: 'Token Sponsor Public Address',
+      format: String,
+      default: null,
+      arg: 'tokenSponsorAddress',
+      env: 'BLOCKCHAIN_TOKEN_SPONSOR_ADDRESS'
+    },
+    tokenSponsorPrivateKey: {
+      doc: 'Token Sponsor Private Key',
+      format: String,
+      default: null,
+      arg: 'tokenSponsorPrivateKey',
+      env: 'BLOCKCHAIN_TOKEN_SPONSOR_PRIVATE_KEY'
     }
   }
 });
