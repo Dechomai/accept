@@ -12,7 +12,7 @@ const ExchangeAvailability = ({className, days, time, prefered}) => {
 
   return daysSpecified || timeSpecified ? (
     <div className={classNames('exchange-availability', className)}>
-      {prefered ? 'Availability: ' : 'Prefered: '}
+      {prefered ? 'Prefered: ' : 'Available: '}
       <strong>{days.map(index => Days[index]).join(', ')}</strong>
       {daysSpecified && timeSpecified ? ' in the ' : ''}
       <strong>{time.map(index => Time[index]).join(', ')}</strong>
