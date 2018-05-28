@@ -1,5 +1,6 @@
-import productService from '../services/product';
 import {toast} from 'react-toastify';
+
+import productService from '../services/product';
 
 export const CREATE_PRODUCT_REQUEST = 'CREATE_PRODUCT_REQUEST';
 export const CREATE_PRODUCT_SUCCESS = 'CREATE_PRODUCT_SUCCESS';

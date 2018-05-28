@@ -1,11 +1,23 @@
 @import '../theme/_index.scss';
 
 .Toastify {
-  &__toast {
+  // increase specificity
+  &__toast-container &__toast {
+    padding: 1rem;
+    min-height: 0; // override
+    user-select: none;
+    border-radius: $border-radius;
+
+    &-body {
+      font-family: $font-family-sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+    }
     &--success {
       background-color: $green;
     }
-    &--errro {
+
+    &--error {
       background-color: $red;
     }
   }

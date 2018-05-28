@@ -1,3 +1,5 @@
+import {toast} from 'react-toastify';
+
 import exchangesService from '../services/exchange';
 import metamaskService from '../services/metamask';
 
@@ -91,18 +93,20 @@ export const cancelExchange = ({exchange, user}) => dispatch => {
   const {id} = exchange;
   dispatch(cancelExchangeRequest(id));
 
-  return metamaskService
-    .cancelExchangeContract({exchange, user})
-    .then(
-      txHash =>
-        exchangesService
-          .cancelExchange({exchangeId: id, bcTransactionHash: txHash})
-          .then(
-            () => dispatch(cancelExchangeSuccess(id)),
-            err => dispatch(cancelExchangeFailure(id, err))
-          ),
-      err => dispatch(cancelExchangeFailure(id, err))
-    );
+  return metamaskService.cancelExchangeContract({exchange, user}).then(
+    txHash =>
+      exchangesService.cancelExchange({exchangeId: id, bcTransactionHash: txHash}).then(
+        () => {
+          toast.success('Transaction submitted');
+          return dispatch(cancelExchangeSuccess(id));
+        },
+        err => dispatch(cancelExchangeFailure(id, err))
+      ),
+    err => {
+      toast.error('Transaction rejected');
+      dispatch(cancelExchangeFailure(id, err));
+    }
+  );
 };
 
 export const acceptExchangeRequest = exchangeId => ({
