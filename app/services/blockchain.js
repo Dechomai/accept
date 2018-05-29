@@ -30,11 +30,16 @@ class BlockchainService {
         new Promise((resolve, reject) => {
           web3.eth.getTransactionReceipt(transactionHash, (err, block) => {
             if (err) {
-              logger.error('Error retrieving block by txHash', transactionHash);
+              logger.error(
+                ':getContractAddress',
+                'Error retrieving block by txHash',
+                transactionHash
+              );
               return reject(err);
             }
             if (block && block.contractAddress) {
               logger.info(
+                ':getContractAddress',
                 'Got contract address from txHash',
                 block.contractAddress,
                 transactionHash
@@ -42,6 +47,7 @@ class BlockchainService {
               return resolve(block.contractAddress);
             }
             logger.error(
+              ':getContractAddress',
               'Error retrieving contract address from block, block might not have been mined yet'
             );
             return reject(null);
@@ -56,11 +62,12 @@ class BlockchainService {
         new Promise((resolve, reject) => {
           web3.eth.getTransactionReceipt(transactionHash, (err, transactionReceipt) => {
             if (err) {
-              logger.error('Error retrieving block by txHash', transactionHash);
+              logger.error(':getTransaction', 'Error retrieving block by txHash', transactionHash);
               return reject(err);
             }
             if (transactionReceipt === null) {
               logger.error(
+                ':getTransaction',
                 'Error retrieving transaction receipt, block might not have been mined yet'
               );
               return reject(null);
@@ -73,7 +80,7 @@ class BlockchainService {
 
   sendUserBonus(userAddress) {
     return this.getWeb3().then(web3 => {
-      const initialBalance = web3.toWei(20, 'ether');
+      const initialBalance = 20000000000000000000; // 20 ether
 
       const nonce = web3.eth.getTransactionCount(TOKEN_SPONSOR_ADDRESS, 'pending');
       const etherTxParameters = {
@@ -99,11 +106,11 @@ class BlockchainService {
 
       return this.sendSignedTransaction(etherTxParameters)
         .then(txHash => {
-          logger.info('Sent bonus ether to:', userAddress, 'txHash:', txHash);
+          logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
           return this.sendSignedTransaction(tokenTxParameters);
         })
         .then(txHash => {
-          logger.info('Sent bonus tokens to:', userAddress, 'txHash:', txHash);
+          logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
         });
     });
   }
@@ -119,10 +126,10 @@ class BlockchainService {
       return new Promise((resolve, reject) => {
         web3.eth.sendRawTransaction(signedTx, (err, txHash) => {
           if (err) {
-            logger.error('Error sending signed transaction', err);
+            logger.error(':sendSignedTransaction', 'Error sending signed transaction', err);
             return reject(err);
           }
-          logger.info('Signed transaction sent', txHash);
+          logger.info(':sendSignedTransaction', 'Signed transaction sent', txHash);
           resolve(txHash);
         });
       });
