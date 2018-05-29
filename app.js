@@ -7,7 +7,9 @@ const routes = require('./app/routes');
 const connectDB = require('./app/db/connection').connect;
 const syncDBMigrations = require('./app/db/migration').sync;
 const {outLoggerMiddleware, errLoggerMiddleware} = require('./app/middlewares/logger');
-const logger = require('./app/logger');
+const {createLoggerWith} = require('./app/logger');
+
+const logger = createLoggerWith('[App]');
 
 const PORT = config.get('port');
 const HOST = config.get('host');

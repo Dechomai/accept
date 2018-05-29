@@ -1,7 +1,7 @@
 const {createLoggerWith} = require('../logger');
 const getConnectionString = require('./connection').getConnectionString;
 
-const logger = createLoggerWith('[DB Migrations]');
+const logger = createLoggerWith('[DB:Migrations]');
 
 const dbMigrate = require('db-migrate');
 const dbmigrate = dbMigrate.getInstance(true, {
