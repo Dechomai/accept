@@ -172,4 +172,57 @@ $light-blue: lighten(#0045cf, 30%);
     justify-content: flex-end;
     align-items: center;
   }
+
+  &__transaction-info {
+    margin-top: 16px;
+    font-size: 12px;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__copy-key {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid $gray-300;
+    border-radius: 3px;
+    color: $blue;
+    font-size: 14px;
+    padding: 8px 10px;
+    margin-bottom: 90px;
+    .icon {
+      margin-right: 15px;
+    }
+  }
+
+  &__public-key {
+    display: flex;
+    &__wrapper {
+      display: flex;
+    }
+    &__text {
+      width: 9ch;
+      font-family: monospace;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: 0;
+    }
+  }
+
+  &__disclaimer {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 0 40px;
+    color: lighten($black, 50%);
+    margin-top: 30px;
+
+    &__icon {
+      color: $blue;
+      margin-right: 12px;
+    }
+  }
 }
