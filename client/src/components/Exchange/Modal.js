@@ -42,7 +42,7 @@ const ExchangeModal = ({
         )}
         <div>
           {showCancelBtn && (
-            <Button color="link" disabled={cancelBtnDisabled} onClick={onCancelBtnClick}>
+            <Button color="light" disabled={cancelBtnDisabled} onClick={onCancelBtnClick}>
               Cancel
             </Button>
           )}

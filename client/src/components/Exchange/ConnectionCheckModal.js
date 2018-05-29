@@ -39,7 +39,7 @@ class ConnectionCheckModal extends React.Component {
           />
         </ModalBody>
         <ModalFooter>
-          <Button color="link" onClick={onCancelBtnClick}>
+          <Button color="light" onClick={onCancelBtnClick}>
             Cancel
           </Button>
           <Button color="primary" onClick={this.handleRefreshBtn}>
