@@ -13,43 +13,6 @@ import {formatPrice} from '../../utils/format';
 import {calculateEscrow} from '../../utils/exchange';
 import ExchangeAvailability from '../Exchange/ExchangeAvailability';
 
-const HELPER_TEXT = {
-  incoming:
-    'By accepting this offer, I agree to the Accept.IO marketplace rules, and in the event of a transaction dispute, I agree to be bound by the Accept Star Council rules of arbitration and any decision made as a result of this arbitration process.',
-  outcoming:
-    'The seller can accept your offer, decline your offer, or make a counter-offer. If your offer is accepted by the seller, you and the seller are required to complete the transaction.',
-  accepted: 'Please validate the transaction once it has been successfully completed.',
-
-  validatedByCurrentUser:
-    'Once the other party has validated this transaction, the smart contract funds will be released',
-  validatedByOtherUser:
-    'Once you have validated this transaction, the smart contract funds will be released.',
-  reported:
-    'This transaction has been escalated to the Accept Star Council for arbitration. Further updates will follow. Use the Accept Arbitration DApp to receive detailed up-to-date information.'
-};
-
-const getHelperText = (exchange, user) => {
-  switch (exchange.status) {
-    case 'new':
-      return user.data.id === exchange.partner.id ? HELPER_TEXT.incoming : HELPER_TEXT.outcoming;
-    case 'accepted':
-      return HELPER_TEXT.accepted;
-    case 'validatedByInitiator':
-      return exchange.initiator.id === user.data.id
-        ? HELPER_TEXT.validatedByCurrentUser
-        : HELPER_TEXT.validatedByOtherUser;
-    case 'validatedByPartner':
-      return exchange.partner.id === user.data.id
-        ? HELPER_TEXT.validatedByCurrentUser
-        : HELPER_TEXT.validatedByOtherUser;
-    case 'reportedByInitiator':
-    case 'reportedByPartner':
-      return HELPER_TEXT.reported;
-    default:
-      return null;
-  }
-};
-
 const ExchangeOffer = ({
   exchange,
   user,
@@ -57,10 +20,10 @@ const ExchangeOffer = ({
   showDetailsBtn,
   buttons = [],
   changeModalVisibility,
-  status
+  status,
+  helpText
 }) => {
   const currentUserId = user.data.id;
-  const helpText = getHelperText(exchange, user);
   return (
     <div className="exchange-offer">
       <div className="exchange-offer__items-wrapper">
@@ -194,7 +157,8 @@ ExchangeOffer.propTypes = {
   changeModalVisibility: PropTypes.func,
   showDetailsBtn: PropTypes.bool,
   showEscrow: PropTypes.bool,
-  status: PropTypes.object
+  status: PropTypes.object,
+  helpText: PropTypes.string
 };
 
 ExchangeOffer.defaultProps = {

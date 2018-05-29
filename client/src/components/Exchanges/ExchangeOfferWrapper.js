@@ -12,6 +12,41 @@ import ExchangeOfferItem from './ExchangeOfferItem';
 import ExchangeAvailability from '../Exchange/ExchangeAvailability';
 import clipboard from '../../services/clipboard';
 
+const HELPER_TEXT = {
+  incoming:
+    'By accepting this offer, I agree to the Accept.IO marketplace rules, and in the event of a transaction dispute, I agree to be bound by the Accept Star Council rules of arbitration and any decision made as a result of this arbitration process.',
+  outcoming:
+    'The seller can accept your offer, decline your offer, or make a counter-offer. If your offer is accepted by the seller, you and the seller are required to complete the transaction.',
+  accepted: 'Please validate the transaction once it has been successfully completed.',
+
+  validatedByCurrentUser:
+    'Once the other party has validated this transaction, the smart contract funds will be released',
+  validatedByOtherUser:
+    'Once you have validated this transaction, the smart contract funds will be released.',
+  reported:
+    'This transaction has been escalated to the Accept Star Council for arbitration. Further updates will follow. Use the Accept Arbitration DApp to receive detailed up-to-date information.',
+  canceled: 'You’ve cancelled the offer.',
+  completed: 'The offer was validated by both sides and is completed.',
+  rejected: 'Your offer was rejected.'
+};
+
+const TRANSACTION_INFO = {
+  incoming:
+    'By accepting the offer your account will be deducted for the escrow amount of Fulcrum (fee is charged separately). After the exchange is completed you will receive the deducted amount of Fulcrum back to your account.',
+  outcoming:
+    'The offer is successfully sent and is awaiting for your exchange partner to reply. Your offer can be either accepted or rejected. In case your offer is rejected or you cancel the deal before it is accepted/rejected - the escrowed amount of Fulcrum will be returned to your account.',
+  accepted:
+    'The exchange is in progress. Validate the deal after you’ve completely received your item from your exchange partner. After both sides validate the deal - the escrowed amount of Fulcrum will be released to your account. You can report a deal any time unless it’s com-pleted, thus the escrowed amount will be frozen until arbitrations are made.',
+  validatedByCurrentUser:
+    'You’ve validated the deal. After your exchange partner validates the deal the escrowed amount of Fulcrum will be released to your account.',
+  validatedByOtherUser:
+    'Your exchange partner has received your item and validated the deal. The exchange will be completed and escrowed amount of Fulcrum will be released to your account after you validate the deal. If you’ve faced a fraud - you can report the deal for further arbitrations.',
+  reportedByInitiator:
+    'You’ve reported the deal. Fulcrum located on the smart contract is frozen, unless arbitra-tions are made.',
+  reportedByPartner:
+    'Your exchange partner has reported the deal. Fulcrum located on the smart contract is frozen, unless arbitrations are made.'
+};
+
 class ExchangeOfferWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +89,59 @@ class ExchangeOfferWrapper extends React.Component {
     return {title: '', modifier: ''};
   }
 
+  getHelperText(exchange, user) {
+    switch (exchange.status) {
+      case 'new':
+        return user.data.id === exchange.partner.id ? HELPER_TEXT.incoming : HELPER_TEXT.outcoming;
+      case 'accepted':
+        return HELPER_TEXT.accepted;
+      case 'validatedByInitiator':
+        return exchange.initiator.id === user.data.id
+          ? HELPER_TEXT.validatedByCurrentUser
+          : HELPER_TEXT.validatedByOtherUser;
+      case 'validatedByPartner':
+        return exchange.partner.id === user.data.id
+          ? HELPER_TEXT.validatedByCurrentUser
+          : HELPER_TEXT.validatedByOtherUser;
+      case 'reportedByInitiator':
+      case 'reportedByPartner':
+        return HELPER_TEXT.reported;
+      case 'canceled':
+        return HELPER_TEXT.canceled;
+      case 'completed':
+        return HELPER_TEXT.completed;
+      case 'rejected':
+        return HELPER_TEXT.rejected;
+      default:
+        return null;
+    }
+  }
+
+  getTransactionInfo(exchange, user) {
+    switch (exchange.status) {
+      case 'new':
+        return user.data.id === exchange.partner.id
+          ? TRANSACTION_INFO.incoming
+          : TRANSACTION_INFO.outcoming;
+      case 'accepted':
+        return TRANSACTION_INFO.accepted;
+      case 'validatedByInitiator':
+        return exchange.initiator.id === user.data.id
+          ? TRANSACTION_INFO.validatedByCurrentUser
+          : TRANSACTION_INFO.validatedByOtherUser;
+      case 'validatedByPartner':
+        return TRANSACTION_INFO.partner.id === user.data.id
+          ? TRANSACTION_INFO.validatedByCurrentUser
+          : TRANSACTION_INFO.validatedByOtherUser;
+      case 'reportedByInitiator':
+        return TRANSACTION_INFO.reportedByInitiator;
+      case 'reportedByPartner':
+        return TRANSACTION_INFO.reportedByPartner;
+      default:
+        return null;
+    }
+  }
+
   copyPublicKeyToClipboard() {
     clipboard.write(this.props.exchange.bcContractAddress);
   }
@@ -67,6 +155,8 @@ class ExchangeOfferWrapper extends React.Component {
   render() {
     const {exchange, user, showEscrow} = this.props;
     const status = this.getStatus(exchange, user);
+    const transactionInfo = this.getTransactionInfo(exchange, user);
+    const helpText = this.getHelperText(exchange, user);
     const currentUserId = user.data.id;
 
     return (
@@ -75,6 +165,7 @@ class ExchangeOfferWrapper extends React.Component {
           {...this.props}
           changeModalVisibility={this.handleChangeModalVisibility}
           status={status}
+          helpText={helpText}
         />
         {this.state.detailsModalVisible && (
           <DetailsModal
@@ -144,31 +235,7 @@ class ExchangeOfferWrapper extends React.Component {
             <div className="exchange-offer__detailed-info">
               <div className="row">
                 <div className="col-6">
-                  <div className="exchange-offer__transaction-info">
-                    <p>
-                      <strong>
-                        The value of your exchange will be deducted from your Accept wallet and
-                        escrowed in the transaction’s smart contract wallet
-                      </strong>{' '}
-                      [Public key].
-                    </p>
-                    <p>
-                      If there is a difference in listing values between the items being exchanged,{' '}
-                      <strong>the lowest amount will be set as the transaction value</strong>, and
-                      will be escrowed by both parties.
-                    </p>
-                    <p>
-                      Your <strong>escrowed funds will be returned</strong> to your Accept wallet{' '}
-                      <strong>after both parties validate</strong> that the transaction has
-                      successfully completed, and feedback has been provided.
-                    </p>
-                    <p>
-                      If either buyer or seller{' '}
-                      <strong>does not the validate the transaction</strong>, a transaction dispute
-                      will be initiated, and the funds will remain in escrow pending the decision of
-                      an Accept Star Council.
-                    </p>
-                  </div>
+                  <div className="exchange-offer__transaction-info">{transactionInfo}</div>
                 </div>
                 <div className="col-6">
                   {/* Show Escrow */}
@@ -213,12 +280,7 @@ class ExchangeOfferWrapper extends React.Component {
                 <div className="col-12">
                   <div className="exchange-offer__disclaimer">
                     <Icon className="exchange-offer__disclaimer__icon" name="information-outline" />
-                    <span>
-                      By accepting this offer, I agree to the Accept.IO marketplace rules, and in
-                      the event of a transaction dispute, I agree to be bound by the Accept Star
-                      Council rules of arbitration and any decision made as a result of this
-                      arbitration process.
-                    </span>
+                    <span>{helpText}</span>
                   </div>
                 </div>
               </div>

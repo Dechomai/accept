@@ -22,17 +22,19 @@ const DetailsModal = ({children, changeModalVisibility, status, exchange, button
       <Button color="link" onClick={changeModalVisibility}>
         Close
       </Button>
-      {buttons
-        .filter(({visible}) => !visible || visible(exchange, user))
-        .map(({title, color, onClick, ...rest}) => (
-          <Button
-            key={title}
-            color={color || 'primary'}
-            onClick={() => onClick(exchange)}
-            {...omit(['visible'], rest)}>
-            {title}
-          </Button>
-        ))}
+      <div>
+        {buttons
+          .filter(({visible}) => !visible || visible(exchange, user))
+          .map(({title, color, onClick, ...rest}) => (
+            <Button
+              key={title}
+              color={color || 'primary'}
+              onClick={() => onClick(exchange)}
+              {...omit(['visible'], rest)}>
+              {title}
+            </Button>
+          ))}
+      </div>
     </ModalFooter>
   </Modal>
 );
