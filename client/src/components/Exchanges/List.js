@@ -3,13 +3,15 @@ import './List.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ExchangeOffer from './ExchangeOffer';
+import ExchangeOfferWrapper from './ExchangeOfferWrapper';
 
 const ExchangesList = ({exchanges, title, ...props}) => (
   <div className="exchanges-list">
     <h5 className="mb-4">{title}</h5>
     <h6 className="exchanges-list__subtitle">Exchange offer</h6>
-    {exchanges.map(exchange => <ExchangeOffer key={exchange.id} exchange={exchange} {...props} />)}
+    {exchanges.map(exchange => (
+      <ExchangeOfferWrapper key={exchange.id} exchange={exchange} {...props} />
+    ))}
   </div>
 );
 

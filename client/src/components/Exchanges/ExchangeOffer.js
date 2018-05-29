@@ -50,41 +50,16 @@ const getHelperText = (exchange, user) => {
   }
 };
 
-const getStatus = (exchange, user) => {
-  if (exchange.status === 'new' && user.data.id === exchange.initiator.id) {
-    return {title: 'Offer Sent', modifier: 'offer-sent'};
-  }
-
-  if (exchange.status === 'new' && user.data.id === exchange.partner.id) {
-    return {title: 'New offer', modifier: 'new-offer'};
-  }
-
-  if (exchange.status === 'canceled') {
-    return {title: 'Canceled', modifier: 'canceled'};
-  }
-
-  if (exchange.status === 'accepted') {
-    return {title: 'Accepted', modifier: 'accepted'};
-  }
-
-  if (exchange.status === 'rejected') {
-    return {title: 'Rejected', modifier: 'rejected'};
-  }
-
-  if (exchange.status === 'validatedByInitiator' || exchange.status === 'validatedByPartner') {
-    return {title: 'Awaiting validation', modifier: 'awaiting-validation'};
-  }
-
-  if (exchange.status === 'reportedByInitiator' || exchange.status === 'reportedByPartner') {
-    return {title: 'In dispute', modifier: 'in-dispute'};
-  }
-
-  return {title: '', modifier: ''};
-};
-
-const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []}) => {
+const ExchangeOffer = ({
+  exchange,
+  user,
+  showEscrow,
+  showDetailsBtn,
+  buttons = [],
+  changeModalVisibility,
+  status
+}) => {
   const currentUserId = user.data.id;
-  const status = getStatus(exchange, user);
   const helpText = getHelperText(exchange, user);
   return (
     <div className="exchange-offer">
@@ -184,7 +159,7 @@ const ExchangeOffer = ({exchange, user, showEscrow, showDetailsBtn, buttons = []
         )}
         <div className="exchange-offer__actions">
           {showDetailsBtn && (
-            <Button color="link" size="sm" disabled>
+            <Button color="link" size="sm" onClick={changeModalVisibility}>
               View Details
             </Button>
           )}
@@ -216,8 +191,10 @@ ExchangeOffer.propTypes = {
       color: PropTypes.string
     })
   ),
+  changeModalVisibility: PropTypes.func,
   showDetailsBtn: PropTypes.bool,
-  showEscrow: PropTypes.bool
+  showEscrow: PropTypes.bool,
+  status: PropTypes.object
 };
 
 ExchangeOffer.defaultProps = {
