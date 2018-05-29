@@ -301,7 +301,7 @@ class InnerForm extends React.Component {
         <div className="create-form__footer">
           <div className="container">
             <div className="text-right">
-              <Button color="link" onClick={onCancelClick}>
+              <Button color="light" onClick={onCancelClick}>
                 Cancel
               </Button>
               <Button color="primary" onClick={handleSubmit} disabled={isSubmitting || !isValid}>
