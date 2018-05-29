@@ -204,6 +204,7 @@ $light-blue: lighten(#0045cf, 30%);
     }
     &__text {
       width: 9ch;
+      font-family: monospace, sans-serif;
       overflow: hidden;
       white-space: nowrap;
       margin-bottom: 0;
