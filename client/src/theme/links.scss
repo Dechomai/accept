@@ -36,6 +36,12 @@
     border: none;
     background: none;
     font-weight: $font-weight-bold;
+    &:hover {
+      color: $gray-400;
+    }
+    &:active {
+      color: $gray-500;
+    }
   }
 
   &-with-icon {
