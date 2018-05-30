@@ -151,8 +151,8 @@ export const createExchangeContract = ({
       price
     })
     .then(
-      ([transactionHash /* contractAddressPromise */]) => {
-        return exchangeService
+      transactionHash =>
+        exchangeService
           .createExchange({
             initiatorItemId: selectedItemData.id,
             initiatorItemType: selectedItemType,
@@ -176,14 +176,7 @@ export const createExchangeContract = ({
               dispatch(createExchangeContractFailure(err));
               return Promise.reject(err);
             }
-          );
-
-        // // can wait for contract address promise
-        // contractAddressPromise.then(address => {
-        //   // publish address to server
-        //   console.log('contract address', address);
-        // });
-      },
+          ),
       err => {
         let error = err;
 

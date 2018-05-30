@@ -1,6 +1,8 @@
 import Web3 from 'web3';
 
+import config from '../config';
 import exchangeContractData from '../config/contracts/exchange';
+import tokenContractData from '../config/contracts/token';
 
 const EXCHANGE_GAS_LIMIT = '2000000';
 
@@ -62,20 +64,14 @@ class MetaMask {
     return Promise.all([this.isPluginInstalled(), this.isAcceptNetwork()])
       .then(() => Promise.all([this.getActiveAccount(), this.getWeb3()]))
       .then(([address, web3]) => {
-        // let gasEstimate = web3.eth.estimateGas({data: exchangeContractData.bytecode}, (...args) => {
-        //   console.log(args);
-        // });
-
-        const ExchangeContract = web3.eth.contract(exchangeContractData.abi);
         const value = web3.toWei(price, 'ether');
 
-        let resolveContractAddress;
-        let contractAddress = new Promise(resolve => {
-          resolveContractAddress = resolve;
-        });
+        const tokenContract = web3.eth
+          .contract(tokenContractData.abi)
+          .at(config.bcTokenContractAddress);
 
         return new Promise((resolve, reject) => {
-          ExchangeContract.new(
+          tokenContract.approveAndInitiateExchange(
             initiatorItemName,
             initiatorItemQuantity,
             partnerItemName,
@@ -84,14 +80,11 @@ class MetaMask {
             partnerAddress,
             {
               from: address,
-              data: exchangeContractData.bytecode,
-              gas: EXCHANGE_GAS_LIMIT,
-              value
+              gas: EXCHANGE_GAS_LIMIT
             },
-            (err, contract) => {
+            (err, txHash) => {
               if (err) return reject(err);
-              if (contract.address) resolveContractAddress(contract.address);
-              resolve([contract.transactionHash, contractAddress]);
+              resolve(txHash);
             }
           );
         });
