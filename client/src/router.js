@@ -18,6 +18,7 @@ import Home from './layout/Home';
 import SignUpStep2 from './layout/SignUpStep2';
 import SignUpStep3 from './layout/SignUpStep3';
 import Profile from './layout/UserProfile';
+import EditProfile from './containers/Profile/Edit';
 import AboutMe from './containers/Profile/About';
 import AddProduct from './layout/AddProduct';
 import AddService from './layout/AddService';
@@ -35,6 +36,7 @@ import ExchangesIncoming from './containers/Exchanges/Incoming';
 import ExchangesPending from './containers/Exchanges/Pending';
 import ExchangesReported from './containers/Exchanges/Reported';
 import ExchangesArchived from './containers/Exchanges/Archived';
+import AccountSettings from './layout/Settings';
 
 /*
 
@@ -150,7 +152,9 @@ class Router extends React.Component {
             <IndexRoute component={AboutMe} />
             <Route path="products" component={ProfileProducts} />
             <Route path="services" component={ProfileServices} />
-            <Route path="edit" component={() => <h1>Edit Profile</h1>} />
+          </Route>
+          <Route path="profile/edit" component={AccountSettings}>
+            <IndexRoute component={EditProfile} />
           </Route>
 
           <Route path="users/:userId" component={Profile}>
