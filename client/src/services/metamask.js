@@ -62,13 +62,9 @@ class MetaMask {
     price
   }) {
     return Promise.all([this.isPluginInstalled(), this.isAcceptNetwork()])
-      .then(() => Promise.all([this.getActiveAccount(), this.getWeb3()]))
-      .then(([address, web3]) => {
+      .then(() => Promise.all([this.getActiveAccount(), this.getWeb3(), this.getTokenContract()]))
+      .then(([address, web3, tokenContract]) => {
         const value = web3.toWei(price, 'ether');
-
-        const tokenContract = web3.eth
-          .contract(tokenContractData.abi)
-          .at(config.bcTokenContractAddress);
 
         return new Promise((resolve, reject) => {
           tokenContract.approveAndInitiateExchange(
@@ -91,6 +87,12 @@ class MetaMask {
       });
   }
 
+  getTokenContract() {
+    return this.getWeb3().then(web3 =>
+      web3.eth.contract(tokenContractData.abi).at(config.bcTokenContractAddress)
+    );
+  }
+
   getExchangeContract(contractAddress) {
     return this.getWeb3().then(web3 =>
       web3.eth.contract(exchangeContractData.abi).at(contractAddress)
@@ -110,14 +112,13 @@ class MetaMask {
   }
 
   acceptExchangeContract({exchange, user}) {
-    const value = web3.toWei(exchange.price, 'ether');
-    return this.getExchangeContract(exchange.bcContractAddress).then(
-      contract =>
+    return this.getTokenContract().then(
+      tokenContract =>
         new Promise((resolve, reject) => {
-          contract.accept(
+          tokenContract.approveAndAccept(
+            exchange.bcContractAddress,
             {
-              from: user.bcDefaultAccountAddress,
-              value
+              from: user.bcDefaultAccountAddress
             },
             (err, txHash) => {
               if (err) return reject(err);
