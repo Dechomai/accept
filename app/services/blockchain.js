@@ -37,7 +37,11 @@ class BlockchainService {
               );
               return reject(err);
             }
-            if (block && !block.logs.length) {
+            if (!block) {
+              logger.error(':getContractAddress', 'Block not mined yet', transactionHash);
+              return reject('Block not mined yet');
+            }
+            if (block && block.logs && !block.logs.length) {
               logger.error(':getContractAddress', 'Transaction did not succeed', transactionHash);
               return reject('Transaction did not succeed');
             }
