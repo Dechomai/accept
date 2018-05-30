@@ -178,12 +178,19 @@ const exchangesController = {
     });
   },
 
-  resolvePendingTransactions(userType, userId) {
-    if (userType !== 'initiator' && userType !== 'partner')
+  resolvePendingTransactions(userId, userType) {
+    if (typeof userType !== 'undefined' && userType !== 'initiator' && userType !== 'partner')
       return Promise.reject('Invalid user type');
+    let query;
+
+    if (userType) {
+      query = {[userType]: userId};
+    } else {
+      query = {$or: [{initiator: userId}, {partner: userId}]};
+    }
 
     return Exchange.find({
-      [userType]: userId,
+      ...query,
       bcPendingTransactionHash: {$exists: true}
     }).then(exchanges => {
       if (!exchanges.length) return Promise.resolve();
@@ -262,7 +269,8 @@ const exchangesController = {
   getOutcomingExchanges({userId, skip, limit}) {
     const query = {
       initiator: userId,
-      status: 'new'
+      status: 'new',
+      bcContractAddress: {$exists: true}
     };
 
     return this.getExchanges(
@@ -276,7 +284,8 @@ const exchangesController = {
   getIncomingExchanges({userId, skip, limit}) {
     const query = {
       partner: userId,
-      status: 'new'
+      status: 'new',
+      bcContractAddress: {$exists: true}
     };
 
     return this.getExchanges(
@@ -304,12 +313,13 @@ const exchangesController = {
             }
           ]
         }
-      ]
+      ],
+      bcContractAddress: {$exists: true}
     };
 
     return this.getExchanges(
       query,
-      this.ensureContractAddresses('partner', userId),
+      this.resolvePendingTransactions(userId),
       {userId},
       {skip, limit, loggerPrefix: ':getPendingExchanges'}
     );
@@ -328,12 +338,13 @@ const exchangesController = {
             }
           ]
         }
-      ]
+      ],
+      bcContractAddress: {$exists: true}
     };
 
     return this.getExchanges(
       query,
-      this.ensureContractAddresses('partner', userId),
+      this.resolvePendingTransactions(userId),
       {userId},
       {skip, limit, loggerPrefix: ':getPendingExchanges'}
     );
@@ -356,22 +367,20 @@ const exchangesController = {
             }
           ]
         }
-      ]
+      ],
+      bcContractAddress: {$exists: true}
     };
 
     return this.getExchanges(
       query,
-      this.ensureContractAddresses('partner', userId),
+      this.resolvePendingTransactions(userId),
       {userId},
       {skip, limit, loggerPrefix: ':getArchivedExchanges'}
     );
   },
 
   cancelExchange({userId, exchangeId, txHash}) {
-    return Promise.all([
-      this.ensureContractAddresses('initiator', userId),
-      this.resolvePendingTransactions('initiator', userId)
-    ])
+    return this.resolvePendingTransactions(userId)
       .then(() => Exchange.findById(exchangeId))
       .then(exchange => (exchange ? exchange : Promise.reject(null)))
       .then(exchange => {
@@ -396,10 +405,7 @@ const exchangesController = {
   },
 
   acceptExchange({userId, exchangeId, txHash}) {
-    return Promise.all([
-      this.ensureContractAddresses('partner', userId),
-      this.resolvePendingTransactions('partner', userId)
-    ])
+    return this.resolvePendingTransactions(userId)
       .then(() => Exchange.findById(exchangeId))
       .then(exchange => (exchange ? exchange : Promise.reject(null)))
       .then(exchange => {
@@ -424,10 +430,7 @@ const exchangesController = {
   },
 
   rejectExchange({userId, exchangeId, txHash}) {
-    return Promise.all([
-      this.ensureContractAddresses('partner', userId),
-      this.resolvePendingTransactions('partner', userId)
-    ])
+    return this.resolvePendingTransactions(userId)
       .then(() => Exchange.findById(exchangeId))
       .then(exchange => (exchange ? exchange : Promise.reject(null)))
       .then(exchange => {
