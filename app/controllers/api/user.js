@@ -1,7 +1,9 @@
 const {assoc} = require('ramda');
+
 const User = require('../../models/user');
 const {createLoggerWith} = require('../../logger');
 const mediaController = require('./media');
+const blockchainService = require('../../services/blockchain');
 
 const logger = createLoggerWith('[CTRL:User]');
 
@@ -53,19 +55,24 @@ const userController = {
       .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
         if (user.status !== 'pending') return Promise.reject('Invalid state');
-
-        return User.findByIdAndUpdate(
+        if (user.bcBonusTokensSent)
+          return Promise.reject('Bonus tokens already to sent to this user');
+        return this.sendBonusTokens(address);
+      })
+      .then(() =>
+        User.findByIdAndUpdate(
           id,
           {
             status: 'active',
-            bcDefaultAccountAddress: address
+            bcDefaultAccountAddress: address,
+            bcBonusTokensSent: true
           },
           {
             new: true,
             select: User.projection
           }
-        );
-      })
+        )
+      )
       .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .catch(err => {
         if (err === null) {
@@ -102,6 +109,10 @@ const userController = {
       logger.error(':isUsernameUnique', 'error', err);
       return Promise.reject(err);
     });
+  },
+
+  sendBonusTokens(address) {
+    return blockchainService.sendUserBonus(address);
   }
 };
 

@@ -1,8 +1,15 @@
 const Web3 = require('web3');
+const EthereumTx = require('ethereumjs-tx');
+
 const config = require('../../config');
+const tokenContract = require('../../config/contracts/token');
 const {createLoggerWith} = require('../logger');
 
 const BLOCKCHAIN_ADDRESS = config.get('blockchain.address');
+
+const TOKEN_CONTRACT_ADDRESS = config.get('blockchain.tokenContractAddress');
+const TOKEN_SPONSOR_ADDRESS = config.get('blockchain.tokenSponsorAddress');
+const TOKEN_SPONSOR_PRIVATE_KEY = config.get('blockchain.tokenSponsorPrivateKey');
 
 const logger = createLoggerWith('[SVC:Blockchain]');
 
@@ -23,11 +30,16 @@ class BlockchainService {
         new Promise((resolve, reject) => {
           web3.eth.getTransactionReceipt(transactionHash, (err, block) => {
             if (err) {
-              logger.error('Error retrieving block by txHash', transactionHash);
+              logger.error(
+                ':getContractAddress',
+                'Error retrieving block by txHash',
+                transactionHash
+              );
               return reject(err);
             }
             if (block && block.contractAddress) {
               logger.info(
+                ':getContractAddress',
                 'Got contract address from txHash',
                 block.contractAddress,
                 transactionHash
@@ -35,6 +47,7 @@ class BlockchainService {
               return resolve(block.contractAddress);
             }
             logger.error(
+              ':getContractAddress',
               'Error retrieving contract address from block, block might not have been mined yet'
             );
             return reject(null);
@@ -49,11 +62,12 @@ class BlockchainService {
         new Promise((resolve, reject) => {
           web3.eth.getTransactionReceipt(transactionHash, (err, transactionReceipt) => {
             if (err) {
-              logger.error('Error retrieving block by txHash', transactionHash);
+              logger.error(':getTransaction', 'Error retrieving block by txHash', transactionHash);
               return reject(err);
             }
             if (transactionReceipt === null) {
               logger.error(
+                ':getTransaction',
                 'Error retrieving transaction receipt, block might not have been mined yet'
               );
               return reject(null);
@@ -62,6 +76,64 @@ class BlockchainService {
           });
         })
     );
+  }
+
+  sendUserBonus(userAddress) {
+    return this.getWeb3().then(web3 => {
+      const initialBalance = 20000000000000000000; // 20 ether
+
+      const nonce = web3.eth.getTransactionCount(TOKEN_SPONSOR_ADDRESS, 'pending');
+      const etherTxParameters = {
+        nonce: nonce,
+        gasPrice: '0x5208',
+        gasLimit: '0x30D40',
+        to: userAddress,
+        value: initialBalance
+      };
+
+      let txData = web3.eth
+        .contract(tokenContract.abi)
+        .at(TOKEN_CONTRACT_ADDRESS)
+        .transfer.getData(userAddress, initialBalance);
+
+      const tokenTxParameters = {
+        nonce: nonce + 1,
+        gasPrice: '0x5208',
+        gasLimit: '0x30D40',
+        to: TOKEN_CONTRACT_ADDRESS,
+        data: txData
+      };
+
+      return this.sendSignedTransaction(etherTxParameters)
+        .then(txHash => {
+          logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
+          return this.sendSignedTransaction(tokenTxParameters);
+        })
+        .then(txHash => {
+          logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
+        });
+    });
+  }
+
+  sendSignedTransaction(rawTx) {
+    return this.getWeb3().then(web3 => {
+      const privateKey = Buffer.from(TOKEN_SPONSOR_PRIVATE_KEY, 'hex');
+
+      const tx = new EthereumTx(rawTx);
+      tx.sign(privateKey);
+      const signedTx = '0x' + tx.serialize().toString('hex');
+
+      return new Promise((resolve, reject) => {
+        web3.eth.sendRawTransaction(signedTx, (err, txHash) => {
+          if (err) {
+            logger.error(':sendSignedTransaction', 'Error sending signed transaction', err);
+            return reject(err);
+          }
+          logger.info(':sendSignedTransaction', 'Signed transaction sent', txHash);
+          resolve(txHash);
+        });
+      });
+    });
   }
 }
 

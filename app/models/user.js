@@ -46,7 +46,8 @@ const userSchema = new BaseSchema(
     },
     photoUrl: String,
     description: String,
-    bcDefaultAccountAddress: String
+    bcDefaultAccountAddress: String,
+    bcBonusTokensSent: Boolean
   },
   {
     timestamps: true

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../../config');
-const logger = require('../logger');
+const {createLoggerWith} = require('../logger');
 
 const DB_USERNAME = config.get('db.username');
 const DB_PASSWORD = config.get('db.password');
@@ -12,6 +12,8 @@ const getConnectionString = () => {
   if (DB_USERNAME && DB_PASSWORD) uri += `${DB_USERNAME}:${DB_PASSWORD}@`;
   return (uri += `${DB_HOST}/${DB_NAME}`);
 };
+
+const logger = createLoggerWith('[DB:Connection]');
 
 const connect = () => {
   mongoose.connect(getConnectionString());
