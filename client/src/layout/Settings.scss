@@ -1,0 +1,43 @@
+@import '../theme/index';
+
+.account-settings {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: solid 1px $gray-400;
+
+    h4 {
+      margin: 0;
+    }
+  }
+
+  &__nav {
+    margin: auto 0 3px;
+
+    &-item {
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      padding-bottom: 20px;
+      color: $gray-500;
+      border-bottom: 1px solid $gray-500;
+
+      &:hover {
+        text-decoration: none;
+        color: $blue;
+      }
+
+      &--active {
+        color: $blue;
+        border-bottom: 2px solid $blue;
+      }
+
+      &--disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+  }
+}

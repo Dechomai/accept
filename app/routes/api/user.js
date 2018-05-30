@@ -145,10 +145,34 @@ userRouter
       body('description')
         .optional()
         .isLength({min: 0, max: 800})
+        .trim(),
+      body('firstName')
+        .optional()
+        .isLength({min: 1, max: 225}) // science
+        .trim(),
+      body('lastName')
+        .optional()
+        .isLength({min: 1, max: 50}) // science
+        .trim(),
+      body('address')
+        .optional()
+        .isLength({min: 5, max: 100})
+        .trim(),
+      body('phone')
+        .optional()
+        .isMobilePhone('any')
+        .trim(),
+      body('username')
+        .optional()
+        .isLength({min: 1, max: 100})
+        .isAlphanumeric()
         .trim()
     ),
     (req, res) => {
-      const data = pick(['description'], req.body);
+      const data = pick(
+        ['description', 'firstName', 'lastName', 'address', 'phone', 'username'],
+        req.body
+      );
 
       userController.updateUser(req.userId, data).then(
         user => sendSuccess(res, {user}),

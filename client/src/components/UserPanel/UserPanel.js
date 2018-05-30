@@ -3,6 +3,7 @@ import './UserPanel.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'reactstrap';
+import {Link} from 'react-router';
 
 import Icon from '../common/Icon/Icon';
 import UserAvatar from '../UserAvatar/UserAvatar';
@@ -24,10 +25,12 @@ const UserPanel = ({user, isCurrentUser}) => {
       </div>
       <div className="user-panel__actions">
         {isCurrentUser ? (
-          <Button size="sm" color="link" className="btn-with-icon user-panel__edit" disabled>
-            <Icon name="pencil" size="20" />
-            <span>Edit personal info</span>
-          </Button>
+          <Link to="/profile/edit">
+            <Button size="sm" color="link" className="btn-with-icon user-panel__edit">
+              <Icon name="pencil" size="20" />
+              <span>Edit personal info</span>
+            </Button>
+          </Link>
         ) : (
           <Button color="primary" className="user-panel__contact" disabled>
             Contact
