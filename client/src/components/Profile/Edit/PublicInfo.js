@@ -67,8 +67,8 @@ const PublicInfoForm = withFormik({
     address
   }),
   validate: createValidator({
-    username: [rules.minLength(3), rules.maxLength(40), 'alphanumeric'],
-    address: [rules.minLength(5), rules.maxLength(100), 'commonText']
+    username: ['required', rules.minLength(3), rules.maxLength(40), 'alphanumeric'],
+    address: ['required', rules.minLength(5), rules.maxLength(100), 'commonText']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
     const publicInfo = compose(filter(compose(not, isEmpty)), pick(['username', 'address']))(
