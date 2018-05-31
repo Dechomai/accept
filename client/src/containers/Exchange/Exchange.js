@@ -47,15 +47,17 @@ import ExchangeItem from './ExchangeItem';
 
 import ExchangeModal from '../../components/Exchange/Modal';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
+import StepSignature from './StepSignature';
 
 const Steps = {
   TYPE_SELECTION: 0,
   ITEM_SELECTION: 1,
   DETAILS_SPECIFICATION: 2,
   SUMMARY: 3,
-  CONNECTION_CHECK: 4,
-  TRANSACTION_CONFIRM: 5,
-  TRANSACTION_RESULT: 6
+  SIGNATURE: 4,
+  CONNECTION_CHECK: 5,
+  TRANSACTION_CONFIRM: 6,
+  TRANSACTION_RESULT: 7
 };
 
 class Exchange extends React.Component {
@@ -152,11 +154,12 @@ class Exchange extends React.Component {
 
   isCancelBtnShown() {
     const {step} = this.props;
-    return step !== Steps.TRANSACTION_RESULT;
+    return ![Steps.SIGNATURE, Steps.TRANSACTION_RESULT].includes(step);
   }
 
   isNextBtnShown() {
-    return true;
+    const {step} = this.props;
+    return step !== Steps.SIGNATURE;
   }
 
   handleStepChange(stepName) {
@@ -202,6 +205,8 @@ class Exchange extends React.Component {
         return 'Step 2. Smart Contract';
       case Steps.CONNECTION_CHECK:
         return 'Check Connection';
+      case Steps.SIGNATURE:
+        return 'Step 3. Signing Offer';
       case Steps.TRANSACTION_CONFIRM:
         return 'Processing...';
       case Steps.TRANSACTION_RESULT:
@@ -309,6 +314,9 @@ class Exchange extends React.Component {
             }}
           />
         );
+      }
+      case Steps.SIGNATURE: {
+        return <StepSignature onSigned={this.handleNextBtnClick} />;
       }
       case Steps.TRANSACTION_CONFIRM:
         return (
