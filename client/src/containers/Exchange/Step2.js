@@ -116,36 +116,38 @@ export default compose(
             onPrevClick={onPaginationPrevClick}
             onPageClick={onPaginationPageClick}
           />
-          <div className="exchange-step2-list">
-            {items.data.map(item => {
-              const img = getPrimaryImage(item);
-              const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
-              return (
-                <div
-                  className="exchange-step2-list__item"
-                  key={item.id}
-                  onClick={() => {
-                    onItemSelect(item);
-                    stepChanged('DETAILS_SPECIFICATION');
-                  }}>
+          <div className="position-relative">
+            <div className="exchange-step2-list">
+              {items.data.map(item => {
+                const img = getPrimaryImage(item);
+                const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
+                return (
                   <div
-                    className="exchange-step2-list__item__thumbnail"
-                    style={{backgroundImage: `url(${thumbnail})`}}
-                  />
-                  <div className="exchange-step2-list__item__info">
-                    <div className="exchange-step2-list__item__title">{item.title}</div>
-                    <div className="exchange-step2-list__item__price">
-                      <span className="exchange-step2-list__item__price__value">
-                        {formatPrice(item.price)}
-                      </span>
-                      {type === 'service' && (
-                        <span className="exchange-step2-list__item__price__label">per hour</span>
-                      )}
+                    className="exchange-step2-list__item"
+                    key={item.id}
+                    onClick={() => {
+                      onItemSelect(item);
+                      stepChanged('DETAILS_SPECIFICATION');
+                    }}>
+                    <div
+                      className="exchange-step2-list__item__thumbnail"
+                      style={{backgroundImage: `url(${thumbnail})`}}
+                    />
+                    <div className="exchange-step2-list__item__info">
+                      <div className="exchange-step2-list__item__title">{item.title}</div>
+                      <div className="exchange-step2-list__item__price">
+                        <span className="exchange-step2-list__item__price__value">
+                          {formatPrice(item.price)}
+                        </span>
+                        {type === 'service' && (
+                          <span className="exchange-step2-list__item__price__label">per hour</span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       );

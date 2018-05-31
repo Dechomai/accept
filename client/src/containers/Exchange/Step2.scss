@@ -12,7 +12,7 @@
 }
 
 .exchange-step2-list {
-  max-height: 400px;
+  max-height: 450px;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -22,7 +22,7 @@
     height: 12px;
     width: calc(100% - 17px);
     background: list-background(180deg);
-    top: 55px;
+    top: 0;
     left: 0;
   }
 
@@ -32,7 +32,7 @@
     height: 16px;
     width: calc(100% - 17px);
     background: list-background(0deg);
-    bottom: 55px;
+    bottom: 0;
     left: 0;
   }
 
