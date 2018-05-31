@@ -117,7 +117,7 @@ export default compose(
             onPrevClick={onPaginationPrevClick}
             onPageClick={onPaginationPageClick}
           />
-          <div className="position-relative">
+          <div className="exchange-step2-list__wrapper">
             <PagedList className="exchange-step2-list" page={Math.floor(skip / limit)}>
               {items.data.map(item => {
                 const img = getPrimaryImage(item);

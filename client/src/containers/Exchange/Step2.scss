@@ -36,6 +36,11 @@
     left: 0;
   }
 
+  &__wrapper {
+    position: relative;
+    height: 450px;
+  }
+
   &__item {
     display: flex;
     flex-direction: row;
