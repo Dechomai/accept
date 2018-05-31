@@ -128,6 +128,41 @@ class MetaMask {
         })
     );
   }
+
+  rejectExchangeContract({exchange, user}) {
+    return this.getExchangeContract(exchange.bcContractAddress).then(
+      contract =>
+        new Promise((resolve, reject) => {
+          contract.reject({from: user.bcDefaultAccountAddress}, (err, txHash) => {
+            if (err) return reject(err);
+            resolve(txHash);
+          });
+        })
+    );
+  }
+
+  provideExchangeContractFeedback(feedback, {exchange, user}) {
+    const method =
+      user.id === exchange.initiator.id ? 'givePartnerItemFeedback' : 'giveInitiatorItemFeedback';
+
+    return this.getExchangeContract(exchange.bcContractAddress).then(
+      contract =>
+        new Promise((resolve, reject) => {
+          contract[method](feedback, {from: user.bcDefaultAccountAddress}, (err, txHash) => {
+            if (err) return reject(err);
+            resolve(txHash);
+          });
+        })
+    );
+  }
+
+  validateExchangeContract({exchange, user}) {
+    return this.provideExchangeContractFeedback(true, {exchange, user});
+  }
+
+  reportExchangeContract({exchange, user}) {
+    return this.provideExchangeContractFeedback(false, {exchange, user});
+  }
 }
 
 const metamaskService = new MetaMask();
