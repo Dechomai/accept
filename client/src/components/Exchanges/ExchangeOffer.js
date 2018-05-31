@@ -21,7 +21,8 @@ const ExchangeOffer = ({
   buttons = [],
   changeModalVisibility,
   status,
-  helpText
+  helpText,
+  openConfirmationModal
 }) => {
   const currentUserId = user.data.id;
   const isPending = !!exchange.bcPendingTransactionHash;
@@ -137,7 +138,7 @@ const ExchangeOffer = ({
                 key={title}
                 color={color || 'primary'}
                 size="sm"
-                onClick={() => onClick(exchange)}
+                onClick={() => openConfirmationModal({title, color, onClick, ...rest})}
                 {...omit(['visible'], rest)}
                 disabled={isPending || disabled}>
                 {title}
