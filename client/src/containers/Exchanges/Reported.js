@@ -5,12 +5,13 @@ import {compose, lifecycle} from 'recompact';
 
 import {fetchExchanges} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangesFor, selectProfile} from '../../selectors';
+import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance';
+import {selectExchangesFor, selectExchangesCountFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
 import Empty from '../../components/Exchanges/Empty';
 
-const DEFAULT_LIMIT = 20;
+const DEFAULT_LIMIT = 10;
 
 const refetchExchages = ({exchanges, fetchExchanges}, forceFetch = false) => {
   if (forceFetch && exchanges && !exchanges.loading) return fetchExchanges();
@@ -23,6 +24,7 @@ const mapStateToProps = (state, ownProps) => ({
     skip: ownProps.skip,
     limit: ownProps.limit
   }),
+  count: selectExchangesCountFor(state, 'reported'),
   user: selectProfile(state)
 });
 
@@ -38,6 +40,7 @@ export default compose(
   withRouter,
   withPage(DEFAULT_LIMIT),
   connect(mapStateToProps, mapDispatchToProps),
+  withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT),
   lifecycle({
     componentDidMount() {
       refetchExchages(this.props, true);
@@ -48,7 +51,7 @@ export default compose(
       refetchExchages(nextProps);
     }
   })
-)(({exchanges, user}) => {
+)(({exchanges, user, count, skip, limit}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
   if (exchanges && !exchanges.data.length) return <Empty />;
   if (exchanges && exchanges.data.length)
@@ -58,6 +61,9 @@ export default compose(
         exchanges={exchanges.data}
         showEscrow={false}
         user={user}
+        count={count}
+        skip={skip}
+        limit={limit}
       />
     );
   return null;

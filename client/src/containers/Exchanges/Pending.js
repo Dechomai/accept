@@ -7,7 +7,8 @@ import autobind from 'autobindr';
 
 import {fetchExchanges, reportExchange, validateExchange} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangesFor, selectProfile} from '../../selectors';
+import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance';
+import {selectExchangesFor, selectExchangesCountFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
 import Empty from '../../components/Exchanges/Empty';
@@ -15,7 +16,7 @@ import ExchangesModal from '../../components/Exchanges/Modal';
 import Confirmation from '../../components/Exchange/Confirmation';
 import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
 
-const DEFAULT_LIMIT = 20;
+const DEFAULT_LIMIT = 10;
 
 const shouldShowActionBtn = (exchange, user) => {
   const {status} = exchange;
@@ -82,7 +83,7 @@ class PendingExchanges extends React.Component {
   }
 
   render() {
-    const {exchanges, user} = this.props;
+    const {exchanges, user, count, skip, limit} = this.props;
 
     if (!exchanges || exchanges.loading) return <Loader />;
     if (exchanges && !exchanges.data.length) return <Empty />;
@@ -120,6 +121,9 @@ class PendingExchanges extends React.Component {
               }
             ]}
             user={user}
+            count={count}
+            skip={skip}
+            limit={limit}
           />
         </React.Fragment>
       );
@@ -145,6 +149,7 @@ const mapStateToProps = (state, ownProps) => ({
     skip: ownProps.skip,
     limit: ownProps.limit
   }),
+  count: selectExchangesCountFor(state, 'pending'),
   user: selectProfile(state)
 });
 
@@ -165,5 +170,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   withPage(DEFAULT_LIMIT),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT)
 )(PendingExchanges);

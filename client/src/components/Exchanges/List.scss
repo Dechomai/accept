@@ -1,6 +1,12 @@
 @import '../../theme/index';
 
 .exchanges-list {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
   &__subtitle {
     font-size: 9px;
     color: $gray-500;
