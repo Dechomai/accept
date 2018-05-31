@@ -214,13 +214,13 @@ const exchangesController = {
               if (err === null) {
                 logger.error(
                   ':resolvePendingTransactions',
-                  'contract address not found for tx:',
+                  'transaction not found for txHash:',
                   exchange.bcPendingTransactionHash
                 );
               } else {
                 logger.error(
                   ':resolvePendingTransactions',
-                  'error retirieving contract address for tx:',
+                  'error retirieving transaction for txHash:',
                   exchange.bcPendingTransactionHash,
                   'error',
                   err
@@ -451,6 +451,90 @@ const exchangesController = {
         exchange.set('status', 'rejected');
         exchange.set('bcPendingTransactionHash', txHash);
         return exchange.save();
+      });
+  },
+
+  validateExchange({userId, exchangeId, txHash}) {
+    return this.resolvePendingTransactions(userId)
+      .then(() => Exchange.findById(exchangeId))
+      .then(exchange => (exchange ? exchange : Promise.reject(null)))
+      .then(exchange => {
+        if (exchange.bcPendingTransactionHash) {
+          logger.error(
+            `Exchange ${exchangeId} has pending transaction ${exchange.bcPendingTransactionHash}`
+          );
+          return Promise.reject('Exchange has pending transaction');
+        }
+        const isInitiator = exchange.initiator === userId;
+        const isPartner = exchange.partner === userId;
+        const status = exchange.status;
+        let newStatus = null;
+
+        if (!isInitiator && !isPartner) {
+          logger.error(`User ${userId} is not part of exchange ${exchangeId}`);
+          return Promise.reject('User can not validate exchange');
+        }
+
+        // user is first one to validate
+        if (isInitiator && status === 'accepted') {
+          newStatus = 'validatedByInitiator';
+        }
+        if (isPartner && status === 'accepted') {
+          newStatus = 'validatedByPartner';
+        }
+
+        // user is second one to validate
+        if (isInitiator && status === 'validatedByPartner') {
+          newStatus = 'completed';
+        }
+        if (isPartner && status === 'validatedByInitiator') {
+          newStatus = 'completed';
+        }
+
+        if (newStatus) {
+          exchange.set('status', newStatus);
+          exchange.set('bcPendingTransactionHash', txHash);
+          return exchange.save();
+        }
+        return Promise.reject('User can not validate exchange and its state');
+      });
+  },
+
+  reportExchange({userId, exchangeId, txHash}) {
+    return this.resolvePendingTransactions(userId)
+      .then(() => Exchange.findById(exchangeId))
+      .then(exchange => (exchange ? exchange : Promise.reject(null)))
+      .then(exchange => {
+        if (exchange.bcPendingTransactionHash) {
+          logger.error(
+            `Exchange ${exchangeId} has pending transaction ${exchange.bcPendingTransactionHash}`
+          );
+          return Promise.reject('Exchange has pending transaction');
+        }
+        const isInitiator = exchange.initiator === userId;
+        const isPartner = exchange.partner === userId;
+        const status = exchange.status;
+        let newStatus = null;
+
+        if (!isInitiator && !isPartner) {
+          logger.error(`User ${userId} is not part of exchange ${exchangeId}`);
+          return Promise.reject('User can not report exchange');
+        }
+
+        if (isInitiator && (status === 'accepted' || status === 'validatedByPartner')) {
+          newStatus = 'reportedByInitiator';
+        }
+        if (isPartner && (status === 'accepted' || status === 'validatedByInitiator')) {
+          newStatus = 'reportedByPartner';
+        }
+
+        if (newStatus) {
+          exchange.set('status', newStatus);
+          exchange.set('bcPendingTransactionHash', txHash);
+          return exchange.save();
+        }
+        logger.error(`User can not report exhange ${exchangeId}, it has "${status}" status`);
+        return Promise.reject('User can not report exchange and its state');
       });
   }
 };
