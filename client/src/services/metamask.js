@@ -1,6 +1,8 @@
 import Web3 from 'web3';
 
+import config from '../config';
 import exchangeContractData from '../config/contracts/exchange';
+import tokenContractData from '../config/contracts/token';
 
 const EXCHANGE_GAS_LIMIT = '2000000';
 
@@ -60,22 +62,12 @@ class MetaMask {
     price
   }) {
     return Promise.all([this.isPluginInstalled(), this.isAcceptNetwork()])
-      .then(() => Promise.all([this.getActiveAccount(), this.getWeb3()]))
-      .then(([address, web3]) => {
-        // let gasEstimate = web3.eth.estimateGas({data: exchangeContractData.bytecode}, (...args) => {
-        //   console.log(args);
-        // });
-
-        const ExchangeContract = web3.eth.contract(exchangeContractData.abi);
+      .then(() => Promise.all([this.getActiveAccount(), this.getWeb3(), this.getTokenContract()]))
+      .then(([address, web3, tokenContract]) => {
         const value = web3.toWei(price, 'ether');
 
-        let resolveContractAddress;
-        let contractAddress = new Promise(resolve => {
-          resolveContractAddress = resolve;
-        });
-
         return new Promise((resolve, reject) => {
-          ExchangeContract.new(
+          tokenContract.approveAndInitiateExchange(
             initiatorItemName,
             initiatorItemQuantity,
             partnerItemName,
@@ -84,18 +76,21 @@ class MetaMask {
             partnerAddress,
             {
               from: address,
-              data: exchangeContractData.bytecode,
-              gas: EXCHANGE_GAS_LIMIT,
-              value
+              gas: EXCHANGE_GAS_LIMIT
             },
-            (err, contract) => {
+            (err, txHash) => {
               if (err) return reject(err);
-              if (contract.address) resolveContractAddress(contract.address);
-              resolve([contract.transactionHash, contractAddress]);
+              resolve(txHash);
             }
           );
         });
       });
+  }
+
+  getTokenContract() {
+    return this.getWeb3().then(web3 =>
+      web3.eth.contract(tokenContractData.abi).at(config.bcTokenContractAddress)
+    );
   }
 
   getExchangeContract(contractAddress) {
@@ -117,14 +112,13 @@ class MetaMask {
   }
 
   acceptExchangeContract({exchange, user}) {
-    const value = web3.toWei(exchange.price, 'ether');
-    return this.getExchangeContract(exchange.bcContractAddress).then(
-      contract =>
+    return this.getTokenContract().then(
+      tokenContract =>
         new Promise((resolve, reject) => {
-          contract.accept(
+          tokenContract.approveAndAccept(
+            exchange.bcContractAddress,
             {
-              from: user.bcDefaultAccountAddress,
-              value
+              from: user.bcDefaultAccountAddress
             },
             (err, txHash) => {
               if (err) return reject(err);
@@ -133,6 +127,41 @@ class MetaMask {
           );
         })
     );
+  }
+
+  rejectExchangeContract({exchange, user}) {
+    return this.getExchangeContract(exchange.bcContractAddress).then(
+      contract =>
+        new Promise((resolve, reject) => {
+          contract.reject({from: user.bcDefaultAccountAddress}, (err, txHash) => {
+            if (err) return reject(err);
+            resolve(txHash);
+          });
+        })
+    );
+  }
+
+  provideExchangeContractFeedback(feedback, {exchange, user}) {
+    const method =
+      user.id === exchange.initiator.id ? 'givePartnerItemFeedback' : 'giveInitiatorItemFeedback';
+
+    return this.getExchangeContract(exchange.bcContractAddress).then(
+      contract =>
+        new Promise((resolve, reject) => {
+          contract[method](feedback, {from: user.bcDefaultAccountAddress}, (err, txHash) => {
+            if (err) return reject(err);
+            resolve(txHash);
+          });
+        })
+    );
+  }
+
+  validateExchangeContract({exchange, user}) {
+    return this.provideExchangeContractFeedback(true, {exchange, user});
+  }
+
+  reportExchangeContract({exchange, user}) {
+    return this.provideExchangeContractFeedback(false, {exchange, user});
   }
 }
 
