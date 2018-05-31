@@ -119,13 +119,25 @@ class BlockchainService {
       };
 
       return this.sendSignedTransaction(etherTxParameters)
-        .then(txHash => {
-          logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
-          return this.sendSignedTransaction(tokenTxParameters);
-        })
-        .then(txHash => {
-          logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
-        });
+        .then(
+          txHash => {
+            logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
+            return this.sendSignedTransaction(tokenTxParameters);
+          },
+          err => {
+            logger.error(':sendUserBonus', 'Error sending bonus ether to:', userAddress, err);
+            return Promise.reject(err);
+          }
+        )
+        .then(
+          txHash => {
+            logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
+          },
+          err => {
+            logger.error(':sendUserBonus', 'Error sending bonus tokens to:', userAddress, err);
+            return Promise.reject(err);
+          }
+        );
     });
   }
 
