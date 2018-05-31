@@ -58,6 +58,18 @@ const exchangeService = {
 
   acceptExchange({exchangeId, bcTransactionHash}) {
     return this.exchangeAction('accept', {exchangeId, bcTransactionHash});
+  },
+
+  rejectExchange({exchangeId, bcTransactionHash}) {
+    return this.exchangeAction('reject', {exchangeId, bcTransactionHash});
+  },
+
+  validateExchange({exchangeId, bcTransactionHash}) {
+    return this.exchangeAction('validate', {exchangeId, bcTransactionHash});
+  },
+
+  reportExchange({exchangeId, bcTransactionHash}) {
+    return this.exchangeAction('report', {exchangeId, bcTransactionHash});
   }
 };
 
