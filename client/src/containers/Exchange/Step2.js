@@ -17,6 +17,7 @@ import {fetchServices} from '../../actions/services';
 import {getImageThumbnail, getPrimaryImage} from '../../utils/img';
 import {formatPrice} from '../../utils/format';
 import Pagination from '../../components/common/Pagination/Pagination';
+import PagedList from '../../components/common/Pagination/PagedList';
 import Loader from '../../components/common/Loader/Loader';
 import Empty from '../../components/common/Empty/Empty';
 import {selectItem} from '../../actions/exchange';
@@ -117,7 +118,7 @@ export default compose(
             onPageClick={onPaginationPageClick}
           />
           <div className="exchange-step2-list__wrapper">
-            <div className="exchange-step2-list">
+            <PagedList className="exchange-step2-list" page={Math.floor(skip / limit)}>
               {items.data.map(item => {
                 const img = getPrimaryImage(item);
                 const thumbnail = img ? getImageThumbnail(img) : '/assets/img/placeholder.png';
@@ -147,7 +148,7 @@ export default compose(
                   </div>
                 );
               })}
-            </div>
+            </PagedList>
           </div>
         </div>
       );
