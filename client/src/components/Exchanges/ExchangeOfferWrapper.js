@@ -4,6 +4,7 @@ import {Button} from 'reactstrap';
 
 import ExchangeOffer from './ExchangeOffer';
 import DetailsModal from './DetailsModal';
+import ConfirmationModal from '../common/ConfirmationModal/ConfirmationModal';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 import {calculateEscrow, calculateEscrowDifference} from '../../utils/exchange';
 import Icon from '../common/Icon/Icon';
@@ -30,6 +31,14 @@ const HELPER_TEXT = {
   rejected: 'Your offer was rejected.'
 };
 
+const CONFIRMATION_TEXT = {
+  accept:
+    'By accepting this offer, I agree to the Accept.IO marketplace rules, and in the event of a transaction dispute, I agree to be bound by the Accept Star Council rules of arbitration and any decision made as a result of this arbitration process.',
+  reject: 'Are you sure you want to Reject this offer? This cannot be undone.',
+  validate: 'Are you sure you want to Validate this offer? This cannot be undone.',
+  cancel: 'Are you sure you want to Cancel this offer? This cannot be undone.'
+};
+
 const TRANSACTION_INFO = {
   incoming:
     'By accepting the offer your account will be deducted for the escrow amount of Fulcrum (fee is charged separately). After the exchange is completed you will receive the deducted amount of Fulcrum back to your account.',
@@ -53,7 +62,9 @@ class ExchangeOfferWrapper extends React.Component {
     autobind(this);
 
     this.state = {
-      detailsModalVisible: false
+      detailsModalVisible: false,
+      confirmationModalVisible: false,
+      confirmationActionButton: null
     };
   }
 
@@ -152,6 +163,19 @@ class ExchangeOfferWrapper extends React.Component {
     });
   }
 
+  handleChangeConfirmationModalVisibility(actionBtn) {
+    if (actionBtn) {
+      this.setState({
+        confirmationActionButton: actionBtn,
+        confirmationModalVisible: true
+      });
+    } else {
+      this.setState({
+        confirmationModalVisible: false
+      });
+    }
+  }
+
   render() {
     const {exchange, user, showEscrow} = this.props;
     const status = this.getStatus(exchange, user);
@@ -164,6 +188,7 @@ class ExchangeOfferWrapper extends React.Component {
         <ExchangeOffer
           {...this.props}
           changeModalVisibility={this.handleChangeModalVisibility}
+          openConfirmationModal={this.handleChangeConfirmationModalVisibility}
           status={status}
           helpText={helpText}
         />
@@ -286,6 +311,20 @@ class ExchangeOfferWrapper extends React.Component {
               </div>
             </div>
           </DetailsModal>
+        )}
+        {this.state.confirmationModalVisible && (
+          <ConfirmationModal
+            confirmationText={
+              CONFIRMATION_TEXT[this.state.confirmationActionButton.title.toLowerCase()]
+            }
+            closeModal={this.handleChangeConfirmationModalVisibility}
+            confirmationAction={() => {
+              this.state.confirmationActionButton.onClick(exchange);
+            }}
+            btnName={`${this.state.confirmationActionButton.title} Offer`}
+            btnColor={this.state.confirmationActionButton.color}
+            headerText={`${this.state.confirmationActionButton.title} Confirmation`}
+          />
         )}
       </React.Fragment>
     );

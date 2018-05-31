@@ -21,7 +21,8 @@ const ExchangeOffer = ({
   buttons = [],
   changeModalVisibility,
   status,
-  helpText
+  helpText,
+  openConfirmationModal
 }) => {
   const currentUserId = user.data.id;
   return (
@@ -133,7 +134,7 @@ const ExchangeOffer = ({
                 key={title}
                 color={color || 'primary'}
                 size="sm"
-                onClick={() => onClick(exchange)}
+                onClick={() => openConfirmationModal({title, color, onClick, ...rest})}
                 {...omit(['visible'], rest)}>
                 {title}
               </Button>
