@@ -5,7 +5,7 @@ import {withRouter} from 'react-router';
 import {compose} from 'recompact';
 import autobind from 'autobindr';
 
-import {fetchExchanges, acceptExchange} from '../../actions/exchanges';
+import {fetchExchanges, acceptExchange, rejectExchange} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
 import {selectExchangesFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
@@ -151,9 +151,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     return dispatch(acceptExchange({exchange, user}));
   },
 
-  rejectExchange() {
-    return Promise.resolve();
-    // return dispatch(rejectExchange({exchange, user}));
+  rejectExchange({exchange, user}) {
+    return dispatch(rejectExchange({exchange, user}));
   }
 });
 
