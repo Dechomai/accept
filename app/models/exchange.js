@@ -85,9 +85,7 @@ const ExchangeSchema = new BaseSchema(
   }
 );
 
-ExchangeSchema.statics.projection = {
-  bcPendingTransactionHash: false
-};
+ExchangeSchema.statics.projection = {};
 
 const Exchange = mongoose.model('Exchange', ExchangeSchema);
 

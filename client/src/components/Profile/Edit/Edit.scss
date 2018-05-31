@@ -1,0 +1,55 @@
+@import '../../../theme/index';
+
+.edit-profile {
+  margin-top: 30px;
+  margin-bottom: 70px;
+
+  &__account-info,
+  &__public-info,
+  &__personal-info,
+  &__close-account {
+    padding: 20px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: $white;
+    margin-bottom: 12px;
+  }
+
+  .public-info,
+  .personal-info {
+    &__form {
+      margin-top: 1rem;
+    }
+  }
+
+  .form-control {
+    font-size: 13px;
+    font-weight: 600;
+    border-width: 1px;
+  }
+
+  // &__close-account {
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   padding: 13px 13px 13px 30px;
+  //   color: lighten($black, 50%);
+  //   &__info {
+  //     display: flex;
+  //     align-items: center;
+  //     font-size: 13px;
+  //     font-weight: 500;
+  //   }
+
+  //   &__icon {
+  //     margin-left: 5px;
+  //   }
+
+  //   &__button {
+  //     padding: 12px 20px;
+  //     border-color: lighten($black, 50%);
+  //     font-size: 14px;
+  //     font-weight: 500;
+  //   }
+  // }
+}

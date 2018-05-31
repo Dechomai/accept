@@ -37,14 +37,28 @@ class BlockchainService {
               );
               return reject(err);
             }
-            if (block && block.contractAddress) {
+            if (!block) {
+              logger.error(':getContractAddress', 'Block not mined yet', transactionHash);
+              return reject('Block not mined yet');
+            }
+            if (block && block.logs && !block.logs.length) {
+              logger.error(':getContractAddress', 'Transaction did not succeed', transactionHash);
+              return reject('Transaction did not succeed');
+            }
+
+            const contractAddress = block.logs
+              .map(log => log.address)
+              .find(address => address !== TOKEN_CONTRACT_ADDRESS);
+
+            if (contractAddress) {
               logger.info(
                 ':getContractAddress',
-                'Got contract address from txHash',
-                block.contractAddress,
+                'Got contract address:',
+                contractAddress,
+                'from txHash',
                 transactionHash
               );
-              return resolve(block.contractAddress);
+              return resolve(contractAddress);
             }
             logger.error(
               ':getContractAddress',
@@ -105,13 +119,25 @@ class BlockchainService {
       };
 
       return this.sendSignedTransaction(etherTxParameters)
-        .then(txHash => {
-          logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
-          return this.sendSignedTransaction(tokenTxParameters);
-        })
-        .then(txHash => {
-          logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
-        });
+        .then(
+          txHash => {
+            logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
+            return this.sendSignedTransaction(tokenTxParameters);
+          },
+          err => {
+            logger.error(':sendUserBonus', 'Error sending bonus ether to:', userAddress, err);
+            return Promise.reject(err);
+          }
+        )
+        .then(
+          txHash => {
+            logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
+          },
+          err => {
+            logger.error(':sendUserBonus', 'Error sending bonus tokens to:', userAddress, err);
+            return Promise.reject(err);
+          }
+        );
     });
   }
 

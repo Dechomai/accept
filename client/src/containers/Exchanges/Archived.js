@@ -12,11 +12,9 @@ import Empty from '../../components/Exchanges/Empty';
 
 const DEFAULT_LIMIT = 20;
 
-const refetchExchages = props => {
-  const {exchanges} = props;
-  if (!exchanges || (!exchanges.listValid && !exchanges.loading)) {
-    props.fetchExchanges();
-  }
+const refetchExchages = ({exchanges, fetchExchanges}, forceFetch = false) => {
+  if (forceFetch && exchanges && !exchanges.loading) return fetchExchanges();
+  if (!exchanges || (!exchanges.listValid && !exchanges.loading)) return fetchExchanges();
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -42,7 +40,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
-      refetchExchages(this.props);
+      refetchExchages(this.props, true);
     },
     // replace in React v17
     // static getDerivedStateFromProps(nextProps, prevState)

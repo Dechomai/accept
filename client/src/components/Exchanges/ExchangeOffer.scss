@@ -2,6 +2,7 @@
 $light-blue: lighten(#0045cf, 30%);
 
 .exchange-offer {
+  position: relative;
   background-color: $white;
   margin-bottom: 10px;
   padding: 14px;
@@ -10,6 +11,23 @@ $light-blue: lighten(#0045cf, 30%);
 
   &:first-child {
     margin-top: 2px;
+  }
+
+  &--pending {
+    &:before {
+      content: 'Please wait, this offer is processing...';
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: $green;
+      opacity: 0.8;
+      color: $white;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 0.25rem 0;
+    }
   }
 
   &__items-wrapper {
@@ -214,7 +232,7 @@ $light-blue: lighten(#0045cf, 30%);
   &__disclaimer {
     display: flex;
     align-items: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     padding: 0 40px;
     color: lighten($black, 50%);

@@ -25,8 +25,12 @@ const ExchangeOffer = ({
   openConfirmationModal
 }) => {
   const currentUserId = user.data.id;
+  const isPending = !!exchange.bcPendingTransactionHash;
   return (
-    <div className="exchange-offer">
+    <div
+      className={classNames('exchange-offer', {
+        'exchange-offer--pending': isPending
+      })}>
       <div className="exchange-offer__items-wrapper">
         {/* Initiator */}
         <div className="exchange-offer__section exchange-offer__section--initiator">
@@ -129,13 +133,14 @@ const ExchangeOffer = ({
           )}
           {buttons
             .filter(({visible}) => !visible || visible(exchange, user))
-            .map(({title, color, onClick, ...rest}) => (
+            .map(({title, color, onClick, disabled, ...rest}) => (
               <Button
                 key={title}
                 color={color || 'primary'}
                 size="sm"
                 onClick={() => openConfirmationModal({title, color, onClick, ...rest})}
-                {...omit(['visible'], rest)}>
+                {...omit(['visible'], rest)}
+                disabled={isPending || disabled}>
                 {title}
               </Button>
             ))}

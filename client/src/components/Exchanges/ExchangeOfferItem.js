@@ -19,7 +19,9 @@ const ExchangeOfferItem = ({item, itemType, quantity}) => {
 
       <div className="exchange-offer-item__conditions">
         <div className="exchange-offer-item__details">
-          <span className="exchange-offer-item__details__name">Quantity</span>
+          <span className="exchange-offer-item__details__name">
+            {itemType === 'product' ? 'Quantity' : 'Hours'}
+          </span>
           <span className="exchange-offer-item__details__count">{quantity}</span>
         </div>
         <div className="exchange-offer-item__details">

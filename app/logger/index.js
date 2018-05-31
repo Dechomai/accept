@@ -3,10 +3,8 @@ const {assoc} = require('ramda');
 const config = require('../../config');
 
 const LOG_LEVEL = config.get('logLevel');
+const NODE_ENV = config.get('env');
 
-// TODO:
-// add file logger, CloudWatch, etc.
-// add custom format
 const consoleLogger = new winston.transports.Console({
   level: LOG_LEVEL,
   handleExceptions: true,
@@ -15,9 +13,20 @@ const consoleLogger = new winston.transports.Console({
   timestamp: () => new Date().toISOString()
 });
 
-const logger = new winston.Logger({
-  transports: [consoleLogger]
+const fileLogger = new winston.transports.File({
+  filename: 'app_.log', // will be application.
+  level: LOG_LEVEL,
+  handleExceptions: true,
+  maxsize: 10485760, // 10MB
+  maxFiles: 5,
+  timestamp: () => new Date().toISOString()
 });
+
+const transports = [consoleLogger];
+
+if (NODE_ENV === 'production') transports.push(fileLogger);
+
+const logger = new winston.Logger({transports});
 
 logger.createLoggerWith = (...prefixes) => {
   return [...Object.keys(logger.levels), 'log'].reduce(
