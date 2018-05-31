@@ -86,6 +86,10 @@ class ExchangeOfferWrapper extends React.Component {
       return {title: 'In dispute', modifier: 'in-dispute'};
     }
 
+    if (exchange.status === 'completed') {
+      return {title: 'completed', modifier: 'completed'};
+    }
+
     return {title: '', modifier: ''};
   }
 
