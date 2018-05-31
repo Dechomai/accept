@@ -94,8 +94,8 @@ const PersonalInfoForm = withFormik({
     phone
   }),
   validate: createValidator({
-    firstName: [rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
-    lastName: [rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+    firstName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
+    lastName: ['required', rules.minLength(2), rules.maxLength(50), 'lettersAndDigits'],
     phone: [rules.minLength(3), rules.maxLength(20), 'digits']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched}) => {
