@@ -7,7 +7,13 @@ import autobind from 'autobindr';
 
 import {fetchExchanges, cancelExchange} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
-import {selectExchangeProcessing, selectExchangesFor, selectProfile} from '../../selectors';
+import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance';
+import {
+  selectExchangeProcessing,
+  selectExchangesFor,
+  selectExchangesCountFor,
+  selectProfile
+} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
 import ExchangesModal from '../../components/Exchanges/Modal';
@@ -15,7 +21,7 @@ import Confirmation from '../../components/Exchange/Confirmation';
 import Empty from '../../components/Exchanges/Empty';
 import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
 
-const DEFAULT_LIMIT = 20;
+const DEFAULT_LIMIT = 10;
 
 class OutcomingExchanges extends React.Component {
   constructor() {
@@ -57,7 +63,7 @@ class OutcomingExchanges extends React.Component {
   }
 
   render() {
-    const {exchanges, user} = this.props;
+    const {exchanges, user, count, skip, limit} = this.props;
 
     if (!exchanges || exchanges.loading) return <Loader />;
     if (exchanges && !exchanges.data.length) return <Empty />;
@@ -88,6 +94,9 @@ class OutcomingExchanges extends React.Component {
               }
             ]}
             user={user}
+            count={count}
+            skip={skip}
+            limit={limit}
           />
         </React.Fragment>
       );
@@ -112,6 +121,7 @@ const mapStateToProps = (state, ownProps) => ({
     skip: ownProps.skip,
     limit: ownProps.limit
   }),
+  count: selectExchangesCountFor(state, 'outcoming'),
   exchangeProcessing: selectExchangeProcessing(state),
   user: selectProfile(state)
 });
@@ -130,5 +140,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   withPage(DEFAULT_LIMIT),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT)
 )(OutcomingExchanges);

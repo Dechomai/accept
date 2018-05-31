@@ -89,3 +89,7 @@ export const selectExchangesFor = createSelector(
   [selectExchanges, (_, {state, skip, limit}) => ({state, skip, limit})],
   (exchanges, {state, skip, limit}) => path([state, `skip=${skip},limit=${limit}`], exchanges)
 );
+export const selectExchangesCountFor = createSelector(
+  [selectExchanges, (_, state) => ({state})],
+  (exchanges, {state}) => path([state, 'count'], exchanges)
+);
