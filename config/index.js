@@ -169,6 +169,31 @@ const config = convict({
       arg: 'tokenSponsorPrivateKey',
       env: 'BLOCKCHAIN_TOKEN_SPONSOR_PRIVATE_KEY'
     }
+  },
+  cloudwatch: {
+    accessKeyId: {
+      doc: 'AWS CloudWatch logging IAM accessKeyId',
+      format: String,
+      default: '',
+      arg: 'cloudWatchAccessKeyId',
+      env: 'CLOUDWATCH_ACCESS_KEY_ID',
+      sensitive: true
+    },
+    secretAccessKey: {
+      doc: 'AWS CloudWatch logging IAM secretAccessKey',
+      format: String,
+      default: '',
+      arg: 'cloudWatchSecretAccessKey',
+      env: 'CLOUDWATCH_SECRET_ACCESS_KEY',
+      sensitive: true
+    },
+    region: {
+      doc: 'AWS CloudWatch logging region',
+      format: String,
+      default: '',
+      arg: 'cloudWatchRegion',
+      env: 'CLOUDWATCH_REGION'
+    }
   }
 });
 
@@ -179,6 +204,7 @@ config.loadFile(path.resolve(__dirname, `./env/${env}.json`));
 try {
   config.validate({allowed: 'strict'});
 } catch (err) {
+  /* eslint no-console: 0 */
   console.log('Application configuration failed');
   console.log(err.message);
   process.exit(1);

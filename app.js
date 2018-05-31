@@ -30,8 +30,8 @@ const HOST = config.get('host');
   app.use(compression());
   app.use(helmet());
   app.use(express.static(__dirname + '/public'));
-  app.use(outLoggerMiddleware);
-  app.use(errLoggerMiddleware);
+  app.use(outLoggerMiddleware());
+  app.use(errLoggerMiddleware());
 
   connectDB();
   routes.forEach(appendRouter => appendRouter(app));

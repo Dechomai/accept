@@ -1,5 +1,6 @@
 const winston = require('winston');
-const {assoc} = require('ramda');
+const CloudWatchTransport = require('winston-aws-cloudwatch');
+const {assoc, isEmpty} = require('ramda');
 const config = require('../../config');
 
 const LOG_LEVEL = config.get('logLevel');
@@ -13,18 +14,53 @@ const consoleLogger = new winston.transports.Console({
   timestamp: () => new Date().toISOString()
 });
 
-const fileLogger = new winston.transports.File({
-  filename: 'app_.log', // will be application.
-  level: LOG_LEVEL,
-  handleExceptions: true,
-  maxsize: 10485760, // 10MB
-  maxFiles: 5,
-  timestamp: () => new Date().toISOString()
-});
-
 const transports = [consoleLogger];
 
-if (NODE_ENV === 'production') transports.push(fileLogger);
+// log to files in prod
+if (NODE_ENV === 'production') {
+  const fileLogger = new winston.transports.File({
+    filename: 'app_.log', // will be application.
+    level: LOG_LEVEL,
+    handleExceptions: true,
+    maxsize: 10485760, // 10MB
+    maxFiles: 5,
+    timestamp: () => new Date().toISOString()
+  });
+  // log to file
+  transports.push(fileLogger);
+}
+
+// log to AWS CloudWatch in prod
+if (NODE_ENV === 'production') {
+  const CLOUDWATCH_ACCESS_KEY_ID = config.get('cloudwatch.accessKeyId');
+  const CLOUDWATCH_SECRET_ACCESS_KEY = config.get('cloudwatch.secretAccessKey');
+  const CLOUDWATCH_REGION = config.get('cloudwatch.region');
+
+  if (!CLOUDWATCH_ACCESS_KEY_ID || !CLOUDWATCH_SECRET_ACCESS_KEY || !CLOUDWATCH_REGION) {
+    /* eslint no-console: 0 */
+    console.log('Cloudwatch configuration not provided, skipping adding CloudWatch logger');
+  } else {
+    const cloudWatchFormatter = logItem =>
+      `${new Date(logItem.date).toISOString()} - [${logItem.level.toUpperCase()}] ${
+        logItem.message
+      } ${!isEmpty(logItem.meta) ? JSON.stringify(logItem.meta) : ''}`;
+
+    const cloudWatchLogger = new CloudWatchTransport({
+      logGroupName: '/accept/dev', // TODO: use environment, deploy target, or smth
+      logStreamName: new Date().toISOString().substring(0, 10), // use environment name alternatively
+      createLogGroup: false,
+      createLogStream: true,
+      awsConfig: {
+        accessKeyId: CLOUDWATCH_ACCESS_KEY_ID,
+        secretAccessKey: CLOUDWATCH_SECRET_ACCESS_KEY,
+        region: CLOUDWATCH_REGION
+      },
+      formatLog: cloudWatchFormatter
+    });
+    // log to cloudwatch
+    transports.push(cloudWatchLogger);
+  }
+}
 
 const logger = new winston.Logger({transports});
 
