@@ -148,3 +148,129 @@ export const acceptExchange = ({exchange, user}) => dispatch => {
       err => dispatch(acceptExchangeFailure(id, err))
     );
 };
+
+export const rejectExchangeRequest = exchangeId => ({
+  type: REJECT_EXCHANGE_REQUEST,
+  payload: {
+    exchangeId
+  }
+});
+
+export const rejectExchangeSuccess = exchangeId => ({
+  type: REJECT_EXCHANGE_SUCCESS,
+  payload: {
+    exchangeId
+  }
+});
+
+export const rejectExchangeFailure = (exchangeId, err) => ({
+  type: REJECT_EXCHANGE_FAILURE,
+  payload: {
+    err,
+    exchangeId
+  }
+});
+
+export const rejectExchange = ({exchange, user}) => dispatch => {
+  const {id} = exchange;
+  dispatch(rejectExchangeRequest(id));
+
+  return metamaskService.rejectExchangeContract({exchange, user}).then(
+    txHash =>
+      exchangesService.rejectExchange({exchangeId: id, bcTransactionHash: txHash}).then(
+        () => {
+          toast.success('Transaction submitted');
+          return dispatch(rejectExchangeSuccess(id));
+        },
+        err => dispatch(rejectExchangeFailure(id, err))
+      ),
+    err => {
+      toast.error('Transaction rejected');
+      dispatch(rejectExchangeFailure(id, err));
+    }
+  );
+};
+
+export const validateExchangeRequest = exchangeId => ({
+  type: VALIDATE_EXCHANGE_REQUEST,
+  payload: {
+    exchangeId
+  }
+});
+
+export const validateExchangeSuccess = exchangeId => ({
+  type: VALIDATE_EXCHANGE_SUCCESS,
+  payload: {
+    exchangeId
+  }
+});
+
+export const validateExchangeFailure = (exchangeId, err) => ({
+  type: VALIDATE_EXCHANGE_FAILURE,
+  payload: {
+    err,
+    exchangeId
+  }
+});
+
+export const validateExchange = ({exchange, user}) => dispatch => {
+  const {id} = exchange;
+  dispatch(validateExchangeRequest(id));
+
+  return metamaskService.validateExchangeContract({exchange, user}).then(
+    txHash =>
+      exchangesService.validateExchange({exchangeId: id, bcTransactionHash: txHash}).then(
+        () => {
+          toast.success('Transaction submitted');
+          return dispatch(validateExchangeSuccess(id));
+        },
+        err => dispatch(validateExchangeFailure(id, err))
+      ),
+    err => {
+      toast.error('Transaction rejected');
+      dispatch(validateExchangeFailure(id, err));
+    }
+  );
+};
+
+export const reportExchangeRequest = exchangeId => ({
+  type: REPORT_EXCHANGE_REQUEST,
+  payload: {
+    exchangeId
+  }
+});
+
+export const reportExchangeSuccess = exchangeId => ({
+  type: REPORT_EXCHANGE_SUCCESS,
+  payload: {
+    exchangeId
+  }
+});
+
+export const reportExchangeFailure = (exchangeId, err) => ({
+  type: REPORT_EXCHANGE_FAILURE,
+  payload: {
+    err,
+    exchangeId
+  }
+});
+
+export const reportExchange = ({exchange, user}) => dispatch => {
+  const {id} = exchange;
+  dispatch(reportExchangeRequest(id));
+
+  return metamaskService.reportExchangeContract({exchange, user}).then(
+    txHash =>
+      exchangesService.reportExchange({exchangeId: id, bcTransactionHash: txHash}).then(
+        () => {
+          toast.success('Transaction submitted');
+          return dispatch(reportExchangeSuccess(id));
+        },
+        err => dispatch(reportExchangeFailure(id, err))
+      ),
+    err => {
+      toast.error('Transaction rejected');
+      dispatch(reportExchangeFailure(id, err));
+    }
+  );
+};
