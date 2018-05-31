@@ -135,18 +135,20 @@ export const acceptExchange = ({exchange, user}) => dispatch => {
   const {id} = exchange;
   dispatch(acceptExchangeRequest(id));
 
-  return metamaskService
-    .acceptExchangeContract({exchange, user})
-    .then(
-      txHash =>
-        exchangesService
-          .acceptExchange({exchangeId: id, bcTransactionHash: txHash})
-          .then(
-            () => dispatch(acceptExchangeSuccess(id)),
-            err => dispatch(acceptExchangeFailure(id, err))
-          ),
-      err => dispatch(acceptExchangeFailure(id, err))
-    );
+  return metamaskService.acceptExchangeContract({exchange, user}).then(
+    txHash =>
+      exchangesService.acceptExchange({exchangeId: id, bcTransactionHash: txHash}).then(
+        () => {
+          toast.success('Transaction submitted');
+          return dispatch(acceptExchangeSuccess(id));
+        },
+        err => dispatch(acceptExchangeFailure(id, err))
+      ),
+    err => {
+      toast.error('Transaction rejected');
+      dispatch(acceptExchangeFailure(id, err));
+    }
+  );
 };
 
 export const rejectExchangeRequest = exchangeId => ({
