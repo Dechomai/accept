@@ -22,9 +22,7 @@ const userService = {
   },
 
   updateProfile(profile) {
-    return api.put('/user', {
-      body: profile
-    });
+    return api.putForm('/user', profile);
   },
 
   isUsernameUnique(username) {

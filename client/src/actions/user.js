@@ -98,7 +98,7 @@ export const updateProfileFailure = error => ({
 });
 
 export const updateProfile = profile => dispatch => {
-  dispatch(createProfileRequest());
+  dispatch(updateProfileRequest());
 
   return userService
     .updateProfile(profile)

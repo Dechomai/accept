@@ -141,6 +141,7 @@ userRouter
   )
   .put(
     authMiddleware(),
+    uploadMiddleware({logger, logPrefix: 'put:user'}),
     validationMiddleware(
       body('description')
         .optional()
@@ -174,7 +175,7 @@ userRouter
         req.body
       );
 
-      userController.updateUser(req.userId, data).then(
+      userController.updateUser(req.userId, data, req.file).then(
         user => sendSuccess(res, {user}),
         err => {
           if (err === null) return sendError(res, {message: 'Not found'}, {status: 404});

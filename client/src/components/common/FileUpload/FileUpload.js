@@ -30,8 +30,17 @@ class FileUpload extends React.Component {
   }
 
   render() {
-    const {className, dropzoneClassName, showPreview, multiple, children, ...rest} = this.props;
+    const {
+      className,
+      dropzoneClassName,
+      showPreview,
+      multiple,
+      children,
+      imgUrl,
+      ...rest
+    } = this.props;
     const pass = omit(['onSelect', 'onAccept', 'onReject'], rest);
+    const previewUrl = this.state.file ? this.state.file.preview : imgUrl ? imgUrl : null;
     // TODO:
     // 2) use better image cropping
     return (
@@ -43,11 +52,8 @@ class FileUpload extends React.Component {
           onDropAccepted={this.props.onAccept}
           onDropRejected={this.props.onReject}
           {...pass}>
-          {showPreview && this.state.file ? (
-            <div
-              className="file-upload__preview"
-              style={{backgroundImage: `url(${this.state.file.preview})`}}
-            />
+          {showPreview && (this.state.file || this.props.imgUrl) ? (
+            <div className="file-upload__preview" style={{backgroundImage: `url(${previewUrl})`}} />
           ) : (
             children
           )}
@@ -61,6 +67,7 @@ FileUpload.propTypes = {
   className: PropTypes.string,
   dropzoneClassName: PropTypes.string,
   showPreview: PropTypes.bool,
+  imgUrl: PropTypes.string,
   multiple: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
   onAccept: PropTypes.func,
