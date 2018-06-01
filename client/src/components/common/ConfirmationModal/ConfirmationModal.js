@@ -23,8 +23,8 @@ const ConfirmationModal = ({
           onClick={() => {
             closeModal();
           }}
-          color="link">
-          Cancel
+          color="light">
+          No
         </Button>
         <Button
           onClick={() => {

@@ -83,7 +83,7 @@ class OutcomingExchanges extends React.Component {
             buttons={[
               {
                 title: 'Cancel',
-                color: 'light',
+                color: 'danger',
                 onClick: this.handleExchangeCancelBtnClick
               }
             ]}

@@ -100,7 +100,7 @@ class IncomingExchanges extends React.Component {
             buttons={[
               {
                 title: 'Reject',
-                color: 'light',
+                color: 'danger',
                 onClick: this.handleExchangeRejectBtnClick
               },
               {
