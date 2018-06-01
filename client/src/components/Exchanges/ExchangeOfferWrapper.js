@@ -145,7 +145,7 @@ class ExchangeOfferWrapper extends React.Component {
           ? TRANSACTION_INFO.validatedByCurrentUser
           : TRANSACTION_INFO.validatedByOtherUser;
       case 'validatedByPartner':
-        return TRANSACTION_INFO.partner.id === user.data.id
+        return exchange.partner.id === user.data.id
           ? TRANSACTION_INFO.validatedByCurrentUser
           : TRANSACTION_INFO.validatedByOtherUser;
       case 'reportedByInitiator':
