@@ -20,7 +20,7 @@ class EditProfile extends React.Component {
     const {status, profile, updateProfile} = this.props;
     if (!profile) return null;
 
-    const personalInfo = pick(['firstName', 'lastName', 'phone'], profile);
+    const personalInfo = pick(['firstName', 'lastName', 'phone', 'photoUrl'], profile);
     const publicInfo = pick(['username', 'address'], profile);
 
     return (

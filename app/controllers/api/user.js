@@ -84,11 +84,15 @@ const userController = {
       });
   },
 
-  updateUser(id, userData) {
-    return User.findByIdAndUpdate(id, userData, {
-      new: true,
-      select: User.projection
-    })
+  updateUser(id, userData, avatar) {
+    return (avatar ? mediaController.uploadUserAvatar(id, avatar) : Promise.resolve())
+      .then(photo => (photo && photo.url ? assoc('photoUrl', photo.url, userData) : userData))
+      .then(data =>
+        User.findByIdAndUpdate(id, data, {
+          new: true,
+          select: User.projection
+        })
+      )
       .then(user => (user ? user.toJSON() : Promise.reject(null)))
       .then(user => {
         logger.info(':updateUser', 'user updated', user);
