@@ -141,8 +141,8 @@ class Exchange extends React.Component {
   }
 
   isNextBtnDisabled() {
-    const {step} = this.props;
-    return step < Steps.DETAILS_SPECIFICATION;
+    const {step, ownCount, partnerCount} = this.props;
+    return step < Steps.DETAILS_SPECIFICATION || !ownCount || !partnerCount;
   }
 
   isBackBtnShown() {
