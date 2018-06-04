@@ -57,7 +57,7 @@ export default compose(
   if (exchanges && exchanges.data.length)
     return (
       <ExchangesList
-        title="Offers With Issues"
+        title="Offers with Issues"
         exchanges={exchanges.data}
         showEscrow={false}
         user={user}

@@ -19,6 +19,7 @@ const ExchangesList = ({exchanges, title, count, skip, limit, ...props}) => (
         <ExchangeOfferWrapper key={exchange.id} exchange={exchange} {...props} />
       ))}
     </PagedList>
+    <Pagination totalPages={Math.ceil(count / limit)} currentPage={Math.floor(skip / limit)} />
   </div>
 );
 
