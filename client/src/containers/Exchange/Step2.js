@@ -110,13 +110,18 @@ export default compose(
     } else {
       content = (
         <div className="exchange-step2__items">
-          <Pagination
-            totalPages={Math.ceil(count / limit)}
-            currentPage={Math.floor(skip / limit)}
-            onNextClick={onPaginationNextClick}
-            onPrevClick={onPaginationPrevClick}
-            onPageClick={onPaginationPageClick}
-          />
+          <div className="exchange-step2__header">
+            <h5 className="exchange-step2__title">
+              {type === 'product' ? 'SELECT GOOD FOR YOUR OFFER' : 'SELECT SERVICE FOR YOUR OFFER'}
+            </h5>
+            <Pagination
+              totalPages={Math.ceil(count / limit)}
+              currentPage={Math.floor(skip / limit)}
+              onNextClick={onPaginationNextClick}
+              onPrevClick={onPaginationPrevClick}
+              onPageClick={onPaginationPageClick}
+            />
+          </div>
           <div className="exchange-step2-list__wrapper">
             <PagedList className="exchange-step2-list" page={Math.floor(skip / limit)}>
               {items.data.map(item => {
