@@ -9,6 +9,17 @@
   padding: 1.5rem 0 0 1.5rem;
   background-color: $gray-100;
   border-right: solid 2px $gray-200;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__title {
+    text-transform: uppercase;
+    font-size: 11px;
+    color: $gray-400;
+    margin-bottom: 0;
+  }
 }
 
 .exchange-step2-list {
