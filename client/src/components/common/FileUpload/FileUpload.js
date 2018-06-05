@@ -52,11 +52,14 @@ class FileUpload extends React.Component {
           onDropAccepted={this.props.onAccept}
           onDropRejected={this.props.onReject}
           {...pass}>
-          {showPreview && (this.state.file || this.props.imgUrl) ? (
-            <div className="file-upload__preview" style={{backgroundImage: `url(${previewUrl})`}} />
-          ) : (
-            children
-          )}
+          {showPreview &&
+            (this.state.file || this.props.imgUrl) && (
+              <div
+                className="file-upload__preview"
+                style={{backgroundImage: `url(${previewUrl})`}}
+              />
+            )}
+          {children}
         </Dropzone>
       </div>
     );
