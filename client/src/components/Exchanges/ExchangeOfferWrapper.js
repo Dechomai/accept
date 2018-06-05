@@ -324,6 +324,9 @@ class ExchangeOfferWrapper extends React.Component {
             closeModal={this.handleChangeConfirmationModalVisibility}
             confirmationAction={() => {
               this.state.confirmationActionButton.onClick(exchange);
+              this.setState({
+                confirmationModalVisible: false
+              });
             }}
             btnName={`${this.state.confirmationActionButton.title} Offer`}
             btnColor={this.state.confirmationActionButton.color}
