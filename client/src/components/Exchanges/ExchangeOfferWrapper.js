@@ -45,7 +45,7 @@ const TRANSACTION_INFO = {
   outcoming:
     'The offer is successfully sent and is awaiting for your exchange partner to reply. Your offer can be either accepted or rejected. In case your offer is rejected or you cancel the deal before it is accepted/rejected - the escrowed amount of Fulcrum will be returned to your account.',
   accepted:
-    'The exchange is in progress. Validate the deal after you’ve completely received your item from your exchange partner. After both sides validate the deal - the escrowed amount of Fulcrum will be released to your account. You can report a deal any time unless it’s com-pleted, thus the escrowed amount will be frozen until arbitrations are made.',
+    'The exchange is in progress. Validate the deal after you’ve completely received your item from your exchange partner. After both sides validate the deal - the escrowed amount of Fulcrum will be released to your account. You can report a deal any time unless it’s completed, thus the escrowed amount will be frozen until arbitrations are made.',
   validatedByCurrentUser:
     'You’ve validated the deal. After your exchange partner validates the deal the escrowed amount of Fulcrum will be released to your account.',
   validatedByOtherUser:
