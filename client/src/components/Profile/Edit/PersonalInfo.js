@@ -1,5 +1,3 @@
-import './PersonalInfo.scss';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'reactstrap';
@@ -8,8 +6,7 @@ import classNames from 'classnames';
 import {withFormik} from 'formik';
 import {compose, filter, pick, not, isEmpty} from 'ramda';
 
-import FileUpload from '../../common/FileUpload/FileUpload';
-import Icon from '../../common/Icon/Icon';
+import AvatarUpload from '../../common/AvatarUpload/AvatarUpload';
 import createValidator, {rules} from '../../../utils/validation';
 
 const InnerForm = ({
@@ -93,27 +90,22 @@ const InnerForm = ({
           <div className="form-group">
             <label>photo/avatar</label>
             <div>
-              <FileUpload
-                className="personal-info__form__photo"
-                accept="image/jpeg,image/png,image/gif"
-                maxSize={2.5 * 1024 * 1024} // ~2.5Mb
-                imgUrl={typeof values.avatar === 'string' ? values.avatar : null} // do not pass File object, only url
-                onReject={() => {
-                  setFieldTouched('avatar', true);
-                  setFieldValue(
-                    'avatar',
-                    new Error('Photos should be less than 2.5Mb in .jpeg or .png format')
-                  );
-                }}
-                onSelect={file => {
-                  setFieldTouched('avatar', true);
-                  setFieldValue('avatar', file);
-                }}>
-                <div className="personal-info__form__photo__caption">
-                  <Icon name="camera" />
-                  <span>Upload photo</span>
-                </div>
-              </FileUpload>
+              <div>
+                <AvatarUpload
+                  avatar={values.avatar}
+                  onReject={() => {
+                    setFieldTouched('avatar', true);
+                    setFieldValue(
+                      'avatar',
+                      new Error('Photos should be less than 2.5Mb in .jpeg or .png format')
+                    );
+                  }}
+                  onSelect={file => {
+                    setFieldTouched('avatar', true);
+                    setFieldValue('avatar', file);
+                  }}
+                />
+              </div>
             </div>
             {touched.avatar &&
               errors.avatar && <div className="invalid-feedback">{errors.avatar}</div>}

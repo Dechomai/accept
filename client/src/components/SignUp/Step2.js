@@ -7,10 +7,9 @@ import classNames from 'classnames';
 import autobind from 'autobindr';
 import PropTypes from 'prop-types';
 
-import FileUpload from '../common/FileUpload/FileUpload';
-import Icon from '../common/Icon/Icon';
 import createValidator, {rules} from '../../utils/validation';
 import userService from '../../services/user';
+import AvatarUpload from '../common/AvatarUpload/AvatarUpload';
 
 class InnerForm extends React.Component {
   constructor(props) {
@@ -29,6 +28,7 @@ class InnerForm extends React.Component {
 
   render() {
     const {
+      avatar,
       values,
       errors,
       touched,
@@ -63,18 +63,13 @@ class InnerForm extends React.Component {
                       Sorry, something went wrong. Please, check all fields and try again later.
                     </div>
                   )}
-                <FileUpload
+                <AvatarUpload
                   className="sign-up__form__photo"
-                  accept="image/jpeg,image/png,image/gif"
-                  maxSize={2.5 * 1024 * 1024} // ~2.5Mb
+                  avatar={avatar}
                   onAccept={this.handleAcceptAvatar}
                   onReject={this.handleRejectAvatar}
-                  onSelect={onPhotoSelect}>
-                  <div className="sign-up__form__photo__caption">
-                    <Icon name="camera" />
-                    <span>Upload photo</span>
-                  </div>
-                </FileUpload>
+                  onSelect={onPhotoSelect}
+                />
                 <h5 className="sign-up__form__title">Personal info</h5>
                 <p className="sign-up__form__description">
                   This information is private and will not be visible to other users
@@ -236,6 +231,7 @@ const SignUpForm = withFormik({
 })(InnerForm);
 
 InnerForm.propTypes = {
+  avatar: PropTypes.object,
   values: PropTypes.any,
   errors: PropTypes.any,
   touched: PropTypes.object,
@@ -243,6 +239,7 @@ InnerForm.propTypes = {
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,
   handleSubmit: PropTypes.func,
+  onPhotoSelect: PropTypes.func,
   isSubmitting: PropTypes.bool,
   error: PropTypes.any,
   loading: PropTypes.bool

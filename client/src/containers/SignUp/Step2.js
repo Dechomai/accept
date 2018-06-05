@@ -35,6 +35,7 @@ class SignUp extends React.Component {
   render() {
     return (
       <SignUpStep2
+        avatar={this.state.avatar}
         loading={this.props.status.loading}
         error={this.props.status.error}
         onSubmit={this.handleFormSubmit}
