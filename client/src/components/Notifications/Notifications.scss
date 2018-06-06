@@ -1,0 +1,45 @@
+@import '../../theme/index';
+
+.notifications {
+  &__toggle {
+    $size: 38px;
+    position: relative;
+    width: $size;
+    height: $size;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+
+    &--new {
+      &:after {
+        content: ' ';
+        $size: 8px;
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: $size;
+        height: $size;
+        background: $red;
+        border-radius: 100%;
+      }
+    }
+
+    .icon {
+      vertical-align: middle;
+    }
+  }
+
+  &__dropdown {
+    width: 480px;
+    border-color: $gray-400;
+    padding: 0;
+
+    &__title {
+      font-size: 14px;
+      color: $black;
+      opacity: 0.5;
+      padding: 1rem;
+    }
+  }
+}

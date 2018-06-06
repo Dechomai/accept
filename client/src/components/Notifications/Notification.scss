@@ -1,0 +1,65 @@
+@import '../../theme/index';
+
+.notification {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-top: solid 1px $gray-400;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background 200ms ease-out;
+  user-select: none;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &--read {
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0.6;
+    cursor: initial;
+    pointer-events: none;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &__images {
+    flex: 0 0 auto;
+    position: relative;
+    padding: 0 6px 6px 0;
+
+    & > * {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+
+  &__initiator-img {
+    $size: 82px;
+    width: $size;
+    height: $size;
+  }
+
+  &__partner-img {
+    $size: 42px;
+    width: $size;
+    height: $size;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  &__title {
+    margin-left: 1rem;
+    font-size: 14px;
+  }
+
+  &__highlight {
+    color: $blue;
+    font-weight: 500;
+  }
+}

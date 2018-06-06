@@ -3,80 +3,34 @@ import './Header.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import autobind from 'autobindr';
 
-import Icon from '../common/Icon/Icon';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import Notifications from '../../containers/Notifications/Notifications';
+import UserMenu from '../../containers/UserMenu/UserMenu';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false
+      userMenuOpen: false,
+      notificationsOpen: false
     };
+    autobind(this);
   }
 
-  componentDidMount() {
-    const {user} = this.props;
-    if (!user || (!user.data && !user.loading && !user.error)) {
-      this.props.fetchProfile();
-    }
-  }
-
-  toggle() {
+  handleUserMenuToggle() {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      userMenuOpen: !this.state.userMenuOpen,
+      notificationsOpen: false
     });
   }
 
-  getSignInButton() {
-    return (
-      <div className="header__signin">
-        <a className="btn btn-sm btn-round" href="/login">
-          Sign in
-        </a>
-      </div>
-    );
-  }
-
-  getUserInfo() {
-    const {user} = this.props;
-    const {loading, error} = user;
-    if (loading) return null; // show spinner or smth
-    if (error) return this.getSignInButton();
-    if (user && user.data)
-      return (
-        <Dropdown
-          className="header__user-info__avatar"
-          isOpen={this.state.dropdownOpen}
-          toggle={this.toggle}>
-          <DropdownToggle caret className="header__user-info__toggle">
-            <UserAvatar user={user.data} />
-          </DropdownToggle>
-          <DropdownMenu right className="header__user-info__dropdown">
-            <Link to="/profile" className="header__user-info__dropdown__link">
-              <DropdownItem>
-                <Icon name="account" size="20" />
-                <small className="text-muted">Profile</small>
-              </DropdownItem>
-            </Link>
-            <Link to="/exchanges" className="header__user-info__dropdown__link">
-              <DropdownItem>
-                <Icon name="chart-line-variant" size="20" />
-                <small className="text-muted">Account Activities</small>
-              </DropdownItem>
-            </Link>
-            <DropdownItem divider />
-            <DropdownItem href="/logout" className="header__user-info__dropdown__link">
-              <Icon name="logout" size="20" />
-              <small className="text-muted">Logout</small>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      );
-    return null;
+  handleNotificationsToggle() {
+    this.setState({
+      notificationsOpen: !this.state.notificationsOpen,
+      userMenuOpen: false
+    });
   }
 
   render() {
@@ -92,25 +46,46 @@ class Header extends React.Component {
           <div className="header__content">
             {user &&
               user.data && (
-                <nav className="header__nav">
-                  <Link
-                    to="/products/add"
-                    className="header__nav__item"
-                    activeClassName="header__nav__item--active"
-                    onlyActiveOnIndex>
-                    Sell
-                  </Link>
-                  <span className="header__nav__separator">or</span>
-                  <Link
-                    to="/services/add"
-                    className="header__nav__item"
-                    activeClassName="header__nav__item--active"
-                    onlyActiveOnIndex>
-                    Offer
-                  </Link>
-                </nav>
+                <React.Fragment>
+                  <nav className="header__nav">
+                    <Link
+                      to="/products/add"
+                      className="header__nav__item"
+                      activeClassName="header__nav__item--active"
+                      onlyActiveOnIndex>
+                      Sell
+                    </Link>
+                    <span className="header__nav__separator">or</span>
+                    <Link
+                      to="/services/add"
+                      className="header__nav__item"
+                      activeClassName="header__nav__item--active"
+                      onlyActiveOnIndex>
+                      Offer
+                    </Link>
+                  </nav>
+                  <div className="header__notifications">
+                    <Notifications
+                      isOpen={this.state.notificationsOpen}
+                      onToggle={this.handleNotificationsToggle}
+                    />
+                  </div>
+                  <div className="header__user-info">
+                    <UserMenu
+                      isOpen={this.state.userMenuOpen}
+                      onToggle={this.handleUserMenuToggle}
+                    />
+                  </div>
+                </React.Fragment>
               )}
-            <div className="header__user-info">{this.getUserInfo()}</div>
+            {user &&
+              user.error && (
+                <div className="header__signin">
+                  <a className="btn btn-sm btn-round" href="/login">
+                    Sign in
+                  </a>
+                </div>
+              )}
           </div>
         </div>
       </header>
@@ -119,8 +94,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  fetchProfile: PropTypes.func.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object.isRequired
 };
 
 export default Header;
