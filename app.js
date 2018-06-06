@@ -8,6 +8,7 @@ const connectDB = require('./app/db/connection').connect;
 const syncDBMigrations = require('./app/db/migration').sync;
 const {outLoggerMiddleware, errLoggerMiddleware} = require('./app/middlewares/logger');
 const {createLoggerWith} = require('./app/logger');
+const blockchainSync = require('./app/services/bcSync');
 
 const logger = createLoggerWith('[App]');
 
@@ -35,7 +36,7 @@ const HOST = config.get('host');
 
   connectDB();
   routes.forEach(appendRouter => appendRouter(app));
-
+  blockchainSync.startWatchingExchangeInitiatedEvent();
   // Attach error handlers
   // TODO: add separate error handlers for XHR
   // eslint-disable-next-line

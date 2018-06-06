@@ -161,6 +161,15 @@ class BlockchainService {
       });
     });
   }
+
+  getExchangeInitiatedEvent() {
+    return this.getWeb3().then(web3 =>
+      web3.eth
+        .contract(tokenContract.abi)
+        .at(TOKEN_CONTRACT_ADDRESS)
+        .ExchangeInitiated()
+    );
+  }
 }
 
 const blockchainService = new BlockchainService();
