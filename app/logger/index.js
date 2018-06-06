@@ -62,7 +62,7 @@ if (NODE_ENV === 'production') {
   }
 }
 
-const logger = new winston.Logger({transports});
+const logger = new winston.Logger({transports, exitOnError: false});
 
 logger.createLoggerWith = (...prefixes) => {
   return [...Object.keys(logger.levels), 'log'].reduce(

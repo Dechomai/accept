@@ -4,6 +4,7 @@ const Product = require('../../models/product');
 const Service = require('../../models/service');
 const {createLoggerWith} = require('../../logger');
 const blockchainService = require('../../services/blockchain');
+const notificationsService = require('../../services/notifications');
 
 const logger = createLoggerWith('[CTRL:Exchanges]');
 
@@ -146,14 +147,23 @@ const exchangesController = {
                 'for txHash',
                 exchange.bcPendingTransactionHash
               );
-              return Exchange.updateOne(
+              return Exchange.findOneAndUpdate(
                 {_id: exchange.id},
                 {
                   status: 'new',
                   bcContractAddress: address,
                   $unset: {bcPendingTransactionHash: true}
+                },
+                {
+                  new: true
                 }
-              );
+              ).then(exchange => {
+                return notificationsService.publishNotification(
+                  'Exchange.new',
+                  exchange.partner,
+                  exchange
+                );
+              });
             },
             err => {
               if (err === null) {
