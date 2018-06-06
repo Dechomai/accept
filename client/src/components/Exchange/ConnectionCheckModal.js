@@ -21,7 +21,7 @@ class ConnectionCheckModal extends React.Component {
   render() {
     const {onCancelBtnClick, address, onSuccess} = this.props;
     return (
-      <Modal isOpen className="connection-check-modal">
+      <Modal isOpen size="lg" className="connection-check-modal">
         <div className="connection-check-modal__header">Connection Check</div>
         <ModalBody>
           <div className="connection-check-modal__description px-4">
