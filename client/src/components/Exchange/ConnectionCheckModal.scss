@@ -3,15 +3,25 @@
 .connection-check-modal {
   font-size: 13px;
 
-  &__sub-title {
-    margin: 24px 0 5px;
-    text-transform: uppercase;
-    font-weight: bold;
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .modal-footer {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  &__header {
+    padding: 25px 25px 0;
+    margin: 0;
+    font-weight: $font-weight-bold;
+    font-size: 20px;
   }
 
   &__description {
-    margin-top: 24px;
-    color: lighten($black, 50);
+    color: $gray-500;
+    margin-bottom: 30px;
   }
 
   &__steps {

@@ -3,7 +3,7 @@ import './ConnectionCheckModal.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Button, Modal, ModalBody, ModalFooter} from 'reactstrap';
 
 import ConnectionCheck from './ConnectionCheck';
 
@@ -22,14 +22,11 @@ class ConnectionCheckModal extends React.Component {
     const {onCancelBtnClick, address, onSuccess} = this.props;
     return (
       <Modal isOpen className="connection-check-modal">
-        <ModalHeader>
-          Connection Check
-          {/* <h4 className="connection-check-modal__title"></h4> */}
-        </ModalHeader>
+        <div className="connection-check-modal__header">Connection Check</div>
         <ModalBody>
-          {/* <div className="connection-check-modal__description px-4">
+          <div className="connection-check-modal__description px-4">
             You can not proceed with smart contract action. Please, meet the following requirements
-          </div> */}
+          </div>
           <ConnectionCheck
             ref={el => {
               this.connectionCheck = el;
@@ -43,7 +40,7 @@ class ConnectionCheckModal extends React.Component {
             Cancel
           </Button>
           <Button color="primary" onClick={this.handleRefreshBtn}>
-            Refresh
+            Proceed
           </Button>
         </ModalFooter>
       </Modal>
