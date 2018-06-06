@@ -28,13 +28,11 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    onSubmit: ({confirmProfile, router}) => data => {
-      return confirmProfile(data).then(
-        () => {
-          router.push('/');
-        },
-        () => toast.error('Sorry, something went wrong')
-      );
+    onSubmit: ({confirmProfile}) => data => {
+      return confirmProfile(data).then(() => {}, () => toast.error('Sorry, something went wrong'));
+    },
+    onClickOk: ({router}) => () => {
+      router.push('/');
     }
   })
 )(SignUpStep3);

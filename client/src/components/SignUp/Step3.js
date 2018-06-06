@@ -11,6 +11,7 @@ import clipboard from '../../services/clipboard';
 import config from '../../config/index';
 import Icon from '../common/Icon/Icon';
 import Loader from '../common/Loader/Loader';
+import SignUpStep4 from './Step4';
 
 const ACCOUNT_REGEX = /^0x[a-fA-F0-9]{40}$/;
 
@@ -224,43 +225,51 @@ class SignUpStep3 extends React.Component {
   }
 
   render() {
-    const {onSubmit, loading} = this.props;
+    const {onSubmit, loading, onClickOk} = this.props;
 
     // TODO: show error
     return (
-      <div className="sign-up">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-12 col-sm-11 col-md-10 col-lg-10 col-xl-8">
-              {loading && <Loader />}
-              <div
-                className={classNames('sign-up-step3', {
-                  'sign-up-step3--loading': loading
-                })}>
-                {this.renderCheckPlugin()}
-                {this.renderCheckAccount()}
-                {this.renderCheckNetwork()}
+      <React.Fragment>
+        {this.props.step4Visible ? (
+          <SignUpStep4 onClickOk={onClickOk} />
+        ) : (
+          <div className="sign-up">
+            <div className="container">
+              <div className="row justify-content-center">
+                <div className="col-12 col-sm-11 col-md-10 col-lg-10 col-xl-8">
+                  {loading && <Loader />}
+                  <div
+                    className={classNames('sign-up-step3', {
+                      'sign-up-step3--loading': loading
+                    })}>
+                    {this.renderCheckPlugin()}
+                    {this.renderCheckAccount()}
+                    {this.renderCheckNetwork()}
+                  </div>
+                </div>
               </div>
             </div>
+            <div className="sign-up__footer">
+              <Button
+                color="primary"
+                onClick={() => {
+                  onSubmit({
+                    address: this.state.activeAccount
+                  }).then(() => {
+                    this.props.changeStep4Visibility();
+                  });
+                }}
+                disabled={
+                  !this.state.isPluginInstalled ||
+                  !this.state.activeAccount ||
+                  this.state.isAcceptNetwork !== true
+                }>
+                Create profile
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="sign-up__footer">
-          <Button
-            color="primary"
-            onClick={() => {
-              onSubmit({
-                address: this.state.activeAccount
-              });
-            }}
-            disabled={
-              !this.state.isPluginInstalled ||
-              !this.state.activeAccount ||
-              this.state.isAcceptNetwork !== true
-            }>
-            Create profile
-          </Button>
-        </div>
-      </div>
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -268,7 +277,9 @@ class SignUpStep3 extends React.Component {
 SignUpStep3.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.any,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  onClickOk: PropTypes.func.isRequired,
+  changeStep4Visibility: PropTypes.func.isRequired
 };
 
 export default SignUpStep3;
