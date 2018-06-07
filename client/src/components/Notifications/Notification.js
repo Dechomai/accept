@@ -37,6 +37,16 @@ const formatTitle = notification => {
           <span>offer was rejected</span>
         </div>
       );
+    case 'Exchange.validated':
+      return (
+        <div className="notification__title">
+          <b>Validated: </b>
+          <span>Your partner has received </span>
+          <span className="notification__highlight">{exchange.initiatorItem.title} </span>
+          <span>in exchange for </span>
+          <span className="notification__highlight">{exchange.partnerItem.title}</span>
+        </div>
+      );
     default:
       return null;
   }

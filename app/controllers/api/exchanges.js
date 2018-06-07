@@ -512,7 +512,13 @@ const exchangesController = {
         if (newStatus) {
           exchange.set('status', newStatus);
           exchange.set('bcPendingTransactionHash', txHash);
-          return exchange.save();
+          return exchange.save().then(exchange => {
+            notificationsService.publishNotification(
+              'Exchange.validated',
+              isPartner ? exchange.initiator : exchange.partner,
+              exchange
+            );
+          });
         }
         return Promise.reject('User can not validate exchange and its state');
       });

@@ -46,6 +46,15 @@ class Notifications extends React.Component {
         this.props.router.push('/exchanges/archive');
         break;
       }
+      case 'Exchange.validated': {
+        this.props.markNotificationAsRead(notification.id);
+        if (notification.exchange.status === 'completed') {
+          this.props.router.push('/exchanges/archive');
+        } else {
+          this.props.router.push('/exchanges/pending');
+        }
+        break;
+      }
     }
   }
 
