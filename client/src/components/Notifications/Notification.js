@@ -7,29 +7,39 @@ import classNames from 'classnames';
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 
 const formatTitle = notification => {
-  const {exchange} = notification;
-  if (notification.subject === 'Exchange.new') {
-    return (
-      <div className="notification__title">
-        <b>New Offer: </b>
-        <span className="notification__highlight">{exchange.initiatorItem.title} </span>
-        <span>exchange for </span>
-        <span className="notification__highlight">{exchange.partnerItem.title}</span>
-      </div>
-    );
+  const {exchange, subject} = notification;
+  switch (subject) {
+    case 'Exchange.new':
+      return (
+        <div className="notification__title">
+          <b>New Offer: </b>
+          <span className="notification__highlight">{exchange.initiatorItem.title} </span>
+          <span>exchange for </span>
+          <span className="notification__highlight">{exchange.partnerItem.title}</span>
+        </div>
+      );
+    case 'Exchange.accepted':
+      return (
+        <div className="notification__title">
+          <b>Accepted: </b>
+          <span className="notification__highlight">{exchange.initiatorItem.title} </span>
+          <span>was accepted to trade for </span>
+          <span className="notification__highlight">{exchange.partnerItem.title}</span>
+        </div>
+      );
+    case 'Exchange.rejected':
+      return (
+        <div className="notification__title">
+          <b>Rejected: </b>
+          <span className="notification__highlight">{exchange.initiatorItem.title} </span>
+          <span>in exchange for </span>
+          <span className="notification__highlight">{exchange.partnerItem.title} </span>
+          <span>offer was rejected</span>
+        </div>
+      );
+    default:
+      return null;
   }
-  if (notification.subject === 'Exchange.accepted') {
-    return (
-      <div className="notification__title">
-        <b>Accepted: </b>
-        <span className="notification__highlight">{exchange.initiatorItem.title} </span>
-        <span>was accepted to trade for </span>
-        <span className="notification__highlight">{exchange.partnerItem.title}</span>
-      </div>
-    );
-  }
-
-  return null;
 };
 
 const Notification = ({notification, onClick}) => {

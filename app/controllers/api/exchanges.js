@@ -465,6 +465,10 @@ const exchangesController = {
         exchange.set('status', 'rejected');
         exchange.set('bcPendingTransactionHash', txHash);
         return exchange.save();
+      })
+      .then(exchange => {
+        notificationsService.publishNotification('Exchange.rejected', exchange.initiator, exchange);
+        return exchange;
       });
   },
 
