@@ -12,17 +12,20 @@
   user-select: none;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: $gray-100;
   }
 
   &--read {
-    background: rgba(0, 0, 0, 0.1);
-    opacity: 0.6;
+    background: rgba($gray-100, 0.3);
     cursor: initial;
     pointer-events: none;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.1);
+      background: inherit;
+    }
+
+    & > * {
+      opacity: 0.4;
     }
   }
 

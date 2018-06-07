@@ -32,14 +32,56 @@
 
   &__dropdown {
     width: 480px;
+    max-height: 60vh;
     border-color: $gray-400;
     padding: 0;
+    margin-top: 0.5rem;
+
+    // white triangle
+    &:after {
+      content: ' ';
+      position: absolute;
+      $triangle-size: 4px;
+      top: -$triangle-size;
+      right: 13px;
+      width: 0;
+      height: 0;
+
+      border-left: $triangle-size solid transparent;
+      border-right: $triangle-size solid transparent;
+
+      border-bottom: $triangle-size solid $white;
+    }
+
+    // grey triangle aka border
+    &:before {
+      content: ' ';
+      position: absolute;
+      $triangle-size: 6px;
+      top: -$triangle-size;
+      right: 11px;
+      width: 0;
+      height: 0;
+
+      border-left: $triangle-size solid transparent;
+      border-right: $triangle-size solid transparent;
+
+      border-bottom: $triangle-size solid $gray-400;
+    }
+
+    &__content {
+      overflow: auto;
+    }
 
     &__title {
       font-size: 14px;
       color: $black;
       opacity: 0.5;
       padding: 1rem;
+
+      &--empty {
+        text-align: center;
+      }
     }
   }
 }

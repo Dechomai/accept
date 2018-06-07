@@ -4,7 +4,7 @@ export const FETCH_NOTIFICATIONS_REQUEST = 'FETCH_NOTIFICATIONS_REQUEST';
 export const FETCH_NOTIFICATIONS_SUCCESS = 'FETCH_NOTIFICATIONS_SUCCESS';
 export const FETCH_NOTIFICATIONS_FAILURE = 'FETCH_NOTIFICATIONS_FAILURE';
 
-export const MARK_NOTIFICATION_AS_SEEN = 'MARK_NOTIFICATION_AS_SEEN';
+export const MARK_NOTIFICATIONS_AS_SEEN = 'MARK_NOTIFICATIONS_AS_SEEN';
 
 export const MARK_NOTIFICATION_AS_READ_REQUEST = 'MARK_NOTIFICATION_AS_READ_REQUEST';
 export const MARK_NOTIFICATION_AS_READ_SUCCESS = 'MARK_NOTIFICATION_AS_READ_SUCCESS';
@@ -29,11 +29,11 @@ export const fetchNotificationsFailure = error => ({
   }
 });
 
-export const fetchNotifications = () => dispatch => {
+export const fetchNotifications = sinceDate => dispatch => {
   dispatch(fetchNotificationsRequest());
 
   return notificationsService
-    .getNotifications()
+    .getNotifications(sinceDate)
     .then(
       data => dispatch(fetchNotificationsSuccess(data.notifications)),
       err => Promise.reject(dispatch(fetchNotificationsFailure(err)))
@@ -65,11 +65,11 @@ export const markNotificationAsRead = id => dispatch => {
   return notificationsService
     .markAsRead(id)
     .then(
-      data => dispatch(markNotificationAsReadSuccess(data.notifications)),
+      data => dispatch(markNotificationAsReadSuccess(data.notification)),
       err => Promise.reject(dispatch(markNotificationAsReadFailure(err)))
     );
 };
 
-export const markNotificationAsSeen = () => ({
-  type: MARK_NOTIFICATION_AS_SEEN
+export const markNotificationsAsSeen = () => ({
+  type: MARK_NOTIFICATIONS_AS_SEEN
 });

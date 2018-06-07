@@ -1,8 +1,9 @@
 import api from '../utils/api';
 
 const notificationsService = {
-  getNotifications() {
-    return api.get('/notifications');
+  getNotifications(since) {
+    const query = since ? `?since=${since}` : '';
+    return api.get(`/notifications${query}`);
   },
 
   markAsRead(id) {
