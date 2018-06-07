@@ -14,7 +14,7 @@ const MODELS = {
 };
 
 const DEFAULT_SORT = {
-  createdAt: -1
+  updatedAt: -1
 };
 
 const exchangesController = {
