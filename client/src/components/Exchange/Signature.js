@@ -58,7 +58,9 @@ class Signature extends React.Component {
     const drawingWidth = width || image.width * progress;
     ctx.clearRect(0, 0, image.width, height);
     ctx.fill(path);
-    ctx.drawImage(image, 0, 0, drawingWidth, height, 0, 0, drawingWidth, height);
+    if (drawingWidth) {
+      ctx.drawImage(image, 0, 0, drawingWidth, height, 0, 0, drawingWidth, height);
+    }
   }
 
   handleMouseDown(e) {
