@@ -28,10 +28,38 @@ class Notifications extends React.Component {
   }
 
   handleNotificationClick(notification) {
+    const {subject} = notification;
     this.props.onToggle();
-    if (notification.subject === 'Exchange.new') {
-      this.props.markNotificationAsRead(notification.id);
-      this.props.router.push('/exchanges/incoming');
+    switch (subject) {
+      case 'Exchange.new': {
+        this.props.markNotificationAsRead(notification.id);
+        this.props.router.push('/exchanges/incoming');
+        break;
+      }
+      case 'Exchange.accepted': {
+        this.props.markNotificationAsRead(notification.id);
+        this.props.router.push('/exchanges/pending');
+        break;
+      }
+      case 'Exchange.rejected': {
+        this.props.markNotificationAsRead(notification.id);
+        this.props.router.push('/exchanges/archive');
+        break;
+      }
+      case 'Exchange.validated': {
+        this.props.markNotificationAsRead(notification.id);
+        if (notification.exchange.status === 'completed') {
+          this.props.router.push('/exchanges/archive');
+        } else {
+          this.props.router.push('/exchanges/pending');
+        }
+        break;
+      }
+      case 'Exchange.reported': {
+        this.props.markNotificationAsRead(notification.id);
+        this.props.router.push('/exchanges/reported');
+        break;
+      }
     }
   }
 

@@ -436,6 +436,10 @@ const exchangesController = {
         exchange.set('status', 'accepted');
         exchange.set('bcPendingTransactionHash', txHash);
         return exchange.save();
+      })
+      .then(exchange => {
+        notificationsService.publishNotification('Exchange.accepted', exchange.initiator, exchange);
+        return exchange;
       });
   },
 
@@ -461,6 +465,10 @@ const exchangesController = {
         exchange.set('status', 'rejected');
         exchange.set('bcPendingTransactionHash', txHash);
         return exchange.save();
+      })
+      .then(exchange => {
+        notificationsService.publishNotification('Exchange.rejected', exchange.initiator, exchange);
+        return exchange;
       });
   },
 
@@ -504,7 +512,13 @@ const exchangesController = {
         if (newStatus) {
           exchange.set('status', newStatus);
           exchange.set('bcPendingTransactionHash', txHash);
-          return exchange.save();
+          return exchange.save().then(exchange => {
+            notificationsService.publishNotification(
+              'Exchange.validated',
+              isPartner ? exchange.initiator : exchange.partner,
+              exchange
+            );
+          });
         }
         return Promise.reject('User can not validate exchange and its state');
       });
@@ -541,7 +555,13 @@ const exchangesController = {
         if (newStatus) {
           exchange.set('status', newStatus);
           exchange.set('bcPendingTransactionHash', txHash);
-          return exchange.save();
+          return exchange.save().then(exchange => {
+            notificationsService.publishNotification(
+              'Exchange.reported',
+              isPartner ? exchange.initiator : exchange.partner,
+              exchange
+            );
+          });
         }
         logger.error(`User can not report exhange ${exchangeId}, it has "${status}" status`);
         return Promise.reject('User can not report exchange and its state');
