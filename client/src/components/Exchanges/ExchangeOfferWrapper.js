@@ -12,6 +12,7 @@ import UserLink from '../../components/common/UserLink/UserLink';
 import ExchangeOfferItem from './ExchangeOfferItem';
 import ExchangeAvailability from '../Exchange/ExchangeAvailability';
 import clipboard from '../../services/clipboard';
+import SignatureModal from '../../components/Exchange/SignatureModal';
 
 const HELPER_TEXT = {
   incoming:
@@ -182,6 +183,21 @@ class ExchangeOfferWrapper extends React.Component {
     }
   }
 
+  handleConfirmationSuccess() {
+    const {exchange} = this.props;
+    const {confirmationActionButton} = this.state;
+    confirmationActionButton.onClick(exchange);
+    this.setState({
+      confirmationModalVisible: false
+    });
+  }
+
+  handleConfirmationCancel() {
+    this.setState({
+      confirmationModalVisible: false
+    });
+  }
+
   render() {
     const {exchange, user, showEscrow} = this.props;
     const status = this.getStatus(exchange, user);
@@ -318,23 +334,25 @@ class ExchangeOfferWrapper extends React.Component {
             </div>
           </DetailsModal>
         )}
-        {this.state.confirmationModalVisible && (
-          <ConfirmationModal
-            confirmationText={
-              CONFIRMATION_TEXT[this.state.confirmationActionButton.title.toLowerCase()]
-            }
-            closeModal={this.handleChangeConfirmationModalVisibility}
-            confirmationAction={() => {
-              this.state.confirmationActionButton.onClick(exchange);
-              this.setState({
-                confirmationModalVisible: false
-              });
-            }}
-            btnName={`${this.state.confirmationActionButton.title} Offer`}
-            btnColor={this.state.confirmationActionButton.color}
-            headerText={`${this.state.confirmationActionButton.title} Confirmation`}
-          />
-        )}
+        {this.state.confirmationModalVisible ? (
+          this.state.confirmationActionButton.title.toLowerCase() !== 'accept' ? (
+            <ConfirmationModal
+              confirmationText={
+                CONFIRMATION_TEXT[this.state.confirmationActionButton.title.toLowerCase()]
+              }
+              closeModal={this.handleChangeConfirmationModalVisibility}
+              confirmationAction={this.handleConfirmationSuccess}
+              btnName={`${this.state.confirmationActionButton.title} Offer`}
+              btnColor={this.state.confirmationActionButton.color}
+              headerText={`${this.state.confirmationActionButton.title} Confirmation`}
+            />
+          ) : (
+            <SignatureModal
+              onSigned={this.handleConfirmationSuccess}
+              onCancelBtnClick={this.handleConfirmationCancel}
+            />
+          )
+        ) : null}
       </React.Fragment>
     );
   }
