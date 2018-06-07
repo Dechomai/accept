@@ -7,7 +7,7 @@ import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
 const TITLES = {
   waiting: 'Waiting for transaction acceptance',
   rejected: 'Transaction Rejected',
-  accepted: 'Transaction Complete',
+  accepted: 'Transaction Sent',
   error: 'There was an error with transaction'
 };
 
