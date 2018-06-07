@@ -10,4 +10,10 @@
     font-size: 1.25rem;
     margin: 1rem 0;
   }
+
+  &__image {
+    // prevent content "jumping" when image loaded
+    width: 140px;
+    height: 140px;
+  }
 }

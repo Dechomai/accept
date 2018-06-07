@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const TITLES = {
   waiting: 'Waiting for transaction acceptance',
   rejected: 'Transaction Rejected',
-  accepted: 'Transaction Complete'
+  accepted: 'Transaction Sent'
 };
 
 const DETAILS = {
