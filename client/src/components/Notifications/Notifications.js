@@ -43,6 +43,7 @@ class Notifications extends React.Component {
 
   render() {
     const {notifications, isOpen, onToggle} = this.props;
+    console.log(notifications);
     return (
       <Dropdown className="notifications" isOpen={isOpen} toggle={onToggle}>
         <DropdownToggle
@@ -53,7 +54,7 @@ class Notifications extends React.Component {
         </DropdownToggle>
         <DropdownMenu right className="notifications__dropdown">
           <div className="notifications__dropdown__content">
-            {notifications.length ? (
+            {notifications.data.length ? (
               <React.Fragment>
                 <div className="notifications__dropdown__title">
                   Notifications ({notifications.data.length}){' '}
