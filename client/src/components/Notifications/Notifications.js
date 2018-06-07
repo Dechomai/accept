@@ -33,6 +33,10 @@ class Notifications extends React.Component {
       this.props.markNotificationAsRead(notification.id);
       this.props.router.push('/exchanges/incoming');
     }
+    if (notification.subject === 'Exchange.accepted') {
+      this.props.markNotificationAsRead(notification.id);
+      this.props.router.push('/exchanges/pending');
+    }
   }
 
   componentWillUpdate(nextProps) {

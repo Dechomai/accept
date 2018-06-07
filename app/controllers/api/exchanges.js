@@ -436,6 +436,10 @@ const exchangesController = {
         exchange.set('status', 'accepted');
         exchange.set('bcPendingTransactionHash', txHash);
         return exchange.save();
+      })
+      .then(exchange => {
+        notificationsService.publishNotification('Exchange.accepted', exchange.initiator, exchange);
+        return exchange;
       });
   },
 

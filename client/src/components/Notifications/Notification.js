@@ -18,6 +18,16 @@ const formatTitle = notification => {
       </div>
     );
   }
+  if (notification.subject === 'Exchange.accepted') {
+    return (
+      <div className="notification__title">
+        <b>Accepted: </b>
+        <span className="notification__highlight">{exchange.initiatorItem.title} </span>
+        <span>was accepted to trade for </span>
+        <span className="notification__highlight">{exchange.partnerItem.title}</span>
+      </div>
+    );
+  }
 
   return null;
 };
