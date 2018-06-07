@@ -36,6 +36,7 @@
     border-color: $gray-400;
     padding: 0;
     margin-top: 0.5rem;
+    overflow: auto;
 
     // white triangle
     &:after {
@@ -67,10 +68,6 @@
       border-right: $triangle-size solid transparent;
 
       border-bottom: $triangle-size solid $gray-400;
-    }
-
-    &__content {
-      overflow: auto;
     }
 
     &__title {

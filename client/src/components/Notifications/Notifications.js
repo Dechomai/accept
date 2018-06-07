@@ -71,7 +71,7 @@ class Notifications extends React.Component {
 
   render() {
     const {notifications, isOpen, onToggle} = this.props;
-    console.log(notifications);
+
     return (
       <Dropdown className="notifications" isOpen={isOpen} toggle={onToggle}>
         <DropdownToggle
@@ -81,26 +81,24 @@ class Notifications extends React.Component {
           <Icon name="message-alert" size="24" />
         </DropdownToggle>
         <DropdownMenu right className="notifications__dropdown">
-          <div className="notifications__dropdown__content">
-            {notifications.data.length ? (
-              <React.Fragment>
-                <div className="notifications__dropdown__title">
-                  Notifications ({notifications.data.length}){' '}
-                </div>
-                {notifications.data.map(notification => (
-                  <Notification
-                    key={notification.id}
-                    notification={notification}
-                    onClick={() => this.handleNotificationClick(notification)}
-                  />
-                ))}
-              </React.Fragment>
-            ) : (
-              <div className="notifications__dropdown__title notifications__dropdown__title--empty">
-                You have no new notifications
+          {notifications.data.length ? (
+            <React.Fragment>
+              <div className="notifications__dropdown__title">
+                Notifications ({notifications.data.length}){' '}
               </div>
-            )}
-          </div>
+              {notifications.data.map(notification => (
+                <Notification
+                  key={notification.id}
+                  notification={notification}
+                  onClick={() => this.handleNotificationClick(notification)}
+                />
+              ))}
+            </React.Fragment>
+          ) : (
+            <div className="notifications__dropdown__title notifications__dropdown__title--empty">
+              You have no new notifications
+            </div>
+          )}
         </DropdownMenu>
       </Dropdown>
     );

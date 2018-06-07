@@ -1,5 +1,5 @@
 import createReducer from '../utils/createReducer';
-import {uniqBy, prop} from 'ramda';
+import {uniqBy, prop, compose, concat, sort} from 'ramda';
 
 import {
   FETCH_NOTIFICATIONS_REQUEST,
@@ -18,6 +18,8 @@ const getInitialState = () => ({
 });
 
 const uniqById = uniqBy(prop('id'));
+const sortByDate = (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt);
+const concatNotifications = (prev, curr) => compose(sort(sortByDate), uniqById, concat(prev))(curr);
 
 const notifications = createReducer(getInitialState(), {
   [FETCH_NOTIFICATIONS_REQUEST](state) {
@@ -29,8 +31,10 @@ const notifications = createReducer(getInitialState(), {
   [FETCH_NOTIFICATIONS_SUCCESS](state, payload) {
     const {notifications} = payload; // new
     const {data} = state; // old
-    // concat new and old notifications and filter out duplicates(just in case shit happens)
-    const newData = notifications.length ? uniqById(data.concat(notifications)) : data;
+    // concat new and old notifications
+    // filter out duplicates(just in case shit happens)
+    // sort by updatedAt, to remain sorted order
+    const newData = notifications.length ? concatNotifications(data, notifications) : data;
 
     return {
       ...state,
