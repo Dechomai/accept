@@ -31,12 +31,9 @@
   }
 
   &__dropdown {
-    width: 480px;
-    max-height: 60vh;
     border-color: $gray-400;
     padding: 0;
     margin-top: 0.5rem;
-    overflow: auto;
 
     // white triangle
     &:after {
@@ -68,6 +65,13 @@
       border-right: $triangle-size solid transparent;
 
       border-bottom: $triangle-size solid $gray-400;
+    }
+
+    &__content {
+      width: 480px;
+      max-height: 60vh;
+      overflow: auto;
+      height: 100%;
     }
 
     &__title {
