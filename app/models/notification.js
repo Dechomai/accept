@@ -3,14 +3,10 @@ const BaseSchema = require('./utils/base');
 
 const ExchangeSubject = {
   new: 'Exchange.new',
-  canceled: 'Exchange.canceled',
   accepted: 'Exchange.accepted',
   rejected: 'Exchange.rejected',
-  validatedByInitiator: 'Exchange.validatedByInitiator',
-  validatedByPartner: 'Exchange.validatedByPartner',
-  reportedByInitiator: 'Exchange.reportedByInitiator',
-  reportedByPartner: 'Exchange.reportedByPartner',
-  completed: 'Exchange.completed'
+  validated: 'Exchange.validated',
+  reported: 'Exchange.reported'
 };
 
 const NotificationSchema = new BaseSchema(
