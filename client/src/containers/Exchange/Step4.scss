@@ -23,13 +23,6 @@
     color: lighten($black, 60%);
   }
 
-  &__address {
-    margin: 20px 0 3px;
-    font-size: 11px;
-    color: $gray-500;
-    text-transform: uppercase;
-  }
-
   &__transaction-info {
     margin-top: 16px;
     font-size: 12px;
