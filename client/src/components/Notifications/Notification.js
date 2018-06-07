@@ -47,6 +47,21 @@ const formatTitle = notification => {
           <span className="notification__highlight">{exchange.partnerItem.title}</span>
         </div>
       );
+    case 'Exchange.reported': {
+      const {status, partnerItem, initiatorItem} = exchange;
+      const currentUserItem = status === 'reportedByInitiator' ? partnerItem : initiatorItem;
+      const otherUserItem = status === 'reportedByInitiator' ? initiatorItem : partnerItem;
+      return (
+        <div className="notification__title">
+          <b>Reported: </b>
+          <span>A problem with </span>
+          <span className="notification__highlight">{currentUserItem.title} </span>
+          <span>in exchange for </span>
+          <span className="notification__highlight">{otherUserItem.title} </span>
+          <span>occured</span>
+        </div>
+      );
+    }
     default:
       return null;
   }

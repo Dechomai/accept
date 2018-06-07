@@ -555,7 +555,13 @@ const exchangesController = {
         if (newStatus) {
           exchange.set('status', newStatus);
           exchange.set('bcPendingTransactionHash', txHash);
-          return exchange.save();
+          return exchange.save().then(exchange => {
+            notificationsService.publishNotification(
+              'Exchange.reported',
+              isPartner ? exchange.initiator : exchange.partner,
+              exchange
+            );
+          });
         }
         logger.error(`User can not report exhange ${exchangeId}, it has "${status}" status`);
         return Promise.reject('User can not report exchange and its state');

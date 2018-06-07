@@ -55,6 +55,11 @@ class Notifications extends React.Component {
         }
         break;
       }
+      case 'Exchange.reported': {
+        this.props.markNotificationAsRead(notification.id);
+        this.props.router.push('/exchanges/reported');
+        break;
+      }
     }
   }
 
