@@ -108,7 +108,7 @@ class PendingExchanges extends React.Component {
             showEscrow={true}
             buttons={[
               {
-                title: 'Report problem',
+                title: 'Report',
                 color: 'light',
                 onClick: this.handleExchangeReportBtnClick,
                 visible: shouldShowActionBtn

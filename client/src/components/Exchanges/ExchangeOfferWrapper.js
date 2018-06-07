@@ -342,9 +342,9 @@ class ExchangeOfferWrapper extends React.Component {
               }
               closeModal={this.handleChangeConfirmationModalVisibility}
               confirmationAction={this.handleConfirmationSuccess}
-              btnName={`${this.state.confirmationActionButton.title} Offer`}
+              btnName={`${this.state.confirmationActionButton.title} offer`}
               btnColor={this.state.confirmationActionButton.color}
-              headerText={`${this.state.confirmationActionButton.title} Confirmation`}
+              headerText={`${this.state.confirmationActionButton.title} confirmation`}
             />
           ) : (
             <SignatureModal
