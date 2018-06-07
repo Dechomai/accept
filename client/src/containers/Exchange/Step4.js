@@ -105,9 +105,8 @@ export default compose(
               <p>
                 <strong>
                   The value of your exchange will be deducted from your Accept wallet and escrowed
-                  in the transaction’s smart contract wallet
-                </strong>{' '}
-                [Public key].
+                  in the transaction’s smart contract wallet.
+                </strong>
               </p>
               <p>
                 If there is a difference in listing values between the items being exchanged,{' '}
