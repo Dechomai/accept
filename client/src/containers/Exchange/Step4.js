@@ -7,13 +7,14 @@ import {withRouter} from 'react-router';
 import {selectProductById, selectServiceById} from '../../selectors';
 import {fetchProductById} from '../../actions/products';
 import {fetchServiceById} from '../../actions/services';
-
 import Icon from '../../components/common/Icon/Icon';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangeItemSummary from '../../components/Exchange/ExchangeItemSummary';
 import ExchangeEscrow from '../../components/Exchange/Escrow';
 import {shouldRefetchItem, isItemLoading} from '../../utils/refetch';
 import withDataEnsurance from '../../hoc/exchange/withDataEnsurance';
+import Wallet from '../../components/Wallet/Wallet';
+import config from '../../config';
 
 const mapStateToProps = (state, {ownItemId, ownItemType, partnerItemId, partnerItemType}) => ({
   ownItem:
@@ -105,9 +106,8 @@ export default compose(
               <p>
                 <strong>
                   The value of your exchange will be deducted from your Accept wallet and escrowed
-                  in the transaction’s smart contract wallet
-                </strong>{' '}
-                [Public key].
+                  in the transaction’s smart contract wallet.
+                </strong>
               </p>
               <p>
                 If there is a difference in listing values between the items being exchanged,{' '}
@@ -128,14 +128,18 @@ export default compose(
           </div>
           <Icon className="exchange-step4__arrow" name="chevron-right" />
           <div className="exchange-step4__section">
-            <ExchangeItemSummary
-              title="Item for exchange:"
-              item={partnerItem.data}
-              type={partnerItemType}
-              count={partnerCount}
-              days={partnerDays}
-              time={partnerTime}
-            />
+            <div>
+              <ExchangeItemSummary
+                title="Item for exchange:"
+                item={partnerItem.data}
+                type={partnerItemType}
+                count={partnerCount}
+                days={partnerDays}
+                time={partnerTime}
+              />
+              <div className="exchange-step4__address">Smart Contract wallet (Public Key)</div>
+              <Wallet address={config.bcTokenContractAddress} />
+            </div>
             <ExchangeEscrow difference={calculateEscrowDifference()} escrow={calculateEscrow()} />
           </div>
         </div>
