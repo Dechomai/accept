@@ -6,7 +6,7 @@ import {selectProfile, selectNotifications} from '../../selectors';
 import {
   fetchNotifications,
   markNotificationAsRead,
-  markNotificationAsSeen
+  markNotificationsAsSeen
 } from '../../actions/notifications';
 import Notifications from '../../components/Notifications/Notifications';
 
@@ -16,14 +16,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNotifications() {
-    return dispatch(fetchNotifications());
+  fetchNotifications(sinceDate) {
+    return dispatch(fetchNotifications(sinceDate));
   },
   markNotificationAsRead(id) {
     return dispatch(markNotificationAsRead(id));
   },
-  markNotificationAsSeen() {
-    return dispatch(markNotificationAsSeen());
+  markNotificationsAsSeen() {
+    return dispatch(markNotificationsAsSeen());
   }
 });
 

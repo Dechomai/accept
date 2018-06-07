@@ -32,8 +32,10 @@
 
   &__dropdown {
     width: 480px;
+    max-height: 60vh;
     border-color: $gray-400;
     padding: 0;
+    overflow: auto;
 
     &__title {
       font-size: 14px;

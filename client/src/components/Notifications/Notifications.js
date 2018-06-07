@@ -9,7 +9,7 @@ import {shouldRefetchItem} from '../../utils/refetch';
 import Icon from '../common/Icon/Icon';
 import Notification from './Notification';
 
-const UPDATE_INTERVAL = 30 * 1000; // 30 seconds
+const UPDATE_INTERVAL = 60 * 1000; // 60 seconds
 
 class Notifications extends React.Component {
   componentDidMount() {
@@ -18,7 +18,8 @@ class Notifications extends React.Component {
     }
 
     this.updateInterval = setInterval(() => {
-      this.props.fetchNotifications();
+      const sinceDate = this.props.notifications.updatedAt;
+      this.props.fetchNotifications(sinceDate);
     }, UPDATE_INTERVAL);
   }
 
@@ -36,7 +37,7 @@ class Notifications extends React.Component {
 
   componentWillUpdate(nextProps) {
     if (!this.props.isOpen && nextProps.isOpen && nextProps.notifications.new) {
-      this.props.markNotificationAsSeen();
+      this.props.markNotificationsAsSeen();
     }
   }
 
@@ -71,7 +72,7 @@ Notifications.propTypes = {
   notifications: PropTypes.object.isRequired,
   fetchNotifications: PropTypes.func.isRequired,
   markNotificationAsRead: PropTypes.func.isRequired,
-  markNotificationAsSeen: PropTypes.func.isRequired,
+  markNotificationsAsSeen: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   router: PropTypes.any
