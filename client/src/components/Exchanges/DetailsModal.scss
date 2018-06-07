@@ -1,6 +1,25 @@
 @import '../../theme/index';
 
 .details-modal {
+  &--pending {
+    .modal-body {
+      &:before {
+        content: 'Please wait, this offer is processing...';
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: $green;
+        opacity: 0.8;
+        color: $white;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0.25rem 0;
+        z-index: 1;
+      }
+    }
+  }
   &__header {
     border-bottom: 1px solid $gray-400;
     display: flex;
