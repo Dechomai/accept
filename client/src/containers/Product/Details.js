@@ -46,6 +46,7 @@ class Details extends React.Component {
             />
           )}
           <ProductDetails
+            isSignedIn={!!user.data}
             product={product.data}
             isOwner={product.data.createdBy.id === userId}
             onExchangeClick={this.handleExchangeClick}
