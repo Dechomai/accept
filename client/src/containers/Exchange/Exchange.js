@@ -149,7 +149,7 @@ class Exchange extends React.Component {
 
   isBackBtnShown() {
     const {step} = this.props;
-    return step !== Steps.TRANSACTION_RESULT;
+    return step !== Steps.TRANSACTION_RESULT && step !== Steps.CONNECTION_CHECK;
   }
 
   isCancelBtnShown() {
