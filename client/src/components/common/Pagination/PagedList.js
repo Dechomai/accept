@@ -6,7 +6,7 @@ class PagedList extends React.Component {
     super(props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.page !== nextProps.page && this.list) {
       this.list.scroll({
         top: 0,

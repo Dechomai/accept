@@ -10,7 +10,7 @@ class Text extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const newText = this.truncateText(nextProps.children, nextProps.maxCharacters);
 
     if (newText !== this.state.displayText) {
