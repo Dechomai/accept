@@ -70,7 +70,7 @@ class Notifications extends React.Component {
   }
 
   render() {
-    const {notifications, isOpen, onToggle} = this.props;
+    const {notifications, user, isOpen, onToggle} = this.props;
 
     return (
       <Dropdown className="notifications" isOpen={isOpen} toggle={onToggle}>
@@ -90,6 +90,7 @@ class Notifications extends React.Component {
                 {notifications.data.map(notification => (
                   <Notification
                     key={notification.id}
+                    user={user.data}
                     notification={notification}
                     onClick={() => this.handleNotificationClick(notification)}
                   />
