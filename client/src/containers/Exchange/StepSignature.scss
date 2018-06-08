@@ -5,10 +5,11 @@
   align-items: center;
 
   &__title {
-    font-weight: bold;
-    font-size: 1.25rem;
-    margin: 3rem 5rem;
-    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+    margin: 3rem 4rem;
+    text-align: left;
+    line-height: 1.5rem;
   }
 
   &__image {
