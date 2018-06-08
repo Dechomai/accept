@@ -67,17 +67,17 @@ const formatTitle = notification => {
   }
 };
 
-const Notification = ({notification, onClick}) => {
-  const {exchange} = notification;
+const getImageUrl = item => {
+  const primary = getPrimaryImage(item);
+  return primary ? getImageThumbnail(primary) : '/assets/img/placholder.png';
+}
 
-  const initiatorItemPrimaryImageUrl = getPrimaryImage(exchange.initiatorItem);
-  const initiatorImgUrl = initiatorItemPrimaryImageUrl
-    ? getImageThumbnail(initiatorItemPrimaryImageUrl)
-    : '/assets/img/placeholder.png';
-  const partnerItemPrimaryImageUrl = getPrimaryImage(exchange.partnerItem);
-  const partnerImgUrl = partnerItemPrimaryImageUrl
-    ? getImageThumbnail(partnerItemPrimaryImageUrl)
-    : '/assets/img/placeholder.png';
+const Notification = ({notification, user, onClick}) => {
+  const {exchange} = notification;
+  const isInitiator = exchange.initiator === user.id;
+
+  const currentUserImgUrl = getImageUrl(isInitiator ? exchange.initiatorItem : exchange.partnerItem);
+  const otherUserImgUrl = getImageUrl(isInitiator ? exchange.partnerItem : exchange.initiatorItem);
 
   return (
     <div
@@ -87,12 +87,12 @@ const Notification = ({notification, onClick}) => {
       onClick={onClick}>
       <div className="notification__images">
         <div
-          className="notification__initiator-img"
-          style={{backgroundImage: `url(${initiatorImgUrl})`}}
+          className="notification__big-img"
+          style={{backgroundImage: `url(${otherUserImgUrl})`}}
         />
         <div
-          className="notification__partner-img"
-          style={{backgroundImage: `url(${partnerImgUrl})`}}
+          className="notification__small-img"
+          style={{backgroundImage: `url(${currentUserImgUrl})`}}
         />
       </div>
       <div className="notification__text">{formatTitle(notification)}</div>
