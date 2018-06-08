@@ -70,6 +70,13 @@ class BlockchainSyncService {
       .then(exchange => {
         logger.info('Updated exchange', exchange.id, 'with contract address', contractAddress);
         return notificationsService.publishNotification('Exchange.new', exchange.partner, exchange);
+      })
+      .catch(err => {
+        if (err === null) {
+          logger.error('Error updating exchange, exchange does not exists with txHash:', txHash);
+        } else {
+          logger.error('Error updating exchange', err);
+        }
       });
   }
 }
