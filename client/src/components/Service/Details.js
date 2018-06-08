@@ -10,7 +10,7 @@ import Gallery from '../common/Gallery/Gallery';
 import UserLink from '../common/UserLink/UserLink';
 import {getOrderedPhotos} from '../../utils/img';
 
-const ServiceDetails = ({service, isOwner, onExchangeClick}) => (
+const ServiceDetails = ({isSignedIn, service, isOwner, onExchangeClick}) => (
   <div className="container service-details">
     <div className="row">
       <Breadcrumb tag="nav" className="mb-3">
@@ -55,7 +55,8 @@ const ServiceDetails = ({service, isOwner, onExchangeClick}) => (
                 <Button
                   className="btn-with-icon btn-full-width"
                   color="primary"
-                  onClick={onExchangeClick}>
+                  onClick={onExchangeClick}
+                  disabled={!isSignedIn}>
                   <Icon size="20" name="autorenew" />Exchange
                 </Button>
               </div>
@@ -74,6 +75,7 @@ const ServiceDetails = ({service, isOwner, onExchangeClick}) => (
 );
 
 ServiceDetails.propTypes = {
+  isSignedIn: PropTypes.bool.isRequired,
   service: PropTypes.object.isRequired,
   isOwner: PropTypes.bool.isRequired,
   onExchangeClick: PropTypes.func.isRequired

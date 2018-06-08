@@ -46,6 +46,7 @@ class Details extends React.Component {
             />
           )}
           <ServiceDetails
+            isSignedIn={!!user.data}
             service={service.data}
             isOwner={service.data.createdBy.id === userId}
             onExchangeClick={this.handleExchangeClick}

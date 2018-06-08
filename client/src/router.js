@@ -78,7 +78,8 @@ const authorizedRoutes = [
   {pattern: /\/products\/add/, redirectTo: '/'},
   {pattern: /\/products\/.+\/edit/, redirectTo: '/'},
   {pattern: /\/services\/add/, redirectTo: '/'},
-  {pattern: /\/services\/.+\/edit/, redirectTo: '/'}
+  {pattern: /\/services\/.+\/edit/, redirectTo: '/'},
+  {pattern: /\/exchanges/, redirectTo: '/'}
 ];
 
 // perform redirects on router changes

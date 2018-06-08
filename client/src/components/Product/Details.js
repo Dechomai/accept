@@ -11,7 +11,7 @@ import Icon from '../common/Icon/Icon';
 import Gallery from '../common/Gallery/Gallery';
 import UserLink from '../common/UserLink/UserLink';
 
-const ProductDetails = ({product, isOwner, onExchangeClick}) => (
+const ProductDetails = ({isSignedIn, product, isOwner, onExchangeClick}) => (
   <div className="container product-details">
     <div className="row">
       <Breadcrumb tag="nav" className="mb-3">
@@ -65,7 +65,8 @@ const ProductDetails = ({product, isOwner, onExchangeClick}) => (
                 <Button
                   className="btn-with-icon btn-full-width"
                   color="primary"
-                  onClick={onExchangeClick}>
+                  onClick={onExchangeClick}
+                  disabled={!isSignedIn}>
                   <Icon size="20" name="autorenew" />Exchange
                 </Button>
               </div>
@@ -84,6 +85,7 @@ const ProductDetails = ({product, isOwner, onExchangeClick}) => (
 );
 
 ProductDetails.propTypes = {
+  isSignedIn: PropTypes.bool.isRequired,
   product: PropTypes.object.isRequired,
   isOwner: PropTypes.bool.isRequired,
   onExchangeClick: PropTypes.func
