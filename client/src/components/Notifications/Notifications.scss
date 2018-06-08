@@ -31,8 +31,6 @@
   }
 
   &__dropdown {
-    width: 480px;
-    max-height: 60vh;
     border-color: $gray-400;
     padding: 0;
     margin-top: 0.5rem;
@@ -70,7 +68,10 @@
     }
 
     &__content {
+      width: 480px;
+      max-height: 60vh;
       overflow: auto;
+      height: 100%;
     }
 
     &__title {
