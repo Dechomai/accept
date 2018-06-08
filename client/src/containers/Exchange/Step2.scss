@@ -1,7 +1,7 @@
 @import '../../theme/index';
 
 @function list-background($angle) {
-  @return linear-gradient($angle, #f3f3f3, #f3f3f300);
+  @return linear-gradient($angle, #f3f3f3, transparent);
 }
 
 .exchange-step2 {

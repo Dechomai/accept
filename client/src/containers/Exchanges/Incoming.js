@@ -33,7 +33,7 @@ class IncomingExchanges extends React.Component {
   }
   // replace in React v17
   // static getDerivedStateFromProps(nextProps, prevState)
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     refetchExchages(nextProps);
   }
 
@@ -162,6 +162,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   withPage(DEFAULT_LIMIT),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT)
 )(IncomingExchanges);

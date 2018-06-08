@@ -63,7 +63,7 @@ class Notifications extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if (!this.props.isOpen && nextProps.isOpen && nextProps.notifications.new) {
       this.props.markNotificationsAsSeen();
     }

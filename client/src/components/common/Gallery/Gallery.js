@@ -111,33 +111,45 @@ class Gallery extends React.Component {
     const {video, photos, showCarouselIndicators} = this.props;
     const {activeIndex, isVideoActive} = this.state;
 
+    // manually construct Carousel children,
+    // since reactstrap has a bug with rendering null|undefined children
+    const carouselChildren = [];
+    if (photos.length) {
+      showCarouselIndicators &&
+        carouselChildren.push(
+          <CarouselIndicators
+            key="indicators"
+            items={photos.map(photo => ({key: photo.id}))}
+            activeIndex={activeIndex}
+            onClickHandler={this.goToIndex}
+          />
+        );
+      carouselChildren.push(this.renderSlides());
+      photos.length > 1 &&
+        carouselChildren.push(
+          <React.Fragment key="controls">
+            <CarouselControl
+              key="control-prev"
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={this.previous}
+            />
+            <CarouselControl
+              key="control-next"
+              direction="next"
+              directionText="Next"
+              onClickHandler={this.next}
+            />
+          </React.Fragment>
+        );
+    }
+
     return (
       <div className="gallery">
         <div className="carousel-wrapper">
           {photos.length ? (
             <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-              {showCarouselIndicators && (
-                <CarouselIndicators
-                  items={photos.map(photo => ({key: photo.id}))}
-                  activeIndex={activeIndex}
-                  onClickHandler={this.goToIndex}
-                />
-              )}
-              {this.renderSlides()}
-              {photos.length > 1 && (
-                <React.Fragment>
-                  <CarouselControl
-                    direction="prev"
-                    directionText="Previous"
-                    onClickHandler={this.previous}
-                  />
-                  <CarouselControl
-                    direction="next"
-                    directionText="Next"
-                    onClickHandler={this.next}
-                  />
-                </React.Fragment>
-              )}
+              {carouselChildren}
             </Carousel>
           ) : (
             <div

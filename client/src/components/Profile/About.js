@@ -69,7 +69,7 @@ class About extends React.Component {
     this.refetchData(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {user} = nextProps;
     const description = pathOr('', ['data', 'description'], user);
 
@@ -78,7 +78,7 @@ class About extends React.Component {
 
   // replace in React v17
   // static getDerivedStateFromProps(nextProps, prevState)
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     this.refetchData(nextProps);
   }
 
