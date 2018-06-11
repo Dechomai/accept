@@ -36,10 +36,10 @@ const CONFIRMATION_TEXT = {
   accept:
     'By accepting this offer, I agree to the Accept.IO marketplace rules, and in the event of a transaction dispute, I agree to be bound by the Accept Star Council rules of arbitration and any decision made as a result of this arbitration process.',
   reject: 'Are you sure you want to Reject this offer? This cannot be undone.',
+  report:
+    'This offer will be escalated to the AcceptPay Star Council for arbitration. Are you sure you want to report the offer?',
   validate: 'Are you sure you want to Validate this offer? This cannot be undone.',
-  cancel: 'Are you sure you want to Cancel this offer? This cannot be undone.',
-  'report problem':
-    'This offer will be escalated to the AcceptPay Star Council for arbitration. Are you sure you want to report the offer?'
+  cancel: 'Are you sure you want to Cancel this offer? This cannot be undone.'
 };
 
 const TRANSACTION_INFO = {
