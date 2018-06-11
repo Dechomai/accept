@@ -116,7 +116,7 @@ class ConnectionCheck extends React.Component {
         <Step title="Metamask Plugin" success={isPluginInstalled}>
           <div className="connection-check__description">
             Looks like you dont have MetaMask, please install it by the following link{' '}
-            <a href="https://metamask.io">metamask.io</a> and press proceed
+            <a href="https://metamask.io">metamask.io</a> and press <b>Try again</b>
           </div>
           {/* <Button onClick={this.updateConnectionStatus}>Refresh</Button> */}
         </Step>
