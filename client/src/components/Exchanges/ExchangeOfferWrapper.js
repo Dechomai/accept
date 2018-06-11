@@ -152,9 +152,13 @@ class ExchangeOfferWrapper extends React.Component {
           ? TRANSACTION_INFO.validatedByCurrentUser
           : TRANSACTION_INFO.validatedByOtherUser;
       case 'reportedByInitiator':
-        return TRANSACTION_INFO.reportedByInitiator;
+        return exchange.initiator.id == user.data.id
+          ? TRANSACTION_INFO.reportedByInitiator
+          : TRANSACTION_INFO.reportedByPartner;
       case 'reportedByPartner':
-        return TRANSACTION_INFO.reportedByPartner;
+        return exchange.initiator.id == user.data.id
+          ? TRANSACTION_INFO.reportedByPartner
+          : TRANSACTION_INFO.reportedByInitiator;
       default:
         return null;
     }
