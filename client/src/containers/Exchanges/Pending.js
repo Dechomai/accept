@@ -11,7 +11,6 @@ import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance'
 import {selectExchangesFor, selectExchangesCountFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
-import Empty from '../../components/Exchanges/Empty';
 import ExchangesModal from '../../components/Exchanges/Modal';
 import Confirmation from '../../components/Exchange/Confirmation';
 import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
@@ -43,6 +42,10 @@ class PendingExchanges extends React.Component {
   // static getDerivedStateFromProps(nextProps, prevState)
   UNSAFE_componentWillUpdate(nextProps) {
     refetchExchages(nextProps);
+  }
+
+  handleRefreshBtnCLick() {
+    refetchExchages(this.props, true);
   }
 
   handleConnectionCheckSuccess() {
@@ -86,8 +89,7 @@ class PendingExchanges extends React.Component {
     const {exchanges, user, count, skip, limit} = this.props;
 
     if (!exchanges || exchanges.loading) return <Loader />;
-    if (exchanges && !exchanges.data.length) return <Empty />;
-    if (exchanges && exchanges.data.length)
+    if (exchanges && exchanges.data)
       return (
         <React.Fragment>
           {this.state.showPendingTransaction && (
@@ -106,6 +108,7 @@ class PendingExchanges extends React.Component {
             title="Active Exchanges"
             exchanges={exchanges.data}
             showEscrow={true}
+            onRefreshBtnClick={this.handleRefreshBtnCLick}
             buttons={[
               {
                 title: 'Report',

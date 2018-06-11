@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const Icon = ({name, size, className, style}) => (
+const Icon = ({name, size, className, style, onClick}) => (
   <i
     className={classNames('icon', 'mdi', `mdi-${name}`, `mdi-${size}px`, className)}
     style={style}
+    onClick={onClick}
   />
 );
 
@@ -15,7 +16,8 @@ Icon.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   name: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(iconSizes)
+  size: PropTypes.oneOf(iconSizes),
+  onClick: PropTypes.func
 };
 
 Icon.defaultProps = {

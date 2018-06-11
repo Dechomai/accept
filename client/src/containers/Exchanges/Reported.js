@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {compose, lifecycle} from 'recompact';
+import {compose, lifecycle, withHandlers} from 'recompact';
 
 import {fetchExchanges} from '../../actions/exchanges';
 import withPage from '../../hoc/pagination/withPage';
@@ -9,7 +9,6 @@ import withValidPageEnsurance from '../../hoc/pagination/withValidPageEnsurance'
 import {selectExchangesFor, selectExchangesCountFor, selectProfile} from '../../selectors';
 import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
-import Empty from '../../components/Exchanges/Empty';
 
 const DEFAULT_LIMIT = 10;
 
@@ -39,7 +38,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   withPage(DEFAULT_LIMIT),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withValidPageEnsurance(({count}) => count, DEFAULT_LIMIT),
   lifecycle({
     componentDidMount() {
@@ -50,15 +52,20 @@ export default compose(
     componentWillUpdate(nextProps) {
       refetchExchages(nextProps);
     }
+  }),
+  withHandlers({
+    handleRefreshBtnCLick: props => () => {
+      refetchExchages(props, true);
+    }
   })
-)(({exchanges, user, count, skip, limit}) => {
+)(({exchanges, user, count, skip, limit, handleRefreshBtnCLick}) => {
   if (!exchanges || exchanges.loading) return <Loader />;
-  if (exchanges && !exchanges.data.length) return <Empty />;
-  if (exchanges && exchanges.data.length)
+  if (exchanges && exchanges.data)
     return (
       <ExchangesList
         title="Offers with Issues"
         exchanges={exchanges.data}
+        onRefreshBtnClick={handleRefreshBtnCLick}
         showEscrow={false}
         user={user}
         count={count}
