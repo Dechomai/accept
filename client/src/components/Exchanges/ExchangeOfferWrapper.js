@@ -54,7 +54,7 @@ const TRANSACTION_INFO = {
   validatedByOtherUser:
     'Your exchange partner has received your item and validated the deal. The exchange will be completed and escrowed amount of Fulcrum will be released to your account after you validate the deal. If you’ve faced a fraud - you can report the deal for further arbitrations.',
   reportedByInitiator:
-    'You’ve reported the deal. Fulcrum located on the smart contract is frozen, unless arbitra-tions are made.',
+    'You’ve reported the deal. Fulcrum located on the smart contract is frozen, unless arbitrations are made.',
   reportedByPartner:
     'Your exchange partner has reported the deal. Fulcrum located on the smart contract is frozen, unless arbitrations are made.'
 };

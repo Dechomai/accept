@@ -35,6 +35,9 @@
   }
   &__gift-btn {
     width: 166px;
+    &__wrapper {
+      text-align: center;
+    }
   }
   &__contract-address {
     text-align: left;

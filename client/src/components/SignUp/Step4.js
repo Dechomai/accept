@@ -21,21 +21,16 @@ const SignUpStep4 = ({onClickOk}) => {
                 <div className="sign-up-step4__gift">
                   <img className="sign-up-step4__gift__img" src="/assets/img/gift.png" alt="" />
                 </div>
-                <h5 className="sign-up-step4__title">
-                  AcceptPay welcomes new users with bonus Fulcrum tokens!
-                </h5>
+                <h5 className="sign-up-step4__title">Welcome bonus for registration</h5>
                 <p className="sign-up-step4__gift-text">
-                  After you complete the final step of registration your selected MetaMask account
-                  will be granted with X Fulcrum tokens and Y ethereum
+                  You`ve successfully created an Account. Your selected MetaMask account is granted
+                  with X Fulcrum tokens and Y ethereum as a welcome bonus
                 </p>
-                <Button className="sign-up-step4__gift-btn" color="primary" onClick={onClickOk}>
-                  OK
-                </Button>
                 <div className="sign-up-step4__contract-address">
-                  <h5 className="mb-3">How to see bonus tokens in MetaMask?</h5>
+                  <h5 className="mb-3">Display your tokens</h5>
                   <p className="sign-up-step4__contract-address__info">
                     In order to display your current Fulcrum balance in MetaMask, please use “Add
-                    Token” option within MetaMask plugin by using the following token address
+                    Token” option within MetaMask plugin by using the following token address:
                   </p>
                   <div className="form-group">
                     <label>Token contract Address</label>
@@ -65,8 +60,16 @@ const SignUpStep4 = ({onClickOk}) => {
                   </div>
                   <p className="sign-up-step4__contract-address__info">
                     Regardless of whether you’ve added a Fulcrum token within MetaMask plugin, the
-                    welcome bonus will still be added to your balance.
+                    welcome bonus is already on your balance
                   </p>
+                  <div className="sign-up-step4__gift-btn__wrapper">
+                    <Button
+                      className="sign-up-step4__gift-btn text-center"
+                      color="primary"
+                      onClick={onClickOk}>
+                      OK
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
