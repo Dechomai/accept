@@ -40,7 +40,7 @@ class ConnectionCheckModal extends React.Component {
             Cancel
           </Button>
           <Button color="primary" onClick={this.handleRefreshBtn}>
-            Proceed
+            Try Again
           </Button>
         </ModalFooter>
       </Modal>
