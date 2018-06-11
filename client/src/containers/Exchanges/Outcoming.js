@@ -18,7 +18,6 @@ import Loader from '../../components/common/Loader/Loader';
 import ExchangesList from '../../components/Exchanges/List';
 import ExchangesModal from '../../components/Exchanges/Modal';
 import Confirmation from '../../components/Exchange/Confirmation';
-import Empty from '../../components/Exchanges/Empty';
 import ConnectionCheckModal from '../../components/Exchange/ConnectionCheckModal';
 
 const DEFAULT_LIMIT = 10;
@@ -40,6 +39,10 @@ class OutcomingExchanges extends React.Component {
   // static getDerivedStateFromProps(nextProps, prevState)
   UNSAFE_componentWillUpdate(nextProps) {
     refetchExchages(nextProps);
+  }
+
+  handleRefreshBtnCLick() {
+    refetchExchages(this.props, true);
   }
 
   handleConnectionCheckSuccess() {
@@ -66,8 +69,7 @@ class OutcomingExchanges extends React.Component {
     const {exchanges, user, count, skip, limit} = this.props;
 
     if (!exchanges || exchanges.loading) return <Loader />;
-    if (exchanges && !exchanges.data.length) return <Empty />;
-    if (exchanges && exchanges.data.length)
+    if (exchanges && exchanges.data)
       return (
         <React.Fragment>
           {this.state.showPendingTransaction && (
@@ -86,6 +88,7 @@ class OutcomingExchanges extends React.Component {
             title="Outcoming Offers"
             exchanges={exchanges.data}
             showEscrow={false}
+            onRefreshBtnClick={this.handleRefreshBtnCLick}
             buttons={[
               {
                 title: 'Cancel',
