@@ -12,6 +12,15 @@ import {fetchProfile} from './actions/user';
 
 const start = performance.now();
 
+// disable React Dev Tools in production
+if (
+  ENV === 'production' &&
+  window.__REACT_DEVTOOLS_GLOBAL_HOOK__ &&
+  Object.keys(window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers).length
+) {
+  window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers = {};
+}
+
 // fetch initial data dependencies and render
 Promise.all([
   // load external data
