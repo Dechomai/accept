@@ -24,7 +24,7 @@ const SignUpStep4 = ({onClickOk}) => {
                 <h5 className="sign-up-step4__title">Welcome bonus for registration</h5>
                 <p className="sign-up-step4__gift-text">
                   You`ve successfully created an Account. Your selected MetaMask account is granted
-                  with X Fulcrum tokens and Y ethereum as a welcome bonus
+                  with 20 Fulcrum tokens and 20 ETH as a welcome bonus
                 </p>
                 <div className="sign-up-step4__contract-address">
                   <h5 className="mb-3">Display your tokens</h5>
