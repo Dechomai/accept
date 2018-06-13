@@ -6,8 +6,9 @@ import classNames from 'classnames';
 
 import {getPrimaryImage, getImageThumbnail} from '../../utils/img';
 
-const formatTitle = notification => {
-  const {exchange, subject} = notification;
+export const formatTitle = notification => {
+  const {exchange, subject, recepient} = notification;
+  const isInitiator = exchange.initiator === recepient;
   switch (subject) {
     case 'Exchange.new':
       return (
@@ -38,9 +39,15 @@ const formatTitle = notification => {
         </div>
       );
     case 'Exchange.validated': {
-      const {status, partnerItem, initiatorItem} = exchange;
-      const item1 = status === 'validatedByInitiator' ? partnerItem : initiatorItem;
-      const item2 = status === 'validatedByInitiator' ? initiatorItem : partnerItem;
+      const {partnerItem, initiatorItem} = exchange;
+      let item1, item2;
+      if (isInitiator) {
+        item1 = initiatorItem;
+        item2 = partnerItem;
+      } else {
+        item1 = partnerItem;
+        item2 = initiatorItem;
+      }
       return (
         <div className="notification__title">
           <b>Validated: </b>
@@ -74,7 +81,7 @@ const formatTitle = notification => {
 
 const getImageUrl = item => {
   const primary = getPrimaryImage(item);
-  return primary ? getImageThumbnail(primary) : '/assets/img/placholder.png';
+  return primary ? getImageThumbnail(primary) : '/assets/img/placeholder.png';
 };
 
 const Notification = ({notification, user, onClick}) => {
@@ -109,6 +116,7 @@ const Notification = ({notification, user, onClick}) => {
 
 Notification.propTypes = {
   notification: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   onClick: PropTypes.func
 };
 
