@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobindr';
 import classNames from 'classnames';
-import {Button} from 'reactstrap';
 import {equals} from 'ramda';
 
 import metamaskService from '../../services/metamask';
@@ -132,17 +131,10 @@ class ConnectionCheck extends React.Component {
           <div className="connection-check__sub-title">Account address</div>
           <div className="connection-check__address">{address}</div>
         </Step>
-        <Step title="Join our Accept Pay Network" success={isAcceptNetwork}>
+        <Step title="Join Ropsten Test Network" success={isAcceptNetwork}>
           <div className="connection-check__description">
-            Please connect to custom RPC using the following URL (the page will be reloaded
+            Please connect to Ropsten Test Network within your MetaMask (the page will be reloaded
             automatically)
-          </div>
-          <div className="connection-check__sub-title">Accept Pay Network URL</div>
-          <div className="connection-check__network-url">
-            {config.bcNetworkUrl}
-            <Button color="copy" onClick={this.copyNetworkUrlToClipboard}>
-              Copy
-            </Button>
           </div>
         </Step>
       </div>

@@ -177,30 +177,21 @@ class SignUpStep3 extends React.Component {
                   'sign-up-step3__status--failed': !this.state.isAcceptNetwork
                 })}
               />
-              <h5 className="sign-up-step3__header">Join our Accept Pay Network</h5>
+              <h5 className="sign-up-step3__header">Join Ropsten Test Network</h5>
               {!this.state.isAcceptNetwork && (
                 <React.Fragment>
                   <p className="sign-up-step3__description">
-                    Please, connect to custom RPC and insert following URL
+                    Please connect to Ropsten Test Network within your MetaMask (the page will be
+                    reloaded automatically)
                   </p>
 
                   <Alert color="warning">
                     <Icon name="alert" size="16" />
                     <div>
-                      You have to be in Accept Pay Network to proceed with exchanges or other
+                      You have to be in Ropsten network to proceed with exchanges or other
                       transactions
                     </div>
                   </Alert>
-
-                  <div className="form-group">
-                    <label>Accept Pay Network URL</label>
-                    <div className="sign-up-step3__network-url">
-                      {config.bcNetworkUrl}
-                      <Button color="copy" onClick={this.copyNetworkUrlToClipboard}>
-                        Copy
-                      </Button>
-                    </div>
-                  </div>
                   <Button outline color="primary" onClick={this.updateNetworkStatus}>
                     Check connection
                   </Button>
