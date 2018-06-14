@@ -4,6 +4,7 @@ import config from '../config';
 import exchangeContractData from '../config/contracts/exchange';
 import tokenContractData from '../config/contracts/token';
 
+const NETWORK_ID = config.bcNetworkId;
 const EXCHANGE_GAS_LIMIT = '2000000';
 
 class MetaMask {
@@ -31,7 +32,7 @@ class MetaMask {
           new Promise((resolve, reject) => {
             web3.version.getNetwork((err, networkId) => {
               if (err) return reject(err);
-              if (networkId !== '1011') return reject('Wrong network');
+              if (networkId !== NETWORK_ID) return reject('Wrong network');
               resolve();
             });
           })
