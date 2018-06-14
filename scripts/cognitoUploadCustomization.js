@@ -5,8 +5,8 @@ const {CognitoIdentityServiceProvider} = require('aws-sdk');
 const CSS_PATH = path.resolve(__dirname, '../client/cognito-ui/custom-css.css');
 const IMAGE_PATH = path.resolve(__dirname, '../client/cognito-ui/header.png');
 
-const ACCESS_KEY_ID = process.env.AWS_COGNITO_ACCESS_KEY_ID;
-const SECRET_ACCESS_KEY = process.env.AWS_COGNITO_SECRET_ACCESS_KEY;
+const ACCESS_KEY_ID = process.env.COGNITO_CUSTOMIZER_ACCESS_KEY_ID;
+const SECRET_ACCESS_KEY = process.env.COGNITO_CUSTOMIZER_SECRET_ACCESS_KEY;
 const REGION = process.env.COGNITO_REGION;
 
 const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
