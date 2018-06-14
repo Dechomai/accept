@@ -2,16 +2,16 @@
 
 ## Links
 
-*   Jira https://jd.eleks.com/secure/RapidBoard.jspa?projectKey=ACPT&rapidView=923
-*   Confluence https://cd.eleks.com/pages/viewpage.action?pageId=65317902
-*   Repository https://gitlab2.eleks-software.local/accept/accept-pay
-*   CI https://jksap.eleks-software.local/
-*   Environments
+-   Jira https://jd.eleks.com/secure/RapidBoard.jspa?projectKey=ACPT&rapidView=923
+-   Confluence https://cd.eleks.com/pages/viewpage.action?pageId=65317902
+-   Repository https://gitlab2.eleks-software.local/accept/accept-pay
+-   CI https://jksap.eleks-software.local/
+-   Environments
 
-    *   dev
-        *   https://dev.accept.io/
-    *   stage
-    *   prod
+    -   dev
+        -   https://dev.accept.io/
+    -   stage
+    -   prod
 
 ## Contributing guidelines and instructions
 
@@ -104,8 +104,18 @@ app.js
 
 ### Uploading Cognito Custom CSS
 
-Add `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` in `.env` file **OR** specify those in your environment variables
+Add `COGNITO_CUSTOMIZER_ACCESS_KEY_ID`, `COGNITO_CUSTOMIZER_SECRET_ACCESS_KEY` and `COGNITO_REGION` in `.env` file **OR** specify those in your environment variables
 
 ```
 yarn cognito:upload:customization
 ```
+
+### Creating DB Migration
+
+To create migration script run
+
+```
+node ./scripts/migrate.js create my-test-migration
+```
+
+this will create migration script `${date}-my-test-migration.js` in `./migrations` folder
