@@ -97,13 +97,6 @@ class BlockchainService {
       const initialBalance = 20000000000000000000; // 20 ether
 
       const nonce = web3.eth.getTransactionCount(TOKEN_SPONSOR_ADDRESS, 'pending');
-      const etherTxParameters = {
-        nonce: nonce,
-        gasPrice: '0x5208',
-        gasLimit: '0x30D40',
-        to: userAddress,
-        value: initialBalance
-      };
 
       let txData = web3.eth
         .contract(tokenContract.abi)
@@ -111,33 +104,22 @@ class BlockchainService {
         .transfer.getData(userAddress, initialBalance);
 
       const tokenTxParameters = {
-        nonce: nonce + 1,
+        nonce,
         gasPrice: '0x5208',
         gasLimit: '0x30D40',
         to: TOKEN_CONTRACT_ADDRESS,
         data: txData
       };
 
-      return this.sendSignedTransaction(etherTxParameters)
-        .then(
-          txHash => {
-            logger.info(':sendUserBonus', 'Sent bonus ether to:', userAddress, 'txHash:', txHash);
-            return this.sendSignedTransaction(tokenTxParameters);
-          },
-          err => {
-            logger.error(':sendUserBonus', 'Error sending bonus ether to:', userAddress, err);
-            return Promise.reject(err);
-          }
-        )
-        .then(
-          txHash => {
-            logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
-          },
-          err => {
-            logger.error(':sendUserBonus', 'Error sending bonus tokens to:', userAddress, err);
-            return Promise.reject(err);
-          }
-        );
+      return this.sendSignedTransaction(tokenTxParameters).then(
+        txHash => {
+          logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
+        },
+        err => {
+          logger.error(':sendUserBonus', 'Error sending bonus tokens to:', userAddress, err);
+          return Promise.reject(err);
+        }
+      );
     });
   }
 
