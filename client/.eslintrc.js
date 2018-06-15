@@ -14,7 +14,8 @@ module.exports = {
   },
   plugins: ['react', 'jest'],
   globals: {
-    ENV: false
+    ENV: false,
+    BUILD_INFO: false
   },
   rules: {
     'no-console': 1,

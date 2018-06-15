@@ -21,6 +21,17 @@ if (
   window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers = {};
 }
 
+if (ENV === 'production') {
+  console.log('%cBUILD INFO', 'font-size: large; color: blue;');
+  console.group();
+  console.log(
+    '%cTAG: %c%s',
+    'font-size: large; color: violet;',
+    'font-size: large; color: green;',
+    BUILD_INFO.BUILD_TAG
+  );
+}
+
 // fetch initial data dependencies and render
 Promise.all([
   // load external data
