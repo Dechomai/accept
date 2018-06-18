@@ -2,10 +2,11 @@ const Web3 = require('web3');
 const EthereumTx = require('ethereumjs-tx');
 
 const config = require('../../config');
-const tokenContract = require('../../config/contracts/token');
+const tokenContractData = require('../../config/contracts/token');
 const {createLoggerWith} = require('../logger');
 
-const BLOCKCHAIN_ADDRESS = config.get('blockchain.address');
+const BLOCKCHAIN_HTTP_ADDRESS = config.get('blockchain.httpAddress');
+const BLOCKCHAIN_WS_ADDRESS = config.get('blockchain.wsAddress');
 
 const TOKEN_CONTRACT_ADDRESS = config.get('blockchain.tokenContractAddress');
 const TOKEN_SPONSOR_ADDRESS = config.get('blockchain.tokenSponsorAddress');
@@ -15,13 +16,23 @@ const logger = createLoggerWith('[SVC:Blockchain]');
 
 class BlockchainService {
   constructor() {
-    this.web3 = null;
+    this.httpWeb3 = null;
+    this.wsWeb3 = null;
   }
 
-  getWeb3() {
-    if (this.web3) return Promise.resolve(this.web3);
-    this.web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_ADDRESS));
-    return Promise.resolve(this.web3);
+  // type = http | ws
+  getWeb3(type = 'http') {
+    if (type === 'http') {
+      if (this.httpWeb3) return Promise.resolve(this.httpWeb3);
+      this.httpWeb3 = new Web3(BLOCKCHAIN_HTTP_ADDRESS);
+      return Promise.resolve(this.httpWeb3);
+    }
+    if (type === 'ws') {
+      if (this.wsWeb3) return Promise.resolve(this.wsWeb3);
+      this.wsWeb3 = new Web3(BLOCKCHAIN_WS_ADDRESS);
+      return Promise.resolve(this.wsWeb3);
+    }
+    return Promise.reject('Invalid type argument provided');
   }
 
   getContractAddress(transactionHash) {
@@ -45,7 +56,6 @@ class BlockchainService {
               logger.error(':getContractAddress', 'Transaction did not succeed', transactionHash);
               return reject('Transaction did not succeed');
             }
-
             const contractAddress = block.logs
               .map(log => log.address)
               .find(address => address !== TOKEN_CONTRACT_ADDRESS);
@@ -93,34 +103,34 @@ class BlockchainService {
   }
 
   sendUserBonus(userAddress) {
-    return this.getWeb3().then(web3 => {
-      const initialBalance = 20000000000000000000; // 20 ether
+    return this.getWeb3()
+      .then(web3 =>
+        Promise.all([web3, web3.eth.getTransactionCount(TOKEN_SPONSOR_ADDRESS, 'pending')])
+      )
+      .then(([web3, nonce]) => {
+        const initialBalance = 20000000000000000000; // 20 ether
 
-      const nonce = web3.eth.getTransactionCount(TOKEN_SPONSOR_ADDRESS, 'pending');
+        const tokenContract = new web3.eth.Contract(tokenContractData.abi, TOKEN_CONTRACT_ADDRESS);
+        const data = tokenContract.methods.transfer(userAddress, initialBalance).encodeABI();
 
-      let txData = web3.eth
-        .contract(tokenContract.abi)
-        .at(TOKEN_CONTRACT_ADDRESS)
-        .transfer.getData(userAddress, initialBalance);
+        const tokenTxParameters = {
+          nonce,
+          gasPrice: 21000,
+          gasLimit: web3.utils.toHex(200000),
+          to: TOKEN_CONTRACT_ADDRESS,
+          data
+        };
 
-      const tokenTxParameters = {
-        nonce,
-        gasPrice: '0x5208',
-        gasLimit: '0x30D40',
-        to: TOKEN_CONTRACT_ADDRESS,
-        data: txData
-      };
-
-      return this.sendSignedTransaction(tokenTxParameters).then(
-        txHash => {
-          logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
-        },
-        err => {
-          logger.error(':sendUserBonus', 'Error sending bonus tokens to:', userAddress, err);
-          return Promise.reject(err);
-        }
-      );
-    });
+        return this.sendSignedTransaction(tokenTxParameters).then(
+          txHash => {
+            logger.info(':sendUserBonus', 'Sent bonus tokens to:', userAddress, 'txHash:', txHash);
+          },
+          err => {
+            logger.error(':sendUserBonus', 'Error sending bonus tokens to:', userAddress, err);
+            return Promise.reject(err);
+          }
+        );
+      });
   }
 
   sendSignedTransaction(rawTx) {
@@ -132,7 +142,7 @@ class BlockchainService {
       const signedTx = '0x' + tx.serialize().toString('hex');
 
       return new Promise((resolve, reject) => {
-        web3.eth.sendRawTransaction(signedTx, (err, txHash) => {
+        web3.eth.sendSignedTransaction(signedTx, (err, txHash) => {
           if (err) {
             logger.error(':sendSignedTransaction', 'Error sending signed transaction', err);
             return reject(err);
@@ -145,11 +155,10 @@ class BlockchainService {
   }
 
   getExchangeInitiatedEvent() {
-    return this.getWeb3().then(web3 =>
-      web3.eth
-        .contract(tokenContract.abi)
-        .at(TOKEN_CONTRACT_ADDRESS)
-        .ExchangeInitiated()
+    return this.getWeb3('ws').then(
+      web3 =>
+        new web3.eth.Contract(tokenContractData.abi, TOKEN_CONTRACT_ADDRESS).events
+          .ExchangeInitiated
     );
   }
 }

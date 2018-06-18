@@ -77,7 +77,8 @@ class MetaMask {
             partnerAddress,
             {
               from: address,
-              gas: EXCHANGE_GAS_LIMIT
+              gas: EXCHANGE_GAS_LIMIT,
+              gasPrice: 21000
             },
             (err, txHash) => {
               if (err) return reject(err);

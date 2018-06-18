@@ -141,12 +141,19 @@ const config = convict({
     }
   },
   blockchain: {
-    address: {
-      doc: 'Blockchain address',
+    httpAddress: {
+      doc: 'Blockchain address for HTTP provider',
       format: String,
       default: null,
-      arg: 'blockchainAddress',
-      env: 'BLOCKCHAIN_ADDRESS'
+      arg: 'blockchainHttpAddress',
+      env: 'BLOCKCHAIN_HTTP_ADDRESS'
+    },
+    wsAddress: {
+      doc: 'Blockchain address for WebSocker provider',
+      format: String,
+      default: null,
+      arg: 'blockchainWsAddress',
+      env: 'BLOCKCHAIN_WS_ADDRESS'
     },
     tokenContractAddress: {
       doc: 'Token contract address',

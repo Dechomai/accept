@@ -1,5 +1,3 @@
-// const Web3 = require('web3');
-
 const Exchange = require('../models/exchange');
 const blockchainService = require('./blockchain');
 const notificationsService = require('./notifications');
@@ -25,14 +23,14 @@ class BlockchainSyncService {
     if (this.watchingExchangeInitiatedEvent) return;
     return this.getExchangeInitiatedEvent().then(event => {
       logger.info('ExchangeInitiated Event observer started');
-      event.watch((err, result) => {
+      event((err, result) => {
         if (err) {
           logger.error('ExchangeInitiated Event error', err);
           return;
         }
         try {
           const {transactionHash} = result;
-          const {contractAddress, initiator} = result.args;
+          const {contractAddress, initiator} = result.returnValues;
           logger.info(
             'ExchangeInitiated Event got contractAddress: ',
             contractAddress,
