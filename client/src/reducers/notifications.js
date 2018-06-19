@@ -19,7 +19,12 @@ const getInitialState = () => ({
 
 const uniqById = uniqBy(prop('id'));
 const sortByDate = (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt);
-const concatNotifications = (prev, curr) => compose(sort(sortByDate), uniqById, concat(prev))(curr);
+const concatNotifications = (prev, curr) =>
+  compose(
+    sort(sortByDate),
+    uniqById,
+    concat(prev)
+  )(curr);
 
 const notifications = createReducer(getInitialState(), {
   [FETCH_NOTIFICATIONS_REQUEST](state) {
@@ -35,6 +40,8 @@ const notifications = createReducer(getInitialState(), {
     // filter out duplicates(just in case shit happens)
     // sort by updatedAt, to remain sorted order
     const newData = notifications.length ? concatNotifications(data, notifications) : data;
+    // is there any "new" notifications
+    const hasNew = newData.length !== data.length && !!newData.find(n => n.status === 'new');
 
     return {
       ...state,
@@ -42,8 +49,7 @@ const notifications = createReducer(getInitialState(), {
       data: newData,
       error: null,
       // set "new" flag if number of notifications changes and some has status:"new"
-      new:
-        notifications.length !== state.data.length && notifications.find(n => n.status === 'new'),
+      new: hasNew,
       updatedAt: new Date().toISOString()
     };
   },
