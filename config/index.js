@@ -38,6 +38,13 @@ const config = convict({
     arg: 'logLevel',
     env: 'LOG_LEVEL'
   },
+  deployEnv: {
+    doc: 'Deployment environment name',
+    format: String,
+    default: 'develop',
+    arg: 'deployEnv',
+    env: 'DEPLOY_ENV'
+  },
   db: {
     username: {
       format: '*',
