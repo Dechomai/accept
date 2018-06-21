@@ -262,9 +262,9 @@ autoprefixer@^8.0.0:
     postcss "^6.0.21"
     postcss-value-parser "^3.2.3"
 
-aws-sdk@^2.253.1:
-  version "2.253.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.253.1.tgz#5ca10d7115562fc40adedc35c4d99703f8fe5f9c"
+aws-sdk@^2.260.1:
+  version "2.260.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.260.1.tgz#58d85704b200a6d0f42f08e0aee8f4da23485dd0"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1060,11 +1060,11 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-cross-env@^5.1.6:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.1.6.tgz#0dc05caf945b24e4b9e3b12871fe0e858d08b38d"
+cross-env@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
   dependencies:
-    cross-spawn "^5.1.0"
+    cross-spawn "^6.0.5"
     is-windows "^1.0.0"
 
 cross-spawn@^5.0.1, cross-spawn@^5.1.0:
@@ -1072,6 +1072,16 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
   dependencies:
     lru-cache "^4.0.1"
+    shebang-command "^1.2.0"
+    which "^1.2.9"
+
+cross-spawn@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
+  dependencies:
+    nice-try "^1.0.4"
+    path-key "^2.0.1"
+    semver "^5.5.0"
     shebang-command "^1.2.0"
     which "^1.2.9"
 
@@ -3074,9 +3084,9 @@ jsonwebtoken@^8.2.0:
     ms "^2.1.1"
     xtend "^4.0.1"
 
-jsonwebtoken@^8.2.2:
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.2.2.tgz#76d7993fda79660d71bd0f933109e1f133734b20"
+jsonwebtoken@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.3.0.tgz#056c90eee9a65ed6e6c72ddb0a1d325109aaf643"
   dependencies:
     jws "^3.1.5"
     lodash.includes "^4.3.0"
@@ -3087,7 +3097,6 @@ jsonwebtoken@^8.2.2:
     lodash.isstring "^4.0.1"
     lodash.once "^4.0.0"
     ms "^2.1.1"
-    xtend "^4.0.1"
 
 jsprim@^1.2.2:
   version "1.4.1"
@@ -3144,9 +3153,9 @@ jws@^3.1.5:
     jwa "^1.1.5"
     safe-buffer "^5.0.1"
 
-kareem@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.1.0.tgz#d63197b57311830e4ceb3f34431f22f2de826a03"
+kareem@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.2.1.tgz#9950809415aa3cde62ab43b4f7b919d99816e015"
 
 keccak@^1.0.2:
   version "1.4.0"
@@ -3205,9 +3214,9 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@^7.1.3:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.1.3.tgz#0eb77b42131653808e02bc0eba66ad8ff8a8ca1f"
+lint-staged@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.2.0.tgz#bdf4bb7f2f37fe689acfaec9999db288a5b26888"
   dependencies:
     app-root-path "^2.0.1"
     chalk "^2.3.1"
@@ -3646,9 +3655,9 @@ mongodb-core@2.1.19:
     bson "~1.0.4"
     require_optional "~1.0.0"
 
-mongodb-core@3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.0.8.tgz#8d401f4eab6056c0d874a3d5844a4844f761d4d7"
+mongodb-core@3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.0.9.tgz#8327410c88811013fb3e4ac7c4c670f324349be1"
   dependencies:
     bson "~1.0.4"
     require_optional "^1.0.1"
@@ -3657,11 +3666,11 @@ mongodb-core@3.0.8:
   version "0.9.7"
   resolved "https://registry.yarnpkg.com/mongodb-uri/-/mongodb-uri-0.9.7.tgz#0f771ad16f483ae65f4287969428e9fbc4aa6181"
 
-mongodb@3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.9.tgz#742e685e45ac9c3ead02a91c9ebaae7165bb2def"
+mongodb@3.0.10:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.10.tgz#f948cb9595adcbfcad7444f6b24a040b653b23e8"
   dependencies:
-    mongodb-core "3.0.8"
+    mongodb-core "3.0.9"
 
 mongodb@^2.2.34:
   version "2.2.35"
@@ -3675,15 +3684,15 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
-mongoose@^5.1.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.1.4.tgz#eda83a5d81149c8114b6cac5e8b419324f92cc4b"
+mongoose@^5.1.6:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.1.6.tgz#af92762c1e0317c897435594e83d6a5952873a0e"
   dependencies:
     async "2.6.1"
     bson "~1.0.5"
-    kareem "2.1.0"
+    kareem "2.2.1"
     lodash.get "4.4.2"
-    mongodb "3.0.9"
+    mongodb "3.0.10"
     mongoose-legacy-pluralize "1.0.2"
     mpath "0.4.1"
     mquery "3.0.0"
@@ -3799,6 +3808,10 @@ needle@^2.2.0:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+nice-try@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.4.tgz#d93962f6c52f2c1558c0fbda6d512819f1efe1c4"
 
 nocache@2.0.0:
   version "2.0.0"
@@ -4195,7 +4208,7 @@ path-is-inside@^1.0.1, path-is-inside@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/path-is-inside/-/path-is-inside-1.0.2.tgz#365417dede44430d1c11af61027facf074bdfc53"
 
-path-key@^2.0.0:
+path-key@^2.0.0, path-key@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
 
@@ -4281,21 +4294,21 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
-postcss-html@^0.23.6:
-  version "0.23.7"
-  resolved "https://registry.yarnpkg.com/postcss-html/-/postcss-html-0.23.7.tgz#47146c15e21b9c00746c40115dcff8270c439f32"
+postcss-html@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/postcss-html/-/postcss-html-0.28.0.tgz#3dd0f5b5d7f886b8181bf844396d43a7898162cb"
   dependencies:
     htmlparser2 "^3.9.2"
 
-postcss-less@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-1.1.5.tgz#a6f0ce180cf3797eeee1d4adc0e9e6d6db665609"
+postcss-less@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-2.0.0.tgz#5d190b8e057ca446d60fe2e2587ad791c9029fb8"
   dependencies:
     postcss "^5.2.16"
 
-postcss-markdown@^0.23.6:
-  version "0.23.7"
-  resolved "https://registry.yarnpkg.com/postcss-markdown/-/postcss-markdown-0.23.7.tgz#7e3a398794295c425e51e4f0abdee6d13ad3d134"
+postcss-markdown@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/postcss-markdown/-/postcss-markdown-0.28.0.tgz#99d1c4e74967af9e9c98acb2e2b66df4b3c6ed86"
   dependencies:
     remark "^9.0.0"
     unist-util-find-all-after "^1.0.2"
@@ -4344,9 +4357,9 @@ postcss-selector-parser@^3.1.0:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-syntax@^0.9.0:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/postcss-syntax/-/postcss-syntax-0.9.1.tgz#5dbd90af1631ab8805b8f594bef2c2e8002d3758"
+postcss-syntax@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/postcss-syntax/-/postcss-syntax-0.28.0.tgz#e17572a7dcf5388f0c9b68232d2dad48fa7f0b12"
 
 postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
@@ -4381,9 +4394,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.13.4:
-  version "1.13.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.4.tgz#31bbae6990f13b1093187c731766a14036fa72e6"
+prettier@^1.13.5:
+  version "1.13.5"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.5.tgz#7ae2076998c8edce79d63834e9b7b09fead6bfd0"
 
 pretty-format@^23.0.1:
   version "23.0.1"
@@ -5395,9 +5408,9 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
-stylelint@^9.2.1:
-  version "9.2.1"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-9.2.1.tgz#fe63c169f6cd3bc81e77f0e3c6443df3267ec211"
+stylelint@^9.3.0:
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-9.3.0.tgz#fe176e4e421ac10eac1a6b6d9f28e908eb58c5db"
   dependencies:
     autoprefixer "^8.0.0"
     balanced-match "^1.0.0"
@@ -5422,9 +5435,9 @@ stylelint@^9.2.1:
     normalize-selector "^0.2.0"
     pify "^3.0.0"
     postcss "^6.0.16"
-    postcss-html "^0.23.6"
-    postcss-less "^1.1.5"
-    postcss-markdown "^0.23.6"
+    postcss-html "^0.28.0"
+    postcss-less "^2.0.0"
+    postcss-markdown "^0.28.0"
     postcss-media-query-parser "^0.2.3"
     postcss-reporter "^5.0.0"
     postcss-resolve-nested-selector "^0.1.1"
@@ -5432,7 +5445,7 @@ stylelint@^9.2.1:
     postcss-sass "^0.3.0"
     postcss-scss "^1.0.2"
     postcss-selector-parser "^3.1.0"
-    postcss-syntax "^0.9.0"
+    postcss-syntax "^0.28.0"
     postcss-value-parser "^3.3.0"
     resolve-from "^4.0.0"
     signal-exit "^3.0.2"
@@ -5906,9 +5919,9 @@ validator@^10.1.0:
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-10.2.0.tgz#61d6b10c3d5c9f368c75c2ce8ca2b792522eaafa"
 
-validator@^10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-10.3.0.tgz#157a8c0981858cff381f59aabcdb8f83b57317cc"
+validator@^10.4.0:
+  version "10.4.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-10.4.0.tgz#ee99a44afb3bb5ed350a159f056ca72a204cfc3c"
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
