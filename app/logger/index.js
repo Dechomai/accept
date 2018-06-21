@@ -6,6 +6,8 @@ const config = require('../../config');
 const LOG_LEVEL = config.get('logLevel');
 const NODE_ENV = config.get('env');
 
+const {HOSTNAME} = process.env;
+
 const consoleLogger = new winston.transports.Console({
   level: LOG_LEVEL,
   handleExceptions: true,
@@ -46,9 +48,9 @@ if (NODE_ENV === 'production') {
       } ${!isEmpty(logItem.meta) ? JSON.stringify(logItem.meta) : ''}`;
 
     const cloudWatchLogger = new CloudWatchTransport({
-      logGroupName: '/accept/dev', // TODO: use environment, deploy target, or smth
+      logGroupName: `/accept/${HOSTNAME}`, // TODO: use environment, deploy target, or smth
       logStreamName: new Date().toISOString().substring(0, 10), // use environment name alternatively
-      createLogGroup: false,
+      createLogGroup: true,
       createLogStream: true,
       awsConfig: {
         accessKeyId: CLOUDWATCH_ACCESS_KEY_ID,
