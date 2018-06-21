@@ -9,7 +9,8 @@
 -   Environments
 
     -   dev
-        -   https://dev.accept.io/
+        -   https://dev.accept.io/ - private network
+        -   https://testnet.accept.io/ - ropsten network
     -   stage
     -   prod
 
