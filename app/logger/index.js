@@ -48,7 +48,7 @@ if (NODE_ENV === 'production') {
       } ${!isEmpty(logItem.meta) ? JSON.stringify(logItem.meta) : ''}`;
 
     const cloudWatchLogger = new CloudWatchTransport({
-      logGroupName: `/accept/${HOSTNAME}`, // TODO: use environment, deploy target, or smth
+      logGroupName: `/accept/${HOSTNAME}`,
       logStreamName: new Date().toISOString().substring(0, 10), // use environment name alternatively
       createLogGroup: true,
       createLogStream: true,
