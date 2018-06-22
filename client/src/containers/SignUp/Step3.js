@@ -7,6 +7,7 @@ import {pick} from 'ramda';
 import {confirmProfile} from '../../actions/user';
 import {selectProfile} from '../../selectors';
 import SignUpStep3 from '../../components/SignUp/Step3';
+import userService from '../../services/user';
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
@@ -26,12 +27,16 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withHandlers({
     onSubmit: ({confirmProfile}) => data => {
       return confirmProfile(data).then(() => {}, () => toast.error('Sorry, something went wrong'));
     },
-    onClickOk: ({router}) => () => {
+    onClickOk: ({router}) => account => {
+      userService.getTestEther(account);
       router.push('/');
     }
   })
