@@ -31,10 +31,6 @@ const userService = {
         username
       }
     });
-  },
-
-  getTestEther(address) {
-    return fetch(`http://faucet.ropsten.be:3001/donate/${address}`);
   }
 };
 

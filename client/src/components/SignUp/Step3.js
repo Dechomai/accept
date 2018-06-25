@@ -222,11 +222,7 @@ class SignUpStep3 extends React.Component {
     return (
       <React.Fragment>
         {this.props.step4Visible ? (
-          <SignUpStep4
-            onClickOk={() => {
-              onClickOk(this.state.activeAccount);
-            }}
-          />
+          <SignUpStep4 onClickOk={onClickOk} />
         ) : (
           <div className="sign-up">
             <div className="container">
