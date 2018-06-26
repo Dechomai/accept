@@ -17,7 +17,11 @@ const ItemsList = ({type, list, tileSize, editable, onEditClick, onDeleteClick})
       onEditClick={e => {
         onEditClick(e, item.id);
       }}
-      onDeleteClick={() => onDeleteClick(item.id)}
+      onDeleteClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        return onDeleteClick(item.id);
+      }}
     />
   ));
 

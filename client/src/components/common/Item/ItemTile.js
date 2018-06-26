@@ -35,11 +35,11 @@ class ItemTile extends React.Component {
     this.toggle();
   }
 
-  handleDeleteItem() {
+  handleDeleteItem(e) {
     this.setState({
       deletingInProgress: true
     });
-    this.props.onDeleteClick().catch(() => {
+    this.props.onDeleteClick(e).catch(() => {
       this.setState({
         deletingInProgress: false,
         deletingError: true
