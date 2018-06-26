@@ -10,15 +10,14 @@
 
 2.  Set up your development environment:
 
-    *   Install `node 8.10` and `yarn`
-    *   Run `yarn` to install dependencies
-    *   Install `docker`
+    -   Install `node 8.10` and `yarn`
+    -   Run `yarn` to install dependencies
+    -   Install `docker`
 
 3.  Configure app:
 
-    *   Check [README.md](README.md) for configuration instructions
-    *   Check `/.env.sample` file for required variables
-    *   Ping _Yuriy Husnay_ if you need additional information, values, etc.
+    -   Check [README.md](README.md) for configuration instructions
+    -   Check `/.env.sample` file for required variables
 
 4.  Start the app
 
@@ -102,7 +101,7 @@ Before opening a pull request, make sure:
     git merge master --no-ff
     ```
 
-Only then, feel free to open pull request and assign it to _Yuriy Husnay_
+Only then, feel free to open pull request.
 
 Once PR is reviewed by required teammates, it will be merged back to develop.
 

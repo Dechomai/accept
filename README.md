@@ -13,6 +13,7 @@
         -   https://testnet.accept.io/ - ropsten network
     -   stage
     -   prod
+        -   https://marketplace.accept.io - ropsten
 
 ## Contributing guidelines and instructions
 
