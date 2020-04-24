@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: production
+
+phases:
+  install:
+    runtime-versions:
+      node: 12
+    commands:
+      - npm install
+      - cd client
+      - npm install
+      - cd ..
+  build:
+    commands:
+      - npm run lint
+      - npm run test
+      - cd client
+      - npm run test
+      - cd ..
+      - npm run build:client
+      - npm run cognito:upload:customization
+      - echo "zip output"
+
+  post_build:
+    commands:
+      - echo "aws s3 cp ..."
+      - echo "eb deploy ..."
