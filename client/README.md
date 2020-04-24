@@ -2,19 +2,19 @@
 
 ## Prerequisites
 
-*   Install `Node 8.10` and `yarn`
-*   Run `yarn` to install dependencies
+-   Install `Node 12.x`
+-   Run `npm install` to install dependencies
 
 ## Development
 
 ```
-yarn start
+npm run start
 ```
 
 ## Build
 
 ```
-yarn build
+npm run build
 ```
 
 ## Serve the output
@@ -22,5 +22,5 @@ yarn build
 Launch static server in `./build` directory and open default browser with the app
 
 ```
-yarn serve
+npm run serve
 ```
