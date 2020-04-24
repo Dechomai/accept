@@ -1,8 +1,10 @@
 version: 0.2
 
-# env:
-#   variables:
-#     NODE_ENV: production
+env:
+  parameter-store:
+    COGNITO_REGION: '/${ENV}/accept/COGNITO_REGION'
+    COGNITO_USER_POOL_ID: '/${ENV}/accept/COGNITO_USER_POOL_ID'
+    COGNITO_CLIENT_ID: '/${ENV}/accept/COGNITO_CLIENT_ID'
 
 phases:
   install:
