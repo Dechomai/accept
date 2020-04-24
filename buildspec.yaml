@@ -28,5 +28,6 @@ phases:
 
   post_build:
     commands:
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - echo "aws s3 cp ${CODEBUILD_BUILD_ID}.zip s3://${S3_EB_BUCKET}"
       - echo "eb deploy ..."
