@@ -1,8 +1,8 @@
 version: 0.2
 
-env:
-  variables:
-    NODE_ENV: production
+# env:
+#   variables:
+#     NODE_ENV: production
 
 phases:
   install:
@@ -22,9 +22,9 @@ phases:
       - cd ..
       - npm run build:client
       - npm run cognito:upload:customization
-      - echo "zip output"
+      - zip -q -r ${CODEBUILD_BUILD_ID}.zip package.json package-lock.json app.js app config public migrations
 
   post_build:
     commands:
-      - echo "aws s3 cp ..."
+      - echo "aws s3 cp ${CODEBUILD_BUILD_ID}.zip s3://${S3_EB_BUCKET}"
       - echo "eb deploy ..."
