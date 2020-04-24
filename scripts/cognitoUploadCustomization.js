@@ -14,11 +14,19 @@ const COGNITO_CLIENT_ID = process.env.COGNITO_CLIENT_ID;
 
 const uploadCustomizations = (css, image) =>
   new Promise((resolve, reject) => {
-    const cognitoIdentityService = new CognitoIdentityServiceProvider({
-      accessKeyId: ACCESS_KEY_ID,
-      secretAccessKey: SECRET_ACCESS_KEY,
+    let params = {
       region: REGION
-    });
+    };
+
+    if (ACCESS_KEY_ID && SECRET_ACCESS_KEY) {
+      params = {
+        accessKeyId: ACCESS_KEY_ID,
+        secretAccessKey: SECRET_ACCESS_KEY,
+        ...params
+      };
+    }
+
+    const cognitoIdentityService = new CognitoIdentityServiceProvider(params);
     cognitoIdentityService.setUICustomization(
       {
         UserPoolId: COGNITO_USER_POOL_ID,
