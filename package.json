@@ -10,7 +10,7 @@
     "test": "jasmine",
     "start": "nodemon app.js",
     "start:debug": "cross-env DEBUG=express:* nodemon app.js",
-    "build:client": "rimraf ./public/* && cd ./client && yarn && yarn build && ncp ./build ../public",
+    "build:client": "rimraf ./public/* && cd ./client && npm install && npm run build && ncp ./build ../public",
     "cognito:upload:customization": "node scripts/cognitoUploadCustomization.js",
     "precommit": "lint-staged"
   },
