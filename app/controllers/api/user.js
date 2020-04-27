@@ -117,7 +117,7 @@ const userController = {
 
   sendBonusTokens(address) {
     // try to send bonus ether
-    blockchainService.sendBonusEther(address);
+    // blockchainService.sendBonusEther(address);
     // send bonus tokens
     return blockchainService.sendUserBonus(address);
   }
