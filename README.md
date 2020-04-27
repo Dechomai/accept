@@ -29,13 +29,13 @@ In the following order of precendence:
 1.  Command line arguments.
 
     ```sh
-    $ yarn start --someVariable 10
+    $ npm start --someVariable 10
     ```
 
 2.  Environment variables.
 
     ```sh
-    $ SOME_VARIABLE=10 yarn start
+    $ SOME_VARIABLE=10 npm start
     ```
 
 3.  Variables defined in `/.env` file
@@ -81,14 +81,14 @@ In the following order of precendence:
 `Nodejs 8.10`, `npm`, `yarn`
 
 ```
-- yarn
-- yarn lint
-- yarn test
+- npm install
+- npm run lint
+- npm test
 - cd client
-- yarn
-- yarn test
+- npm install
+- npm run test
 - cd ..
-- yarn build:client
+- npm run build:client
 ```
 
 ### Artifact
@@ -97,11 +97,12 @@ Should contain
 
 ```
 package.json
-yarn.lock
+package-lock.json
 app.js
 /app
 /config
 /public
+/migrations
 ```
 
 ### Uploading Cognito Custom CSS
@@ -109,7 +110,7 @@ app.js
 Add `COGNITO_CUSTOMIZER_ACCESS_KEY_ID`, `COGNITO_CUSTOMIZER_SECRET_ACCESS_KEY` and `COGNITO_REGION` in `.env` file **OR** specify those in your environment variables
 
 ```
-yarn cognito:upload:customization
+npm run cognito:upload:customization
 ```
 
 ### Creating DB Migration
