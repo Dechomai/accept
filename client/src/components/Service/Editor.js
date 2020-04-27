@@ -158,8 +158,9 @@ class InnerForm extends React.Component {
                     onBlur={handleBlur}
                     value={values.title}
                   />
-                  {touched.title &&
-                    errors.title && <div className="invalid-feedback">{errors.title}</div>}
+                  {touched.title && errors.title && (
+                    <div className="invalid-feedback">{errors.title}</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -232,8 +233,9 @@ class InnerForm extends React.Component {
                     onBlur={handleBlur}
                     value={values.video}
                   />
-                  {touched.video &&
-                    errors.video && <div className="invalid-feedback">{errors.video}</div>}
+                  {touched.video && errors.video && (
+                    <div className="invalid-feedback">{errors.video}</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -261,10 +263,9 @@ class InnerForm extends React.Component {
                     onBlur={handleBlur}
                     value={values.description}
                   />
-                  {touched.description &&
-                    errors.description && (
-                      <div className="invalid-feedback">{errors.description}</div>
-                    )}
+                  {touched.description && errors.description && (
+                    <div className="invalid-feedback">{errors.description}</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -291,8 +292,9 @@ class InnerForm extends React.Component {
                     onBlur={handleBlur}
                     value={values.price}
                   />
-                  {touched.price &&
-                    errors.price && <div className="invalid-feedback">{errors.price}</div>}
+                  {touched.price && errors.price && (
+                    <div className="invalid-feedback">{errors.price}</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -343,7 +345,7 @@ const ServiceEditor = withFormik({
   validate: createValidator({
     title: ['required', rules.minLength(3), rules.maxLength(400), 'commonText'],
     video: ['youtubeUrl'],
-    description: ['required', rules.minLength(10), rules.maxLength(800), 'commonText'],
+    description: ['required', rules.minLength(10), rules.maxLength(2500), 'commonText'],
     price: ['required', 'price']
   }),
   handleSubmit: (values, {props, setSubmitting, setTouched, setErrors}) => {

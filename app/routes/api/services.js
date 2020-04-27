@@ -71,7 +71,7 @@ servicesRouter
         .isURL(),
       body('description')
         .exists()
-        .isLength({min: 10, max: 800}),
+        .isLength({min: 10, max: 2500}),
       body('price')
         .exists()
         .isFloat({min: 0, max: 2000000})
@@ -79,12 +79,10 @@ servicesRouter
     (req, res) => {
       const {userId, files} = req;
       const data = pick(['title', 'video', 'description', 'price', 'primaryPhotoIndex'], req.body);
-      return servicesController
-        .addService(data, files, userId)
-        .then(
-          service => sendSuccess(res, {service}),
-          error => sendError(res, {message: error || 'Error creating service'})
-        );
+      return servicesController.addService(data, files, userId).then(
+        service => sendSuccess(res, {service}),
+        error => sendError(res, {message: error || 'Error creating service'})
+      );
     }
   );
 
@@ -130,7 +128,7 @@ servicesRouter
         .isURL(),
       body('description')
         .optional()
-        .isLength({min: 10, max: 800}),
+        .isLength({min: 10, max: 2500}),
       body('price')
         .optional()
         .isFloat({min: 0, max: 2000000}),

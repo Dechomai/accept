@@ -71,7 +71,7 @@ productsRouter
         .isURL(),
       body('description')
         .exists()
-        .isLength({min: 10, max: 800}),
+        .isLength({min: 10, max: 2500}),
       body('condition')
         .exists()
         .isIn(['new', 'used']), // get condition statuses from somewhere
@@ -86,12 +86,10 @@ productsRouter
         req.body
       );
 
-      return productsController
-        .addProduct(productData, files, userId)
-        .then(
-          product => sendSuccess(res, {product}),
-          error => sendError(res, {message: error || 'Error creating product'})
-        );
+      return productsController.addProduct(productData, files, userId).then(
+        product => sendSuccess(res, {product}),
+        error => sendError(res, {message: error || 'Error creating product'})
+      );
     }
   );
 
@@ -137,7 +135,7 @@ productsRouter
         .isURL(),
       body('description')
         .optional()
-        .isLength({min: 10, max: 800}),
+        .isLength({min: 10, max: 2500}),
       body('condition')
         .optional()
         .isIn(['new', 'used']),
