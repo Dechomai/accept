@@ -2,9 +2,9 @@ version: 0.2
 
 env:
   parameter-store:
-    COGNITO_REGION: '/${ENV}/accept/COGNITO_REGION'
-    COGNITO_USER_POOL_ID: '/${ENV}/accept/COGNITO_USER_POOL_ID'
-    COGNITO_CLIENT_ID: '/${ENV}/accept/COGNITO_CLIENT_ID'
+    COGNITO_REGION: "/${ENV}/accept/COGNITO_REGION"
+    COGNITO_USER_POOL_ID: "/${ENV}/accept/COGNITO_USER_POOL_ID"
+    COGNITO_CLIENT_ID: "/${ENV}/accept/COGNITO_CLIENT_ID"
 
 phases:
   install:
@@ -24,7 +24,7 @@ phases:
       - cd ..
       - npm run build:client
       - npm run cognito:upload:customization
-      - zip -q -r ${CODEBUILD_BUILD_ID}.zip package.json package-lock.json app.js app config public migrations
+      - zip -q -r ${CODEBUILD_BUILD_ID}.zip package.json package-lock.json app.js app config public migrations .ebextensions
 
   post_build:
     commands:
