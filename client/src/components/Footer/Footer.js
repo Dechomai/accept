@@ -25,7 +25,7 @@ const Footer = () => {
         <div className="container">
           <div className="row py-2">
             <div className="col-12">
-              <small>Copyright © 2018 AcceptPay Ltd. All Rights Reserved</small>
+              <small>Copyright © 2020 AcceptPay Ltd. All Rights Reserved</small>
             </div>
           </div>
         </div>
