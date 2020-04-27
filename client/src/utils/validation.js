@@ -27,7 +27,7 @@ export const rules = {
     message: 'Please, use digits, numbers and spaces only'
   },
   commonText: {
-    predicate: val => val && !/^[a-zA-Z0-9,:;*()$#@% _.-]*$/.test(val),
+    predicate: val => val && !/^([a-zA-Z0-9,:;*()$#@% _.\-\\/'"`]|\r\n|\r|\n)*$/.test(val),
     message:
       'Please, use digits, numbers and spaces and following symbols (, : ; * () $ # @ %) only'
   },
