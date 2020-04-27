@@ -18,6 +18,8 @@ const uploadCustomizations = (css, image) =>
       region: REGION
     };
 
+    // if variables present, use them
+    // otherwise, assume there's role or global credentials
     if (ACCESS_KEY_ID && SECRET_ACCESS_KEY) {
       params = {
         accessKeyId: ACCESS_KEY_ID,
