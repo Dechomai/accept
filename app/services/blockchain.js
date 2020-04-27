@@ -109,7 +109,7 @@ class BlockchainService {
         Promise.all([web3, web3.eth.getTransactionCount(TOKEN_SPONSOR_ADDRESS, 'pending')])
       )
       .then(([web3, nonce]) => {
-        const initialBalance = 20000000000000000000; // 20 ether
+        const initialBalance = '20000000000000000000'; // 20 ether
 
         const tokenContract = new web3.eth.Contract(tokenContractData.abi, TOKEN_CONTRACT_ADDRESS);
         const data = tokenContract.methods.transfer(userAddress, initialBalance).encodeABI();
@@ -156,11 +156,10 @@ class BlockchainService {
   }
 
   getExchangeInitiatedEvent() {
-    return this.getWeb3('ws').then(
-      web3 =>
-        new web3.eth.Contract(tokenContractData.abi, TOKEN_CONTRACT_ADDRESS).events
-          .ExchangeInitiated
-    );
+    return this.getWeb3('ws').then(web3 => {
+      return new web3.eth.Contract(tokenContractData.abi, TOKEN_CONTRACT_ADDRESS).events
+        .ExchangeInitiated;
+    });
   }
 
   sendBonusEther(address) {
