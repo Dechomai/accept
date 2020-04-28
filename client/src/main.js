@@ -28,7 +28,7 @@ if (ENV === 'production') {
     '%cTAG: %c%s',
     'font-size: large; color: violet;',
     'font-size: large; color: green;',
-    BUILD_INFO.BUILD_TAG
+    BUILD_INFO.BUILD_ID
   );
 }
 

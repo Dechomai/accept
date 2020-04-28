@@ -15,7 +15,8 @@ module.exports = {
   plugins: ['react', 'jest'],
   globals: {
     ENV: false,
-    BUILD_INFO: false
+    BUILD_INFO: false,
+    BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS: false
   },
   rules: {
     'no-console': 1,

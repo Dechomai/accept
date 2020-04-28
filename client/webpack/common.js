@@ -6,8 +6,9 @@ const {paths} = require('./paths');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const BUILD_INFO = {
-  BUILD_TAG: process.env.BUILD_TAG
+  BUILD_ID: process.env.CODEBUILD_BUILD_ID
 };
+const BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS = process.env.BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS;
 
 const extractScss = new MiniCssExtractPlugin({
   filename: '[name]_[hash].css'
@@ -53,11 +54,13 @@ const plugins = {
     development: new webpack.DefinePlugin({
       ENV: JSON.stringify('development'),
       BUILD_INFO: null,
+      BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS: JSON.stringify(BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS),
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
     production: new webpack.DefinePlugin({
       ENV: JSON.stringify('production'),
       BUILD_INFO: JSON.stringify(BUILD_INFO),
+      BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS: JSON.stringify(BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS),
       'process.env.NODE_ENV': JSON.stringify('production')
     })
   },
