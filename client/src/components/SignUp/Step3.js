@@ -41,21 +41,17 @@ class SignUpStep3 extends React.Component {
   }
 
   updatePluginStatus() {
-    metamaskService
-      .isPluginInstalled()
-      .then(
-        () => this.setState({isPluginInstalled: true}),
-        () => this.setState({isPluginInstalled: false})
-      );
+    metamaskService.isPluginInstalled().then(
+      () => this.setState({isPluginInstalled: true}),
+      () => this.setState({isPluginInstalled: false})
+    );
   }
 
   updateNetworkStatus() {
-    metamaskService
-      .isAcceptNetwork()
-      .then(
-        () => this.setState({isAcceptNetwork: true}),
-        () => this.setState({isAcceptNetwork: false})
-      );
+    metamaskService.isAcceptNetwork().then(
+      () => this.setState({isAcceptNetwork: true}),
+      () => this.setState({isAcceptNetwork: false})
+    );
   }
 
   updateAccountStatus() {
@@ -222,7 +218,11 @@ class SignUpStep3 extends React.Component {
     return (
       <React.Fragment>
         {this.props.step4Visible ? (
-          <SignUpStep4 onClickOk={onClickOk} />
+          <SignUpStep4
+            onClickOk={() => {
+              onClickOk(this.state.activeAccount);
+            }}
+          />
         ) : (
           <div className="sign-up">
             <div className="container">

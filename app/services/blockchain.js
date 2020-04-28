@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const Web3 = require('web3');
 const EthereumTx = require('ethereumjs-tx');
 
@@ -160,21 +159,6 @@ class BlockchainService {
       return new web3.eth.Contract(tokenContractData.abi, TOKEN_CONTRACT_ADDRESS).events
         .ExchangeInitiated;
     });
-  }
-
-  sendBonusEther(address) {
-    return fetch(`http://faucet.ropsten.be:3001/donate/${address}`)
-      .then(res => res.json())
-      .then(
-        res => {
-          logger.info(':sendBonusEther', 'sent bonus ether', res);
-          return res;
-        },
-        err => {
-          logger.error(':sendBonusEther', 'error sending bonus ether', err);
-          return err;
-        }
-      );
   }
 }
 
