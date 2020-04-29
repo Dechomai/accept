@@ -10,7 +10,7 @@ const DB_NAME = config.get('db.name');
 const getConnectionString = () => {
   let uri = 'mongodb://';
   if (DB_USERNAME && DB_PASSWORD) uri += `${DB_USERNAME}:${DB_PASSWORD}@`;
-  return (uri += `${DB_HOST}/${DB_NAME}`);
+  return (uri += `${DB_HOST}/${DB_NAME}?authSource=admin`);
 };
 
 const logger = createLoggerWith('[DB:Connection]');
