@@ -1,0 +1,66 @@
+@import '../../theme/index';
+
+.product-details {
+  font-size: 13px;
+  margin-top: 1.5rem;
+
+  &__header,
+  &__content {
+    background-color: $white;
+  }
+
+  &__header {
+    margin-bottom: 2px;
+    padding: 1rem 2rem;
+  }
+
+  &__seller-avatar {
+    align-self: flex-end;
+  }
+
+  &__content {
+    padding: 2rem;
+  }
+  &__bottom-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid $gray-400;
+  }
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 2rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  &__property {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+  }
+  &__price {
+    font-family: Rawline, sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+  }
+  &__condition {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  &__quantity {
+    input,
+    input:read-only {
+      background-color: $white;
+      border: 1px solid $gray-500;
+      padding: 14px;
+      font-weight: 500;
+    }
+  }
+  &__description {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    margin-top: 0.75rem;
+    color: $gray-500;
+  }
+}

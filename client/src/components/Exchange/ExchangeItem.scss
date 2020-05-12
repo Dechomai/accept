@@ -1,0 +1,114 @@
+@import '../../theme/index';
+
+.exchange-item {
+  font-size: 14px;
+  padding: 1.5rem;
+
+  &__header,
+  &__label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: $gray-500;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 1rem;
+
+    &__image {
+      flex: 0 0 auto;
+      $size: 80px;
+      width: $size;
+      height: $size;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    &__title {
+      flex: 0 1 100%;
+      margin-left: 1rem;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+  }
+
+  &__quantity,
+  &__price__single,
+  &__price__total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__quantity,
+  &__price {
+    margin-top: 1rem;
+  }
+
+  &__quantity {
+    &__input {
+      width: 90px;
+      text-align: right;
+      border-width: 1px;
+    }
+  }
+
+  &__price {
+    &__total &__value {
+      font-weight: bold;
+    }
+  }
+
+  &__availability {
+    margin-top: 50px;
+    padding-top: 5px;
+    border-top: 1px solid lighten($black, 85%);
+  }
+}
+
+.weekdays,
+.daytime {
+  &__title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &__description {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0 25px;
+  }
+
+  &__item {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: $gray-800;
+    text-align: center;
+    cursor: pointer;
+    background-color: $white;
+    border: solid 1px lighten($black, 85%);
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+    &--active {
+      color: $white;
+      background-color: $blue;
+    }
+  }
+}

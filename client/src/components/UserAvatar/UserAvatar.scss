@@ -1,0 +1,46 @@
+@import '../../theme/index';
+
+.user-avatar {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  overflow: hidden;
+  user-select: none;
+
+  $colors: #968fe3 #5c7bc0 #50b385 #e9ca84 #d78a57;
+  @each $color in $colors {
+    $i: index($colors, $color);
+
+    &--color-#{$i - 1} {
+      background-color: nth($colors, $i);
+    }
+  }
+
+  img {
+    vertical-align: initial;
+    width: 100%;
+    height: 100%;
+  }
+
+  @mixin circle($size) {
+    width: $size;
+    height: $size;
+    border-radius: $size;
+    line-height: $size;
+  }
+
+  &--sm {
+    @include circle(38px);
+    font-size: 1rem;
+  }
+
+  &--lg {
+    @include circle(132px);
+    font-size: 2.5rem;
+  }
+
+  &__initials {
+    color: $white;
+    text-transform: uppercase;
+  }
+}

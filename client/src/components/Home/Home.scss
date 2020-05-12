@@ -1,0 +1,18 @@
+@import '../../theme/index';
+
+.home {
+  &__products,
+  &__services {
+    background: $white;
+    padding: 2rem;
+
+    &__row {
+      min-height: 80px;
+      position: relative;
+    }
+  }
+
+  &__products {
+    border-bottom: solid 1px $gray-400;
+  }
+}

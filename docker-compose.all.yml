@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: node-app
+    ports:
+      - '7007:7000'
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    environment:
+      - DB_HOST=mongo
+  mongo:
+    container_name: mongo
+    image: mongo:3.6
+    ports:
+      - '27017:27017'

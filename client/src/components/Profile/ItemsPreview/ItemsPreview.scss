@@ -1,0 +1,15 @@
+.about {
+  &__items {
+    &__header {
+      display: flex;
+      align-items: center;
+      padding: 20px 23px;
+      margin-bottom: 2px;
+      background-color: white;
+    }
+    &__container {
+      padding: 25px 30px;
+      background-color: white;
+    }
+  }
+}

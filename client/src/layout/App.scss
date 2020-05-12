@@ -1,0 +1,15 @@
+@import '../theme/index';
+
+.app-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  .header {
+    flex: 0 0 auto;
+  }
+  &__content {
+    flex: 0 1 100%;
+  }
+}

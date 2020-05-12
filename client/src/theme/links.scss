@@ -1,0 +1,67 @@
+.btn {
+  $s: &;
+
+  &-link {
+    font-weight: 500;
+  }
+
+  & + & {
+    margin-left: 0.5rem;
+  }
+
+  &-round {
+    border-radius: $input-btn-line-height + $input-btn-padding-y * 2;
+  }
+
+  &-sm#{$s}-round {
+    border-radius: $input-btn-line-height-sm + $input-btn-padding-y-sm * 2;
+  }
+
+  &-lg#{$s}-round {
+    border-radius: $input-btn-line-height-lg + $input-btn-padding-y-lg * 2;
+  }
+
+  &-cancel {
+    color: $gray-700;
+    &:hover {
+      color: inherit;
+    }
+  }
+
+  &-copy {
+    font-size: 12px;
+    color: $blue;
+    text-transform: uppercase;
+    padding: 0;
+    border: none;
+    background: none;
+    font-weight: $font-weight-bold;
+    &:hover {
+      color: $gray-400;
+    }
+    &:active {
+      color: $gray-500;
+    }
+  }
+
+  &-with-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      margin: 0 3px;
+    }
+  }
+
+  &-full-width {
+    width: 100%;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.breadcrumb {
+  font-size: 13px;
+}

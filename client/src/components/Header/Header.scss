@@ -1,0 +1,88 @@
+@import '../../theme/index';
+
+.header {
+  padding: 0.75rem 0;
+  background: #000;
+  color: #fff;
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // white header for signup page
+  &__plain {
+    background: #fff;
+    border-bottom: solid 1px $gray-400;
+  }
+
+  &__logo {
+    user-select: none;
+
+    &__link {
+      display: inline-block;
+    }
+
+    &__img {
+      vertical-align: top;
+      height: 33px;
+      width: 144px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__notifications {
+    margin: 0 0 0 1.5rem;
+  }
+  &__user-info {
+    margin: 0 0 0 1.5rem;
+  }
+
+  &__signin {
+    .btn {
+      background: rgba(255, 255, 255, 0.4);
+      color: $white;
+      font-weight: 400;
+
+      &:hover {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+
+  &__nav {
+    &__separator {
+      margin: 0 0.75rem;
+      opacity: 0.5;
+    }
+
+    &__item {
+      color: $white;
+      font-weight: 500;
+      font-size: $font-size-base;
+      text-decoration: none;
+
+      &:hover,
+      &:active,
+      &:visited {
+        color: $white;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &--active {
+        opacity: 0.8;
+      }
+    }
+  }
+}

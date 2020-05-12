@@ -1,0 +1,35 @@
+@import '../../theme/index';
+
+.exchanges-list {
+  padding-bottom: 1rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    & > * {
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
+    }
+
+    .icon {
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+  }
+
+  &__subtitle {
+    font-size: 9px;
+    color: $gray-500;
+    background-color: $white;
+    padding: 14px 0 10px 14px;
+    font-weight: $font-weight-normal;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+}

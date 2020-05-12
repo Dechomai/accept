@@ -1,0 +1,74 @@
+@import '../../theme/index';
+
+.sign-up {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  justify-content: space-between;
+  &__page {
+    flex: 0 1 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  &__form {
+    position: relative;
+    margin-top: 6.5rem;
+    margin-bottom: 1.5rem;
+    padding-top: 8rem;
+    padding-bottom: 2rem;
+    background-color: $white;
+    text-align: left;
+    font-weight: $btn-font-weight;
+
+    // local mixin
+    @mixin pads($size) {
+      padding-left: $size;
+      padding-right: $size;
+    }
+
+    @include media-breakpoint-up(xs) {
+      //default styles
+      @include pads(1rem);
+    }
+    @include media-breakpoint-up(sm) {
+      @include pads(2rem);
+    }
+    @include media-breakpoint-up(md) {
+      @include pads(3rem);
+    }
+    @include media-breakpoint-up(lg) {
+      @include pads(5rem);
+    }
+    @include media-breakpoint-up(xl) {
+      @include pads(7rem);
+    }
+
+    &--disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    &__title {
+      margin-top: 2rem;
+    }
+    &__description {
+      color: $gray-600;
+      font-size: 13px;
+    }
+    &__name {
+      margin-top: 1.5rem;
+    }
+    &__photo {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &__footer {
+    background-color: $white;
+    border-top: 1px solid $gray-400;
+    text-align: center;
+    padding: 1rem 0;
+  }
+}

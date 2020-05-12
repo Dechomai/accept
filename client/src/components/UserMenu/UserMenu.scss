@@ -1,0 +1,79 @@
+@import '../../theme/index';
+
+.user-menu {
+  & > &__toggle {
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    &:hover,
+    &:focus,
+    &:active {
+      background: none;
+      box-shadow: none;
+      border: none;
+    }
+    &:after {
+      vertical-align: middle;
+    }
+  }
+
+  &__dropdown {
+    margin-top: 0.5rem;
+
+    // white triangle
+    &:after {
+      content: ' ';
+      position: absolute;
+      $triangle-size: 4px;
+      top: -$triangle-size;
+      right: 28px;
+      width: 0;
+      height: 0;
+
+      border-left: $triangle-size solid transparent;
+      border-right: $triangle-size solid transparent;
+
+      border-bottom: $triangle-size solid $white;
+    }
+
+    // grey triangle aka border
+    &:before {
+      content: ' ';
+      position: absolute;
+      $triangle-size: 6px;
+      top: -$triangle-size;
+      right: 26px;
+      width: 0;
+      height: 0;
+
+      border-left: $triangle-size solid transparent;
+      border-right: $triangle-size solid transparent;
+
+      border-bottom: $triangle-size solid $gray-400;
+    }
+
+    &.dropdown-menu {
+      padding: 0;
+      .dropdown-item {
+        padding: 0.5rem 1.5rem;
+        outline: none;
+      }
+    }
+
+    .dropdown-divider {
+      margin: 0;
+    }
+
+    &__link {
+      .icon,
+      small {
+        display: inline-block;
+        vertical-align: bottom;
+      }
+      small {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}

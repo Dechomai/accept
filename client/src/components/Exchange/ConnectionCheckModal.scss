@@ -1,0 +1,62 @@
+@import '../../theme/index';
+
+.connection-check-modal {
+  font-size: 13px;
+
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .modal-footer {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  &__header {
+    padding: 25px 25px 0;
+    margin: 0;
+    font-weight: $font-weight-bold;
+    font-size: 20px;
+  }
+
+  &__description {
+    color: $gray-500;
+    margin-bottom: 30px;
+  }
+
+  &__steps {
+    margin: 32px 10px 0;
+  }
+
+  &__network-url {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border: 1px solid $gray-500;
+    color: $gray-500;
+  }
+}
+
+.connection-step {
+  display: flex;
+  padding: 25px;
+  margin-bottom: -1px;
+  border: 1px solid $gray-100;
+
+  &__status {
+    margin-right: 17px;
+
+    &--success {
+      color: $green;
+    }
+
+    &--failure {
+      color: $red;
+    }
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,49 @@
+@import '../../../theme/index';
+
+.confirmation-modal {
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: $font-weight-bold;
+    }
+
+    .close {
+      font-size: 2rem;
+      padding: 1.2rem;
+      margin: -1.2rem -1.2rem -1.2rem auto;
+      outline: none;
+      display: inline-block;
+
+      span {
+        display: none;
+      }
+
+      &:before {
+        content: '\f156';
+        vertical-align: top;
+        font: normal normal normal 24px/1 'Material Design Icons', sans-serif;
+        color: $gray-700;
+      }
+    }
+  }
+
+  .modal-body {
+    font-size: 1.25rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .modal-header,
+  .modal-footer {
+    border: none;
+  }
+}

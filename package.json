@@ -1,0 +1,79 @@
+{
+  "name": "accept-pay",
+  "version": "0.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "stylelint": "stylelint ./client/src/**/*.scss",
+    "test": "jasmine",
+    "start": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nodemon app.js",
+    "start:debug": "cross-env DEBUG=express:* nodemon app.js",
+    "build:client": "rimraf ./public/* && cd ./client && npm install && npm run build && ncp ./build ../public",
+    "cognito:upload:customization": "node scripts/cognitoUploadCustomization.js",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.scss": [
+      "prettier --write",
+      "stylelint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "client/*",
+      "public/*"
+    ]
+  },
+  "dependencies": {
+    "aws-sdk": "^2.260.1",
+    "cloudinary": "^1.21.0",
+    "cognito-express": "^2.0.10",
+    "compression": "^1.7.2",
+    "convict": "^4.3.0",
+    "cookie-parser": "^1.4.3",
+    "db-migrate": "^0.11.1",
+    "db-migrate-mongodb": "^1.4.0",
+    "dotenv": "^6.0.0",
+    "ethereumjs-tx": "^1.3.4",
+    "express": "^4.16.3",
+    "express-validator": "^5.2.0",
+    "helmet": "^3.12.1",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.1.6",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.0",
+    "node-fetch": "^2.1.2",
+    "ramda": "^0.25.0",
+    "uuid": "^3.2.1",
+    "validator": "^10.4.0",
+    "web3": "^1.2.6",
+    "winston": "^2.4.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.1",
+    "eslint": "^4.19.1",
+    "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-react": "^7.9.1",
+    "husky": "^0.14.3",
+    "jasmine": "^3.1.0",
+    "jasmine-console-reporter": "^3.0.2",
+    "lint-staged": "^7.2.0",
+    "ncp": "^2.0.0",
+    "nodemon": "^1.17.5",
+    "prettier": "^1.13.5",
+    "rimraf": "^2.6.2",
+    "stylelint": "^9.3.0"
+  }
+}

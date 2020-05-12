@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  parameter-store:
+    COGNITO_REGION: "/${ENV}/accept/COGNITO_REGION"
+    COGNITO_USER_POOL_ID: "/${ENV}/accept/COGNITO_USER_POOL_ID"
+    COGNITO_CLIENT_ID: "/${ENV}/accept/COGNITO_CLIENT_ID"
+    BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS: "/${ENV}/accept/BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - npm install
+      - cd client
+      - npm install
+      - cd ..
+  build:
+    commands:
+      - npm run lint
+      - npm run test
+      - cd client
+      - npm run test
+      - cd ..
+      - npm run build:client
+      - npm run cognito:upload:customization
+      - zip -q -r ${CODEBUILD_BUILD_ID}.zip package.json package-lock.json app.js app config public migrations .ebextensions
+
+  post_build:
+    commands:
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
+      - aws s3 cp ${CODEBUILD_BUILD_ID}.zip s3://${S3_EB_BUCKET}
+      - aws elasticbeanstalk create-application-version --application-name ${APP_NAME} --version-label ${CODEBUILD_BUILD_ID} --source-bundle S3Bucket=${S3_EB_BUCKET},S3Key=${CODEBUILD_BUILD_ID}.zip
+      - aws elasticbeanstalk update-environment --application-name ${APP_NAME} --environment-name ${ENV_NAME} --version-label ${CODEBUILD_BUILD_ID}

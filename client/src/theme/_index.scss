@@ -1,0 +1,5 @@
+@import './mixins'; // custom mixins
+@import '~bootstrap/scss/functions'; // all bootstrap functions(variables depend on them)
+@import 'bootstap-vars-override'; // variables that override bootstrap
+@import '~bootstrap/scss/variables'; // all bootstrap variables
+@import '~bootstrap/scss/mixins'; // all bootstrap mixins

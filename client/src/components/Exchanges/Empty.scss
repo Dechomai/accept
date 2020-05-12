@@ -1,0 +1,20 @@
+@import '../../theme/index';
+
+.exchanges-empty {
+  background: $white;
+  text-align: center;
+  padding: 85px 0;
+
+  &__image {
+    // hardcode size to prevent jumping when image loads
+    width: 75px;
+    height: 72px;
+  }
+
+  &__text {
+    margin-top: 1rem;
+    font-size: 13px;
+    font-weight: 500;
+    color: $gray-700;
+  }
+}

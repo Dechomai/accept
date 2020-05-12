@@ -1,0 +1,23 @@
+.exchange {
+  &-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    min-height: 480px;
+
+    &__offer {
+      width: 60%;
+      position: relative;
+    }
+    &__item {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .exchange-escrow {
+        margin: 1rem;
+      }
+    }
+  }
+}

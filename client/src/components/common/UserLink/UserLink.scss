@@ -1,0 +1,27 @@
+@import '../../../theme/index';
+
+.user-link {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 100%;
+
+  &__avatar {
+    flex: 0 0 auto;
+  }
+
+  &__username {
+    flex: 1 1 auto;
+    text-overflow: ellipsis;
+    margin: -5px 0 0 1.2rem;
+    color: $blue;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &:before {
+      content: '@';
+    }
+  }
+}

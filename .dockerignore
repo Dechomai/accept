@@ -1,0 +1,7 @@
+*
+!/app
+!/config
+!/public
+!app.js
+!package.json
+!yarn.lock

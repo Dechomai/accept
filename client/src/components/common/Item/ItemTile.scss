@@ -1,0 +1,119 @@
+@import '../../../theme/index';
+
+.item-tile {
+  position: relative;
+  margin: $grid-gutter-width 0;
+  font-size: 14px;
+
+  &--new {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid darken(white, 15%);
+    padding: 20px 0;
+    transition: 200ms ease-in-out;
+    &:hover {
+      border: 1px solid transparent;
+      background: darken($white, 5%);
+    }
+  }
+
+  &,
+  &:hover,
+  &:active,
+  &:visited {
+    color: $black;
+    text-decoration: none;
+  }
+
+  &:hover &__title {
+    text-decoration: underline;
+  }
+
+  &:hover &__actions {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__title {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  &__photo {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  &__icon {
+    color: darken(white, 60%);
+  }
+
+  &__placeholder {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: darken(white, 40%);
+  }
+
+  &__actions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;
+    padding: 10px;
+    background-color: $gray-700;
+    z-index: 1;
+    .icon {
+      color: $white;
+      margin-left: 5px;
+    }
+    &__btn {
+      &:hover {
+        opacity: 0.65;
+      }
+    }
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    &__value {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: Rawline, sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    &__per {
+      font-weight: 500;
+      color: darken(white, 48%);
+      white-space: nowrap;
+
+      &:before {
+        content: '\00a0';
+      }
+    }
+  }
+
+  &__image {
+    width: 100%;
+    padding-top: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+}

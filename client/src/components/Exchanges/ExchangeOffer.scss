@@ -1,0 +1,246 @@
+@import '../../theme/index';
+$light-blue: lighten(#0045cf, 30%);
+
+.exchange-offer {
+  position: relative;
+  background-color: $white;
+  margin-bottom: 10px;
+  padding: 14px;
+
+  $s: &;
+
+  &:first-child {
+    margin-top: 2px;
+  }
+
+  &--pending {
+    &:before {
+      content: 'Please wait, this offer is processing...';
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: $green;
+      opacity: 0.8;
+      color: $white;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 0.25rem 0;
+    }
+  }
+
+  &__items-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &__arrow {
+    flex: 1 1 auto;
+    color: $gray-500;
+    .icon {
+      margin-top: 13px;
+    }
+  }
+
+  &__user-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__section {
+    flex: 0 1 50%;
+    min-width: 40%;
+    overflow: hidden;
+
+    .user-link {
+      display: inline-flex;
+      flex: 0 1 auto;
+      padding: 0.5rem 1rem;
+    }
+
+    &--initiator {
+      background: $gray-300;
+
+      #{$s}__user-section {
+        border-bottom: solid 2px $white;
+      }
+
+      #{$s}__availability-section {
+        border-top: solid 2px $white;
+      }
+    }
+
+    &--partner {
+      #{$s}__user-section {
+        border-bottom: solid 2px $gray-300;
+      }
+      #{$s}__availability-section {
+        border-top: solid 2px $gray-300;
+      }
+      border-bottom: solid 2px $gray-300;
+    }
+  }
+
+  &__status {
+    flex: 0 0 auto;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+    border: solid 1px;
+    border-radius: 3px;
+    padding: 1px 3px;
+
+    &--offer-sent {
+      color: $cyan;
+      border-color: $cyan;
+    }
+
+    &--new-offer {
+      color: $orange;
+      border-color: $orange;
+    }
+
+    &--accepted {
+      color: $green;
+      border-color: $green;
+    }
+
+    &--awaiting-validation {
+      color: $light-blue;
+      border-color: $light-blue;
+    }
+
+    &--in-dispute {
+      color: $red;
+      border-color: $red;
+    }
+
+    &--calcelled {
+      color: $dark;
+      border-color: $dark;
+    }
+
+    &--completed {
+      color: $green;
+      border-color: $green;
+    }
+
+    &--rejected {
+      color: $red;
+      border-color: $red;
+    }
+  }
+
+  &__hint {
+    font-size: 12px;
+    font-weight: 500;
+    color: $gray-800;
+    margin-left: 35px;
+    margin-top: 30px;
+  }
+
+  &__escrow-wrapper {
+    border-bottom: solid 2px $gray-300;
+  }
+
+  &__escrow {
+    height: 100%;
+    color: $blue;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: $font-weight-bold;
+
+    &__label {
+      font-size: 12px;
+    }
+
+    &__count {
+      font-size: 18px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 1rem;
+  }
+
+  &__info-alert {
+    flex: 1 1 auto;
+    color: $blue;
+    display: flex;
+    align-items: center;
+
+    &__text {
+      font-size: 12px;
+      color: $gray-400;
+      margin-left: 15px;
+    }
+  }
+
+  &__actions {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__transaction-info {
+    margin-top: 16px;
+    font-size: 12px;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__copy-key {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid $gray-300;
+    border-radius: 3px;
+    color: $blue;
+    font-size: 14px;
+    padding: 8px 10px;
+    margin-bottom: 90px;
+    .icon {
+      margin-right: 15px;
+    }
+  }
+
+  &__public-key {
+    display: flex;
+    &__wrapper {
+      display: flex;
+    }
+    &__text {
+      width: 9ch;
+      font-family: monospace;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: 0;
+    }
+  }
+
+  &__disclaimer {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0 40px;
+    color: lighten($black, 50%);
+    margin-top: 30px;
+
+    &__icon {
+      color: $blue;
+      margin-right: 12px;
+    }
+  }
+}

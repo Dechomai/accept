@@ -1,0 +1,67 @@
+@import '../../theme/index';
+
+.exchange-offer-item {
+  padding: 1rem;
+
+  &__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &__conditions {
+    margin-left: 88px; // 72px + 1rem;
+  }
+
+  &__photo {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    width: 72px;
+    height: 72px;
+    background-position: center center;
+    background-size: cover;
+  }
+
+  &__name {
+    flex: 1 1 100%;
+    font-size: 14px;
+    margin: 0;
+    margin-left: 1rem;
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+
+    &__name {
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 500;
+      color: $gray-500;
+    }
+
+    &__count {
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 500;
+      color: $black;
+
+      &--total {
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+
+  &__availability,
+  &__preferred-time {
+    padding: 10px 0;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  &__availability {
+    background-color: darken($white, 3%);
+  }
+}

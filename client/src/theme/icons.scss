@@ -1,0 +1,16 @@
+// MDI sizes
+.mdi {
+  display: inline-block;
+  vertical-align: middle;
+
+  @each $size in (12, 16, 20, 24, 32, 36, 64) {
+    $px: #{$size}px;
+
+    &-#{$px} {
+      width: $px;
+      height: $px;
+      line-height: $px;
+      font-size: $px;
+    }
+  }
+}

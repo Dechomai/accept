@@ -1,0 +1,24 @@
+@import '../../theme/index';
+
+.exchange-step3 {
+  height: 100%;
+  padding: 1.5rem;
+  border-right: solid 2px $gray-200;
+
+  .exchange-item {
+    padding: 0;
+
+    &__wrapper {
+      background-color: $gray-100;
+      padding: 1rem;
+    }
+
+    &__info {
+      margin-top: 0;
+
+      &__title {
+        font-size: 16px;
+      }
+    }
+  }
+}
