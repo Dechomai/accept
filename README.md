@@ -1,3 +1,7 @@
+<p align="center">
+    <img height="80" src="./client/src/assets/logo-dark.svg"/>
+</p>
+
 # Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services.
 
 # Dechomai
