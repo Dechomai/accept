@@ -1,5 +1,5 @@
-<p align="center">#Accept</>
-## Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services.
+## Accept
+Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services.
 
 <p align="center">
     <img height="max" src="./client/src/assets/AcceptNewSearch.png"/>
