@@ -25,5 +25,4 @@ We use BrowserStack as a manual testing tool. BrowserStack provides open source 
 
 ## License
 
-This project is licensed under [LICENSE](LICENSE).
-Copyright (c) 2020 Dechomai, released under the AGPL licence.
+Copyright (c) 2020 Dechomai, released under the AGPL [license](LICENSE).
