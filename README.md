@@ -16,7 +16,7 @@ Check out the User Guide for a list of features and tutorials.
 ![Build Status](https://codebuild.eu-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiYTMwcllJWkQxVlphbEpxYVZ1ck5JRWFzOUtFVVM0V2l0ZTdmOExDcnNIWGhNTjRTNmtGTkpZUTE1Rk91MmdrYVJaMHRwKzRuclQvYm9Yc21RY3JOU29VPSIsIml2UGFyYW1ldGVyU3BlYyI6IjhrNTc0K1hmS3Bzd0Jtd2oiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop)
 
 ## Contributing
-If you are interested in contributing to Accept in any capacity, please introduce yourself on Slack, and have a look through our GETTING_STARTED and CONTRIBUTING guides. These are the best place to start for developers looking to set up a development environment and make contributions to the codebase.
+If you are interested in contributing to Accept in any capacity, please introduce yourself on [Slack](https://join.slack.com/t/acceptio/shared_invite/zt-ehtenv9u-aDvyCG0g02JpH5TVIJwobQ), and have a look through our GETTING_STARTED and CONTRIBUTING guides. These are the best place to start for developers looking to set up a development environment and make contributions to the codebase.
 
 Contributing guidelines and "quick-start" instructions defined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -25,4 +25,4 @@ We use BrowserStack as a manual testing tool. BrowserStack provides open source 
 
 ## License
 
-This project is licensed under [PLACEHOLDER LICENSE NAME](LICENSE) license.
+This project is licensed under [LICENSE](LICENSE) license.
