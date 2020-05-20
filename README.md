@@ -9,9 +9,10 @@ Join the conversation on Slack. Make sure you introduce yourself in the #general
 
 Check out the User Guide for a list of features and tutorials.
 
-<p align="center">
-    <img height="max" src="./client/src/assets/AcceptNewSearch.png"/>
-</p>
+<a href="https://twitter.com/intent/follow?screen_name=accept_io">
+    <img height="max" src="./client/src/assets/AcceptNewSearch.png"/> alt="Follow @accept_io" />
+</a>
+
 
 ## Dechomai&reg;
 
