@@ -1,9 +1,7 @@
 ## Accept
 Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services. It connects a network of traders around the globe through blockchain technology to make trading safer and more cost-effective for all parties. Accept users will be able to trade securely, privately, and anonymously in the Accept global marketplace – or locally in independent nodes - we are building a self-regulated and open-source platform, maintained and improved by its users.
 
-<a href="https://twitter.com/intent/follow?screen_name=accept_io">
-    <img height="max" src="./client/src/assets/AcceptNewSearch.png"/> alt="Follow @accept_io" />
-</a>
+<img height="max" src="./client/src/assets/AcceptNewSearch.png"/>
 
 
 Supported by Dechomai and a network of global affiliates, we are proudly open source - we need as many smart people working together on this as possible.
