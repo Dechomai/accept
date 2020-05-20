@@ -6,7 +6,7 @@ Accept is a service running on the Ethereum network, serving as a peer-to-peer m
 
 Supported by Dechomai and a network of global affiliates, we are proudly open source - we need as many smart people working together on this as possible.
 
-Join the conversation on Slack. Make sure you introduce yourself in the #general channel.
+Join the conversation on [Slack](https://join.slack.com/t/acceptio/shared_invite/zt-ehtenv9u-aDvyCG0g02JpH5TVIJwobQ). Make sure you introduce yourself in the #general channel.
 
 Check out the User Guide for a list of features and tutorials.
 
