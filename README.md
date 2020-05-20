@@ -1,9 +1,6 @@
 ## Accept  
 Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services. It connects a network of traders around the globe through blockchain technology to make trading safer and more cost-effective for all parties. Accept users will be able to trade securely, privately, and anonymously in the Accept global marketplace – or locally in independent nodes - we are building a self-regulated and open-source platform, maintained and improved by its users.
-<a href="https://twitter.com/intent/follow?screen_name=accept_io">
-    <img src="https://img.shields.io/twitter/follow/accept_io?label=Follow&style=social" alt="Follow @accept_io" />
-</a>       
-
+    
 <img height="max" src="./client/src/assets/AcceptNewSearch.png"/>
 
 
@@ -16,6 +13,10 @@ Check out the User Guide for a list of features and tutorials.
 ## Dechomai&reg;
 
 ![Build Status](https://codebuild.eu-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiYTMwcllJWkQxVlphbEpxYVZ1ck5JRWFzOUtFVVM0V2l0ZTdmOExDcnNIWGhNTjRTNmtGTkpZUTE1Rk91MmdrYVJaMHRwKzRuclQvYm9Yc21RY3JOU29VPSIsIml2UGFyYW1ldGVyU3BlYyI6IjhrNTc0K1hmS3Bzd0Jtd2oiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop)
+
+<a href="https://twitter.com/intent/follow?screen_name=accept_io">
+    <img src="https://img.shields.io/twitter/follow/accept_io?label=Follow&style=social" alt="Follow @accept_io" />
+</a>   
 
 ## Contributing
 If you are interested in contributing to Accept in any capacity, please introduce yourself on [Slack](https://join.slack.com/t/acceptio/shared_invite/zt-ehtenv9u-aDvyCG0g02JpH5TVIJwobQ), and have a look through our GETTING_STARTED and CONTRIBUTING guides. These are the best place to start for developers looking to set up a development environment and make contributions to the codebase.
