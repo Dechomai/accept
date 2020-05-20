@@ -1,4 +1,10 @@
-## Accept  
+<h1 align="center">
+  <a href="https://marketplace.accept.io/">
+    Accept
+  </a>
+</h1>
+
+
 Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services. It connects a network of traders around the globe through blockchain technology to make trading safer and more cost-effective for all parties. Accept users will be able to trade securely, privately, and anonymously in the Accept global marketplace – or locally in independent nodes - we are building a self-regulated and open-source platform, maintained and improved by its users.
     
 <img height="max" src="./client/src/assets/AcceptNewSearch.png"/>
