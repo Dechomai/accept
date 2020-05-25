@@ -1,111 +1,37 @@
-# Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services.
+<h1 align="center">
+  <a href="https://marketplace.accept.io/">
+    Accept
+  </a>
+</h1>
 
-# Dechomai
 
-## Contributing guidelines and instructions
+Accept is a service running on the Ethereum network, serving as a peer-to-peer marketplace allowing users to exchange goods and services. It connects a network of traders around the globe through blockchain technology to make trading safer and more cost-effective for all parties. Accept users will be able to trade securely, privately, and anonymously in the Accept global marketplace – or locally in independent nodes - we are building a self-regulated and open-source platform, maintained and improved by its users.
+    
+<img height="max" src="./client/src/assets/AcceptNewSearch.png"/>
 
-Defined in [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Configuration
+Supported by Dechomai and a network of global affiliates, we are proudly open source - we need as many smart people working together on this as possible.
 
-There are several ways to provide configuration options and variables.
-_We're using `dotenv` + `convict`_
+Join the conversation on [Slack](https://join.slack.com/t/acceptio/shared_invite/zt-ehtenv9u-aDvyCG0g02JpH5TVIJwobQ). Make sure you introduce yourself in the #general channel.
 
-In the following order of precendence:
+Check out the User Guide for a list of features and tutorials.
 
-1.  Command line arguments.
+## Dechomai&reg;
 
-    ```sh
-    $ npm start --someVariable 10
-    ```
+![Build Status](https://codebuild.eu-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiYTMwcllJWkQxVlphbEpxYVZ1ck5JRWFzOUtFVVM0V2l0ZTdmOExDcnNIWGhNTjRTNmtGTkpZUTE1Rk91MmdrYVJaMHRwKzRuclQvYm9Yc21RY3JOU29VPSIsIml2UGFyYW1ldGVyU3BlYyI6IjhrNTc0K1hmS3Bzd0Jtd2oiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=develop)
 
-2.  Environment variables.
+<a href="https://twitter.com/intent/follow?screen_name=accept_io">
+    <img src="https://img.shields.io/twitter/follow/accept_io?label=Follow&style=social" alt="Follow @accept_io" />
+</a>   
 
-    ```sh
-    $ SOME_VARIABLE=10 npm start
-    ```
+## Contributing
+If you are interested in contributing to Accept in any capacity, please introduce yourself on [Slack](https://join.slack.com/t/acceptio/shared_invite/zt-ehtenv9u-aDvyCG0g02JpH5TVIJwobQ), and have a look through our GETTING_STARTED and CONTRIBUTING guides. These are the best place to start for developers looking to set up a development environment and make contributions to the codebase.
 
-3.  Variables defined in `/.env` file
+Contributing guidelines and "quick-start" instructions defined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-    > preferred for local development
+## Testing
+We use BrowserStack as a manual testing tool. BrowserStack provides open source projects with unlimited and free of charge accounts. A big thanks to them!
 
-    eg. contents of `/.env` file
+## License
 
-    ```
-    SOME_VARIABLE=10
-    ```
-
-4.  Configuration in `/config/env/*.json` files
-
-    > depends on environment name (`development` | `production` | `test`)
-
-    eg. contents of development.json
-
-    ```json
-    {
-        "someVariable": 10
-    }
-    ```
-
-5.  Defaults specified in `/config/index.js` file as part of schema
-
-    eg. schema definition
-
-    ```javascript
-        // ...
-        someVariable: {
-            doc: 'Some sample variable',
-            format: Number,
-            default: 10,
-            arg: 'someVariable',
-            env: 'SOME_VARIABLE'
-        },
-        // ...
-    ```
-
-## CI Build
-
-`Nodejs 8.10`, `npm`, `yarn`
-
-```
-- npm install
-- npm run lint
-- npm test
-- cd client
-- npm install
-- npm run test
-- cd ..
-- npm run build:client
-```
-
-### Artifact
-
-Should contain
-
-```
-package.json
-package-lock.json
-app.js
-/app
-/config
-/public
-/migrations
-```
-
-### Uploading Cognito Custom CSS
-
-Add `COGNITO_CUSTOMIZER_ACCESS_KEY_ID`, `COGNITO_CUSTOMIZER_SECRET_ACCESS_KEY` and `COGNITO_REGION` in `.env` file **OR** specify those in your environment variables
-
-```
-npm run cognito:upload:customization
-```
-
-### Creating DB Migration
-
-To create migration script run
-
-```
-node ./scripts/migrate.js create my-test-migration
-```
-
-this will create migration script `${date}-my-test-migration.js` in `./migrations` folder
+Copyright (c) 2020 Dechomai, released under the AGPL [license](LICENSE).

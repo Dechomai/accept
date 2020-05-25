@@ -1,4 +1,10 @@
 # Contributing
+We love pull requests from everyone. Any contribution is valuable, but there are two issue streams that we especially love people to work on:
+
+1) Our delivery backlog, is managed via a ZenHub board (ZenHub extensions are available for most major browsers). We use a Kanban-style approach, whereby devs pick issues from the top of the backlog which has been organised according to current priorities. If you have some time and are interested in working on some issues from the backlog, please make yourself known on the [#dev][slack-dev] channel on Slack and we can direct you to the most appropriate issue to pick up.
+
+2) Our list of bugs and other self-contained issues that we consider to be a good starting point for new contributors, or devs who aren’t able to commit to seeing a whole feature through. These issues are marked with the `# good first issue` label.
+
 
 ## Getting started
 
@@ -12,7 +18,7 @@
 
 3.  Configure app:
 
-    -   Check [README.md](README.md) for configuration instructions
+    -   Check [Configuration Section](#configuration) for configuration instructions
     -   Check `/.env.sample` file for required variables
 
 4.  Start the app
@@ -40,6 +46,102 @@
 5.  Client-side development
 
     Check [client/README.md](client/README.md) for instructions
+
+## Configuration
+
+### Configurations options
+
+| Environment variable                   | Command-line argument      | Format                              | Default value                            | Description                                |
+| -------------------------------------- | -------------------------- | ----------------------------------- | ---------------------------------------- | ------------------------------------------ |
+| `NODE_ENV`                             | `nodeEnv`                  | production/development/test         | development                              |                                            |
+| `HOST`                                 | `ipAdress`                 | ipaddress                           | 0.0.0.0                                  | The IP address to bind.                    |
+| `PORT`                                 | `port`                     | port                                | 7000                                     | The PORT to bind.                          |
+| `COOKIE_SECRET`                        | `cookieSecret`             | String                              | super-secret                             | Secret used to sign cookies                |
+| `LOG_LEVEL`                            | `logLevel`                 | error/warn/info/verbose/debug/silly | debug                                    | -                                          |
+| `DEPLOY_ENV`                           | `deployEnv`                | String                              | develop                                  | Deployment environment name                |
+| `DB_USERNAME`                          | `dbUsername`               | -                                   | -                                        | -                                          |
+| `DB_PASSWORD`                          | `dbPassword`               | -                                   | -                                        | -                                          |
+| `DB_HOST`                              | `dbHost`                   | String                              | localhost:27017                          | -                                          |
+| `DB_NAME`                              | `dbName`                   | String                              | accept-dev-local                         | -                                          |
+| `COGNITO_CLIENT_ID`                    | `cognitoClientId`          | String                              | [request](#request-configuration-values) | AWS Cognito "App client id"                |
+| `COGNITO_CLIENT_SECRET`                | `cognitoClientSecret`      | String                              | [request](#request-configuration-values) | AWS Cognito "App client secret"            |
+| `COGNITO_DOMAIN`                       | `cognitoDomain`            | String                              | [request](#request-configuration-values) | AWS Cognito "Domain name"                  |
+| `COGNITO_REGION`                       | `cognitoRegion`            | String                              | [request](#request-configuration-values) | AWS Cognito Region                         |
+| `COGNITO_USER_POOL_ID`                 | `cognitoUserPoolId`        | String                              | [request](#request-configuration-values) | AWS Cognito User Pool ID                   |
+| `COGNITO_LOGIN_REDIRECT_URI`           | `cognitoLoginRedirectUri`  | url                                 | [request](#request-configuration-values) | AWS Cognito App Client LOGIN redirect_uri  |
+| `COGNITO_LOGOUT_REDIRECT_URI`          | `cognitoLogoutRedirectUri` | url                                 | [request](#request-configuration-values) | AWS Cognito App Client LOGOUT redirect_uri |
+| `CLOUDINARY_CLOUD_NAME`                | `cloudinaryName`           | String                              | [request](#request-configuration-values) | Cloudinary Clound name                     |
+| `CLOUDINARY_API_KEY`                   | `cloudinaryApiKey`         | String                              | [request](#request-configuration-values) | Cloudinary API Key                         |
+| `CLOUDINARY_API_SECRET`                | `cloudinaryApiSecret`      | String                              | [request](#request-configuration-values) | Cloudinary API Secret                      |
+| `BLOCKCHAIN_HTTP_ADDRESS`              | `blockchainHttpAddress`    | String                              | [request](#request-configuration-values) | Blockchain address for HTTP provider       |
+| `BLOCKCHAIN_WS_ADDRESS`                | `blockchainWsAddress`      | String                              | [request](#request-configuration-values) | Blockchain address for WebSocker provider  |
+| `BLOCKCHAIN_TOKEN_CONTRACT_ADDRESS`    | `tokenContractAddress`     | String                              | [request](#request-configuration-values) | Token contract address                     |
+| `BLOCKCHAIN_TOKEN_SPONSOR_ADDRESS`     | `tokenSponsorAddress`      | String                              | [request](#request-configuration-values) | Token Sponsor Public Address               |
+| `BLOCKCHAIN_TOKEN_SPONSOR_PRIVATE_KEY` | `tokenSponsorPrivateKey`   | String                              | [request](#request-configuration-values) | Token Sponsor Private Key                  |
+
+### How to configure
+
+There are several ways to provide configuration options and variables.
+_We're using `dotenv` + `convict`_
+
+In the following order of precendence:
+
+1.  Command line arguments.
+
+    ```sh
+    $ npm start --someVariable 10
+    ```
+
+2.  Environment variables.
+
+    ```sh
+    $ SOME_VARIABLE=10 npm start
+    ```
+
+3.  Variables defined in `/.env` file
+
+    > preferred for local development
+
+    eg. contents of `/.env` file
+
+    ```
+    SOME_VARIABLE=10
+    ```
+
+4.  Configuration in `/config/env/*.json` files
+
+    > depends on environment name (`development` | `production` | `test`)
+
+    eg. contents of development.json
+
+    ```json
+    {
+        "someVariable": 10
+    }
+    ```
+
+5.  Defaults specified in `/config/index.js` file as part of schema
+
+    eg. schema definition
+
+    ```javascript
+        // ...
+        someVariable: {
+            doc: 'Some sample variable',
+            format: Number,
+            default: 10,
+            arg: 'someVariable',
+            env: 'SOME_VARIABLE'
+        },
+        // ...
+    ```
+
+## Request configuration values
+
+Application depends on some live 3rd-party services. In order to develop locally
+you'll need to provide these values.
+
+Please contact [Placeholder Name placeholder@name.com](mailto:placeholer@name.com?subject=[GitHub]%20Request%20configuration%20values)
 
 ## Branching strategy
 
@@ -104,3 +206,50 @@ Once PR is reviewed by required teammates, it will be merged back to develop.
 > NOTE!
 >
 > We're **not using** fast-forward and squash when merging, use `--no-ff`, **DO NOT use `--squash` or `--ff`**
+
+## CI Build
+
+`Nodejs 8.10`, `npm`, `yarn`
+
+```
+- npm install
+- npm run lint
+- npm test
+- cd client
+- npm install
+- npm run test
+- cd ..
+- npm run build:client
+```
+
+### Artifact
+
+Should contain
+
+```
+package.json
+package-lock.json
+app.js
+/app
+/config
+/public
+/migrations
+```
+
+### Uploading Cognito Custom CSS
+
+Add `COGNITO_CUSTOMIZER_ACCESS_KEY_ID`, `COGNITO_CUSTOMIZER_SECRET_ACCESS_KEY` and `COGNITO_REGION` in `.env` file **OR** specify those in your environment variables
+
+```
+npm run cognito:upload:customization
+```
+
+### Creating DB Migration
+
+To create migration script run
+
+```
+node ./scripts/migrate.js create my-test-migration
+```
+
+this will create migration script `${date}-my-test-migration.js` in `./migrations` folder
