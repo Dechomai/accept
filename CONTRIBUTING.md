@@ -1,10 +1,10 @@
 # Contributing
+
 We love pull requests from everyone. Any contribution is valuable, but there are two issue streams that we especially love people to work on:
 
-1) Our delivery backlog, is managed via a ZenHub board (ZenHub extensions are available for most major browsers). We use a Kanban-style approach, whereby devs pick issues from the top of the backlog which has been organised according to current priorities. If you have some time and are interested in working on some issues from the backlog, please make yourself known on the [#dev][slack-dev] channel on Slack and we can direct you to the most appropriate issue to pick up.
+1. Our delivery backlog, is managed via a ZenHub board (ZenHub extensions are available for most major browsers). We use a Kanban-style approach, whereby devs pick issues from the top of the backlog which has been organised according to current priorities. If you have some time and are interested in working on some issues from the backlog, please make yourself known on the [#dev][slack-dev] channel on Slack and we can direct you to the most appropriate issue to pick up.
 
-2) Our list of bugs and other self-contained issues that we consider to be a good starting point for new contributors, or devs who aren’t able to commit to seeing a whole feature through. These issues are marked with the `# good first issue` label.
-
+2. Our list of bugs and other self-contained issues that we consider to be a good starting point for new contributors, or devs who aren’t able to commit to seeing a whole feature through. These issues are marked with the `# good first issue` label.
 
 ## Getting started
 
@@ -21,7 +21,13 @@ We love pull requests from everyone. Any contribution is valuable, but there are
     -   Check [Configuration Section](#configuration) for configuration instructions
     -   Check `/.env.sample` file for required variables
 
-4.  Start the app
+4.  Build client-side
+
+    ```
+    npm run build:client
+    ```
+
+5.  Start the app
 
     4.1 Working on client-side only
 
@@ -43,7 +49,7 @@ We love pull requests from everyone. Any contribution is valuable, but there are
         npm start
         ```
 
-5.  Client-side development
+6.  Client-side development
 
     Check [client/README.md](client/README.md) for instructions
 
